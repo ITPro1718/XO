@@ -12,8 +12,7 @@ import com.google.cloud.sql.jdbc.Connection;
  */
 
 public class DBConnection {
-	
-	
+		
 	private static Connection con = null;
 	
 	private static String url = "";
