@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import de.hdm.partnerboerse.shared.bo.*;
 
 /**
- * Mapper-Klasse, die Profil test Objekte in die Datenbank schreibt, bzw. Daten aus der Datenbank holt
+ * Mapper-Klasse, die Profil Objekte in die Datenbank schreibt, bzw. Daten aus der Datenbank holt
  * und in Objekten speichert. Diese Klasse enthält die typischen CRUD-Methoden
  * 
  * @author Burghardt, Mikulic
