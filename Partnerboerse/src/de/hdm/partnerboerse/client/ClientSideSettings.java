@@ -4,7 +4,7 @@ import de.hdm.partnerboerse.shared.CommonSettings;
 
 /**
  * 
- * test
+ * test 2
  * 
  *
  */
