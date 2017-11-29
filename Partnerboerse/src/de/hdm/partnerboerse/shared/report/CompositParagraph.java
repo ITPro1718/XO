@@ -1,6 +1,6 @@
 package de.hdm.partnerboerse.shared.report;
 
-public class SuchprofilReport extends SimpleReport{
+public class CompositParagraph extends Paragraph {
 
 	/**
 	 * 

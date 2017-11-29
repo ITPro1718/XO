@@ -1,6 +1,8 @@
 package de.hdm.partnerboerse.shared.report;
 
-public class SuchprofilReport extends SimpleReport{
+import java.io.Serializable;
+
+public class Row implements Serializable{
 
 	/**
 	 * 
