@@ -15,7 +15,7 @@ public class Profil extends BusinessObjekt {
   
   private String haarfarbe;
   
-  private float koerpergröße;
+  private float koerpergroesse;
   
   private String raucher;
   
@@ -52,11 +52,11 @@ public class Profil extends BusinessObjekt {
   }
 
   public float getKoerpergröße() {
-    return koerpergröße;
+    return koerpergroesse;
   }
 
-  public void setKoerpergröße(float koerpergröße) {
-    this.koerpergröße = koerpergröße;
+  public void setKoerpergröße(float koerpergroesse) {
+    this.koerpergroesse = koerpergroesse;
   }
 
   public String getRaucher() {
@@ -109,7 +109,7 @@ public class Profil extends BusinessObjekt {
     result = prime * result + ((email == null) ? 0 : email.hashCode());
     result = prime * result + ((geburtsdatum == null) ? 0 : geburtsdatum.hashCode());
     result = prime * result + ((haarfarbe == null) ? 0 : haarfarbe.hashCode());
-    result = prime * result + Float.floatToIntBits(koerpergröße);
+    result = prime * result + Float.floatToIntBits(koerpergroesse);
     result = prime * result + ((nachname == null) ? 0 : nachname.hashCode());
     result = prime * result + ((passwort == null) ? 0 : passwort.hashCode());
     result = prime * result + ((raucher == null) ? 0 : raucher.hashCode());
@@ -145,7 +145,7 @@ public class Profil extends BusinessObjekt {
         return false;
     } else if (!haarfarbe.equals(other.haarfarbe))
       return false;
-    if (Float.floatToIntBits(koerpergröße) != Float.floatToIntBits(other.koerpergröße))
+    if (Float.floatToIntBits(koerpergroesse) != Float.floatToIntBits(other.koerpergroesse))
       return false;
     if (nachname == null) {
       if (other.nachname != null)
@@ -181,7 +181,7 @@ public class Profil extends BusinessObjekt {
   @Override
   public String toString() {
     return "Profil [vorname=" + vorname + ", nachname=" + nachname + ", haarfarbe=" + haarfarbe
-        + ", koerpergröße=" + koerpergröße + ", raucher=" + raucher + ", religion=" + religion
+        + ", koerpergröße=" + koerpergroesse + ", raucher=" + raucher + ", religion=" + religion
         + ", geburtsdatum=" + geburtsdatum + ", passwort=" + passwort + ", email=" + email + "]";
   }
   
