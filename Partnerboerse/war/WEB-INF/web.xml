@@ -4,5 +4,27 @@ xmlns="http://java.sun.com/xml/ns/javaee"
 xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
 http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
+
+	<servlet>
+    <servlet-name>partnerboerseServlet</servlet-name>
+    <servlet-class>de.hdm.partnerboerse.server.partnerboerseAdministrationImpl</servlet-class>
+  </servlet>
   
+  <servlet-mapping>
+    <servlet-name>partnerboerseServlet</servlet-name>
+    <url-pattern>/xo-partnerboerse/partnerboerseadministration</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>reportGeneratorServlet</servlet-name>
+    <servlet-class>de.hdm.partnerboerse.server.report.ReportGeneratorImpl</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>reportGeneratorServlet</servlet-name>
+    <url-pattern>/xo-partnerboerse/reportgenerator</url-pattern>
+  </servlet-mapping>
+	
+
+
 </web-app>
