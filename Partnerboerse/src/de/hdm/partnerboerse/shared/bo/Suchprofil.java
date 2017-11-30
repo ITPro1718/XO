@@ -10,5 +10,7 @@ public class Suchprofil extends BusinessObjekt{
   private String title;
   
   private String test;
+  
+  private String test1;
 
 }
