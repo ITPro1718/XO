@@ -15,9 +15,9 @@ public class Profil extends BusinessObjekt {
   
   private String haarfarbe;
   
-  private float koerpergroesse;
+  private double koerpergroesse;
   
-  private String raucher;
+  private boolean raucher;
   
   private String religion;
   
@@ -27,74 +27,128 @@ public class Profil extends BusinessObjekt {
   
   private String email;
 
+  /**
+   * @return the vorname
+   */
   public String getVorname() {
     return vorname;
   }
 
+  /**
+   * @param vorname the vorname to set
+   */
   public void setVorname(String vorname) {
     this.vorname = vorname;
   }
 
+  /**
+   * @return the nachname
+   */
   public String getNachname() {
     return nachname;
   }
 
+  /**
+   * @param nachname the nachname to set
+   */
   public void setNachname(String nachname) {
     this.nachname = nachname;
   }
 
+  /**
+   * @return the haarfarbe
+   */
   public String getHaarfarbe() {
     return haarfarbe;
   }
 
+  /**
+   * @param haarfarbe the haarfarbe to set
+   */
   public void setHaarfarbe(String haarfarbe) {
     this.haarfarbe = haarfarbe;
   }
 
-  public float getKoerpergröße() {
+  /**
+   * @return the koerpergroesse
+   */
+  public double getKoerpergroesse() {
     return koerpergroesse;
   }
 
-  public void setKoerpergröße(float koerpergroesse) {
+  /**
+   * @param koerpergroesse the koerpergroesse to set
+   */
+  public void setKoerpergroesse(double koerpergroesse) {
     this.koerpergroesse = koerpergroesse;
   }
 
-  public String getRaucher() {
+  /**
+   * @return the raucher
+   */
+  public boolean isRaucher() {
     return raucher;
   }
 
-  public void setRaucher(String raucher) {
+  /**
+   * @param raucher the raucher to set
+   */
+  public void setRaucher(boolean raucher) {
     this.raucher = raucher;
   }
 
+  /**
+   * @return the religion
+   */
   public String getReligion() {
     return religion;
   }
 
+  /**
+   * @param religion the religion to set
+   */
   public void setReligion(String religion) {
     this.religion = religion;
   }
 
+  /**
+   * @return the geburtsdatum
+   */
   public Date getGeburtsdatum() {
     return geburtsdatum;
   }
 
+  /**
+   * @param geburtsdatum the geburtsdatum to set
+   */
   public void setGeburtsdatum(Date geburtsdatum) {
     this.geburtsdatum = geburtsdatum;
   }
 
+  /**
+   * @return the passwort
+   */
   public String getPasswort() {
     return passwort;
   }
 
+  /**
+   * @param passwort the passwort to set
+   */
   public void setPasswort(String passwort) {
     this.passwort = passwort;
   }
 
+  /**
+   * @return the email
+   */
   public String getEmail() {
     return email;
   }
 
+  /**
+   * @param email the email to set
+   */
   public void setEmail(String email) {
     this.email = email;
   }
@@ -109,10 +163,12 @@ public class Profil extends BusinessObjekt {
     result = prime * result + ((email == null) ? 0 : email.hashCode());
     result = prime * result + ((geburtsdatum == null) ? 0 : geburtsdatum.hashCode());
     result = prime * result + ((haarfarbe == null) ? 0 : haarfarbe.hashCode());
-    result = prime * result + Float.floatToIntBits(koerpergroesse);
+    long temp;
+    temp = Double.doubleToLongBits(koerpergroesse);
+    result = prime * result + (int) (temp ^ (temp >>> 32));
     result = prime * result + ((nachname == null) ? 0 : nachname.hashCode());
     result = prime * result + ((passwort == null) ? 0 : passwort.hashCode());
-    result = prime * result + ((raucher == null) ? 0 : raucher.hashCode());
+    result = prime * result + (raucher ? 1231 : 1237);
     result = prime * result + ((religion == null) ? 0 : religion.hashCode());
     result = prime * result + ((vorname == null) ? 0 : vorname.hashCode());
     return result;
@@ -145,7 +201,7 @@ public class Profil extends BusinessObjekt {
         return false;
     } else if (!haarfarbe.equals(other.haarfarbe))
       return false;
-    if (Float.floatToIntBits(koerpergroesse) != Float.floatToIntBits(other.koerpergroesse))
+    if (Double.doubleToLongBits(koerpergroesse) != Double.doubleToLongBits(other.koerpergroesse))
       return false;
     if (nachname == null) {
       if (other.nachname != null)
@@ -157,10 +213,7 @@ public class Profil extends BusinessObjekt {
         return false;
     } else if (!passwort.equals(other.passwort))
       return false;
-    if (raucher == null) {
-      if (other.raucher != null)
-        return false;
-    } else if (!raucher.equals(other.raucher))
+    if (raucher != other.raucher)
       return false;
     if (religion == null) {
       if (other.religion != null)
@@ -181,11 +234,8 @@ public class Profil extends BusinessObjekt {
   @Override
   public String toString() {
     return "Profil [vorname=" + vorname + ", nachname=" + nachname + ", haarfarbe=" + haarfarbe
-        + ", koerpergröße=" + koerpergroesse + ", raucher=" + raucher + ", religion=" + religion
+        + ", koerpergroesse=" + koerpergroesse + ", raucher=" + raucher + ", religion=" + religion
         + ", geburtsdatum=" + geburtsdatum + ", passwort=" + passwort + ", email=" + email + "]";
   }
-  
-  
-
   
 }
