@@ -6,5 +6,7 @@ public class Suchprofil extends BusinessObjekt{
    * 
    */
   private static final long serialVersionUID = 1L;
+  
+  private String title;
 
 }
