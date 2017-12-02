@@ -1,5 +1,15 @@
 package de.hdm.partnerboerse.client;
 
-public class Editor {
+import com.google.gwt.core.client.EntryPoint;
+
+public class Editor implements EntryPoint {
+
+	@Override
+	public void onModuleLoad() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
 
 }
