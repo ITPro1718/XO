@@ -52,4 +52,4 @@ war/WEB-INF/classes/
 .svn/
 #/.settings (alt)
 .settings
-/.gwt
+.gwt
