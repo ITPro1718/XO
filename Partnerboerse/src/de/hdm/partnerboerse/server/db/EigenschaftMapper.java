@@ -6,11 +6,7 @@ import de.hdm.partnerboerse.shared.bo.Eigenschaft;
 
 public class EigenschaftMapper {
 
-	public static EigenschaftMapper eigenschaftMapper() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
+		
 	/**
 	   * Stellt sicher, dass die Klasse nur ein mal instanziiert wird   * 
 	   */
@@ -28,7 +24,7 @@ public class EigenschaftMapper {
 	   * 
 	   * @return <code>EigenschaftMapper</code>-Objekt.
 	   */
-	  public static EigenschaftMapper besuchMapper() {
+	  public static EigenschaftMapper eigenschaftMapper() {
 	    if (eigenschaftMapper == null) {
 	      eigenschaftMapper = new EigenschaftMapper();
 	    }
