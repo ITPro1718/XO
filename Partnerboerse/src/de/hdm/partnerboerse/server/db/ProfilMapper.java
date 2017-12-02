@@ -69,7 +69,7 @@ public class ProfilMapper {
         p.setId(rs.getInt("id"));
         p.setVorname(rs.getString("vorname"));
         p.setNachname(rs.getString("nachname"));
-        p.setRaucher(rs.getString("raucher"));
+        p.setRaucher(rs.getBoolean("raucher"));
         // und so weiter....
         return p;
       }
@@ -107,7 +107,7 @@ public class ProfilMapper {
           p.setId(rs.getInt("id"));
           p.setVorname(rs.getString("vorname"));
           p.setNachname(rs.getString("nachname"));
-          p.setRaucher(rs.getString("raucher"));
+          p.setRaucher(rs.getBoolean("raucher"));
           // und so weiter....
 
           // Hinzufügen des neuen Objekts zum Ergebnisvektor
@@ -140,7 +140,7 @@ public class ProfilMapper {
 	              p.setId(rs.getInt("id"));
 	              p.setVorname(rs.getString("vorname"));
 	              p.setNachname(rs.getString("nachname"));
-	              p.setRaucher(rs.getString("raucher"));
+	              p.setRaucher(rs.getBoolean("raucher"));
 	              // und so weiter....
 
 	              // Hinzufügen des neuen Objekts zum Ergebnisvektor
