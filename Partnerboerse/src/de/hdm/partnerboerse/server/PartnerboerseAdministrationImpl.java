@@ -2,15 +2,7 @@ package de.hdm.partnerboerse.server;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
-import de.hdm.partnerboerse.server.db.AuswahlMapper;
-import de.hdm.partnerboerse.server.db.EigenschaftMapper;
-import de.hdm.partnerboerse.server.db.ElementMapper;
-import de.hdm.partnerboerse.server.db.FreitextMapper;
-import de.hdm.partnerboerse.server.db.InfoMapper;
-import de.hdm.partnerboerse.server.db.KontaktsperreMapper;
-import de.hdm.partnerboerse.server.db.MerkzettelMapper;
-import de.hdm.partnerboerse.server.db.ProfilMapper;
-import de.hdm.partnerboerse.server.db.SuchprofilMapper;
+import de.hdm.partnerboerse.server.db.*;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
 
 /**
@@ -38,6 +30,8 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	
 	private SuchprofilMapper sMapper = null;
 	
+	private BesuchMapper bMapper = null;
+	
 	public PartnerboerseAdministrationImpl() throws IllegalArgumentException {
 		
 	}
@@ -53,6 +47,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 		this.mMapper = MerkzettelMapper.merkzettelMapper();
 		this.pMapper = ProfilMapper.profilMapper();
 		this.sMapper = SuchprofilMapper.suchprofilMapper();
+		this.bMapper = BesuchMapper.besuchMapper();
 		
 	}
 	

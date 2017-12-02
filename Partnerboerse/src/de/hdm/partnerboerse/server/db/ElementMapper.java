@@ -6,10 +6,6 @@ import de.hdm.partnerboerse.shared.bo.Element;
 
 public class ElementMapper {
 
-	public static ElementMapper elementMapper() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
 	/**
 	   * Stellt sicher, dass die Klasse nur ein mal instanziiert wird   * 
@@ -28,7 +24,7 @@ public class ElementMapper {
 	   * 
 	   * @return <code>ElementMapper</code>-Objekt.
 	   */
-	  public static ElementMapper besuchMapper() {
+	  public static ElementMapper elementMapper() {
 	    if (elementMapper == null) {
 	      elementMapper = new ElementMapper();
 	    }

@@ -6,10 +6,6 @@ import de.hdm.partnerboerse.shared.bo.Freitext;
 
 public class FreitextMapper {
 
-	public static FreitextMapper freitextMapper() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
 	/**
 	   * Stellt sicher, dass die Klasse nur ein mal instanziiert wird   * 
@@ -28,7 +24,7 @@ public class FreitextMapper {
 	   * 
 	   * @return <code>FreitextMapper</code>-Objekt.
 	   */
-	  public static FreitextMapper besuchMapper() {
+	  public static FreitextMapper freitextMapper() {
 	    if (freitextMapper == null) {
 	      freitextMapper = new FreitextMapper();
 	    }

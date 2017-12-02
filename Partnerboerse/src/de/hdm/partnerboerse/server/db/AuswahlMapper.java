@@ -6,11 +6,7 @@ import de.hdm.partnerboerse.shared.bo.Auswahl;
 
 public class AuswahlMapper {
 
-	public static AuswahlMapper auswahlMapper() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
+		
 	/**
 	   * Stellt sicher, dass die Klasse nur ein mal instanziiert wird   * 
 	   */
@@ -28,7 +24,7 @@ public class AuswahlMapper {
 	   * 
 	   * @return <code>AuswahlMapper</code>-Objekt.
 	   */
-	  public static AuswahlMapper besuchMapper() {
+	  public static AuswahlMapper auswahlMapper() {
 	    if (auswahlMapper == null) {
 	      auswahlMapper = new AuswahlMapper();
 	    }
