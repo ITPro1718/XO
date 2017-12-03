@@ -1,5 +1,8 @@
 package de.hdm.partnerboerse.server.db;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import de.hdm.partnerboerse.shared.bo.Auswahl;
@@ -37,19 +40,52 @@ public class AuswahlMapper {
 	   * @param a
 	   */
 	  public void insertAuswahl(Auswahl a){
+		  Connection con = DBConnection.connection();
+		  
+		  try{
+			  Statement stmt = con.createStatement();
+		 
+		  /*
+		   * Es wird der momentan hÃ¶chste Wert des 
+		   * Primearschluessels ausgelesen
+		   */
+		  
+			  ResultSet rs = stmt.executeQuery(" SELECT MAX(id) AS maxid " 
+			  + "FROM auswahl ");
+			  
+			  if (rs.next());
+			  
+			  /*
+			   * a bekommt den neuen hÃ¶chsten Primaerschluesselwert
+			   */
+			  a.setId(rs.getInt("maxid")+1);
+			  
+			  stmt = con.createStatement();
+		  
+			  
+			  // Das ist die eigentliche EinfÃ¼g-Funktion
+			  
+			  stmt.executeUpdate(" INSERT INTO auswahl (id, profil ) " +
+			  "VALUES" + a.getId() + "," + a.getProfilId() + ")");
+			  
 		  
 	  }
 	  
+		  catch(SQLException e2){
+			  e2.printStackTrace();
+		  }
+	  }
+	  
 	  /**
-	   * Ändert/Updatet ein Auswahlobjekt
+	   * ï¿½ndert/Updatet ein Auswahlobjekt
 	   * @param a
 	   */
 	  public void updateAuswahl(Auswahl a){
-		  
+		
 	  }
 	  
 	  /**
-	   * Löscht eine Auswahl aus der Datenbank
+	   * Lï¿½scht eine Auswahl aus der Datenbank
 	   * @param a
 	   */
 	  public void deleteAuswahl(Auswahl a){
@@ -57,7 +93,7 @@ public class AuswahlMapper {
 	  }
 	  
 	  /**
-	   * Sucht einen Auswahleintrag per ID (Primärschlüssel) und gibt diesen Zurück
+	   * Sucht einen Auswahleintrag per ID (Primï¿½rschlï¿½ssel) und gibt diesen Zurï¿½ck
 	   * @param id
 	   * @return
 	   */
@@ -67,7 +103,7 @@ public class AuswahlMapper {
 	  }
 	  
 	  /**
-	   * Gibt alle Auswahlen zurück
+	   * Gibt alle Auswahlen zurï¿½ck
 	   * @return
 	   */
 	  public ArrayList<Auswahl> findAll(){
