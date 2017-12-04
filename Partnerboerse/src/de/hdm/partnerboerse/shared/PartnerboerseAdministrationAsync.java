@@ -85,8 +85,18 @@ public interface PartnerboerseAdministrationAsync {
 	 */
 	void getAllMerkzettelEintraege(Profil p, AsyncCallback<ArrayList<Merkzettel>> callback);
 
+	/**
+	 * 
+	 * @param ID
+	 * @param callback
+	 */
 	void getMerkzettelEintraegeByID(int ID, AsyncCallback<Merkzettel> callback);
 
+	/**
+	 * 
+	 * @param fremdprofil
+	 * @param callback
+	 */
 	void deleteMerkzettelEintrag(Profil fremdprofil, AsyncCallback<Merkzettel> callback);
 
 	/**
@@ -98,10 +108,25 @@ public interface PartnerboerseAdministrationAsync {
 	 */
 	void createKontaksperreEintrag(Profil source, Profil target, AsyncCallback<Kontaktsperre> callback);
 
+	/**
+	 * 
+	 * @param p
+	 * @param callback
+	 */
 	void getAllKontaktsperreEintraege(Profil p, AsyncCallback<ArrayList<Kontaktsperre>> callback);
 
+	/**
+	 * 
+	 * @param id
+	 * @param callback
+	 */
 	void getKontaktsperreEintragByID(int id, AsyncCallback<Kontaktsperre> callback);
 
+	/**
+	 * 
+	 * @param fremdprofil
+	 * @param callback
+	 */
 	void deleteKontaktsperreEintraege(Profil fremdprofil, AsyncCallback<Kontaktsperre> callback);
 
 	/**
@@ -118,20 +143,61 @@ public interface PartnerboerseAdministrationAsync {
 	void createSuchprofil(Profil source, String haarfarbe, float kgr, boolean raucher, String religion, int alter,
 			AsyncCallback<Suchprofil> callback);
 
+	/**
+	 * 
+	 * @param p
+	 * @param callback
+	 */
 	void getAllSuchprofile(Profil p, AsyncCallback<ArrayList<Suchprofil>> callback);
 
+	/**
+	 * 
+	 * @param id
+	 * @param callback
+	 */
 	void getSuchprofilByID(int id, AsyncCallback<Suchprofil> callback);
 
+	/**
+	 * 
+	 * @param title
+	 * @param callback
+	 */
 	void getSuchprofilByTitle(String title, AsyncCallback<Suchprofil> callback);
 
+	/**
+	 * 
+	 * @param sp
+	 * @param callback
+	 */
 	void updateSuchprofil(Suchprofil sp, AsyncCallback<Suchprofil> callback);
 
+	/**
+	 * 
+	 * @param suchprofil
+	 * @param callback
+	 */
 	void deleteSuchprofil(Suchprofil suchprofil, AsyncCallback<Suchprofil> callback);
 
+	/**
+	 * 
+	 * @param source
+	 * @param suchprofil
+	 * @param callback
+	 */
 	void berechneAehnlichkeitsmass(Profil source, Suchprofil suchprofil, AsyncCallback<ArrayList<Profil>> callback);
 
+	/**
+	 * 
+	 * @param suchprofil
+	 * @param callback
+	 */
 	void getSuchProfilErgebnisse(Suchprofil suchprofil, AsyncCallback<ArrayList<Profil>> callback);
 
+	/**
+	 * 
+	 * @param suchprofil
+	 * @param callback
+	 */
 	void getNotSeenProfilErgebnisse(Suchprofil suchprofil, AsyncCallback<ArrayList<Profil>> callback);
 
 	/**
@@ -142,12 +208,31 @@ public interface PartnerboerseAdministrationAsync {
 	 */
 	void createInfo(Profil p, AsyncCallback<Info> callback);
 
+	/**
+	 * 
+	 * @param callback
+	 */
 	void getAllInfos(AsyncCallback<ArrayList<Info>> callback);
 
+	/**
+	 * 
+	 * @param id
+	 * @param callback
+	 */
 	void getInfoByID(int id, AsyncCallback<Info> callback);
 
+	/**
+	 * 
+	 * @param info
+	 * @param callback
+	 */
 	void updateInfo(Info info, AsyncCallback<Info> callback);
 
+	/**
+	 * 
+	 * @param info
+	 * @param callback
+	 */
 	void deleteInfo(Info info, AsyncCallback<Info> callback);
 
 	/**
@@ -158,12 +243,31 @@ public interface PartnerboerseAdministrationAsync {
 	 */
 	void createEigenschaft(Info info, AsyncCallback<Eigenschaft> callback);
 
+	/**
+	 * 
+	 * @param callback
+	 */
 	void getAllEigenschaften(AsyncCallback<ArrayList<Eigenschaft>> callback);
 
+	/**
+	 * 
+	 * @param id
+	 * @param callback
+	 */
 	void getEigenschaftByID(int id, AsyncCallback<Eigenschaft> callback);
 
+	/**
+	 * 
+	 * @param eigenschaft
+	 * @param callback
+	 */
 	void updateEigenschaft(Eigenschaft eigenschaft, AsyncCallback<Eigenschaft> callback);
 
+	/**
+	 * 
+	 * @param eigenschaft
+	 * @param callback
+	 */
 	void deleteEigenschaft(Eigenschaft eigenschaft, AsyncCallback<Eigenschaft> callback);
 
 	/**
@@ -175,10 +279,24 @@ public interface PartnerboerseAdministrationAsync {
 	 */
 	void createFreitext(Eigenschaft eigenschaft, String text, AsyncCallback<Freitext> callback);
 
+	/**
+	 * 
+	 * @param callback
+	 */
 	void getFreitext(AsyncCallback<Freitext> callback);
 
+	/**
+	 * 
+	 * @param freitext
+	 * @param callback
+	 */
 	void updateFreitext(Freitext freitext, AsyncCallback<Freitext> callback);
 
+	/**
+	 * 
+	 * @param freitext
+	 * @param callback
+	 */
 	void deleteFreitext(Freitext freitext, AsyncCallback<Freitext> callback);
 
 	/**
@@ -190,10 +308,24 @@ public interface PartnerboerseAdministrationAsync {
 	 */
 	void createAuswahl(Eigenschaft eigenschaft, String title, AsyncCallback<Auswahl> callback);
 
+	/**
+	 * 
+	 * @param callback
+	 */
 	void getAuswahl(AsyncCallback<ArrayList<Auswahl>> callback);
 
+	/**
+	 * 
+	 * @param auswahl
+	 * @param callback
+	 */
 	void updateAuswahl(Auswahl auswahl, AsyncCallback<Auswahl> callback);
 
+	/**
+	 * 
+	 * @param auswahl
+	 * @param callback
+	 */
 	void deleteAuswahl(Auswahl auswahl, AsyncCallback<Auswahl> callback);
 
 	/**
@@ -203,6 +335,10 @@ public interface PartnerboerseAdministrationAsync {
 	 */
 	void getAllElements(AsyncCallback<ArrayList<Element>> callback);
 
+	/**
+	 * 
+	 * @param callback
+	 */
 	void getElement(AsyncCallback<Element> callback);
 
 }
