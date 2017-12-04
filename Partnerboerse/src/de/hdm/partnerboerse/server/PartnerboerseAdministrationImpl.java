@@ -66,38 +66,70 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	@Override
 	public Profil createProfil(int id, String vname, String nname, String haarfarbe, float kgr, boolean raucher,
 			String religion, Date geb, String pw, String email) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+
+		Profil p = new Profil();
+		p.setVorname(vname);
+		p.setNachname(nname);
+		p.setHaarfarbe(haarfarbe);
+		p.setKoerpergroesse(kgr);
+		p.setRaucher(raucher);
+		p.setGeburtsdatum(geb);
+		p.setPasswort(pw);
+		p.setEmail(email);
+		p.setId(id);
+		
+		this.pMapper.insert(p);
+
+		return p;
 	}
 
 	@Override
 	public Profil updateProfil(Profil p) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		return null;
+		pMapper.update(p);
+		return p;
 	}
 
 	@Override
 	public Profil deleteProfil(Profil p) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+		
+		/**
+		 * Hier muss man die ganzen Abhängigkeiten abchecken, bevor man ein Profil löscht.
+		 * z.B. muss man erst alle Merkzettel Einträge löschen, in denen das Profil vorkommt.
+		 * Erst dann kann man ein Profil löschen
+		 * 
+		 * Abhängigkeiten von Profil:
+		 * 
+		 * Merkzettel
+		 * Kontaktsperre
+		 * Visit
+		 * Suchprofil
+		 * Info
+		 * 
+		 */
+
 		return null;
 	}
 
 	@Override
 	public ArrayList<Profil> getProfilByName(String name) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+
+		return this.pMapper.findProfilesByName(name);
+		
 	}
 
 	@Override
 	public Profil getProfilByID(int id) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+
+		return this.pMapper.findProfilByKey(id);
+		
 	}
 
 	@Override
 	public ArrayList<Profil> getAllProfils() throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return this.pMapper.findAllProfiles();
+		
 	}
 
 	@Override
