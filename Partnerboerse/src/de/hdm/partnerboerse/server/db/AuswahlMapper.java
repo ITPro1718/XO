@@ -8,6 +8,11 @@ import java.util.ArrayList;
 
 import de.hdm.partnerboerse.shared.bo.Auswahl;
 
+/**
+ * Mapper Klasse
+ * @author Mikulic
+ *
+ */
 public class AuswahlMapper {
 
 		
