@@ -78,7 +78,7 @@ public class AuswahlMapper {
 	  }
 	  
 	  /**
-	   * �ndert/Updatet ein Auswahlobjekt
+	   * aendert/Updatet ein Auswahlobjekt
 	   * @param a
 	   */
 	  public void updateAuswahl(Auswahl a){
