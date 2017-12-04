@@ -41,7 +41,7 @@ public class AuswahlMapper {
 	   * @param a
 	   */
 	  public void insertAuswahl(Auswahl a){
-		  Connection con = DBConnection.connection();
+		  Connection con = DBConnection.getConnection();
 		  
 		  try{
 			  Statement stmt = con.createStatement();
@@ -101,7 +101,7 @@ public class AuswahlMapper {
 	   * @param a
 	   */
 	  public void deleteAuswahl(Auswahl a){
-		  Connection con =DBConnection.connection();
+		  Connection con = DBConnection.getConnection();
 		  
 		  try{
 			  Statement stmt =con.createStatement();
@@ -119,7 +119,7 @@ public class AuswahlMapper {
 	   * @return
 	   */
 	  public Auswahl findByKey(int id){
-		  Connection con = DBConnection.connection();
+		  Connection con = DBConnection.getConnection();
 		  
 		  try{
 			  Statement stmt = con.createStatement();
@@ -150,7 +150,7 @@ public class AuswahlMapper {
 	   * @return
 	   */
 	  public ArrayList<Auswahl> findAll(){
-		  	Connection con = DBConnection.connection();
+		  	Connection con = DBConnection.getConnection();
 		  	
 		  	ArrayList<Auswahl> result = new ArrayList<Auswahl>();
 		  	
