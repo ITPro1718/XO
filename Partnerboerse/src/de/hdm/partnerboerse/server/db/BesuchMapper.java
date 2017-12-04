@@ -5,6 +5,12 @@ import java.util.ArrayList;
 import de.hdm.partnerboerse.shared.bo.Besuch;
 import de.hdm.partnerboerse.shared.bo.Profil;
 
+/**
+ * Mapper-Klasse.
+ * 
+ * @author sanjamikulic
+ *
+ */
 public class BesuchMapper {
 	
 	/**
@@ -33,7 +39,7 @@ public class BesuchMapper {
 	  }
 	  
 	  /**
-	   * Sucht nach einem Besuch-Eintrag nach der ID (Primärschlüssen
+	   * Sucht nach einem Besuch-Eintrag nach der ID (Primï¿½rschlï¿½ssen
 	   * @param id
 	   * @return
 	   */
@@ -42,7 +48,7 @@ public class BesuchMapper {
 	  }
 	  
 	  /**
-	   * Gibt alle Besuch Einträge zurück
+	   * Gibt alle Besuch Eintrï¿½ge zurï¿½ck
 	   * @return
 	   */
 	  public ArrayList<Besuch> findAll(){
@@ -50,7 +56,7 @@ public class BesuchMapper {
 		  }
 	  
 	  /**
-	   * Gibt alle Besuch-Einträge eines bestimmten Profils aus
+	   * Gibt alle Besuch-Eintrï¿½ge eines bestimmten Profils aus
 	   * @param p
 	   * @return
 	   */
