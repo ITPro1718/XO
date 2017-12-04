@@ -2,6 +2,7 @@ package de.hdm.partnerboerse.server.db;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
@@ -81,33 +82,95 @@ public class AuswahlMapper {
 	   * @param a
 	   */
 	  public void updateAuswahl(Auswahl a){
+		Connection con = DBConnection.getConnection();
 		
+		try{
+			Statement stmt = con.createStatement();
+		
+			stmt.executeUpdate("UPDATE auswahl" + "SET profil=\""
+								+ a.getProfilId() + "\"" + "WHERE id=" + a.getId());
+			}
+		  catch(SQLException e2){
+			  e2.printStackTrace();
+		  }
+		return a;
 	  }
 	  
 	  /**
-	   * L�scht eine Auswahl aus der Datenbank
+	   * Loescht eine Auswahl aus der Datenbank
 	   * @param a
 	   */
 	  public void deleteAuswahl(Auswahl a){
+		  Connection con =DBConnection.connection();
 		  
+		  try{
+			  Statement stmt =con.createStatement();
+			  
+			 stmt.executeUpdate("DELETE FROM auswahl" + "WHERE id=" + a.getId());
+		  }
+		  catch (SQLException e2){
+			  e2.printStackTrace();
+		  }
 	  }
 	  
 	  /**
-	   * Sucht einen Auswahleintrag per ID (Prim�rschl�ssel) und gibt diesen Zur�ck
+	   * Sucht einen Auswahleintrag per ID (Primaerschluessel) und gibt diesen Zurueck
 	   * @param id
 	   * @return
 	   */
 	  public Auswahl findByKey(int id){
-		  return null;
+		  Connection con = DBConnection.connection();
 		  
+		  try{
+			  Statement stmt = con.createStatement();
+			  
+			  ResultSet rs = stmt.executeQuery("SELECT id, profil FROM auswahl" 
+					  + "WHERE id=" + id + "ORDER BY owner");
+			  if (rs.next()) {
+				  Auswahl a = new Auswahl();
+				  a.setId(rs.getInt("id"));
+				  a.setProfilId(rs.getInt("profil"));
+				  return a;
+			  }
+		  }
+		  
+		  catch (SQLException e2){
+			  e2.printStackTrace();
+			  return null;
+		  }
+		  return null;
 	  }
+
+
+
+	  
 	  
 	  /**
-	   * Gibt alle Auswahlen zur�ck
+	   * Gibt alle Auswahlen zurueck
 	   * @return
 	   */
 	  public ArrayList<Auswahl> findAll(){
-		  return null;		  
+		  	Connection con = DBConnection.connection();
+		  	
+		  	ArrayList<Auswahl> result = new ArrayList<Auswahl>();
+		  	
+		  	try{
+		  		Statement stmt = con.createStatement();
+		  		ResultSet rs = stmt.executeQuery("SELECT id, profil FROM accounts "+
+		  		+ "ORDER BY id");
+		  		
+		  		while (rs.next()){
+		  			Account a = new Account();
+		  			a.setId(rs.getInt("id"));
+		  			a.setProfilId(rs.getInt("owner"));
+		  			
+		  			result.addElement(a);
+		  		}
+		  	}
+		  	catch (SQLException e2){
+		  		e2.printStackTrace();
+		  	}
+		  	return result;
 	  }
 	
 	
