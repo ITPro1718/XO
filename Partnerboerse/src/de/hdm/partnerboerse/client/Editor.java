@@ -8,6 +8,8 @@ public class Editor implements EntryPoint {
 	public void onModuleLoad() {
 		// TODO Auto-generated method stub
 		
+		// test lololol
+		
 	}
 	
 	
