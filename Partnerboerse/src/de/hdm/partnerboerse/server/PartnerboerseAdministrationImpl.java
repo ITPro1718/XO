@@ -134,26 +134,46 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 
 	@Override
 	public Merkzettel createMerkzettelEintrag(Profil source, Profil target) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+
+		Merkzettel m = new Merkzettel();
+		m.setEigenprofilID(source.getId());
+		m.setFremdprofilID(target.getId());
+		
+		this.mMapper.insertMerkzettelEintrag(m);
+		
+		return m;
 	}
 
 	@Override
 	public ArrayList<Merkzettel> getAllMerkzettelEintraege(Profil p) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		/**
+		 * bisher ist es so, dass wir in der methode alle von einem owner haben wollen,
+		 * aber beim Mapper würde man alle zurückgeben
+		 * 
+		 */
+		
+		// TODO: weitere Methoden einfügen und Konflikt klären (getAll, getAllFromOwner)
+		
+		return this.mMapper.findAll();
 	}
 
 	@Override
 	public Merkzettel getMerkzettelEintraegeByID(int ID) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+
+		return this.mMapper.findByKey(ID);
+		
 	}
 
 	@Override
-	public Merkzettel deleteMerkzettelEintrag(Profil fremdprofil) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+	public Merkzettel deleteMerkzettelEintrag(Merkzettel merkzettel) throws IllegalArgumentException {
+
+		/**
+		 * Da es keine unterabhängigkeiten mehr von Merkzettel gibt, kann man Einträge so 
+		 * löschen
+		 */
+		
+		return this.mMapper.deleteMerkzettelEintrag(merkzettel);
 	}
 
 	@Override

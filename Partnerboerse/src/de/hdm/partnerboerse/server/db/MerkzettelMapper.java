@@ -36,16 +36,17 @@ public class MerkzettelMapper {
 	   * Speichert einen MerkzettelEintrag in der DB
 	   * @param merkzettel
 	   */
-	  public void insertMerkzettelEintrag(Merkzettel merkzettel){
-		  
+	  public Merkzettel insertMerkzettelEintrag(Merkzettel merkzettel){
+		  return null;
 	  }
 	  
 	  /**
 	   * Löscht einen MerkzettelEintrag in der DB
 	   * @param merkzettel
+	 * @return 
 	   */
-	  public void deleteMerkzettelEintrag(Merkzettel merkzettel){
-		  
+	  public Merkzettel deleteMerkzettelEintrag(Merkzettel merkzettel){
+		  return null;
 	  }
 	  
 	  /**
