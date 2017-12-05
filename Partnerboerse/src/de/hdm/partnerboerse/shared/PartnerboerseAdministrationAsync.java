@@ -97,7 +97,7 @@ public interface PartnerboerseAdministrationAsync {
 	 * @param fremdprofil
 	 * @param callback
 	 */
-	void deleteMerkzettelEintrag(Profil fremdprofil, AsyncCallback<Merkzettel> callback);
+	void deleteMerkzettelEintrag(Merkzettel merkzettel, AsyncCallback<Merkzettel> callback);
 
 	/**
 	 * Kontaktsperre Methoden Asynchron
@@ -127,7 +127,7 @@ public interface PartnerboerseAdministrationAsync {
 	 * @param fremdprofil
 	 * @param callback
 	 */
-	void deleteKontaktsperreEintraege(Profil fremdprofil, AsyncCallback<Kontaktsperre> callback);
+	void deleteKontaktsperreEintraege(Kontaktsperre kontaktsperre, AsyncCallback<Kontaktsperre> callback);
 
 	/**
 	 * Suchprofil Methoden Asynchron
@@ -339,6 +339,6 @@ public interface PartnerboerseAdministrationAsync {
 	 * 
 	 * @param callback
 	 */
-	void getElement(AsyncCallback<Element> callback);
+	void getElementByID(int id, AsyncCallback<Element> callback);
 
 }

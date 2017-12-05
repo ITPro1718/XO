@@ -85,7 +85,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 
 	@Override
 	public Profil updateProfil(Profil p) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
 		pMapper.update(p);
 		return p;
 	}
@@ -178,26 +177,43 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 
 	@Override
 	public Kontaktsperre createKontaksperreEintrag(Profil source, Profil target) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+
+		Kontaktsperre k = new Kontaktsperre();
+		k.setEigenprofilID(source.getId());
+		k.setFremdprofilID(target.getId());
+		
+		this.kMapper.insertKontaktsperreEintrag(k);
+		
+		return k;
 	}
 
 	@Override
 	public ArrayList<Kontaktsperre> getAllKontaktsperreEintraege(Profil p) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		/**
+		 * gleiches Problem wie bei Merkzettel
+		 * 
+		 * TODO: findByOwner und findAll 
+		 */
+		
+		return this.kMapper.findAll();
 	}
 
 	@Override
 	public Kontaktsperre getKontaktsperreEintragByID(int id) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+
+
+		return this.kMapper.findByKey(id);
+		
 	}
 
 	@Override
-	public Kontaktsperre deleteKontaktsperreEintraege(Profil fremdprofil) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+	public Kontaktsperre deleteKontaktsperreEintraege(Kontaktsperre kontaktsperre) throws IllegalArgumentException {
+		/**
+		 * keine Abhängigkeiten, deswegen können wir es einfach löschen
+		 */
+		
+		return this.kMapper.deleteKontaktsperreEintrag(kontaktsperre);
 	}
 
 	@Override
@@ -366,14 +382,11 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 
 	@Override
 	public ArrayList<Element> getAllElements() throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+		return this.elMapper.findAll();
 	}
 
 	@Override
-	public Element getElement() throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+	public Element getElementByID(int id) throws IllegalArgumentException {
+		return this.elMapper.findByKey(id);
 	}
-	
 }

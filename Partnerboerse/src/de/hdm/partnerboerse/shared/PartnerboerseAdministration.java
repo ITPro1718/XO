@@ -152,7 +152,7 @@ public interface PartnerboerseAdministration extends RemoteService {
 	 * @return (geloeschtes Profil-Objekt) --> ist eigentlich kein return
 	 * @throws IllegalArgumentException
 	 */
-	public Merkzettel deleteMerkzettelEintrag(Profil fremdprofil) throws IllegalArgumentException;
+	public Merkzettel deleteMerkzettelEintrag(Merkzettel merkzettel) throws IllegalArgumentException;
 
 	/**
 	 * Kontaktsperre Methoden 
@@ -192,7 +192,7 @@ public interface PartnerboerseAdministration extends RemoteService {
 	 * @return entsperrtes Profil (geloeschter Kontatksperreneintrag)
 	 * @throws IllegalArgumentException
 	 */
-	public Kontaktsperre deleteKontaktsperreEintraege(Profil fremdprofil) throws IllegalArgumentException;
+	public Kontaktsperre deleteKontaktsperreEintraege(Kontaktsperre kontaktsperre) throws IllegalArgumentException;
 
 	/**
 	 * Suchprofil Methoden
@@ -466,6 +466,6 @@ public interface PartnerboerseAdministration extends RemoteService {
 	 * @return ein Element-Objekt
 	 * @throws IllegalArgumentException
 	 */
-	public Element getElement() throws IllegalArgumentException;
+	public Element getElementByID(int id) throws IllegalArgumentException;
 
 }

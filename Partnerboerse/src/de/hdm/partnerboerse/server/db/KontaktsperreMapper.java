@@ -43,8 +43,10 @@ public class KontaktsperreMapper {
 	  /**
 	   * Löscht einen KontaktsperrenEintrag in der DB
 	   * @param kontaktsperre
+	 * @return 
 	   */
-	  public void deleteKontaktsperreEintrag(Kontaktsperre kontaktsperre){
+	  public Kontaktsperre deleteKontaktsperreEintrag(Kontaktsperre kontaktsperre){
+		return null;
 		  
 	  }
 	  
