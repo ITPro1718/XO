@@ -16,6 +16,8 @@ public class Suchprofil extends BusinessObjekt{
   private boolean raucher;
   
   private int alter;
+  
+  private int eigenprofilID;
 
   /**
    * @return the title
@@ -143,6 +145,14 @@ public class Suchprofil extends BusinessObjekt{
     return "Suchprofil [title=" + title + ", haarFarbe=" + haarFarbe + ", koerpergroesse="
         + koerpergroesse + ", raucher=" + raucher + ", alter=" + alter + "]";
   }
+
+public int getEigenprofilID() {
+	return eigenprofilID;
+}
+
+public void setEigenprofilID(int eigenprofilID) {
+	this.eigenprofilID = eigenprofilID;
+}
   
 
 }

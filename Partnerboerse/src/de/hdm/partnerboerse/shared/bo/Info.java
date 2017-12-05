@@ -8,8 +8,28 @@ public class Info extends BusinessObjekt {
   private static final long serialVersionUID = 1L;
   
   private String text;
+  
+  private int eigenprofilID;
+  
+  private int eigenschaftsID;
 
-  /**
+  public int getEigenprofilID() {
+	return eigenprofilID;
+}
+
+public void setEigenprofilID(int eigenprofilID) {
+	this.eigenprofilID = eigenprofilID;
+}
+
+public int getEigenschaftsID() {
+	return eigenschaftsID;
+}
+
+public void setEigenschaftsID(int eigenschaftsID) {
+	this.eigenschaftsID = eigenschaftsID;
+}
+
+/**
    * @return the text
    */
   public String getText() {
