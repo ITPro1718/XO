@@ -5,7 +5,7 @@ import de.hdm.partnerboerse.shared.CommonSettings;
 /**
  * 
  * New Branch Push
- * 
+ * test push new
  *
  */
 
