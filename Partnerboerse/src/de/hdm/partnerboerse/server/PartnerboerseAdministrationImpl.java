@@ -243,7 +243,17 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	@Override
 	public void createSuchprofil(Profil source, String haarfarbe, float kgr, boolean raucher, String religion,
 			int alter) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+		Suchprofil s = new Suchprofil();
+		s.setEigenprofilID(source.getId());
+		s.setHaarFarbe(haarfarbe);
+		// s.setKoerpergroesse(kgr); FEHLER? double in Business-Objekt Suchprofil, hier float als Übergabewert)
+		// !!! Für Religion gibt es noch keine Set-Methode und fehlt ebenfalls als attribut im relationalen Modell und für Titel des Suchprofils fehlt der Übergabeparameter string titel
+		s.setRaucher(raucher);
+		s.setAlter(alter);
+		
+
+		
+		this.sMapper.insertSuchprofil(s);
 		
 	}
 
