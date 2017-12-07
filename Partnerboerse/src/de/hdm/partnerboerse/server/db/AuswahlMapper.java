@@ -127,7 +127,7 @@ public class AuswahlMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			ResultSet rs = stmt.executeQuery("SELECT id, titel FROM auswahl" + "WHERE id=" + id + "ORDER BY owner");
+			ResultSet rs = stmt.executeQuery("SELECT id, titel FROM auswahl" + "WHERE id=" + id );
 			if (rs.next()) {
 				Auswahl a = new Auswahl();
 				a.setId(rs.getInt("id"));
@@ -153,12 +153,12 @@ public class AuswahlMapper {
 
 		try {
 			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT id, profil FROM accounts " + "ORDER BY id");
+			ResultSet rs = stmt.executeQuery("SELECT id, titel FROM auswahl " + "ORDER BY id");
 
 			while (rs.next()) {
 				Auswahl a = new Auswahl();
 				a.setId(rs.getInt("id"));
-				a.setTitel(rs.getString("owner"));
+				a.setTitel(rs.getString("titel"));
 
 				result.add(a);
 			}
