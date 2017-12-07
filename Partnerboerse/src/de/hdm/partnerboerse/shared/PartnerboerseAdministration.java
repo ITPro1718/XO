@@ -32,7 +32,7 @@ public interface PartnerboerseAdministration extends RemoteService {
 	 * Profil Methoden Ein Profil anlegen.
 	 * 
 	 * @param id
-	 *            Primärschlüssel
+	 *            Primï¿½rschlï¿½ssel
 	 * @param vname
 	 *            Vorname
 	 * @param nname
@@ -51,10 +51,9 @@ public interface PartnerboerseAdministration extends RemoteService {
 	 *            Passwort
 	 * @param email
 	 *            Email
-	 * @return Ein fertiges Profil-Objekt.
 	 * @throws IllegalArgumentException
 	 */
-	public Profil createProfil(int id, String vname, String nname, String haarfarbe, float kgr, boolean raucher,
+	public void createProfil(int id, String vname, String nname, String haarfarbe, float kgr, boolean raucher,
 			String religion, Date geb, String pw, String email) throws IllegalArgumentException;
 
 	/**
@@ -62,20 +61,18 @@ public interface PartnerboerseAdministration extends RemoteService {
 	 * 
 	 * @param p
 	 *            Eigenes Profil
-	 * @return geaendertes Profilobjekt
 	 * @throws IllegalArgumentException
 	 */
-	public Profil updateProfil(Profil p) throws IllegalArgumentException;
+	public void updateProfil(Profil p) throws IllegalArgumentException;
 
 	/**
 	 * Profil loeschen.
 	 * 
 	 * @param p
 	 *            Eigenes Profil
-	 * @return gelöschtes Profil Objekt
 	 * @throws IllegalArgumentException
 	 */
-	public Profil deleteProfil(Profil p) throws IllegalArgumentException;
+	public void deleteProfil(Profil p) throws IllegalArgumentException;
 
 	/**
 	 * Profil nach Name anzeigen.
@@ -121,10 +118,9 @@ public interface PartnerboerseAdministration extends RemoteService {
 	 *            eigenes Profil
 	 * @param target
 	 *            fremdes Ziel-Profil
-	 * @return Merkzetteleintrag-Objekt
 	 * @throws IllegalArgumentException
 	 */
-	public Merkzettel createMerkzettelEintrag(Profil source, Profil target) throws IllegalArgumentException;
+	public void createMerkzettelEintrag(Profil source, Profil target) throws IllegalArgumentException;
 
 	/**
 	 * Merkzettel mit allen Eintraegen anzeigen.
@@ -149,10 +145,9 @@ public interface PartnerboerseAdministration extends RemoteService {
 	 * Merkzetteleintrag persistent loeschen, gemerktes Profil von Merkzettel loeschen.
 	 * 
 	 * @param fremdprofil gemerktes Profil
-	 * @return (geloeschtes Profil-Objekt) --> ist eigentlich kein return
 	 * @throws IllegalArgumentException
 	 */
-	public Merkzettel deleteMerkzettelEintrag(Merkzettel merkzettel) throws IllegalArgumentException;
+	public void deleteMerkzettelEintrag(Merkzettel merkzettel) throws IllegalArgumentException;
 
 	/**
 	 * Kontaktsperre Methoden 
@@ -161,10 +156,9 @@ public interface PartnerboerseAdministration extends RemoteService {
 	 * 
 	 * @param source eigenes Profil
 	 * @param target fremdes Ziel-Profil
-	 * @return Kontaktsperreneintrag-Objekt
 	 * @throws IllegalArgumentException
 	 */
-	public Kontaktsperre createKontaksperreEintrag(Profil source, Profil target) throws IllegalArgumentException;
+	public void createKontaksperreEintrag(Profil source, Profil target) throws IllegalArgumentException;
 
 	/**
 	 * Alle Kontaktsperreneintraege bzw. gesperrten Profile anzeigen.
@@ -189,10 +183,9 @@ public interface PartnerboerseAdministration extends RemoteService {
 	 * Kontaktsperreneintrag von Kontaktsperre persistent loeschen bzw. Profil entsperren.
 	 * 
 	 * @param fremdprofil gesperrtes Profil
-	 * @return entsperrtes Profil (geloeschter Kontatksperreneintrag)
 	 * @throws IllegalArgumentException
 	 */
-	public Kontaktsperre deleteKontaktsperreEintraege(Kontaktsperre kontaktsperre) throws IllegalArgumentException;
+	public void deleteKontaktsperreEintraege(Kontaktsperre kontaktsperre) throws IllegalArgumentException;
 
 	/**
 	 * Suchprofil Methoden
@@ -204,10 +197,9 @@ public interface PartnerboerseAdministration extends RemoteService {
 	 * @param raucher
 	 * @param religion
 	 * @param alter
-	 * @return neues Suchprofil-Objekt
 	 * @throws IllegalArgumentException
 	 */
-	public Suchprofil createSuchprofil(Profil source, String haarfarbe, float kgr, boolean raucher, String religion,
+	public void createSuchprofil(Profil source, String haarfarbe, float kgr, boolean raucher, String religion,
 			int alter) throws IllegalArgumentException;
 	
 	/**
@@ -243,19 +235,17 @@ public interface PartnerboerseAdministration extends RemoteService {
 	 * Suchprofil bearbeiten. (Attribute, Info-Objekte...?)
 	 * 
 	 * @param suchprofil das zu bearbeitende Suchprofil
-	 * @return bearbeitetes Suchprofil-Objekt
 	 * @throws IllegalArgumentException
 	 */
-	public Suchprofil updateSuchprofil(Suchprofil suchprofil) throws IllegalArgumentException;
+	public void updateSuchprofil(Suchprofil suchprofil) throws IllegalArgumentException;
 
 	/**
 	 * Suchprofil persistent loeschen.
 	 * 
 	 * @param suchprofil das zu loeschende Suchprofil
-	 * @return (geloeschtes Suchprofil-Objekt) --> kein wirklicher return
 	 * @throws IllegalArgumentException
 	 */
-	public Suchprofil deleteSuchprofil(Suchprofil suchprofil) throws IllegalArgumentException;
+	public void deleteSuchprofil(Suchprofil suchprofil) throws IllegalArgumentException;
 
 	/**
 	 * Aehnlichkeitsmass eines gefundenen Profils mit dem eigenen Profil berechnen
@@ -278,7 +268,7 @@ public interface PartnerboerseAdministration extends RemoteService {
 	public ArrayList<Profil> getSuchProfilErgebnisse(Suchprofil suchprofil) throws IllegalArgumentException;
 
 	/**
-	 * Noch nicht gesehene Profile bezgl. dem Suchprofil zurückgeben
+	 * Noch nicht gesehene Profile bezgl. dem Suchprofil zurï¿½ckgeben
 	 * 
 	 * @param suchprofil das angewendete Suchprofil
 	 * @return alle nicht-gesehenden Ergebnisse des Suchprofils
@@ -291,10 +281,9 @@ public interface PartnerboerseAdministration extends RemoteService {
 	 * Neues Info-Objekt erstellen.
 	 * 
 	 * @param p eigenes Profil
-	 * @return Objekt von Info-Objekt
 	 * @throws IllegalArgumentException
 	 */
-	public Info createInfo(Profil p) throws IllegalArgumentException;
+	public void createInfo(Profil p) throws IllegalArgumentException;
 
 	/**
 	 * Alle Info-Objekte anzeigen.
@@ -317,30 +306,27 @@ public interface PartnerboerseAdministration extends RemoteService {
 	 * Info-Objekte bearbeiten.
 	 * 
 	 * @param info das zu bearbeitende Info-Objekt
-	 * @return bearbeitetes Info-Objekt
 	 * @throws IllegalArgumentException
 	 */
-	public Info updateInfo(Info info) throws IllegalArgumentException;
+	public void updateInfo(Info info) throws IllegalArgumentException;
 
 	/**
 	 * Info-Objekt loeschen.
 	 * 
 	 * @param info das zu loeschende Info-Objekt
-	 * @return geloeschtes Info-Objekt
 	 * @throws IllegalArgumentException
 	 */
-	public Info deleteInfo(Info info) throws IllegalArgumentException;
+	public void deleteInfo(Info info) throws IllegalArgumentException;
 
 	/**
 	 * Eigenschaft Methoden
 	 * Eigenschaft fuer das bestimmte Info-Objekt erstellen.
 	 * 
 	 * @param info Info-Objekt, auf welches sich die Eigenschaft bezieht
-	 * @return neues Eigenschafts-Objekt.
 	 * @throws IllegalArgumentException
 	 */
 
-	public Eigenschaft createEigenschaft(Info info) throws IllegalArgumentException;
+	public void createEigenschaft(Info info) throws IllegalArgumentException;
 
 	/**
 	 * Alle Eigenschafts-Objekte anzeigen.
@@ -363,19 +349,17 @@ public interface PartnerboerseAdministration extends RemoteService {
 	 * Eigenschaft bearbeiten.
 	 * 
 	 * @param eigenschaft die zu bearbeitende Eigenschaft
-	 * @return bearbeitetes Eifenschafts-Objekt
 	 * @throws IllegalArgumentException
 	 */
-	public Eigenschaft updateEigenschaft(Eigenschaft eigenschaft) throws IllegalArgumentException;
+	public void updateEigenschaft(Eigenschaft eigenschaft) throws IllegalArgumentException;
 
 	/**
 	 * Eigenschaft loeschen.
 	 * 
 	 * @param eigenschaft zu loeschendes Eigenschafts-Objekt
-	 * @return geloeschtes Eigenschafts-Objekt
 	 * @throws IllegalArgumentException
 	 */
-	public Eigenschaft deleteEigenschaft(Eigenschaft eigenschaft) throws IllegalArgumentException;
+	public void deleteEigenschaft(Eigenschaft eigenschaft) throws IllegalArgumentException;
 
 	/**
 	 * Freitext Methoden
@@ -383,10 +367,9 @@ public interface PartnerboerseAdministration extends RemoteService {
 	 * 
 	 * @param eigenschaft die Eigenschaft 
 	 * @param text der Freitext
-	 * @return neues Freitext-Objekt
 	 * @throws IllegalArgumentException
 	 */
-	public Freitext createFreitext(Eigenschaft eigenschaft, String text) throws IllegalArgumentException;
+	public void createFreitext(Eigenschaft eigenschaft, String text) throws IllegalArgumentException;
 
 	/**
 	 * Freitext anzeigen.
@@ -400,19 +383,17 @@ public interface PartnerboerseAdministration extends RemoteService {
 	 * Freitext bearbeiten
 	 * 
 	 * @param freitext zu bearbeitendes Freitext-Objekt
-	 * @return bearbeitetes Freitext
 	 * @throws IllegalArgumentException
 	 */
-	public Freitext updateFreitext(Freitext freitext) throws IllegalArgumentException;
+	public void updateFreitext(Freitext freitext) throws IllegalArgumentException;
 
 	/**
 	 * Freitext-Objekt loeschen.
 	 * 
 	 * @param freitext zu loeschendes Freitext-Objekt
-	 * @return geloeschtes Freitext-Objekt
 	 * @throws IllegalArgumentException
 	 */
-	public Freitext deleteFreitext(Freitext freitext) throws IllegalArgumentException;
+	public void deleteFreitext(Freitext freitext) throws IllegalArgumentException;
 
 	/**
 	 * Auswahl Methoden
@@ -420,10 +401,9 @@ public interface PartnerboerseAdministration extends RemoteService {
 	 * 
 	 * @param eigenschaft die Eigenschaft
 	 * @param title der Titel der Auswahl
-	 * @return neues Auswahl-Objekt
 	 * @throws IllegalArgumentException
 	 */
-	public Auswahl createAuswahl(Eigenschaft eigenschaft, String title) throws IllegalArgumentException;
+	public void createAuswahl(Eigenschaft eigenschaft, String title) throws IllegalArgumentException;
 
 	/**
 	 * Auswahl-Objekte anzeigen.
@@ -437,19 +417,17 @@ public interface PartnerboerseAdministration extends RemoteService {
 	 * Auswahl-Objekt bearbeiten.
 	 * 
 	 * @param auswahl das zu bearbeitende Auswahl-Objekt
-	 * @return bearbeitetes Auswahl-Objekt
 	 * @throws IllegalArgumentException
 	 */
-	public Auswahl updateAuswahl(Auswahl auswahl) throws IllegalArgumentException;
+	public void updateAuswahl(Auswahl auswahl) throws IllegalArgumentException;
 
 	/**
 	 * Auswahl-Objekt loeschen.
 	 * 
 	 * @param auswahl zu loeschendes Auswahl-Objekt
-	 * @return geloeschtes Auswahl-Objekt
 	 * @throws IllegalArgumentException
 	 */
-	public Auswahl deleteAuswahl(Auswahl auswahl) throws IllegalArgumentException;
+	public void deleteAuswahl(Auswahl auswahl) throws IllegalArgumentException;
 
 	/**
 	 * Element Methoden

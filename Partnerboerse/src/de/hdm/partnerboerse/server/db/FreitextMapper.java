@@ -41,7 +41,7 @@ public class FreitextMapper {
 	  }
 	  
 	  /**
-	   * Ändert/Updated einen Freitext
+	   * ï¿½ndert/Updated einen Freitext
 	   * @param freitext
 	   */
 	  public void updateFreitext(Freitext freitext){
@@ -49,7 +49,7 @@ public class FreitextMapper {
 	  }
 	  
 	  /**
-	   * Löscht einen Freitext-Eintrag aus der DB
+	   * Lï¿½scht einen Freitext-Eintrag aus der DB
 	   * @param freitext
 	   */
 	  public void deleteFreitext(Freitext freitext){
@@ -57,7 +57,7 @@ public class FreitextMapper {
 	  }
 	  
 	  /**
-	   * sucht einen Freitext-Eintrag per ID (Primärschlüssel) und gibt diesen zurück
+	   * sucht einen Freitext-Eintrag per ID (Primï¿½rschlï¿½ssel) und gibt diesen zurï¿½ck
 	   * @param id
 	   * @return
 	   */
@@ -66,7 +66,7 @@ public class FreitextMapper {
 	  }
 	  
 	  /**
-	   * Gibt alle Freitexte zurück
+	   * Gibt alle Freitexte zurï¿½ck
 	   * @return
 	   */
 	  public ArrayList<Freitext> findAll(){

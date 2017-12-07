@@ -64,7 +64,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	}
 
 	@Override
-	public Profil createProfil(int id, String vname, String nname, String haarfarbe, float kgr, boolean raucher,
+	public void createProfil(int id, String vname, String nname, String haarfarbe, float kgr, boolean raucher,
 			String religion, Date geb, String pw, String email) throws IllegalArgumentException {
 
 		Profil p = new Profil();
@@ -79,25 +79,22 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 		p.setId(id);
 		
 		this.pMapper.insert(p);
-
-		return p;
 	}
 
 	@Override
-	public Profil updateProfil(Profil p) throws IllegalArgumentException {
+	public void updateProfil(Profil p) throws IllegalArgumentException {
 		pMapper.update(p);
-		return p;
 	}
 
 	@Override
-	public Profil deleteProfil(Profil p) throws IllegalArgumentException {
+	public void deleteProfil(Profil p) throws IllegalArgumentException {
 		
 		/**
-		 * Hier muss man die ganzen Abhängigkeiten abchecken, bevor man ein Profil löscht.
-		 * z.B. muss man erst alle Merkzettel Einträge löschen, in denen das Profil vorkommt.
-		 * Erst dann kann man ein Profil löschen
+		 * Hier muss man die ganzen Abhï¿½ngigkeiten abchecken, bevor man ein Profil lï¿½scht.
+		 * z.B. muss man erst alle Merkzettel Eintrï¿½ge lï¿½schen, in denen das Profil vorkommt.
+		 * Erst dann kann man ein Profil lï¿½schen
 		 * 
-		 * Abhängigkeiten von Profil:
+		 * Abhï¿½ngigkeiten von Profil:
 		 * 
 		 * Merkzettel
 		 * Kontaktsperre
@@ -132,7 +129,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	}
 
 	@Override
-	public Merkzettel createMerkzettelEintrag(Profil source, Profil target) throws IllegalArgumentException {
+	public void createMerkzettelEintrag(Profil source, Profil target) throws IllegalArgumentException {
 
 		Merkzettel m = new Merkzettel();
 		m.setEigenprofilID(source.getId());
@@ -148,11 +145,11 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 		
 		/**
 		 * bisher ist es so, dass wir in der methode alle von einem owner haben wollen,
-		 * aber beim Mapper würde man alle zurückgeben
+		 * aber beim Mapper wï¿½rde man alle zurï¿½ckgeben
 		 * 
 		 */
 		
-		// TODO: weitere Methoden einfügen und Konflikt klären (getAll, getAllFromOwner)
+		// TODO: weitere Methoden einfï¿½gen und Konflikt klï¿½ren (getAll, getAllFromOwner)
 		
 		return this.mMapper.findAll();
 	}
@@ -165,18 +162,18 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	}
 
 	@Override
-	public Merkzettel deleteMerkzettelEintrag(Merkzettel merkzettel) throws IllegalArgumentException {
+	public void deleteMerkzettelEintrag(Merkzettel merkzettel) throws IllegalArgumentException {
 
 		/**
-		 * Da es keine unterabhängigkeiten mehr von Merkzettel gibt, kann man Einträge so 
-		 * löschen
+		 * Da es keine unterabhï¿½ngigkeiten mehr von Merkzettel gibt, kann man Eintrï¿½ge so 
+		 * lï¿½schen
 		 */
 		
 		return this.mMapper.deleteMerkzettelEintrag(merkzettel);
 	}
 
 	@Override
-	public Kontaktsperre createKontaksperreEintrag(Profil source, Profil target) throws IllegalArgumentException {
+	public void createKontaksperreEintrag(Profil source, Profil target) throws IllegalArgumentException {
 
 		Kontaktsperre k = new Kontaktsperre();
 		k.setEigenprofilID(source.getId());
@@ -208,16 +205,16 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	}
 
 	@Override
-	public Kontaktsperre deleteKontaktsperreEintraege(Kontaktsperre kontaktsperre) throws IllegalArgumentException {
+	public void deleteKontaktsperreEintraege(Kontaktsperre kontaktsperre) throws IllegalArgumentException {
 		/**
-		 * keine Abhängigkeiten, deswegen können wir es einfach löschen
+		 * keine Abhï¿½ngigkeiten, deswegen kï¿½nnen wir es einfach lï¿½schen
 		 */
 		
 		return this.kMapper.deleteKontaktsperreEintrag(kontaktsperre);
 	}
 
 	@Override
-	public Suchprofil createSuchprofil(Profil source, String haarfarbe, float kgr, boolean raucher, String religion,
+	public void createSuchprofil(Profil source, String haarfarbe, float kgr, boolean raucher, String religion,
 			int alter) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		return null;
@@ -242,13 +239,13 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	}
 
 	@Override
-	public Suchprofil updateSuchprofil(Suchprofil suchprofil) throws IllegalArgumentException {
+	public void updateSuchprofil(Suchprofil suchprofil) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Suchprofil deleteSuchprofil(Suchprofil suchprofil) throws IllegalArgumentException {
+	public void deleteSuchprofil(Suchprofil suchprofil) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -273,7 +270,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	}
 
 	@Override
-	public Info createInfo(Profil p) throws IllegalArgumentException {
+	public void createInfo(Profil p) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -291,19 +288,19 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	}
 
 	@Override
-	public Info updateInfo(Info info) throws IllegalArgumentException {
+	public void updateInfo(Info info) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Info deleteInfo(Info info) throws IllegalArgumentException {
+	public void deleteInfo(Info info) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Eigenschaft createEigenschaft(Info info) throws IllegalArgumentException {
+	public void createEigenschaft(Info info) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -321,19 +318,19 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	}
 
 	@Override
-	public Eigenschaft updateEigenschaft(Eigenschaft eigenschaft) throws IllegalArgumentException {
+	public void updateEigenschaft(Eigenschaft eigenschaft) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Eigenschaft deleteEigenschaft(Eigenschaft eigenschaft) throws IllegalArgumentException {
+	public void deleteEigenschaft(Eigenschaft eigenschaft) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Freitext createFreitext(Eigenschaft eigenschaft, String text) throws IllegalArgumentException {
+	public void createFreitext(Eigenschaft eigenschaft, String text) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -345,19 +342,19 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	}
 
 	@Override
-	public Freitext updateFreitext(Freitext freitext) throws IllegalArgumentException {
+	public void updateFreitext(Freitext freitext) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Freitext deleteFreitext(Freitext freitext) throws IllegalArgumentException {
+	public void deleteFreitext(Freitext freitext) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Auswahl createAuswahl(Eigenschaft eigenschaft, String title) throws IllegalArgumentException {
+	public void createAuswahl(Eigenschaft eigenschaft, String title) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -369,13 +366,13 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	}
 
 	@Override
-	public Auswahl updateAuswahl(Auswahl auswahl) throws IllegalArgumentException {
+	public void updateAuswahl(Auswahl auswahl) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Auswahl deleteAuswahl(Auswahl auswahl) throws IllegalArgumentException {
+	public void deleteAuswahl(Auswahl auswahl) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		return null;
 	}
