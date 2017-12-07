@@ -8,6 +8,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import de.hdm.partnerboerse.server.db.*;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
 import de.hdm.partnerboerse.shared.bo.Auswahl;
+import de.hdm.partnerboerse.shared.bo.Besuch;
 import de.hdm.partnerboerse.shared.bo.Eigenschaft;
 import de.hdm.partnerboerse.shared.bo.Element;
 import de.hdm.partnerboerse.shared.bo.Freitext;
@@ -90,7 +91,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	public void deleteProfil(Profil p) throws IllegalArgumentException {
 		
 		/**
-		 * Hier muss man die ganzen Abh�ngigkeiten abchecken, bevor man ein Profil l�scht.
+		 * Hier muss man die ganzen Abhngigkeiten abchecken, bevor man ein Profil l�scht.
 		 * z.B. muss man erst alle Merkzettel Eintr�ge l�schen, in denen das Profil vorkommt.
 		 * Erst dann kann man ein Profil l�schen
 		 * 
@@ -104,7 +105,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 		 * 
 		 */
 
-		return null;
 	}
 
 	@Override
@@ -136,8 +136,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 		m.setFremdprofilID(target.getId());
 		
 		this.mMapper.insertMerkzettelEintrag(m);
-		
-		return m;
+
 	}
 
 	@Override
@@ -169,7 +168,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 		 * l�schen
 		 */
 		
-		return this.mMapper.deleteMerkzettelEintrag(merkzettel);
+		
 	}
 
 	@Override
@@ -181,7 +180,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 		
 		this.kMapper.insertKontaktsperreEintrag(k);
 		
-		return k;
+		
 	}
 
 	@Override
@@ -210,14 +209,14 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 		 * keine Abh�ngigkeiten, deswegen k�nnen wir es einfach l�schen
 		 */
 		
-		return this.kMapper.deleteKontaktsperreEintrag(kontaktsperre);
+		
 	}
 
 	@Override
 	public void createSuchprofil(Profil source, String haarfarbe, float kgr, boolean raucher, String religion,
 			int alter) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
 
 	@Override
@@ -241,13 +240,13 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	@Override
 	public void updateSuchprofil(Suchprofil suchprofil) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
 
 	@Override
 	public void deleteSuchprofil(Suchprofil suchprofil) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		return null;
+	
 	}
 
 	@Override
@@ -272,7 +271,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	@Override
 	public void createInfo(Profil p) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
 
 	@Override
@@ -290,19 +289,19 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	@Override
 	public void updateInfo(Info info) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
 
 	@Override
 	public void deleteInfo(Info info) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
 
 	@Override
 	public void createEigenschaft(Info info) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
 
 	@Override
@@ -320,19 +319,19 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	@Override
 	public void updateEigenschaft(Eigenschaft eigenschaft) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
 
 	@Override
 	public void deleteEigenschaft(Eigenschaft eigenschaft) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
 
 	@Override
 	public void createFreitext(Eigenschaft eigenschaft, String text) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
 
 	@Override
@@ -344,19 +343,19 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	@Override
 	public void updateFreitext(Freitext freitext) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
 
 	@Override
 	public void deleteFreitext(Freitext freitext) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
 
 	@Override
 	public void createAuswahl(Eigenschaft eigenschaft, String title) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
 
 	@Override
@@ -368,13 +367,13 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	@Override
 	public void updateAuswahl(Auswahl auswahl) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
 
 	@Override
 	public void deleteAuswahl(Auswahl auswahl) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
 
 	@Override
@@ -386,4 +385,66 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	public Element getElementByID(int id) throws IllegalArgumentException {
 		return this.elMapper.findByKey(id);
 	}
+
+  @Override
+  public ArrayList<Kontaktsperre> findKontaktsperrenOf(Profil profilowner)
+      throws IllegalArgumentException {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public ArrayList<Merkzettel> findMerkzettelnOf(Profil profilowner)
+      throws IllegalArgumentException {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public ArrayList<Besuch> findBesucheOfe(Profil profilowner) throws IllegalArgumentException {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public ArrayList<Suchprofil> findSuchprofileOf(Profil profilowner)
+      throws IllegalArgumentException {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public ArrayList<Info> findInfoOf(Profil profilowner) throws IllegalArgumentException {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public ArrayList<Info> findEigenschaftsInfosOf(Eigenschaft eigenschaft)
+      throws IllegalArgumentException {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public ArrayList<Freitext> findFreitextOf(Eigenschaft eigenschaft)
+      throws IllegalArgumentException {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public ArrayList<Eigenschaft> findAuswahlOf(Eigenschaft eigenschaft)
+      throws IllegalArgumentException {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public ArrayList<Auswahl> findElementeOf(Auswahl auswahl) throws IllegalArgumentException {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+
 }

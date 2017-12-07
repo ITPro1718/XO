@@ -5,6 +5,7 @@ import java.util.Date;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 import de.hdm.partnerboerse.shared.bo.Auswahl;
+import de.hdm.partnerboerse.shared.bo.Besuch;
 import de.hdm.partnerboerse.shared.bo.Eigenschaft;
 import de.hdm.partnerboerse.shared.bo.Element;
 import de.hdm.partnerboerse.shared.bo.Freitext;
@@ -445,5 +446,23 @@ public interface PartnerboerseAdministration extends RemoteService {
 	 * @throws IllegalArgumentException
 	 */
 	public Element getElementByID(int id) throws IllegalArgumentException;
+	
+	public ArrayList<Kontaktsperre> findKontaktsperrenOf(Profil profilowner) throws IllegalArgumentException;
+	
+	public ArrayList<Merkzettel> findMerkzettelnOf(Profil profilowner) throws IllegalArgumentException;
+	
+	public ArrayList<Besuch> findBesucheOfe(Profil profilowner) throws IllegalArgumentException;
+	
+	public ArrayList<Suchprofil> findSuchprofileOf(Profil profilowner) throws IllegalArgumentException;
+	
+	public ArrayList<Info> findInfoOf(Profil profilowner) throws IllegalArgumentException;
+	
+	public ArrayList<Info> findEigenschaftsInfosOf(Eigenschaft eigenschaft) throws IllegalArgumentException;
+	
+	public ArrayList<Freitext> findFreitextOf(Eigenschaft eigenschaft) throws IllegalArgumentException;
+	
+	public ArrayList<Eigenschaft> findAuswahlOf(Eigenschaft eigenschaft) throws IllegalArgumentException;
+	
+	public ArrayList<Auswahl> findElementeOf(Auswahl auswahl) throws IllegalArgumentException;
 
 }

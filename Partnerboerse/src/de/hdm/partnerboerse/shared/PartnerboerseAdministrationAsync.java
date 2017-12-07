@@ -6,6 +6,7 @@ import java.util.Date;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.hdm.partnerboerse.shared.bo.Auswahl;
+import de.hdm.partnerboerse.shared.bo.Besuch;
 import de.hdm.partnerboerse.shared.bo.Eigenschaft;
 import de.hdm.partnerboerse.shared.bo.Element;
 import de.hdm.partnerboerse.shared.bo.Freitext;
@@ -106,5 +107,23 @@ public interface PartnerboerseAdministrationAsync {
 	void updateProfil(Profil p, AsyncCallback<Void> callback);
 
 	void updateSuchprofil(Suchprofil suchprofil, AsyncCallback<Void> callback);
+
+  void findKontaktsperrenOf(Profil profilowner, AsyncCallback<ArrayList<Kontaktsperre>> callback);
+
+  void findBesucheOfe(Profil profilowner, AsyncCallback<ArrayList<Besuch>> callback);
+
+  void findMerkzettelnOf(Profil profilowner, AsyncCallback<ArrayList<Merkzettel>> callback);
+
+  void findSuchprofileOf(Profil profilowner, AsyncCallback<ArrayList<Suchprofil>> callback);
+
+  void findInfoOf(Profil profilowner, AsyncCallback<ArrayList<Info>> callback);
+
+  void findEigenschaftsInfosOf(Eigenschaft eigenschaft, AsyncCallback<ArrayList<Info>> callback);
+
+  void findFreitextOf(Eigenschaft eigenschaft, AsyncCallback<ArrayList<Freitext>> callback);
+
+  void findAuswahlOf(Eigenschaft eigenschaft, AsyncCallback<ArrayList<Eigenschaft>> callback);
+
+  void findElementeOf(Auswahl auswahl, AsyncCallback<ArrayList<Auswahl>> callback);
 
 }
