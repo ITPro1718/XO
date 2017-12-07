@@ -446,4 +446,5 @@ public interface PartnerboerseAdministration extends RemoteService {
 	 */
 	public Element getElementByID(int id) throws IllegalArgumentException;
 
+
 }

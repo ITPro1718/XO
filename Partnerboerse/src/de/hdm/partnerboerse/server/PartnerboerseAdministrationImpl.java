@@ -90,7 +90,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	public void deleteProfil(Profil p) throws IllegalArgumentException {
 		
 		/**
-		 * Hier muss man die ganzen Abh�ngigkeiten abchecken, bevor man ein Profil l�scht.
+		 * Hier muss man die ganzen Abhängigkeiten abchecken, bevor man ein Profil l�scht.
 		 * z.B. muss man erst alle Merkzettel Eintr�ge l�schen, in denen das Profil vorkommt.
 		 * Erst dann kann man ein Profil l�schen
 		 * 
@@ -104,7 +104,8 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 		 * 
 		 */
 
-		return null;
+		
+		
 	}
 
 	@Override
