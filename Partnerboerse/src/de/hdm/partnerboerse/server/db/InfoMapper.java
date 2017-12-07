@@ -1,8 +1,14 @@
 package de.hdm.partnerboerse.server.db;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import de.hdm.partnerboerse.shared.bo.Info;
+import de.hdm.partnerboerse.shared.bo.Merkzettel;
+import de.hdm.partnerboerse.shared.bo.Suchprofil;
 
 public class InfoMapper {
 
@@ -37,7 +43,26 @@ public class InfoMapper {
 	   * @return
 	   */
 	  public Info findByKey(int id){
-		  return null;
+		  Connection con = DBConnection.getConnection();
+
+			try {
+				Statement stmt = con.createStatement();
+
+				ResultSet rs = stmt.executeQuery("SELECT * FROM info" + "WHERE id=" + id);
+				if (rs.next()) {
+					Info i = new Info();
+					i.setId(id);
+					i.setEigenprofilID(rs.getInt("epID"));
+					i.setEigenschaftsID(rs.getInt("eigenschaftID"));
+					i.setText(rs.getString("bezeichnung"));
+					
+					return i;
+				}
+			} catch (SQLException e2) {
+				e2.printStackTrace();
+				return null;
+			}
+			return null;
 	  }
 	  
 	  /**
@@ -45,11 +70,48 @@ public class InfoMapper {
 	   * @return
 	   */
 	  public ArrayList<Info> findAll(){
-		  return null;
+		  ArrayList result = new ArrayList<>();
+
+			Connection con = DBConnection.getConnection();
+			try {
+				
+				Statement stmt = con.createStatement();
+
+				ResultSet rs = stmt.executeQuery("SELECT * FROM info"+ "ORDER BY id");
+
+				
+				while (rs.next()) {
+					Info i = new Info();
+					
+					i.setId(rs.getInt("id"));
+					i.setEigenprofilID(rs.getInt("epID"));
+					i.setEigenschaftsID(rs.getInt("eigenschaftID"));
+					i.setText(rs.getString("bezeichnung"));
+
+					
+					result.add(i);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+
+			
+			return result;
+		 
 	  }
+	  
+	  
 
     public void deleteInfo(Info info) {
-      // TODO Auto-generated method stub
+    	Connection con = DBConnection.getConnection();
+
+		try {
+			Statement stmt = con.createStatement();
+
+			stmt.executeUpdate("DELETE FROM info " + "WHERE id=" + info.getId());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
       
     }
 
