@@ -206,9 +206,9 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	@Override
 	public void deleteKontaktsperreEintraege(Kontaktsperre kontaktsperre) throws IllegalArgumentException {
 		/**
-		 * keine Abhï¿½ngigkeiten, deswegen kï¿½nnen wir es einfach lï¿½schen
+		 * keine Abhängigkeiten, deswegen können wir es einfach löschen
 		 */
-		
+	  this.kMapper.deleteKontaktsperreEintrag(kontaktsperre);
 		
 	}
 
@@ -245,7 +245,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 
 	@Override
 	public void deleteSuchprofil(Suchprofil suchprofil) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+		this.sMapper.deleteSuchprofil(suchprofil);
 	
 	}
 
@@ -294,7 +294,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 
 	@Override
 	public void deleteInfo(Info info) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+		this.iMapper.deleteInfo(info);
 		
 	}
 
@@ -372,7 +372,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 
 	@Override
 	public void deleteAuswahl(Auswahl auswahl) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
 		
 	}
 

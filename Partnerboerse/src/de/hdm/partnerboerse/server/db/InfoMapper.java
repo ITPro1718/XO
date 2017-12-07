@@ -48,4 +48,9 @@ public class InfoMapper {
 		  return null;
 	  }
 
+    public void deleteInfo(Info info) {
+      // TODO Auto-generated method stub
+      
+    }
+
 }
