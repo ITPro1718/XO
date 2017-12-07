@@ -465,4 +465,5 @@ public interface PartnerboerseAdministration extends RemoteService {
 	
 	public ArrayList<Auswahl> findElementeOf(Auswahl auswahl) throws IllegalArgumentException;
 
+
 }
