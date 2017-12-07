@@ -9,8 +9,7 @@ import de.hdm.partnerboerse.shared.bo.Profil;
 import de.hdm.partnerboerse.shared.bo.Suchprofil;
 import de.hdm.partnerboerse.shared.report.AllNotSeenProfilesReport;
 import de.hdm.partnerboerse.shared.report.SuchprofilReport;
-import de.hdm.thies.bankProjekt.server.BankAdministrationImpl;
-import de.hdm.thies.bankProjekt.shared.BankAdministration;
+
 
 /**
  * The server-side implementation of the RPC service.
