@@ -104,7 +104,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 		 * Info
 		 * 
 		 */
-
+	}
 
 	@Override
 	public ArrayList<Profil> getProfilByName(String name) throws IllegalArgumentException {
