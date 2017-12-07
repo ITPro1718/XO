@@ -67,6 +67,7 @@ public interface PartnerboerseAdministration extends RemoteService {
 	public void updateProfil(Profil p) throws IllegalArgumentException;
 
 	/**
+	 * 
 	 * Profil loeschen.
 	 * 
 	 * @param p
@@ -126,11 +127,10 @@ public interface PartnerboerseAdministration extends RemoteService {
 	/**
 	 * Merkzettel mit allen Eintraegen anzeigen.
 	 * 
-	 * @param p gemerkte Profile, alle Merkzetteleintraege
 	 * @return alle gemerkten Profile, alle Merkzetteleintraege
 	 * @throws IllegalArgumentException
 	 */
-	public ArrayList<Merkzettel> getAllMerkzettelEintraege(Profil p) throws IllegalArgumentException;
+	public ArrayList<Merkzettel> getAllMerkzettelEintraege() throws IllegalArgumentException;
 
 	/**
 	 * Merkzetteleintrag (gemerkte Profile) mit bestimmter ID anzeigen.

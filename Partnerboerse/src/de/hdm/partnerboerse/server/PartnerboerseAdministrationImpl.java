@@ -104,6 +104,37 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 		 * Info
 		 * 
 		 */
+		
+		ArrayList<Merkzettel> merkzettel = this.findMerkzettelnOf(p);
+		ArrayList<Kontaktsperre> kontaktsperren = this.findKontaktsperrenOf(p);
+		ArrayList<Besuch> besuche = this.findBesucheOfe(p);
+		ArrayList<Suchprofil> suchprofile = this.findSuchprofileOf(p);
+		ArrayList<Info> infos = this.findInfoOf(p);
+		
+		
+		if (merkzettel != null){
+			for (Merkzettel m : merkzettel){
+				this.deleteMerkzettelEintrag(m);
+			}
+		}
+		
+		if (kontaktsperren != null){
+			for (Kontaktsperre k : kontaktsperren){
+				this.deleteKontaktsperreEintraege(k);
+			}
+		}
+		
+//		if (besuche != null){
+//			for (Besuch b : besuche){
+//				this.deleteBesuche(b)
+//			}
+//		}
+		
+		
+
+		
+		
+		this.pMapper.delete(p);
 	  
 	}
 
@@ -140,15 +171,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	}
 
 	@Override
-	public ArrayList<Merkzettel> getAllMerkzettelEintraege(Profil p) throws IllegalArgumentException {
-		
-		/**
-		 * bisher ist es so, dass wir in der methode alle von einem owner haben wollen,
-		 * aber beim Mapper w�rde man alle zur�ckgeben
-		 * 
-		 */
-		
-		// TODO: weitere Methoden einf�gen und Konflikt kl�ren (getAll, getAllFromOwner)
+	public ArrayList<Merkzettel> getAllMerkzettelEintraege() throws IllegalArgumentException {
 		
 		return this.mMapper.findAll();
 	}
@@ -163,10 +186,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	@Override
 	public void deleteMerkzettelEintrag(Merkzettel merkzettel) throws IllegalArgumentException {
 
-		/**
-		 * Da es keine unterabh�ngigkeiten mehr von Merkzettel gibt, kann man Eintr�ge so 
-		 * l�schen
-		 */
+		this.mMapper.deleteMerkzettelEintrag(merkzettel);
 		
 		
 	}
