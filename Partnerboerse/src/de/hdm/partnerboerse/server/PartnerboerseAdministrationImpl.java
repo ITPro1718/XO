@@ -104,6 +104,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 		 * Info
 		 * 
 		 */
+	  
 	}
 
 	@Override
