@@ -219,6 +219,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 		 * 
 		 * TODO: findByOwner und findAll 
 		 */
+		//Übergabewert aus interface und impl löschen Profil p
 		
 		return this.kMapper.findAll();
 	}
@@ -259,25 +260,25 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 
 	@Override
 	public ArrayList<Suchprofil> getAllSuchprofile(Profil p) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+		//Übergabewert aus interface und impl löschen Profil p
+		return this.sMapper.findAll();
 	}
 
 	@Override
 	public Suchprofil getSuchprofilByID(int id) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return this.sMapper.findByKey(id);
 	}
 
 	@Override
 	public Suchprofil getSuchprofilByTitle(String title) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+		// findSuchprofilByTitle fehlt noch im Mapper
 		return null;
 	}
 
 	@Override
 	public void updateSuchprofil(Suchprofil suchprofil) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+		this.sMapper.updateSuchprofil(suchprofil);
 		
 	}
 
@@ -308,25 +309,29 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 
 	@Override
 	public void createInfo(Profil p) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		
+		//Übergabewerte müssen Bezeichnung und eigenprofilid enthalten.
+		Info i = new Info();
+		//i.setEigenprofilID(eigenprofilID); Alternative wenn wir nur ID und Bezeichnung übergeben
+		int eiID = p.getId();
+		i.setEigenprofilID(eiID);
+		//i.setText(text); Bezeichnung fehlt im Methodenkopf als Übergabewert
+		//this.iMapper.insertInfo(i); insert-Methode fehlt in Mapper klasse, Update-Methode auch (falls Eigenschaften gelöscht werden ändert sich das Infoobjekt etc.)
 	}
 
 	@Override
 	public ArrayList<Info> getAllInfos() throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+		return this.iMapper.findAll();
+		
 	}
 
 	@Override
 	public Info getInfoByID(int id) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+		return this.iMapper.findByKey(id);
 	}
 
 	@Override
 	public void updateInfo(Info info) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+		//  Methode fehlt in Mapperklasse 
 		
 	}
 
@@ -338,19 +343,19 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 
 	@Override
 	public void createEigenschaft(Info info) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+		// brauchen wir hier nicht ain Auswahl auswahl Übergabewert um die auswahlID dem EIgenschaftsobjekt hinzuzufügen nicht die INfo id .
 		
 	}
 
 	@Override
 	public ArrayList<Eigenschaft> getAllEigenschaften() throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
 	@Override
 	public Eigenschaft getEigenschaftByID(int id) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
@@ -426,60 +431,62 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
   @Override
   public ArrayList<Kontaktsperre> findKontaktsperrenOf(Profil profilowner)
       throws IllegalArgumentException {
-    // TODO Auto-generated method stub
-    return null;
+    // Methode in Mapperklasse fehlt, die eine Arraylist von Kontaktsperren des profilowners zurück gibt.
+	  //Übergabewert int id würde reichen um Profil zu identifizieren, statt Profilobjekt
+	  return null;
   }
 
   @Override
   public ArrayList<Merkzettel> findMerkzettelnOf(Profil profilowner)
       throws IllegalArgumentException {
-    // TODO Auto-generated method stub
+	// Methode in Mapperklasse fehlt, die eine Arraylist von Merkzetteln des profilowners zurück gibt.
+		  //Übergabewert int id würde reichen um Profil zu identifizieren, statt Profilobjekt
     return null;
   }
 
   @Override
   public ArrayList<Besuch> findBesucheOfe(Profil profilowner) throws IllegalArgumentException {
-    // TODO Auto-generated method stub
+    // siehe findMerkzettelnOf
     return null;
   }
 
   @Override
   public ArrayList<Suchprofil> findSuchprofileOf(Profil profilowner)
       throws IllegalArgumentException {
-    // TODO Auto-generated method stub
+	// siehe findMerkzettelnOf
     return null;
   }
 
   @Override
   public ArrayList<Info> findInfoOf(Profil profilowner) throws IllegalArgumentException {
-    // TODO Auto-generated method stub
+	// siehe findMerkzettelnOf
     return null;
   }
 
   @Override
   public ArrayList<Info> findEigenschaftsInfosOf(Eigenschaft eigenschaft)
       throws IllegalArgumentException {
-    // TODO Auto-generated method stub
+	// siehe findMerkzettelnOf
     return null;
   }
 
   @Override
   public ArrayList<Freitext> findFreitextOf(Eigenschaft eigenschaft)
       throws IllegalArgumentException {
-    // TODO Auto-generated method stub
+	// siehe findMerkzettelnOf
     return null;
   }
 
   @Override
   public ArrayList<Eigenschaft> findAuswahlOf(Eigenschaft eigenschaft)
       throws IllegalArgumentException {
-    // TODO Auto-generated method stub
+	// siehe findMerkzettelnOf
     return null;
   }
 
   @Override
   public ArrayList<Auswahl> findElementeOf(Auswahl auswahl) throws IllegalArgumentException {
-    // TODO Auto-generated method stub
+	// siehe findMerkzettelnOf
     return null;
   }
 
