@@ -68,8 +68,8 @@ public class AuswahlMapper {
 				stmt = con.createStatement();
 
 				// Das ist die eigentliche Einfüg-Funktion
-				stmt.executeUpdate("INSERT INTO auswahl(id, titel) " + "VALUES (" + auswahl.getId() + ","
-						+ auswahl.getTitel() + ")");
+				stmt.executeUpdate("INSERT INTO auswahl(id, titel) " + "VALUES (" + auswahl.getId() + ", '"
+						+ auswahl.getTitel() + "')");
 			}
 		} catch (SQLException e2) {
 			e2.printStackTrace();
@@ -88,7 +88,7 @@ public class AuswahlMapper {
 		try {
 			Statement stmt = con.createStatement();
 			stmt.executeUpdate(
-					"UPDATE auswahl" + "SET titel=\"" + auswahl.getTitel() + "\"" + "WHERE id=" + auswahl.getId());
+					"UPDATE auswahl" + " SET titel=\"" + auswahl.getTitel() + "\"" + " WHERE id=" + auswahl.getId());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -107,7 +107,7 @@ public class AuswahlMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			stmt.executeUpdate("DELETE FROM auswahl" + "WHERE id=" + auswahl.getId());
+			stmt.executeUpdate("DELETE FROM auswahl WHERE id=" + auswahl.getId());
 		} catch (SQLException e2) {
 			e2.printStackTrace();
 		}
@@ -127,7 +127,7 @@ public class AuswahlMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			ResultSet rs = stmt.executeQuery("SELECT id, titel FROM auswahl" + "WHERE id=" + id );
+			ResultSet rs = stmt.executeQuery("SELECT id, titel FROM auswahl WHERE id=" + id);
 			if (rs.next()) {
 				Auswahl a = new Auswahl();
 				a.setId(rs.getInt("id"));
