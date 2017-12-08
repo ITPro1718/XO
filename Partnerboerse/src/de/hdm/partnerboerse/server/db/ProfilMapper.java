@@ -7,7 +7,7 @@ import de.hdm.partnerboerse.shared.bo.*;
 
 /**
  * Mapper-Klasse, die Profil Objekte in die Datenbank schreibt, bzw. Daten aus der Datenbank holt
- * und in Objekten speichert. Diese Klasse enthält die typischen CRUD-Methoden
+ * und in Objekten speichert. Diese Klasse enthï¿½lt die typischen CRUD-Methoden
  * 
  * @author Burghardt, Mikulic
  */
@@ -51,26 +51,31 @@ public class ProfilMapper {
 
     try {
       
-      // PreparedStatement anlegen, welches den SQL Befehl enthält
-      PreparedStatement stmt = con.prepareStatement("SQL Befehl WHERE id = ?");
+      // PreparedStatement anlegen, welches den SQL Befehl enthï¿½lt
+      PreparedStatement stmt = con.prepareStatement("SELECT * FROM profil WHERE id =?");
       
-      // Platzhalter (Fragezeichen) mit Werten befüllen
+      // Platzhalter (Fragezeichen) mit Werten befï¿½llen
       stmt.setInt(1, id);
 
-      // Query ausführen und Rückgabe dem ResultSet rs zuweisen
+      // Query ausfï¿½hren und Rï¿½ckgabe dem ResultSet rs zuweisen
       ResultSet rs = stmt.executeQuery();
 
       /*
        * Tupel aus der Datenbank abfangen
        */
       if (rs.next()) {
-        // Ergebnis-Tupel in Objekt umwandeln und durch Setter befüllen.
+        // Ergebnis-Tupel in Objekt umwandeln und durch Setter befï¿½llen.
         Profil p = new Profil();
         p.setId(rs.getInt("id"));
         p.setVorname(rs.getString("vorname"));
         p.setNachname(rs.getString("nachname"));
+        p.setEmail(rs.getString("email"));
+        p.setPasswort(rs.getString("passwort"));
+        p.setGeburtsdatum(rs.getDate("geburtstag"));
         p.setRaucher(rs.getBoolean("raucher"));
-        // und so weiter....
+        p.setHaarfarbe(rs.getString("haarfarbe"));
+        p.setKoerpergroesse((double) rs.getInt("koerpergroesse"));
+        p.setReligion(rs.getString("religion"));
         return p;
       }
     }
@@ -97,20 +102,25 @@ public class ProfilMapper {
     ArrayList<Profil> result = new ArrayList<Profil>();
 
     try {
-      PreparedStatement stmt = con.prepareStatement("SQL BEFEHL");
+      PreparedStatement stmt = con.prepareStatement("SELECT * FROM profil");
 
       ResultSet rs = stmt.executeQuery();
 
       // FÃ¼r jeden Eintrag im Suchergebnis wird nun ein Account-Objekt erstellt.
       while (rs.next()) {
     	  Profil p = new Profil();
-          p.setId(rs.getInt("id"));
+    	  p.setId(rs.getInt("id"));
           p.setVorname(rs.getString("vorname"));
           p.setNachname(rs.getString("nachname"));
+          p.setEmail(rs.getString("email"));
+          p.setPasswort(rs.getString("passwort"));
+          p.setGeburtsdatum(rs.getDate("geburtstag"));
           p.setRaucher(rs.getBoolean("raucher"));
-          // und so weiter....
+          p.setHaarfarbe(rs.getString("haarfarbe"));
+          p.setKoerpergroesse((double) rs.getInt("koerpergroesse"));
+          p.setReligion(rs.getString("religion"));
 
-          // HinzufÃ¼gen des neuen Objekts zum Ergebnisvektor
+          // HinzufÃ¼gen des neuen Objekts zum Ergebnisarraylist
           result.add(p);
       }
     }
@@ -127,7 +137,7 @@ public class ProfilMapper {
 	    ArrayList<Profil> result = new ArrayList<Profil>();
 
 	    try {
-	      PreparedStatement stmt = con.prepareStatement("SQL BEFEHL");
+	      PreparedStatement stmt = con.prepareStatement("SELECT * FROM profil WHERE nachname = ?");
 	      stmt.setString(1, name);
 
 	      ResultSet rs = stmt.executeQuery();
@@ -137,11 +147,16 @@ public class ProfilMapper {
 	      while (rs.next()) {
 	    	  while (rs.next()) {
 	        	  Profil p = new Profil();
-	              p.setId(rs.getInt("id"));
+	        	  p.setId(rs.getInt("id"));
 	              p.setVorname(rs.getString("vorname"));
 	              p.setNachname(rs.getString("nachname"));
+	              p.setEmail(rs.getString("email"));
+	              p.setPasswort(rs.getString("passwort"));
+	              p.setGeburtsdatum(rs.getDate("geburtstag"));
 	              p.setRaucher(rs.getBoolean("raucher"));
-	              // und so weiter....
+	              p.setHaarfarbe(rs.getString("haarfarbe"));
+	              p.setKoerpergroesse((double) rs.getInt("koerpergroesse"));
+	              p.setReligion(rs.getString("religion"));
 
 	              // HinzufÃ¼gen des neuen Objekts zum Ergebnisvektor
 	              result.add(p);
@@ -159,7 +174,7 @@ public class ProfilMapper {
   
 
   /**
-   * Einfügen eines Profils in die Datenbank
+   * Einfï¿½gen eines Profils in die Datenbank
    * 
    * @param p das zu speichernde Profil-Objekt
    * 
@@ -168,31 +183,23 @@ public class ProfilMapper {
 	  Connection con = DBConnection.getConnection();
 	  
 	  try {	
-		  // Erstellt Prepared Statement, um herauszufinden, was die höchste benutzte ID ist
-		  PreparedStatement stmt = con.prepareStatement("SQL BEFEHL");
+		  // Erstellt Prepared Statement, um herauszufinden, was die hï¿½chste benutzte ID ist
+		  PreparedStatement stmt = con.prepareStatement("SELECT MAX(id) AS maxid FROM profil)");
 	      
 	      ResultSet rs = stmt.executeQuery();
 
 	      // Wenn wir etwas zurÃ¼ckerhalten, kann dies nur einzeilig sein
 	      if (rs.next()) {
-	        // Profil-Objekt erhält die höchste ID + 1
+	        // Profil-Objekt erhï¿½lt die hï¿½chste ID + 1
 	        p.setId(rs.getInt("maxid") + 1);
 	        
-	    /**
-	     * Nun fangen wir erst an, das Profil in die Datenbank zu schreiben!    
-	     */
-	        
-	    // Prepared-Statement erstellen, inklusive SQL Befehl
-	    PreparedStatement stmt1 = con.prepareStatement("INSERT INTO profil (id, name) VALUES (?,?)");
-	    
-	    // Platzhalter (Fragezeichen), mit Werten aus dem Objekt befüllen
-		stmt1.setInt(1, p.getId());
-		stmt1.setString(2, p.getVorname());
+	        Statement stmt1 = con.createStatement();
+	        stmt1.executeUpdate("INSERT INTO profil (id, email, passwort, vorname, nachname, geburtstag, haarfarbe, koerpergroesse, raucher, religion) " 
+				  										+ "VALUES (" + p.getId() + "," + p.getEmail() + "," + p.getPasswort() + "," + p.getVorname() + "," + p.getNachname()
+				  										+ "," + p.getGeburtsdatum() + "," + p.getHaarfarbe() + "," + (int) p.getKoerpergroesse() + "," + p.isRaucher()
+				  										+ "," + p.getReligion() + ")");
 		
-		// Ausführen des SQL Befehls
-		stmt1.executeUpdate();
-		
-	  } 
+	      } 
 	  }
 	  catch (SQLException e) {
 		e.printStackTrace();
@@ -211,10 +218,19 @@ public class ProfilMapper {
     try {
     	
     	// PreparedStatement inkl. SQL Befehl erstellen
-    	PreparedStatement stmt = con.prepareStatement("SQL BEFEHL");
+    	PreparedStatement stmt = con.prepareStatement("UPDATE profil SET email=?, passwort=?, vorname=?, nachname=?, geburtstag=?,"
+    			+ "haarfarbe=?, koerpergroesse=?, raucher=?, religion=? WHERE id = ?");
+    	stmt.setString(1, p.getEmail());
+    	stmt.setString(2, p.getPasswort());
+    	stmt.setString(3, p.getVorname());
+    	stmt.setString(4, p.getNachname());
+    	stmt.setDate(5, (Date) p.getGeburtsdatum());
+    	stmt.setString(6, p.getHaarfarbe());
+    	stmt.setInt(7, (int) p.getKoerpergroesse());
+    	stmt.setBoolean(8, p.isRaucher());
+    	stmt.setString(9, p.getReligion());
+    	stmt.setInt(10, p.getId());
     	
-    	// Platzhalter (Fragezeichen mit Werten aus dem Objekt befüllen
-    	stmt.setString(1, p.getNachname());
 
     }
     catch (SQLException e2) {
@@ -223,21 +239,21 @@ public class ProfilMapper {
   }
 
   /**
-   * Löschen der Daten eines Profils aus der Datenbank
+   * Lï¿½schen der Daten eines Profils aus der Datenbank
    * 
-   * @param p, das zu löschende Objekt
+   * @param p, das zu lï¿½schende Objekt
    */
   public void delete(Profil p) {
     Connection con = DBConnection.getConnection();
 
     try {
     	// PreparedStatement inkl SQL Befehl erstellen
-      PreparedStatement stmt = con.prepareStatement("SQL BEFEHL");
+      PreparedStatement stmt = con.prepareStatement("DELETE FROM profil WHERE id = ?");
       
-      // Platzhalter mit ID aus dem Objekt befüllen
+      // Platzhalter mit ID aus dem Objekt befï¿½llen
       stmt.setInt(1, p.getId());     
 
-      // Statement ausführen
+      // Statement ausfï¿½hren
       stmt.executeUpdate();
 
     }
