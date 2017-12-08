@@ -92,7 +92,6 @@ public class AuswahlMapper {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	/**
@@ -106,7 +105,6 @@ public class AuswahlMapper {
 
 		try {
 			Statement stmt = con.createStatement();
-
 			stmt.executeUpdate("DELETE FROM auswahl WHERE id=" + auswahl.getId());
 		} catch (SQLException e2) {
 			e2.printStackTrace();
