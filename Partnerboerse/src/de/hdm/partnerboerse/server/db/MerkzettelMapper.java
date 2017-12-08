@@ -1,8 +1,13 @@
 package de.hdm.partnerboerse.server.db;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import de.hdm.partnerboerse.shared.bo.Merkzettel;
+import de.hdm.partnerboerse.shared.bo.Suchprofil;
 
 public class MerkzettelMapper {
 
@@ -36,17 +41,46 @@ public class MerkzettelMapper {
 	   * Speichert einen MerkzettelEintrag in der DB
 	   * @param merkzettel
 	   */
-	  public Merkzettel insertMerkzettelEintrag(Merkzettel merkzettel){
-		  return null;
-	  }
+	  public void insertMerkzettelEintrag(Merkzettel merkzettel){
+		  Connection con = DBConnection.getConnection();
+
+		try {
+			Statement stmt = con.createStatement();
+
+			
+			ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid " + "FROM merkzettel");
+
+			if (rs.next()) {
+				
+				merkzettel.setId(rs.getInt("maxid") + 1);
+				stmt = con.createStatement();
+
+				
+				stmt.executeUpdate("INSERT INTO merkzettel(id, epID, fpID) " + "VALUES (" + merkzettel.getId() + ","
+						+ merkzettel.getEigenprofilID() +  "," + merkzettel.getFremdprofilID() +  ")");
+			}
+		} catch (SQLException e2) {
+			e2.printStackTrace();
+		}
+	}
+		  
 	  
 	  /**
 	   * Löscht einen MerkzettelEintrag in der DB
 	   * @param merkzettel
 	 * @return 
 	   */
-	  public Merkzettel deleteMerkzettelEintrag(Merkzettel merkzettel){
-		  return null;
+	  public void deleteMerkzettelEintrag(Merkzettel merkzettel){
+		  Connection con = DBConnection.getConnection();
+
+			try {
+				Statement stmt = con.createStatement();
+
+				stmt.executeUpdate("DELETE FROM merkzettel " + "WHERE id=" + merkzettel.getId());
+			} 
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
 	  }
 	  
 	  /**
@@ -55,7 +89,25 @@ public class MerkzettelMapper {
 	   * @return
 	   */
 	  public Merkzettel findByKey(int id){
-		  return null;
+			Connection con = DBConnection.getConnection();
+
+			try {
+				Statement stmt = con.createStatement();
+
+				ResultSet rs = stmt.executeQuery("SELECT * FROM merkzettel" + "WHERE id=" + id);
+				if (rs.next()) {
+					Merkzettel m = new Merkzettel();
+					m.setId(id);
+					m.setEigenprofilID(rs.getInt("epID"));
+					m.setFremdprofilID(rs.getInt("fpID"));
+					
+					return m;
+				}
+			} catch (SQLException e2) {
+				e2.printStackTrace();
+				return null;
+			}
+			return null;
 	  }
 	  
 	  /**
@@ -63,6 +115,32 @@ public class MerkzettelMapper {
 	   * @return
 	   */
 	  public ArrayList<Merkzettel> findAll(){
-		  return null;
+		  ArrayList result = new ArrayList<>();
+
+			Connection con = DBConnection.getConnection();
+			try {
+				
+				Statement stmt = con.createStatement();
+
+				ResultSet rs = stmt.executeQuery("SELECT * FROM merkzettel"+ "ORDER BY id");
+
+				
+				while (rs.next()) {
+					Merkzettel m = new Merkzettel();
+					m.setId(rs.getInt("id"));
+					m.setEigenprofilID(rs.getInt("epID"));
+					m.setFremdprofilID(rs.getInt("fpID"));
+					
+
+					
+					result.add(m);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+
+			
+			return result;
+		 
 	  }
 }

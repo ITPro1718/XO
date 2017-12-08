@@ -1,8 +1,13 @@
 package de.hdm.partnerboerse.server.db;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import de.hdm.partnerboerse.shared.bo.Kontaktsperre;
+import de.hdm.partnerboerse.shared.bo.Merkzettel;
 
 public class KontaktsperreMapper {
 
@@ -37,6 +42,26 @@ public class KontaktsperreMapper {
 	   * @param kontaktsperre
 	   */
 	  public void insertKontaktsperreEintrag(Kontaktsperre kontaktsperre){
+		  Connection con = DBConnection.getConnection();
+
+			try {
+				Statement stmt = con.createStatement();
+
+				
+				ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid " + "FROM kontaktsperre");
+
+				if (rs.next()) {
+					
+					kontaktsperre.setId(rs.getInt("maxid") + 1);
+					stmt = con.createStatement();
+
+					
+					stmt.executeUpdate("INSERT INTO kontaktsperre (id, epID, fpID) " + "VALUES (" + kontaktsperre.getId() + ","
+							+ kontaktsperre.getEigenprofilID() +  "," + kontaktsperre.getFremdprofilID() +  ")");
+				}
+			} catch (SQLException e2) {
+				e2.printStackTrace();
+			}
 		  
 	  }
 	  
@@ -45,8 +70,16 @@ public class KontaktsperreMapper {
 	   * @param kontaktsperre
 	 * @return 
 	   */
-	  public Kontaktsperre deleteKontaktsperreEintrag(Kontaktsperre kontaktsperre){
-		return null;
+	  public void deleteKontaktsperreEintrag(Kontaktsperre kontaktsperre){
+		  Connection con = DBConnection.getConnection();
+
+			try {
+				Statement stmt = con.createStatement();
+
+				stmt.executeUpdate("DELETE FROM kontaktsperre" + "WHERE id=" + kontaktsperre.getId());
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		  
 	  }
 	  
@@ -56,7 +89,25 @@ public class KontaktsperreMapper {
 	   * @return
 	   */
 	  public Kontaktsperre findByKey(int id){
-		  return null;
+		  Connection con = DBConnection.getConnection();
+
+			try {
+				Statement stmt = con.createStatement();
+
+				ResultSet rs = stmt.executeQuery("SELECT * FROM kontaktsperre" + "WHERE id=" + id);
+				if (rs.next()) {
+					Kontaktsperre k = new Kontaktsperre();
+					k.setId(id);
+					k.setEigenprofilID(rs.getInt("epID"));
+					k.setFremdprofilID(rs.getInt("fpID"));
+					
+					return k;
+				}
+			} catch (SQLException e2) {
+				e2.printStackTrace();
+				return null;
+			}
+			return null;
 	  }
 	  
 	  /**
@@ -64,7 +115,35 @@ public class KontaktsperreMapper {
 	   * @return
 	   */
 	  public ArrayList<Kontaktsperre> findAll(){
-		  return null;
+		  ArrayList result = new ArrayList<>();
+
+			Connection con = DBConnection.getConnection();
+			try {
+				
+				Statement stmt = con.createStatement();
+
+				ResultSet rs = stmt.executeQuery("SELECT * FROM kontaktsperre"+ "ORDER BY id");
+
+				
+				while (rs.next()) {
+					
+					Kontaktsperre k = new Kontaktsperre();
+					k.setId(rs.getInt("id"));
+					k.setEigenprofilID(rs.getInt("epID"));
+					k.setFremdprofilID(rs.getInt("fpID"));
+					
+
+					
+					result.add(k);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+
+			
+			return result;
+		 
+	  }
 	  }
 
-}
+

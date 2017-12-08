@@ -127,12 +127,12 @@ public class AuswahlMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			ResultSet rs = stmt.executeQuery("SELECT id, titel FROM auswahl" + "WHERE id=" + id + "ORDER BY titel");
+			ResultSet rs = stmt.executeQuery("SELECT id, titel FROM auswahl" + "WHERE id=" + id );
 			if (rs.next()) {
-				Auswahl auswahl = new Auswahl();
-				auswahl.setId(rs.getInt("id"));
-				auswahl.setTitel(rs.getString("titel"));
-				return auswahl;
+				Auswahl a = new Auswahl();
+				a.setId(rs.getInt("id"));
+				a.setTitel(rs.getString("titel"));
+				return a;
 			}
 		} catch (SQLException e2) {
 			e2.printStackTrace();
@@ -153,14 +153,14 @@ public class AuswahlMapper {
 
 		try {
 			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT id, profil FROM accounts " + "ORDER BY id");
+			ResultSet rs = stmt.executeQuery("SELECT id, titel FROM auswahl " + "ORDER BY id");
 
 			while (rs.next()) {
-				Auswahl auswahl = new Auswahl();
-				auswahl.setId(rs.getInt("id"));
-				auswahl.setTitel(rs.getString("owner"));
+				Auswahl a = new Auswahl();
+				a.setId(rs.getInt("id"));
+				a.setTitel(rs.getString("titel"));
 
-				result.add(auswahl);
+				result.add(a);
 			}
 		} catch (SQLException e2) {
 			e2.printStackTrace();

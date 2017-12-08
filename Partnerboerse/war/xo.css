@@ -27,4 +27,5 @@ footer {
     position: fixed;
     bottom: 0;
 }
+footer h3 {text-align: center;}
 
