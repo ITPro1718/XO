@@ -212,14 +212,14 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	}
 
 	@Override
-	public ArrayList<Kontaktsperre> getAllKontaktsperreEintraege(Profil p) throws IllegalArgumentException {
+	public ArrayList<Kontaktsperre> getAllKontaktsperreEintraege() throws IllegalArgumentException {
 		
 		/**
 		 * gleiches Problem wie bei Merkzettel
 		 * 
 		 * TODO: findByOwner und findAll 
 		 */
-		//Übergabewert aus interface und impl löschen Profil p
+		
 		
 		return this.kMapper.findAll();
 	}
@@ -242,25 +242,26 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	}
 
 	@Override
-	public void createSuchprofil(Profil source, String haarfarbe, float kgr, boolean raucher, String religion,
+	public void createSuchprofil(Profil source, String titel, String haarfarbe, float kgr, boolean raucher, String religion,
 			int alter) throws IllegalArgumentException {
 		Suchprofil s = new Suchprofil();
 		s.setEigenprofilID(source.getId());
 		s.setHaarFarbe(haarfarbe);
-		// s.setKoerpergroesse(kgr); FEHLER? double in Business-Objekt Suchprofil, hier float als Übergabewert)
-		// !!! Für Religion gibt es noch keine Set-Methode und fehlt ebenfalls als attribut im relationalen Modell und für Titel des Suchprofils fehlt der Übergabeparameter string titel
+		s.setKoerpergroesse(kgr);
+		s.setTitle(titel);
+		// !!! Für Religion fehlt das attribut im relationalen Modell 
+		s.setReligion(religion);
 		s.setRaucher(raucher);
 		s.setAlter(alter);
 		
 
-		
 		this.sMapper.insertSuchprofil(s);
 		
 	}
 
 	@Override
-	public ArrayList<Suchprofil> getAllSuchprofile(Profil p) throws IllegalArgumentException {
-		//Übergabewert aus interface und impl löschen Profil p
+	public ArrayList<Suchprofil> getAllSuchprofile() throws IllegalArgumentException {
+		
 		return this.sMapper.findAll();
 	}
 
@@ -272,8 +273,9 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 
 	@Override
 	public Suchprofil getSuchprofilByTitle(String title) throws IllegalArgumentException {
-		// findSuchprofilByTitle fehlt noch im Mapper
-		return null;
+		
+		return this.sMapper.findSuchprofilByTitle(title);
+		
 	}
 
 	@Override
@@ -308,13 +310,12 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	}
 
 	@Override
-	public void createInfo(Profil p) throws IllegalArgumentException {
-		//Übergabewerte müssen Bezeichnung und eigenprofilid enthalten.
+	public void createInfo(Profil p, String bezeichnung) throws IllegalArgumentException {
+		
 		Info i = new Info();
-		//i.setEigenprofilID(eigenprofilID); Alternative wenn wir nur ID und Bezeichnung übergeben
-		int eiID = p.getId();
-		i.setEigenprofilID(eiID);
-		//i.setText(text); Bezeichnung fehlt im Methodenkopf als Übergabewert
+		i.setText(bezeichnung);
+		i.setEigenprofilID(p.getId());
+		
 		//this.iMapper.insertInfo(i); insert-Methode fehlt in Mapper klasse, Update-Methode auch (falls Eigenschaften gelöscht werden ändert sich das Infoobjekt etc.)
 	}
 

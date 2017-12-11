@@ -70,7 +70,7 @@ public class InfoMapper {
 	   * @return
 	   */
 	  public ArrayList<Info> findAll(){
-		  ArrayList result = new ArrayList<>();
+		  ArrayList<Info> result = new ArrayList<>();
 
 			Connection con = DBConnection.getConnection();
 			try {

@@ -115,7 +115,7 @@ public class MerkzettelMapper {
 	   * @return
 	   */
 	  public ArrayList<Merkzettel> findAll(){
-		  ArrayList result = new ArrayList<>();
+		  ArrayList<Merkzettel> result = new ArrayList<>();
 
 			Connection con = DBConnection.getConnection();
 			try {

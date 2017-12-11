@@ -8,16 +8,27 @@ public class Suchprofil extends BusinessObjekt{
   private static final long serialVersionUID = 1L;
   
   private String title;
-  
   private String haarFarbe;
-  
-  private double koerpergroesse;
-  
+  private String religion;
+  private float koerpergroesse;
   private boolean raucher;
-  
   private int alter;
-  
   private int eigenprofilID;
+  
+  /**
+ * @return the religion
+ */
+public String getReligion() {
+	return religion;
+}
+
+/**
+ * @param religion the religion to set
+ */
+public void setReligion(String religion) {
+	this.religion = religion;
+}
+
 
   /**
    * @return the title
@@ -57,7 +68,7 @@ public class Suchprofil extends BusinessObjekt{
   /**
    * @param koerpergroesse the koerpergroesse to set
    */
-  public void setKoerpergroesse(double koerpergroesse) {
+  public void setKoerpergroesse(float koerpergroesse) {
     this.koerpergroesse = koerpergroesse;
   }
 

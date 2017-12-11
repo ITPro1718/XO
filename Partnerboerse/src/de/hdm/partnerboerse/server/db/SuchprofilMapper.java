@@ -110,7 +110,7 @@ public class SuchprofilMapper {
 					s.setId(id);
 					s.setTitle(rs.getString("titel"));
 					s.setHaarFarbe(rs.getString("haarfarbe"));
-					s.setKoerpergroesse(rs.getDouble("koerpergroesse"));
+					s.setKoerpergroesse(rs.getFloat("koerpergroesse"));
 					s.setRaucher(rs.getBoolean("raucher"));
 					s.setAlter(rs.getInt("age"));
 					s.setEigenprofilID(rs.getInt("epID"));
@@ -123,10 +123,37 @@ public class SuchprofilMapper {
 			}
 			return null;
 		}
+	  
+	  public Suchprofil findSuchprofilByTitle(String title){
+		  Connection con = DBConnection.getConnection();
+
+			try {
+				Statement stmt = con.createStatement();
+
+				ResultSet rs = stmt.executeQuery("SELECT * FROM suchprofil" + "WHERE titel=" + title);
+				if (rs.next()) {
+					Suchprofil s = new Suchprofil();
+					s.setId(rs.getInt("id"));
+					s.setTitle(rs.getString("titel"));
+					s.setHaarFarbe(rs.getString("haarfarbe"));
+					s.setKoerpergroesse(rs.getFloat("koerpergroesse"));
+					s.setRaucher(rs.getBoolean("raucher"));
+					s.setAlter(rs.getInt("age"));
+					s.setEigenprofilID(rs.getInt("epID"));
+					
+					return s;
+				}
+			} catch (SQLException e2) {
+				e2.printStackTrace();
+				return null;
+			}
+			return null;
+		  
+	  }
 		
 
 	  public ArrayList<Suchprofil> findAll(){
-		  ArrayList result = new ArrayList<>();
+		  ArrayList <Suchprofil> result = new ArrayList<>();
 
 			Connection con = DBConnection.getConnection();
 			try {
@@ -142,7 +169,7 @@ public class SuchprofilMapper {
 					s.setId(rs.getInt("id"));
 					s.setTitle(rs.getString("titel"));
 					s.setHaarFarbe(rs.getString("haarfarbe"));
-					s.setKoerpergroesse(rs.getDouble("koerpergroesse"));
+					s.setKoerpergroesse(rs.getFloat("koerpergroesse"));
 					s.setRaucher(rs.getBoolean("raucher"));
 					s.setAlter(rs.getInt("age"));
 					s.setEigenprofilID(rs.getInt("epID"));

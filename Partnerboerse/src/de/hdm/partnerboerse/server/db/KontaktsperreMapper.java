@@ -115,7 +115,7 @@ public class KontaktsperreMapper {
 	   * @return
 	   */
 	  public ArrayList<Kontaktsperre> findAll(){
-		  ArrayList result = new ArrayList<>();
+		  ArrayList <Kontaktsperre> result = new ArrayList<>();
 
 			Connection con = DBConnection.getConnection();
 			try {

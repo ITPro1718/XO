@@ -26,7 +26,7 @@ public interface PartnerboerseAdministrationAsync {
 
 	void createFreitext(Eigenschaft eigenschaft, String text, AsyncCallback<Void> callback);
 
-	void createInfo(Profil p, AsyncCallback<Void> callback);
+	void createInfo(Profil p, String bezeichnung, AsyncCallback<Void> callback);
 
 	void createKontaksperreEintrag(Profil source, Profil target, AsyncCallback<Void> callback);
 
@@ -35,7 +35,7 @@ public interface PartnerboerseAdministrationAsync {
 	void createProfil(int id, String vname, String nname, String haarfarbe, float kgr, boolean raucher, String religion,
 			Date geb, String pw, String email, AsyncCallback<Void> callback);
 
-	void createSuchprofil(Profil source, String haarfarbe, float kgr, boolean raucher, String religion, int alter,
+	void createSuchprofil(Profil source, String titel, String haarfarbe, float kgr, boolean raucher, String religion, int alter,
 			AsyncCallback<Void> callback);
 
 	void deleteAuswahl(Auswahl auswahl, AsyncCallback<Void> callback);
@@ -60,13 +60,13 @@ public interface PartnerboerseAdministrationAsync {
 
 	void getAllInfos(AsyncCallback<ArrayList<Info>> callback);
 
-	void getAllKontaktsperreEintraege(Profil p, AsyncCallback<ArrayList<Kontaktsperre>> callback);
+	void getAllKontaktsperreEintraege(AsyncCallback<ArrayList<Kontaktsperre>> callback);
 
-	void getAllMerkzettelEintraege(Profil p, AsyncCallback<ArrayList<Merkzettel>> callback);
+	void getAllMerkzettelEintraege(AsyncCallback<ArrayList<Merkzettel>> callback);
 
 	void getAllProfils(AsyncCallback<ArrayList<Profil>> callback);
 
-	void getAllSuchprofile(Profil p, AsyncCallback<ArrayList<Suchprofil>> callback);
+	void getAllSuchprofile(AsyncCallback<ArrayList<Suchprofil>> callback);
 
 	void getAuswahl(AsyncCallback<ArrayList<Auswahl>> callback);
 
