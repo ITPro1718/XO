@@ -7,6 +7,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import de.hdm.partnerboerse.shared.bo.Merkzettel;
+import de.hdm.partnerboerse.shared.bo.Profil;
 import de.hdm.partnerboerse.shared.bo.Suchprofil;
 
 public class MerkzettelMapper {
@@ -66,7 +67,7 @@ public class MerkzettelMapper {
 		  
 	  
 	  /**
-	   * Löscht einen MerkzettelEintrag in der DB
+	   * Lï¿½scht einen MerkzettelEintrag in der DB
 	   * @param merkzettel
 	 * @return 
 	   */
@@ -84,7 +85,7 @@ public class MerkzettelMapper {
 	  }
 	  
 	  /**
-	   * Gibt eine Merkzettel zurück per ID (Primärschlüssel)
+	   * Gibt eine Merkzettel zurï¿½ck per ID (Primï¿½rschlï¿½ssel)
 	   * @param id
 	   * @return
 	   */
@@ -111,7 +112,7 @@ public class MerkzettelMapper {
 	  }
 	  
 	  /**
-	   * Gibt alle Merkzettel-Einträge zurück
+	   * Gibt alle Merkzettel-Eintrï¿½ge zurï¿½ck
 	   * @return
 	   */
 	  public ArrayList<Merkzettel> findAll(){
@@ -143,4 +144,32 @@ public class MerkzettelMapper {
 			return result;
 		 
 	  }
+	  public ArrayList<Merkzettel> findMerkzettelnOf(Profil profilowner){
+	  ArrayList<Merkzettel> result = new ArrayList<>();
+
+		Connection con = DBConnection.getConnection();
+		try {
+			
+			Statement stmt = con.createStatement();
+
+			ResultSet rs = stmt.executeQuery("SELECT * FROM merkzettel"+ "WHERE epID=" + profilowner.getId() +"ORDER BY id");
+
+			
+			while (rs.next()) {
+				Merkzettel m = new Merkzettel();
+				m.setId(rs.getInt("id"));
+				m.setEigenprofilID(rs.getInt("epID"));
+				m.setFremdprofilID(rs.getInt("fpID"));
+				
+
+				
+				result.add(m);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		
+		return result;
+}
 }

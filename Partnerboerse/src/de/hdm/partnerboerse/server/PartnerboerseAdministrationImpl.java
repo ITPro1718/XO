@@ -78,6 +78,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 		p.setPasswort(pw);
 		p.setEmail(email);
 		p.setId(id);
+		p.setReligion(religion);
 		
 		this.pMapper.insert(p);
 	}
@@ -235,7 +236,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	@Override
 	public void deleteKontaktsperreEintraege(Kontaktsperre kontaktsperre) throws IllegalArgumentException {
 		/**
-		 * keine Abhï¿½ngigkeiten, deswegen kï¿½nnen wir es einfach lï¿½schen
+		 * keine AbhÃ¤ngigkeiten, deswegen kÃ¶nnen wir es einfach lÃ¶schen
 		 */
 	  this.kMapper.deleteKontaktsperreEintrag(kontaktsperre);
 		
@@ -249,7 +250,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 		s.setHaarFarbe(haarfarbe);
 		s.setKoerpergroesse(kgr);
 		s.setTitle(titel);
-		// !!! Für Religion fehlt das attribut im relationalen Modell 
+		// !!! FÃ¼r Religion fehlt das Attribut im relationalen Modell
 		s.setReligion(religion);
 		s.setRaucher(raucher);
 		s.setAlter(alter);
@@ -316,7 +317,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 		i.setText(bezeichnung);
 		i.setEigenprofilID(p.getId());
 		
-		//this.iMapper.insertInfo(i); insert-Methode fehlt in Mapper klasse, Update-Methode auch (falls Eigenschaften gelöscht werden ändert sich das Infoobjekt etc.)
+		//this.iMapper.insertInfo(i); insert-Methode fehlt in Mapper klasse, Update-Methode auch (falls Eigenschaften gelÃ¶scht werden Ã¤ndert sich das Infoobjekt etc.)
 	}
 
 	@Override
@@ -344,7 +345,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 
 	@Override
 	public void createEigenschaft(Info info) throws IllegalArgumentException {
-		// brauchen wir hier nicht ain Auswahl auswahl Übergabewert um die auswahlID dem EIgenschaftsobjekt hinzuzufügen nicht die INfo id .
+		// brauchen wir hier nicht ain Auswahl auswahl bzw. Freitext freitext Ãœbergabewert, um die AuswahlID/FreitextID dem Eigenschaftsobjekt hinzuzufÃ¼gen nicht die InfoID.
 		
 	}
 
@@ -432,62 +433,61 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
   @Override
   public ArrayList<Kontaktsperre> findKontaktsperrenOf(Profil profilowner)
       throws IllegalArgumentException {
-    // Methode in Mapperklasse fehlt, die eine Arraylist von Kontaktsperren des profilowners zurück gibt.
-	  //Übergabewert int id würde reichen um Profil zu identifizieren, statt Profilobjekt
-	  return null;
+	  return this.kMapper.findKontaktsperrenOf(profilowner);
   }
 
   @Override
   public ArrayList<Merkzettel> findMerkzettelnOf(Profil profilowner)
       throws IllegalArgumentException {
-	// Methode in Mapperklasse fehlt, die eine Arraylist von Merkzetteln des profilowners zurück gibt.
-		  //Übergabewert int id würde reichen um Profil zu identifizieren, statt Profilobjekt
-    return null;
+	  return this.mMapper.findMerkzettelnOf(profilowner);
+    
   }
 
   @Override
   public ArrayList<Besuch> findBesucheOfe(Profil profilowner) throws IllegalArgumentException {
-    // siehe findMerkzettelnOf
-    return null;
+ 
+    return this.bMapper.findByEigenprofil(profilowner);
   }
 
   @Override
   public ArrayList<Suchprofil> findSuchprofileOf(Profil profilowner)
       throws IllegalArgumentException {
-	// siehe findMerkzettelnOf
-    return null;
+	
+    return this.sMapper.findSuchprofileOf(profilowner);
   }
 
   @Override
   public ArrayList<Info> findInfoOf(Profil profilowner) throws IllegalArgumentException {
-	// siehe findMerkzettelnOf
-    return null;
+	return this.iMapper.findInfoOf(profilowner);
   }
 
   @Override
   public ArrayList<Info> findEigenschaftsInfosOf(Eigenschaft eigenschaft)
       throws IllegalArgumentException {
-	// siehe findMerkzettelnOf
+	// Methode in Mapperklasse implementieren
     return null;
   }
 
   @Override
   public ArrayList<Freitext> findFreitextOf(Eigenschaft eigenschaft)
       throws IllegalArgumentException {
-	// siehe findMerkzettelnOf
-    return null;
+	// hat ein Eigenschaftsobjekt nicht maximal 1 Freitext oder 1 Auswahl(nach unserem relationalen Datenmodell) ? dann wÃ¤re der RÃ¼ckgabewert keine Liste sondern nur "Freitext".
+    return this.fMapper.findFreitextOf(eigenschaft);
   }
-
   @Override
   public ArrayList<Eigenschaft> findAuswahlOf(Eigenschaft eigenschaft)
       throws IllegalArgumentException {
-	// siehe findMerkzettelnOf
+	//RÃ¼ckgabewertfehler: wir wollen Auswahlen eines Eigenschaftsobjekts finden und geben eine Liste mit Eigenschaften zurÃ¼ck? 
+	// Ein Eigenschaftsobjekt hat entweder keine oder maximal eine Auswahl, somit wird die RÃ¼ckgabe keine Liste von Auswahlen ergeben sondern nur ein einziges Auswahlobjekt, falls vorhanden.
+	 // public Auswahl findAuswahlOf(Eigenschaft eigenschaft) ODER
+	// public Eigenschaft findEigenschafteOf(Info info) ? Ein Infoobjket kann nur eine Eigenschaft haben oder mehrere?
     return null;
   }
 
   @Override
   public ArrayList<Auswahl> findElementeOf(Auswahl auswahl) throws IllegalArgumentException {
-	// siehe findMerkzettelnOf
+	// RÃ¼ckgabebewert ArrayList<Element>  wenn wir Elemente von einem Auswahlobjekt suchen? 
+	  
     return null;
   }
 

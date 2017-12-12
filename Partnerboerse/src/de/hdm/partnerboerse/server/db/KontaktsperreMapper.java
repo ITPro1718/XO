@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import de.hdm.partnerboerse.shared.bo.Kontaktsperre;
 import de.hdm.partnerboerse.shared.bo.Merkzettel;
+import de.hdm.partnerboerse.shared.bo.Profil;
 
 public class KontaktsperreMapper {
 
@@ -66,7 +67,7 @@ public class KontaktsperreMapper {
 	  }
 	  
 	  /**
-	   * Löscht einen KontaktsperrenEintrag in der DB
+	   * Lï¿½scht einen KontaktsperrenEintrag in der DB
 	   * @param kontaktsperre
 	 * @return 
 	   */
@@ -84,7 +85,7 @@ public class KontaktsperreMapper {
 	  }
 	  
 	  /**
-	   * Gibt eine Kontaktsperre zurück per ID (Primärschlüssel)
+	   * Gibt eine Kontaktsperre zurï¿½ck per ID (Primï¿½rschlï¿½ssel)
 	   * @param id
 	   * @return
 	   */
@@ -111,7 +112,7 @@ public class KontaktsperreMapper {
 	  }
 	  
 	  /**
-	   * Gibt alle Kontaktsperren-Einträge zurück
+	   * Gibt alle Kontaktsperren-Eintrï¿½ge zurï¿½ck
 	   * @return
 	   */
 	  public ArrayList<Kontaktsperre> findAll(){
@@ -144,6 +145,34 @@ public class KontaktsperreMapper {
 			return result;
 		 
 	  }
+	  public ArrayList<Kontaktsperre> findKontaktsperrenOf(Profil profilowner){
+		  ArrayList<Kontaktsperre> result = new ArrayList<>();
+
+			Connection con = DBConnection.getConnection();
+			try {
+				
+				Statement stmt = con.createStatement();
+
+				ResultSet rs = stmt.executeQuery("SELECT * FROM kontaktsperre"+ "WHERE epID=" + profilowner.getId() +"ORDER BY id");
+
+				
+				while (rs.next()) {
+					Kontaktsperre k = new Kontaktsperre();
+					k.setId(rs.getInt("id"));
+					k.setEigenprofilID(rs.getInt("epID"));
+					k.setFremdprofilID(rs.getInt("fpID"));
+					
+
+					
+					result.add(k);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+
+			
+			return result;
+	}
 	  }
 
 

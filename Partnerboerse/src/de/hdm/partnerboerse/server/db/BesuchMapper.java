@@ -109,7 +109,7 @@ public class BesuchMapper {
 	 */
 	public ArrayList<Besuch> findByEigenprofil(Profil p) {
 		Connection con = DBConnection.getConnection();
-		ArrayList results = new ArrayList();
+		ArrayList<Besuch> results = new ArrayList<>();
 
 		try {
 			Statement stmt = con.createStatement();

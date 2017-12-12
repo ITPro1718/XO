@@ -7,7 +7,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hdm.partnerboerse.shared.bo.Eigenschaft;
 import de.hdm.partnerboerse.shared.bo.Freitext;
+import de.hdm.partnerboerse.shared.bo.Suchprofil;
 
 /**
  * Diese Mapper Klasse dient zur Abbildung von {@link Freitext} Objekten auf
@@ -162,4 +164,32 @@ public class FreitextMapper {
 		return result;
 	}
 
-}
+	public ArrayList<Freitext> findFreitextOf(Eigenschaft eigenschaft){
+		 ArrayList<Freitext> result = new ArrayList<>();
+
+			Connection con = DBConnection.getConnection();
+			try {
+				
+				Statement stmt = con.createStatement();
+
+				ResultSet rs = stmt.executeQuery("SELECT * FROM freitext"+ "WHERE id=" + eigenschaft.getFreitextID() +"ORDER BY id");
+
+				
+				while (rs.next()) {
+					Freitext a = new Freitext();
+					a.setId(rs.getInt("id"));
+					a.setBeschreibung(rs.getString("beschreibung"));
+
+					
+					result.add(a);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+
+			
+			return result;
+	}
+	  
+	}
+
