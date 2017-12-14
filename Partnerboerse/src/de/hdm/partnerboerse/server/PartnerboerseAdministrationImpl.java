@@ -327,7 +327,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 
 	@Override
 	public void deleteInfo(Info info) throws IllegalArgumentException {
-		this.iMapper.deleteInfo(info);
+		//this.iMapper.deleteInfo(info); Abhängigkeiten? 
 		
 	}
 
@@ -340,72 +340,81 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	@Override
 	public ArrayList<Eigenschaft> getAllEigenschaften() throws IllegalArgumentException {
 		
-		return null;
+		return this.eiMapper.findAll();
+		
 	}
 
 	@Override
 	public Eigenschaft getEigenschaftByID(int id) throws IllegalArgumentException {
 		
-		return null;
+		return this.eiMapper.findByKey(id);
 	}
 
 	@Override
 	public void updateEigenschaft(Eigenschaft eigenschaft) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+		
+		this.eiMapper.updateEigenschaft(eigenschaft);
 		
 	}
 
 	@Override
 	public void deleteEigenschaft(Eigenschaft eigenschaft) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+		//Abhängigkeiten Freitext,Auswahl und Element löschen bevor Eigenschaft gelöscht werden kann
 		
 	}
 
 	@Override
 	public void createFreitext(Eigenschaft eigenschaft, String text) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+		
+		Freitext f = new Freitext();
+		
+		f.setBeschreibung(text);
+		//Freitext ID von Eigenschaftsobjekt setzen, wie? ID von Freitext(welche der Freitext ID vom Eigenschaftsobjekt entspricht) wird erst im Mapper gesetzt.
+		
+		//this.fMapper.insertFreitext(f);
 		
 	}
 
+
 	@Override
 	public Freitext getFreitext() throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+		// Alle Freitexte (Arraylist) oder ein Freitext von einem Eigenschaftsobjekt? (dann brauchen wir den Übergabewert Eigenschaft eigenschaft)
 		return null;
 	}
 
 	@Override
 	public void updateFreitext(Freitext freitext) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+		this.fMapper.updateFreitext(freitext);
 		
 	}
 
 	@Override
 	public void deleteFreitext(Freitext freitext) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+		this.fMapper.deleteFreitext(freitext);
 		
 	}
 
 	@Override
 	public void createAuswahl(Eigenschaft eigenschaft, String title) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+		//siehe createFreitext Kommentar. Gleiches Problem.
 		
 	}
 
 	@Override
 	public ArrayList<Auswahl> getAuswahl() throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return this.aMapper.findAll();
 	}
 
 	@Override
 	public void updateAuswahl(Auswahl auswahl) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+		this.aMapper.updateAuswahl(auswahl);
 		
 	}
 
 	@Override
 	public void deleteAuswahl(Auswahl auswahl) throws IllegalArgumentException {
-		
+	//Wie löschen wir die Abhängigkeiten bezüglich Element (auswahlID)?
 	}
 
 	@Override
