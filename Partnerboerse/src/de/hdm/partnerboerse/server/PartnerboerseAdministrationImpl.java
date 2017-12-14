@@ -493,32 +493,37 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 
 @Override
 public void createBesuch(Profil source, Profil target) throws IllegalArgumentException {
-	// TODO Auto-generated method stub
+	Besuch b = new Besuch();
+	b.setEigenprofilID(source.getId());
+	b.setFremdprofilID(target.getId());
+	
+	this.bMapper.insertBesuch(b);
 	
 }
 
 @Override
 public void deleteBesuch(Besuch besuch) throws IllegalArgumentException {
-	// TODO Auto-generated method stub
+	
+	this.bMapper.deleteBesuch(besuch);
 	
 }
 
 @Override
 public ArrayList<Besuch> findAllBesuche() throws IllegalArgumentException {
-	// TODO Auto-generated method stub
-	return null;
+	
+	return this.bMapper.findAll();
 }
 
 @Override
 public Besuch findBesuchByKey(int id) throws IllegalArgumentException {
-	// TODO Auto-generated method stub
-	return null;
+
+	return this.bMapper.findByKey(id);
 }
 
 @Override
 public ArrayList<Besuch> findBesucheOf(Profil profilowner) throws IllegalArgumentException {
-	// TODO Auto-generated method stub
-	return null;
+	
+	return this.bMapper.findByEigenprofil(profilowner);
 }
 
 
