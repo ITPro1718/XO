@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import de.hdm.partnerboerse.shared.bo.Info;
 import de.hdm.partnerboerse.shared.bo.Merkzettel;
+import de.hdm.partnerboerse.shared.bo.Profil;
 import de.hdm.partnerboerse.shared.bo.Suchprofil;
 
 public class InfoMapper {
@@ -38,7 +39,7 @@ public class InfoMapper {
 	  }
 	  
 	  /**
-	   * Gibt ein Info-Objekt zurück, dass per ID gesucht wird (Primärschlüssel)
+	   * Gibt ein Info-Objekt zurï¿½ck, dass per ID gesucht wird (Primï¿½rschlï¿½ssel)
 	   * @param id
 	   * @return
 	   */
@@ -66,18 +67,18 @@ public class InfoMapper {
 	  }
 	  
 	  /**
-	   * Gibt alle Info-Einträge zurück
+	   * Gibt alle Info-Eintrï¿½ge zurï¿½ck
 	   * @return
 	   */
 	  public ArrayList<Info> findAll(){
-		  ArrayList result = new ArrayList<>();
+		  ArrayList<Info> result = new ArrayList<>();
 
 			Connection con = DBConnection.getConnection();
 			try {
 				
 				Statement stmt = con.createStatement();
 
-				ResultSet rs = stmt.executeQuery("SELECT * FROM info"+ "ORDER BY id");
+				ResultSet rs = stmt.executeQuery("SELECT * FROM info ORDER BY id");
 
 				
 				while (rs.next()) {
@@ -114,5 +115,33 @@ public class InfoMapper {
 		}
       
     }
+    public ArrayList<Info> findInfoOf(Profil profilowner) {
+		  ArrayList<Info> result = new ArrayList<>();
+
+			Connection con = DBConnection.getConnection();
+			try {
+				
+				Statement stmt = con.createStatement();
+
+				ResultSet rs = stmt.executeQuery("SELECT * FROM info WHERE epID=" + profilowner.getId() +" ORDER BY id");
+
+				
+				while (rs.next()) {
+					Info i = new Info();
+					i.setId(rs.getInt("id"));
+					i.setEigenprofilID(rs.getInt("epID"));
+					i.setEigenschaftsID(rs.getInt("eigenschaftID"));
+					i.setText(rs.getString("bezeichnung"));
+
+					
+					result.add(i);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+
+			
+			return result;
+	}
 
 }

@@ -22,11 +22,13 @@ public interface PartnerboerseAdministrationAsync {
 
 	void createAuswahl(Eigenschaft eigenschaft, String title, AsyncCallback<Void> callback);
 
+	void createBesuch(Profil source, Profil target, AsyncCallback<Void> callback);
+
 	void createEigenschaft(Info info, AsyncCallback<Void> callback);
 
 	void createFreitext(Eigenschaft eigenschaft, String text, AsyncCallback<Void> callback);
 
-	void createInfo(Profil p, AsyncCallback<Void> callback);
+	void createInfo(Profil p, String bezeichnung, AsyncCallback<Void> callback);
 
 	void createKontaksperreEintrag(Profil source, Profil target, AsyncCallback<Void> callback);
 
@@ -35,10 +37,12 @@ public interface PartnerboerseAdministrationAsync {
 	void createProfil(int id, String vname, String nname, String haarfarbe, float kgr, boolean raucher, String religion,
 			Date geb, String pw, String email, AsyncCallback<Void> callback);
 
-	void createSuchprofil(Profil source, String haarfarbe, float kgr, boolean raucher, String religion, int alter,
-			AsyncCallback<Void> callback);
+	void createSuchprofil(Profil source, String titel, String haarfarbe, float kgr, boolean raucher, String religion,
+			int alter, AsyncCallback<Void> callback);
 
 	void deleteAuswahl(Auswahl auswahl, AsyncCallback<Void> callback);
+
+	void deleteBesuch(Besuch besuch, AsyncCallback<Void> callback);
 
 	void deleteEigenschaft(Eigenschaft eigenschaft, AsyncCallback<Void> callback);
 
@@ -54,19 +58,43 @@ public interface PartnerboerseAdministrationAsync {
 
 	void deleteSuchprofil(Suchprofil suchprofil, AsyncCallback<Void> callback);
 
+	void findAllBesuche(AsyncCallback<ArrayList<Besuch>> callback);
+
+	void findAuswahlOf(Eigenschaft eigenschaft, AsyncCallback<ArrayList<Eigenschaft>> callback);
+
+	void findBesuchByKey(int id, AsyncCallback<Besuch> callback);
+
+	void findBesucheOf(Profil profilowner, AsyncCallback<ArrayList<Besuch>> callback);
+
+	void findBesucheOfe(Profil profilowner, AsyncCallback<ArrayList<Besuch>> callback);
+
+	void findEigenschaftsInfosOf(Eigenschaft eigenschaft, AsyncCallback<ArrayList<Info>> callback);
+
+	void findElementeOf(Auswahl auswahl, AsyncCallback<ArrayList<Auswahl>> callback);
+
+	void findFreitextOf(Eigenschaft eigenschaft, AsyncCallback<ArrayList<Freitext>> callback);
+
+	void findInfoOf(Profil profilowner, AsyncCallback<ArrayList<Info>> callback);
+
+	void findKontaktsperrenOf(Profil profilowner, AsyncCallback<ArrayList<Kontaktsperre>> callback);
+
+	void findMerkzettelnOf(Profil profilowner, AsyncCallback<ArrayList<Merkzettel>> callback);
+
+	void findSuchprofileOf(Profil profilowner, AsyncCallback<ArrayList<Suchprofil>> callback);
+
 	void getAllEigenschaften(AsyncCallback<ArrayList<Eigenschaft>> callback);
 
 	void getAllElements(AsyncCallback<ArrayList<Element>> callback);
 
 	void getAllInfos(AsyncCallback<ArrayList<Info>> callback);
 
-	void getAllKontaktsperreEintraege(Profil p, AsyncCallback<ArrayList<Kontaktsperre>> callback);
+	void getAllKontaktsperreEintraege(AsyncCallback<ArrayList<Kontaktsperre>> callback);
 
-	void getAllMerkzettelEintraege(Profil p, AsyncCallback<ArrayList<Merkzettel>> callback);
+	void getAllMerkzettelEintraege(AsyncCallback<ArrayList<Merkzettel>> callback);
 
 	void getAllProfils(AsyncCallback<ArrayList<Profil>> callback);
 
-	void getAllSuchprofile(Profil p, AsyncCallback<ArrayList<Suchprofil>> callback);
+	void getAllSuchprofile(AsyncCallback<ArrayList<Suchprofil>> callback);
 
 	void getAuswahl(AsyncCallback<ArrayList<Auswahl>> callback);
 
@@ -107,23 +135,5 @@ public interface PartnerboerseAdministrationAsync {
 	void updateProfil(Profil p, AsyncCallback<Void> callback);
 
 	void updateSuchprofil(Suchprofil suchprofil, AsyncCallback<Void> callback);
-
-  void findKontaktsperrenOf(Profil profilowner, AsyncCallback<ArrayList<Kontaktsperre>> callback);
-
-  void findBesucheOfe(Profil profilowner, AsyncCallback<ArrayList<Besuch>> callback);
-
-  void findMerkzettelnOf(Profil profilowner, AsyncCallback<ArrayList<Merkzettel>> callback);
-
-  void findSuchprofileOf(Profil profilowner, AsyncCallback<ArrayList<Suchprofil>> callback);
-
-  void findInfoOf(Profil profilowner, AsyncCallback<ArrayList<Info>> callback);
-
-  void findEigenschaftsInfosOf(Eigenschaft eigenschaft, AsyncCallback<ArrayList<Info>> callback);
-
-  void findFreitextOf(Eigenschaft eigenschaft, AsyncCallback<ArrayList<Freitext>> callback);
-
-  void findAuswahlOf(Eigenschaft eigenschaft, AsyncCallback<ArrayList<Eigenschaft>> callback);
-
-  void findElementeOf(Auswahl auswahl, AsyncCallback<ArrayList<Auswahl>> callback);
 
 }

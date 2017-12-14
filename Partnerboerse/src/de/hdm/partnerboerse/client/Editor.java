@@ -26,7 +26,7 @@ public class Editor implements EntryPoint {
     profilFlexTable.setText(0, 0, "Vorname");
     profilFlexTable.setText(0, 1, "Nachname");
     profilFlexTable.setText(0, 2, "Haarfarbe");
-    profilFlexTable.setText(0, 3, "Körpergröße");
+    profilFlexTable.setText(0, 3, "KÃ¶rpergrÃ¶ÃŸe");
     profilFlexTable.setText(0, 4, "Raucher");
     profilFlexTable.setText(0, 5, "Religion");
     profilFlexTable.setText(0, 6, "Geburtsdatum");

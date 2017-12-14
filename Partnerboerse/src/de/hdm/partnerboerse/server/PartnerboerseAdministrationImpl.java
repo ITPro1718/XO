@@ -78,6 +78,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 		p.setPasswort(pw);
 		p.setEmail(email);
 		p.setId(id);
+		p.setReligion(religion);
 		
 		this.pMapper.insert(p);
 	}
@@ -124,11 +125,11 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 			}
 		}
 		
-//		if (besuche != null){
-//			for (Besuch b : besuche){
-//				this.deleteBesuche(b)
-//			}
-//		}
+		if (besuche != null){
+			for (Besuch b : besuche){
+				this.deleteBesuch(b);
+			}
+		}
 		
 		if (suchprofile != null){
 			for (Suchprofil s : suchprofile){
@@ -212,14 +213,14 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	}
 
 	@Override
-	public ArrayList<Kontaktsperre> getAllKontaktsperreEintraege(Profil p) throws IllegalArgumentException {
+	public ArrayList<Kontaktsperre> getAllKontaktsperreEintraege() throws IllegalArgumentException {
 		
 		/**
 		 * gleiches Problem wie bei Merkzettel
 		 * 
 		 * TODO: findByOwner und findAll 
 		 */
-		//Übergabewert aus interface und impl löschen Profil p
+		
 		
 		return this.kMapper.findAll();
 	}
@@ -235,32 +236,33 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	@Override
 	public void deleteKontaktsperreEintraege(Kontaktsperre kontaktsperre) throws IllegalArgumentException {
 		/**
-		 * keine Abhï¿½ngigkeiten, deswegen kï¿½nnen wir es einfach lï¿½schen
+		 * keine AbhÃ¤ngigkeiten, deswegen kÃ¶nnen wir es einfach lÃ¶schen
 		 */
 	  this.kMapper.deleteKontaktsperreEintrag(kontaktsperre);
 		
 	}
 
 	@Override
-	public void createSuchprofil(Profil source, String haarfarbe, float kgr, boolean raucher, String religion,
+	public void createSuchprofil(Profil source, String titel, String haarfarbe, float kgr, boolean raucher, String religion,
 			int alter) throws IllegalArgumentException {
 		Suchprofil s = new Suchprofil();
 		s.setEigenprofilID(source.getId());
 		s.setHaarFarbe(haarfarbe);
-		// s.setKoerpergroesse(kgr); FEHLER? double in Business-Objekt Suchprofil, hier float als Übergabewert)
-		// !!! Für Religion gibt es noch keine Set-Methode und fehlt ebenfalls als attribut im relationalen Modell und für Titel des Suchprofils fehlt der Übergabeparameter string titel
+		s.setKoerpergroesse(kgr);
+		s.setTitle(titel);
+		// !!! FÃ¼r Religion fehlt das Attribut im relationalen Modell
+		s.setReligion(religion);
 		s.setRaucher(raucher);
 		s.setAlter(alter);
 		
 
-		
 		this.sMapper.insertSuchprofil(s);
 		
 	}
 
 	@Override
-	public ArrayList<Suchprofil> getAllSuchprofile(Profil p) throws IllegalArgumentException {
-		//Übergabewert aus interface und impl löschen Profil p
+	public ArrayList<Suchprofil> getAllSuchprofile() throws IllegalArgumentException {
+		
 		return this.sMapper.findAll();
 	}
 
@@ -272,8 +274,9 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 
 	@Override
 	public Suchprofil getSuchprofilByTitle(String title) throws IllegalArgumentException {
-		// findSuchprofilByTitle fehlt noch im Mapper
-		return null;
+		
+		return this.sMapper.findSuchprofilByTitle(title);
+		
 	}
 
 	@Override
@@ -308,14 +311,13 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	}
 
 	@Override
-	public void createInfo(Profil p) throws IllegalArgumentException {
-		//Übergabewerte müssen Bezeichnung und eigenprofilid enthalten.
+	public void createInfo(Profil p, String bezeichnung) throws IllegalArgumentException {
+		
 		Info i = new Info();
-		//i.setEigenprofilID(eigenprofilID); Alternative wenn wir nur ID und Bezeichnung übergeben
-		int eiID = p.getId();
-		i.setEigenprofilID(eiID);
-		//i.setText(text); Bezeichnung fehlt im Methodenkopf als Übergabewert
-		//this.iMapper.insertInfo(i); insert-Methode fehlt in Mapper klasse, Update-Methode auch (falls Eigenschaften gelöscht werden ändert sich das Infoobjekt etc.)
+		i.setText(bezeichnung);
+		i.setEigenprofilID(p.getId());
+		
+		//this.iMapper.insertInfo(i); insert-Methode fehlt in Mapper klasse, Update-Methode auch (falls Eigenschaften gelÃ¶scht werden Ã¤ndert sich das Infoobjekt etc.)
 	}
 
 	@Override
@@ -343,7 +345,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 
 	@Override
 	public void createEigenschaft(Info info) throws IllegalArgumentException {
-		// brauchen wir hier nicht ain Auswahl auswahl Übergabewert um die auswahlID dem EIgenschaftsobjekt hinzuzufügen nicht die INfo id .
+		// brauchen wir hier nicht ain Auswahl auswahl bzw. Freitext freitext Ãœbergabewert, um die AuswahlID/FreitextID dem Eigenschaftsobjekt hinzuzufÃ¼gen nicht die InfoID.
 		
 	}
 
@@ -431,64 +433,93 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
   @Override
   public ArrayList<Kontaktsperre> findKontaktsperrenOf(Profil profilowner)
       throws IllegalArgumentException {
-    // Methode in Mapperklasse fehlt, die eine Arraylist von Kontaktsperren des profilowners zurück gibt.
-	  //Übergabewert int id würde reichen um Profil zu identifizieren, statt Profilobjekt
-	  return null;
+	  return this.kMapper.findKontaktsperrenOf(profilowner);
   }
 
   @Override
   public ArrayList<Merkzettel> findMerkzettelnOf(Profil profilowner)
       throws IllegalArgumentException {
-	// Methode in Mapperklasse fehlt, die eine Arraylist von Merkzetteln des profilowners zurück gibt.
-		  //Übergabewert int id würde reichen um Profil zu identifizieren, statt Profilobjekt
-    return null;
+	  return this.mMapper.findMerkzettelnOf(profilowner);
+    
   }
 
   @Override
   public ArrayList<Besuch> findBesucheOfe(Profil profilowner) throws IllegalArgumentException {
-    // siehe findMerkzettelnOf
-    return null;
+ 
+    return this.bMapper.findByEigenprofil(profilowner);
   }
 
   @Override
   public ArrayList<Suchprofil> findSuchprofileOf(Profil profilowner)
       throws IllegalArgumentException {
-	// siehe findMerkzettelnOf
-    return null;
+	
+    return this.sMapper.findSuchprofileOf(profilowner);
   }
 
   @Override
   public ArrayList<Info> findInfoOf(Profil profilowner) throws IllegalArgumentException {
-	// siehe findMerkzettelnOf
-    return null;
+	return this.iMapper.findInfoOf(profilowner);
   }
 
   @Override
   public ArrayList<Info> findEigenschaftsInfosOf(Eigenschaft eigenschaft)
       throws IllegalArgumentException {
-	// siehe findMerkzettelnOf
+	// Methode in Mapperklasse implementieren
     return null;
   }
 
   @Override
   public ArrayList<Freitext> findFreitextOf(Eigenschaft eigenschaft)
       throws IllegalArgumentException {
-	// siehe findMerkzettelnOf
-    return null;
+	// hat ein Eigenschaftsobjekt nicht maximal 1 Freitext oder 1 Auswahl(nach unserem relationalen Datenmodell) ? dann wÃ¤re der RÃ¼ckgabewert keine Liste sondern nur "Freitext".
+    return this.fMapper.findFreitextOf(eigenschaft);
   }
-
   @Override
   public ArrayList<Eigenschaft> findAuswahlOf(Eigenschaft eigenschaft)
       throws IllegalArgumentException {
-	// siehe findMerkzettelnOf
+	//RÃ¼ckgabewertfehler: wir wollen Auswahlen eines Eigenschaftsobjekts finden und geben eine Liste mit Eigenschaften zurÃ¼ck? 
+	// Ein Eigenschaftsobjekt hat entweder keine oder maximal eine Auswahl, somit wird die RÃ¼ckgabe keine Liste von Auswahlen ergeben sondern nur ein einziges Auswahlobjekt, falls vorhanden.
+	 // public Auswahl findAuswahlOf(Eigenschaft eigenschaft) ODER
+	// public Eigenschaft findEigenschafteOf(Info info) ? Ein Infoobjket kann nur eine Eigenschaft haben oder mehrere?
     return null;
   }
 
   @Override
   public ArrayList<Auswahl> findElementeOf(Auswahl auswahl) throws IllegalArgumentException {
-	// siehe findMerkzettelnOf
+	// RÃ¼ckgabebewert ArrayList<Element>  wenn wir Elemente von einem Auswahlobjekt suchen? 
+	  
     return null;
   }
+
+@Override
+public void createBesuch(Profil source, Profil target) throws IllegalArgumentException {
+	// TODO Auto-generated method stub
+	
+}
+
+@Override
+public void deleteBesuch(Besuch besuch) throws IllegalArgumentException {
+	// TODO Auto-generated method stub
+	
+}
+
+@Override
+public ArrayList<Besuch> findAllBesuche() throws IllegalArgumentException {
+	// TODO Auto-generated method stub
+	return null;
+}
+
+@Override
+public Besuch findBesuchByKey(int id) throws IllegalArgumentException {
+	// TODO Auto-generated method stub
+	return null;
+}
+
+@Override
+public ArrayList<Besuch> findBesucheOf(Profil profilowner) throws IllegalArgumentException {
+	// TODO Auto-generated method stub
+	return null;
+}
 
 
 }

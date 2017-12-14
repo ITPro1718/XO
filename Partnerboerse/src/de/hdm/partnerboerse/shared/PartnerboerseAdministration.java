@@ -168,7 +168,7 @@ public interface PartnerboerseAdministration extends RemoteService {
 	 * @return alle gesperrten Profile
 	 * @throws IllegalArgumentException
 	 */
-	public ArrayList<Kontaktsperre> getAllKontaktsperreEintraege(Profil p) throws IllegalArgumentException;
+	public ArrayList<Kontaktsperre> getAllKontaktsperreEintraege() throws IllegalArgumentException;
 
 	/**
 	 * Kontaktsperreneintraege bzw. gesperrtes Profil mit bestimmter ID anzeigen
@@ -200,7 +200,7 @@ public interface PartnerboerseAdministration extends RemoteService {
 	 * @param alter
 	 * @throws IllegalArgumentException
 	 */
-	public void createSuchprofil(Profil source, String haarfarbe, float kgr, boolean raucher, String religion,
+	public void createSuchprofil(Profil source, String titel, String haarfarbe, float kgr, boolean raucher, String religion,
 			int alter) throws IllegalArgumentException;
 	
 	/**
@@ -210,7 +210,7 @@ public interface PartnerboerseAdministration extends RemoteService {
 	 * @return alle vorhandenen Suchprofil-Objekte
 	 * @throws IllegalArgumentException
 	 */
-	public ArrayList<Suchprofil> getAllSuchprofile(Profil p) throws IllegalArgumentException;
+	public ArrayList<Suchprofil> getAllSuchprofile() throws IllegalArgumentException;
 	
 	/**
 	 * Suchprofil mit bestimmter ID anzeigen.
@@ -284,7 +284,7 @@ public interface PartnerboerseAdministration extends RemoteService {
 	 * @param p eigenes Profil
 	 * @throws IllegalArgumentException
 	 */
-	public void createInfo(Profil p) throws IllegalArgumentException;
+	public void createInfo(Profil p, String bezeichnung) throws IllegalArgumentException;
 
 	/**
 	 * Alle Info-Objekte anzeigen.
@@ -464,6 +464,18 @@ public interface PartnerboerseAdministration extends RemoteService {
 	public ArrayList<Eigenschaft> findAuswahlOf(Eigenschaft eigenschaft) throws IllegalArgumentException;
 	
 	public ArrayList<Auswahl> findElementeOf(Auswahl auswahl) throws IllegalArgumentException;
+	
+	public void createBesuch(Profil source, Profil target) throws IllegalArgumentException;
+	
+	public void deleteBesuch(Besuch besuch) throws IllegalArgumentException;
+	
+	public ArrayList<Besuch> findAllBesuche() throws IllegalArgumentException;
+	
+	public Besuch findBesuchByKey(int id) throws IllegalArgumentException;
+	
+	public ArrayList<Besuch> findBesucheOf(Profil profilowner) throws IllegalArgumentException;
+	
+	
 
 
 }
