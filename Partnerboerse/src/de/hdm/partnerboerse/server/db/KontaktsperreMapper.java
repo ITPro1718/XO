@@ -172,6 +172,4 @@ public class KontaktsperreMapper {
 			
 			return result;
 	}
-	  }
-
-
+}
