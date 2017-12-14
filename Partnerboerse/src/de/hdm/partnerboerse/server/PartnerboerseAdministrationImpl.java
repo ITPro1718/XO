@@ -144,7 +144,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 		}
 		
 		this.pMapper.delete(p);
-	  
 	}
 
 	@Override
@@ -176,7 +175,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 		m.setFremdprofilID(target.getId());
 		
 		this.mMapper.insertMerkzettelEintrag(m);
-
 	}
 
 	@Override
@@ -208,19 +206,10 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 		k.setFremdprofilID(target.getId());
 		
 		this.kMapper.insertKontaktsperreEintrag(k);
-		
-		
 	}
 
 	@Override
 	public ArrayList<Kontaktsperre> getAllKontaktsperreEintraege() throws IllegalArgumentException {
-		
-		/**
-		 * gleiches Problem wie bei Merkzettel
-		 * 
-		 * TODO: findByOwner und findAll 
-		 */
-		
 		
 		return this.kMapper.findAll();
 	}
@@ -235,9 +224,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 
 	@Override
 	public void deleteKontaktsperreEintraege(Kontaktsperre kontaktsperre) throws IllegalArgumentException {
-		/**
-		 * keine Abhängigkeiten, deswegen können wir es einfach löschen
-		 */
+		
 	  this.kMapper.deleteKontaktsperreEintrag(kontaktsperre);
 		
 	}
@@ -287,8 +274,8 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 
 	@Override
 	public void deleteSuchprofil(Suchprofil suchprofil) throws IllegalArgumentException {
-		this.sMapper.deleteSuchprofil(suchprofil);
-	
+		
+		this.sMapper.deleteSuchprofil(suchprofil);	
 	}
 
 	@Override
@@ -334,6 +321,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	@Override
 	public void updateInfo(Info info) throws IllegalArgumentException {
 		//  Methode fehlt in Mapperklasse 
+		
 		
 	}
 
@@ -493,32 +481,37 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 
 @Override
 public void createBesuch(Profil source, Profil target) throws IllegalArgumentException {
-	// TODO Auto-generated method stub
+	Besuch b = new Besuch();
+	b.setEigenprofilID(source.getId());
+	b.setFremdprofilID(target.getId());
+	
+	this.bMapper.insertBesuch(b);
 	
 }
 
 @Override
 public void deleteBesuch(Besuch besuch) throws IllegalArgumentException {
-	// TODO Auto-generated method stub
+	
+	this.bMapper.deleteBesuch(besuch);
 	
 }
 
 @Override
 public ArrayList<Besuch> findAllBesuche() throws IllegalArgumentException {
-	// TODO Auto-generated method stub
-	return null;
+	
+	return this.bMapper.findAll();
 }
 
 @Override
 public Besuch findBesuchByKey(int id) throws IllegalArgumentException {
-	// TODO Auto-generated method stub
-	return null;
+
+	return this.bMapper.findByKey(id);
 }
 
 @Override
 public ArrayList<Besuch> findBesucheOf(Profil profilowner) throws IllegalArgumentException {
-	// TODO Auto-generated method stub
-	return null;
+	
+	return this.bMapper.findByEigenprofil(profilowner);
 }
 
 

@@ -62,6 +62,8 @@ public class Editor implements EntryPoint {
       @Override
       public void onClick(ClickEvent event) {
         // TODO Auto-generated method stub
+    	  
+    	  
         
       }
     });
