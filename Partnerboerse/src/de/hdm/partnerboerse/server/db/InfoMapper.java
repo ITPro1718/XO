@@ -78,7 +78,7 @@ public class InfoMapper {
 				
 				Statement stmt = con.createStatement();
 
-				ResultSet rs = stmt.executeQuery("SELECT * FROM info"+ "ORDER BY id");
+				ResultSet rs = stmt.executeQuery("SELECT * FROM info ORDER BY id");
 
 				
 				while (rs.next()) {
@@ -123,7 +123,7 @@ public class InfoMapper {
 				
 				Statement stmt = con.createStatement();
 
-				ResultSet rs = stmt.executeQuery("SELECT * FROM info"+ "WHERE epID=" + profilowner.getId() +"ORDER BY id");
+				ResultSet rs = stmt.executeQuery("SELECT * FROM info WHERE epID=" + profilowner.getId() +" ORDER BY id");
 
 				
 				while (rs.next()) {
