@@ -125,11 +125,11 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 			}
 		}
 		
-//		if (besuche != null){
-//			for (Besuch b : besuche){
-//				this.deleteBesuche(b)
-//			}
-//		}
+		if (besuche != null){
+			for (Besuch b : besuche){
+				this.deleteBesuch(b);
+			}
+		}
 		
 		if (suchprofile != null){
 			for (Suchprofil s : suchprofile){
@@ -490,6 +490,36 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	  
     return null;
   }
+
+@Override
+public void createBesuch(Profil source, Profil target) throws IllegalArgumentException {
+	// TODO Auto-generated method stub
+	
+}
+
+@Override
+public void deleteBesuch(Besuch besuch) throws IllegalArgumentException {
+	// TODO Auto-generated method stub
+	
+}
+
+@Override
+public ArrayList<Besuch> findAllBesuche() throws IllegalArgumentException {
+	// TODO Auto-generated method stub
+	return null;
+}
+
+@Override
+public Besuch findBesuchByKey(int id) throws IllegalArgumentException {
+	// TODO Auto-generated method stub
+	return null;
+}
+
+@Override
+public ArrayList<Besuch> findBesucheOf(Profil profilowner) throws IllegalArgumentException {
+	// TODO Auto-generated method stub
+	return null;
+}
 
 
 }
