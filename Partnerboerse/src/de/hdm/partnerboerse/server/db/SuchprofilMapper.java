@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Vector;
 
 import de.hdm.partnerboerse.shared.bo.Auswahl;
+import de.hdm.partnerboerse.shared.bo.Kontaktsperre;
+import de.hdm.partnerboerse.shared.bo.Profil;
 import de.hdm.partnerboerse.shared.bo.Suchprofil;
 
 public class SuchprofilMapper {
@@ -53,8 +55,8 @@ public class SuchprofilMapper {
 						stmt = con.createStatement();
 
 						
-						stmt.executeUpdate("INSERT INTO suchprofil(id, titel, haarfarbe, koerpergroesse, raucher, age, epID) " + "VALUES (" + suchprofil.getId() + ","
-								+ suchprofil.getTitle() +  "," + suchprofil.getHaarFarbe() +  "," + suchprofil.getKoerpergroesse() +  "," + suchprofil.isRaucher() +  "," + suchprofil.getAlter() +  "," + suchprofil.getEigenprofilID() +  ")");
+						stmt.executeUpdate("INSERT INTO suchprofil(id, titel, religion, haarfarbe, koerpergroesse, raucher, age, epID) " + "VALUES (" + suchprofil.getId() + ","
+								+ suchprofil.getTitle() +  "," + suchprofil.getReligion() + "," + suchprofil.getHaarFarbe() +  "," + suchprofil.getKoerpergroesse() +  "," + suchprofil.isRaucher() +  "," + suchprofil.getAlter() +  "," + suchprofil.getEigenprofilID() +  ")");
 					}
 				} catch (SQLException e2) {
 					e2.printStackTrace();
@@ -69,7 +71,7 @@ public class SuchprofilMapper {
 		    try {
 		      Statement stmt = con.createStatement();
 
-		      stmt.executeUpdate("UPDATE suchprofil " + "SET titel=\"" + suchprofil.getTitle() + "\", " + "haarfarbe=\"" +  suchprofil.getHaarFarbe() + "\", " + "koerpergroesse=\""
+		      stmt.executeUpdate("UPDATE suchprofil " + "SET titel=\"" + suchprofil.getTitle() + "\", " + "religion=\"" +  suchprofil.getReligion() + "\", " + "haarfarbe=\"" +  suchprofil.getHaarFarbe() + "\", " + "koerpergroesse=\""
 						+ suchprofil.getKoerpergroesse() + "\" " + "raucher=\"" + suchprofil.isRaucher() + "\", " + "age=\"" + suchprofil.getAlter() + "WHERE id=" + suchprofil.getId());
 		       
 
@@ -114,6 +116,7 @@ public class SuchprofilMapper {
 					s.setRaucher(rs.getBoolean("raucher"));
 					s.setAlter(rs.getInt("age"));
 					s.setEigenprofilID(rs.getInt("epID"));
+					s.setReligion(rs.getString("religion"));
 					
 					return s;
 				}
@@ -140,6 +143,7 @@ public class SuchprofilMapper {
 					s.setRaucher(rs.getBoolean("raucher"));
 					s.setAlter(rs.getInt("age"));
 					s.setEigenprofilID(rs.getInt("epID"));
+					s.setReligion(rs.getString("religion"));
 					
 					return s;
 				}
@@ -173,7 +177,7 @@ public class SuchprofilMapper {
 					s.setRaucher(rs.getBoolean("raucher"));
 					s.setAlter(rs.getInt("age"));
 					s.setEigenprofilID(rs.getInt("epID"));
-
+					s.setReligion(rs.getString("religion"));
 					
 					result.add(s);
 				}
@@ -185,6 +189,38 @@ public class SuchprofilMapper {
 			return result;
 		 
 	  }
+	  public ArrayList<Suchprofil> findSuchprofileOf(Profil profilowner) {
+		  ArrayList<Suchprofil> result = new ArrayList<>();
+
+			Connection con = DBConnection.getConnection();
+			try {
+				
+				Statement stmt = con.createStatement();
+
+				ResultSet rs = stmt.executeQuery("SELECT * FROM suchprofil"+ "WHERE epID=" + profilowner.getId() +"ORDER BY id");
+
+				
+				while (rs.next()) {
+					Suchprofil s = new Suchprofil();
+					s.setId(rs.getInt("id"));
+					s.setTitle(rs.getString("titel"));
+					s.setHaarFarbe(rs.getString("haarfarbe"));
+					s.setKoerpergroesse(rs.getFloat("koerpergroesse"));
+					s.setRaucher(rs.getBoolean("raucher"));
+					s.setAlter(rs.getInt("age"));
+					s.setEigenprofilID(rs.getInt("epID"));
+					s.setReligion(rs.getString("religion"));
+
+					
+					result.add(s);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+
+			
+			return result;
+	}
 	  
 	  
 }

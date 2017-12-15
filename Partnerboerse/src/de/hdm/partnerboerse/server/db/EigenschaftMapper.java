@@ -1,5 +1,9 @@
 package de.hdm.partnerboerse.server.db;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import de.hdm.partnerboerse.shared.bo.Eigenschaft;
@@ -9,7 +13,7 @@ import de.hdm.partnerboerse.shared.bo.Eigenschaft;
  * eine relationale Datenbank. Das Mapping ist bidirektional, Objekte werden auf
  * DB-Strukturen abgebildet und DB-Strukturen auf Java-Objekte.
  * 
- * @author sanjamikulic
+ * @author Mikulic
  *
  */
 public class EigenschaftMapper {
@@ -46,7 +50,25 @@ public class EigenschaftMapper {
 	 * @param eigenschaft
 	 */
 	public void insertEigenschaft(Eigenschaft eigenschaft) {
+		Connection con = DBConnection.getConnection();
 
+		try {
+			Statement stmt = con.createStatement();
+
+			ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid " + "FROM eigenschaft");
+
+			if (rs.next()) {
+
+				eigenschaft.setId(rs.getInt("maxid") + 1);
+				stmt = con.createStatement();
+
+				stmt.executeUpdate("INSERT INTO eigenschaft (id, erlaeuterung) " + "VALUE (" + eigenschaft.getId()
+						+ ", '" + eigenschaft.getErlaeterung() + " ') ");
+
+			}
+		} catch (SQLException e2) {
+			e2.printStackTrace();
+		}
 	}
 
 	/**
@@ -55,6 +77,16 @@ public class EigenschaftMapper {
 	 * @param eigenschaft
 	 */
 	public void updateEigenschaft(Eigenschaft eigenschaft) {
+		Connection con = DBConnection.getConnection();
+
+		try {
+			Statement stmt = con.createStatement();
+			stmt.executeUpdate("UPDATE eigenschaft" + " SET titel=\"" + eigenschaft.getErlaeterung() + "\""
+					+ " WHERE id =" + eigenschaft.getId());
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
 	}
 
@@ -64,6 +96,15 @@ public class EigenschaftMapper {
 	 * @param eigenschaft
 	 */
 	public void deleteEigenschaft(Eigenschaft eigenschaft) {
+		Connection con = DBConnection.getConnection();
+
+		try {
+			Statement stmt = con.createStatement();
+			stmt.executeUpdate("DELETE FROM eigenschaft WHERE id= " + eigenschaft.getId());
+
+		} catch (SQLException e2) {
+			e2.printStackTrace();
+		}
 
 	}
 
@@ -75,6 +116,23 @@ public class EigenschaftMapper {
 	 * @return
 	 */
 	public Eigenschaft findByKey(int id) {
+		Connection con = DBConnection.getConnection();
+
+		try {
+			Statement stmt = con.createStatement();
+
+			ResultSet rs = stmt.executeQuery("SELECT id, erlaeuterung FROM eigenschaft WHERE id=" + id);
+			if (rs.next()) {
+				Eigenschaft e = new Eigenschaft();
+				e.setId(rs.getInt("id"));
+				e.setErlaeterung(rs.getString("titel"));
+				return e;
+			}
+		} catch (SQLException e2) {
+			e2.printStackTrace();
+			return null;
+		}
+
 		return null;
 	}
 
@@ -84,7 +142,27 @@ public class EigenschaftMapper {
 	 * @return
 	 */
 	public ArrayList<Eigenschaft> findAll() {
-		return null;
+		Connection con = DBConnection.getConnection();
+
+		ArrayList<Eigenschaft> result = new ArrayList<>();
+
+		try {
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT id, erlaeuterung FROM eigenschaft  " + "ORDER BY id");
+
+			while (rs.next()) {
+				Eigenschaft e = new Eigenschaft();
+				e.setId(rs.getInt("id"));
+				e.setErlaeterung(rs.getString("titel"));
+
+				result.add(e);
+
+			}
+		} catch (SQLException e2) {
+			e2.printStackTrace();
+		}
+
+		return result;
 
 	}
 
