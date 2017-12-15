@@ -144,10 +144,10 @@ public class AuswahlMapper {
 	 * 
 	 * @return Liefert eine {@link List} von {@link Auswahl}.
 	 */
-	public List<Auswahl> findAll() {
+	public ArrayList<Auswahl> findAll() {
 		Connection con = DBConnection.getConnection();
 
-		List<Auswahl> result = new ArrayList<>();
+		ArrayList<Auswahl> result = new ArrayList<>();
 
 		try {
 			Statement stmt = con.createStatement();
