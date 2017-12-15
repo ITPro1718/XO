@@ -125,11 +125,11 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 			}
 		}
 		
-//		if (besuche != null){
-//			for (Besuch b : besuche){
-//				this.deleteBesuche(b)
-//			}
-//		}
+		if (besuche != null){
+			for (Besuch b : besuche){
+				this.deleteBesuch(b);
+			}
+		}
 		
 		if (suchprofile != null){
 			for (Suchprofil s : suchprofile){
@@ -144,7 +144,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 		}
 		
 		this.pMapper.delete(p);
-	  
 	}
 
 	@Override
@@ -176,7 +175,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 		m.setFremdprofilID(target.getId());
 		
 		this.mMapper.insertMerkzettelEintrag(m);
-
 	}
 
 	@Override
@@ -208,19 +206,10 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 		k.setFremdprofilID(target.getId());
 		
 		this.kMapper.insertKontaktsperreEintrag(k);
-		
-		
 	}
 
 	@Override
 	public ArrayList<Kontaktsperre> getAllKontaktsperreEintraege() throws IllegalArgumentException {
-		
-		/**
-		 * gleiches Problem wie bei Merkzettel
-		 * 
-		 * TODO: findByOwner und findAll 
-		 */
-		
 		
 		return this.kMapper.findAll();
 	}
@@ -235,9 +224,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 
 	@Override
 	public void deleteKontaktsperreEintraege(Kontaktsperre kontaktsperre) throws IllegalArgumentException {
-		/**
-		 * keine Abhängigkeiten, deswegen können wir es einfach löschen
-		 */
+		
 	  this.kMapper.deleteKontaktsperreEintrag(kontaktsperre);
 		
 	}
@@ -287,8 +274,8 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 
 	@Override
 	public void deleteSuchprofil(Suchprofil suchprofil) throws IllegalArgumentException {
-		this.sMapper.deleteSuchprofil(suchprofil);
-	
+		
+		this.sMapper.deleteSuchprofil(suchprofil);	
 	}
 
 	@Override
@@ -335,11 +322,12 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	public void updateInfo(Info info) throws IllegalArgumentException {
 		//  Methode fehlt in Mapperklasse 
 		
+		
 	}
 
 	@Override
 	public void deleteInfo(Info info) throws IllegalArgumentException {
-		this.iMapper.deleteInfo(info);
+		//this.iMapper.deleteInfo(info); Abhängigkeiten? 
 		
 	}
 
@@ -352,72 +340,81 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	@Override
 	public ArrayList<Eigenschaft> getAllEigenschaften() throws IllegalArgumentException {
 		
-		return null;
+		return this.eiMapper.findAll();
+		
 	}
 
 	@Override
 	public Eigenschaft getEigenschaftByID(int id) throws IllegalArgumentException {
 		
-		return null;
+		return this.eiMapper.findByKey(id);
 	}
 
 	@Override
 	public void updateEigenschaft(Eigenschaft eigenschaft) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+		
+		this.eiMapper.updateEigenschaft(eigenschaft);
 		
 	}
 
 	@Override
 	public void deleteEigenschaft(Eigenschaft eigenschaft) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+		//Abhängigkeiten Freitext,Auswahl und Element löschen bevor Eigenschaft gelöscht werden kann
 		
 	}
 
 	@Override
 	public void createFreitext(Eigenschaft eigenschaft, String text) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+		
+		Freitext f = new Freitext();
+		
+		f.setBeschreibung(text);
+		//Freitext ID von Eigenschaftsobjekt setzen, wie? ID von Freitext(welche der Freitext ID vom Eigenschaftsobjekt entspricht) wird erst im Mapper gesetzt.
+		
+		//this.fMapper.insertFreitext(f);
 		
 	}
 
+
 	@Override
 	public Freitext getFreitext() throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+		// Alle Freitexte (Arraylist) oder ein Freitext von einem Eigenschaftsobjekt? (dann brauchen wir den Übergabewert Eigenschaft eigenschaft)
 		return null;
 	}
 
 	@Override
 	public void updateFreitext(Freitext freitext) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+		this.fMapper.updateFreitext(freitext);
 		
 	}
 
 	@Override
 	public void deleteFreitext(Freitext freitext) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+		this.fMapper.deleteFreitext(freitext);
 		
 	}
 
 	@Override
 	public void createAuswahl(Eigenschaft eigenschaft, String title) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+		//siehe createFreitext Kommentar. Gleiches Problem.
 		
 	}
 
 	@Override
 	public ArrayList<Auswahl> getAuswahl() throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return this.aMapper.findAll();
 	}
 
 	@Override
 	public void updateAuswahl(Auswahl auswahl) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+		this.aMapper.updateAuswahl(auswahl);
 		
 	}
 
 	@Override
 	public void deleteAuswahl(Auswahl auswahl) throws IllegalArgumentException {
-		
+	//Wie löschen wir die Abhängigkeiten bezüglich Element (auswahlID)?
 	}
 
 	@Override
@@ -490,6 +487,41 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	  
     return null;
   }
+
+@Override
+public void createBesuch(Profil source, Profil target) throws IllegalArgumentException {
+	Besuch b = new Besuch();
+	b.setEigenprofilID(source.getId());
+	b.setFremdprofilID(target.getId());
+	
+	this.bMapper.insertBesuch(b);
+	
+}
+
+@Override
+public void deleteBesuch(Besuch besuch) throws IllegalArgumentException {
+	
+	this.bMapper.deleteBesuch(besuch);
+	
+}
+
+@Override
+public ArrayList<Besuch> findAllBesuche() throws IllegalArgumentException {
+	
+	return this.bMapper.findAll();
+}
+
+@Override
+public Besuch findBesuchByKey(int id) throws IllegalArgumentException {
+
+	return this.bMapper.findByKey(id);
+}
+
+@Override
+public ArrayList<Besuch> findBesucheOf(Profil profilowner) throws IllegalArgumentException {
+	
+	return this.bMapper.findByEigenprofil(profilowner);
+}
 
 
 }

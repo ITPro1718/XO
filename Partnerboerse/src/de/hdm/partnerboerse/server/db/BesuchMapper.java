@@ -58,11 +58,12 @@ public class BesuchMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			ResultSet rs = stmt.executeQuery("SELECT id, epID FROM besuch" + "WHERE id=" + id + "ORDER BY epID ");
+			ResultSet rs = stmt.executeQuery("SELECT * FROM besuch" + "WHERE id=" + id + "ORDER BY epID ");
 			if (rs.next()) {
 				Besuch besuch = new Besuch();
 				besuch.setId(rs.getInt("id"));
 				besuch.setEigenprofilID(rs.getInt("epID"));
+				besuch.setFremdprofilID(rs.getInt("fpID"));
 				return besuch;
 			}
 		} catch (SQLException e2) {
@@ -85,13 +86,13 @@ public class BesuchMapper {
 
 		try {
 			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT id, epid FROM besuch " + "ORDER BY id");
+			ResultSet rs = stmt.executeQuery("SELECT * FROM besuch");
 
 			while (rs.next()) {
 				Besuch besuch = new Besuch();
 				besuch.setId(rs.getInt("id"));
 				besuch.setEigenprofilID(rs.getInt("epId"));
-
+				besuch.setFremdprofilID(rs.getInt("fpID"));
 				result.add(besuch);
 			}
 		} catch (SQLException e2) {
@@ -115,7 +116,7 @@ public class BesuchMapper {
 			Statement stmt = con.createStatement();
 
 			ResultSet rs = stmt
-					.executeQuery("SELECT id, epID, fpId FROM besuch" + "WHERE epid=" + p.getId() + "ORDER BY epId");
+					.executeQuery("SELECT * FROM besuch" + "WHERE epID=" + p.getId());
 			if (rs.next()) {
 				Besuch besuch = new Besuch();
 				besuch.setId(rs.getInt("id"));
@@ -150,8 +151,8 @@ public class BesuchMapper {
 				besuch.setId(rs.getInt("maxid") + 1);
 				stmt = con.createStatement();
 
-				stmt.executeUpdate("INSERT INTO besuch(id, epId) " + "VALUES (" + besuch.getId() + ","
-						+ besuch.getEigenprofilID() + ")");
+				stmt.executeUpdate("INSERT INTO besuch(id, epID, fpID) " + "VALUES (" + besuch.getId() + ","
+						+ besuch.getEigenprofilID() + "," + besuch.getFremdprofilID() + ")");
 
 			}
 
@@ -159,6 +160,19 @@ public class BesuchMapper {
 			e2.printStackTrace();
 		}
 
+	}
+	
+	public void deleteBesuch(Besuch besuch){
+		 Connection con = DBConnection.getConnection();
+		 
+		 try {
+			 Statement stmt = con.createStatement();
+			 stmt.executeUpdate("DELETE FROM freitext WHERE id=" + besuch.getId());
+			 		 
+		 }
+		 catch (Exception e){
+			 e.printStackTrace();
+		 }
 	}
 
 }
