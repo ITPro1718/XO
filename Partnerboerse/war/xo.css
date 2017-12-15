@@ -3,28 +3,133 @@
 /**
 * Author:		Team 6
 * Name:			Partnerbörse XO CSS
-* Version: 		1.0
+* Version: 		1.1
 */
 
+/*-----------RESET STYLES---------------*/
 
-body {background: red!important; padding:0!important; margin:0!important;}
+body {background: #ebebeb; 
+    padding:0!important; 
+    margin:0!important;
+    font-family: 'Open Sans', sans-serif;
+}
 
 header {
-    background: lightgrey;
+    background: #f18487;
     width: 100%;
-    height: 120px;
-    display: block;
+    height: 70px;
+    display: flex;
     margin: 0;
     padding: 0;
 }
 
 footer {
-    height: 150px;
+    height: 75px;
     width: 100%;
-    background: antiquewhite;
+    background: #f18487;
     display: block;
     position: fixed;
     bottom: 0;
 }
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+ul li {
+    margin: 10px 0;
+}
+
+h1,h2,h3,h4,h5{
+    font-family: 'Oswald', sans-serif;
+}
+
+/*----------- ELEMENT STYLING ---------------*/
+
+#logo img {
+    height: 70px;
+}
+header h1 {
+    padding: 0;
+    margin: 0;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 footer h3 {text-align: center;}
+
+#mwrap {
+    width: 70%;
+    margin: 35px auto;
+}
+#navwrap {
+    float: left;
+    width: 13%;
+    background: #fff;
+    padding: 10px;
+}
+.pwrap {
+    display: block;
+    width: 100%;
+    min-height: 250px;
+    background: #fff;
+}
+.pwrap .ppic, .pwrap .pinfo, .pwrap .pbtn {
+    float: left;
+    padding: 10px;
+}
+.pinfo {
+    width: 59%;
+}
+.pbtn {
+    width: 15%;
+}
+.ppic {
+    width: 20%;
+}
+
+
+/*Navigation Area*/
+
+.mainnav a, .subnav a {
+    text-decoration: none;
+}
+
+/*Button Area*/
+
+button {
+    width: 100%;
+    height: 35px;
+    margin: 5px 0;
+    background: lightblue;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {background: lightgreen;}
+
+/*Profile Pic Area*/
+
+.ppic img {
+    -webkit-filter: grayscale(1);
+    filter: grayscale(1);
+    width: 100%;
+}
+
+
+/*Profile Info Area*/
+#contwrap {
+    float: left;
+    margin-left: 2%;
+    width: 83%;
+}
+
+
+
+
+
 
