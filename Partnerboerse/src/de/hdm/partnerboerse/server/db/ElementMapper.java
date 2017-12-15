@@ -47,11 +47,13 @@ public class ElementMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			ResultSet rs = stmt.executeQuery("SELECT id, bezeichnung FROM element" + "WHERE id=" + id);
+			ResultSet rs = stmt.executeQuery("SELECT * FROM element" + "WHERE id=" + id);
 
 			if (rs.next()) {
 				Element element = new Element();
 				element.setId(rs.getInt("id"));
+				element.setBezeichnung(rs.getString("bezeichnung"));
+				element.setAuswahlID(rs.getInt("auswahlID"));
 				return element;
 			}
 
@@ -75,12 +77,13 @@ public class ElementMapper {
 
 		try {
 			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT id, bezeichnung FROM elemente " + "ODER BY id");
+			ResultSet rs = stmt.executeQuery("SELECT * FROM elemente ODER BY id");
 
 			while (rs.next()) {
 				Element element = new Element();
 				element.setId(rs.getInt("id"));
 				element.setBezeichnung(rs.getString("bezeichnung"));
+				element.setAuswahlID(rs.getInt("auswahlID"));
 
 				result.add(element);
 			}
@@ -90,7 +93,5 @@ public class ElementMapper {
 		}
 
 		return result;
-
 	}
-
 }

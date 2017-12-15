@@ -133,8 +133,7 @@ public class KontaktsperreMapper {
 					k.setEigenprofilID(rs.getInt("epID"));
 					k.setFremdprofilID(rs.getInt("fpID"));
 					
-
-					
+	
 					result.add(k);
 				}
 			} catch (SQLException e) {
@@ -173,6 +172,4 @@ public class KontaktsperreMapper {
 			
 			return result;
 	}
-	  }
-
-
+}
