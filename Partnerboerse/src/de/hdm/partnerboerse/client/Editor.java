@@ -104,10 +104,19 @@ public class Editor implements EntryPoint {
           profilFlexTable.setText(row, 0, p.getNachname());
           profilFlexTable.setText(row, 1, p.getVorname());
           profilFlexTable.setText(row, 2, p.getHaarfarbe());
-          profilFlexTable.setWidget(row, 2, new Label());
-          profilFlexTable.getCellFormatter().addStyleName(row, 1, "watchListNumericColumn");
-          profilFlexTable.getCellFormatter().addStyleName(row, 2, "watchListNumericColumn");
-          profilFlexTable.getCellFormatter().addStyleName(row, 3, "watchListRemoveColumn");
+          int kgr = (int) p.getKoerpergroesse();
+          String s = "" + kgr;
+          profilFlexTable.setText(row, 3, s);
+          profilFlexTable.setText(row, 4, "" + p.isRaucher());
+          profilFlexTable.setText(row, 5, p.getReligion());
+          profilFlexTable.setText(row, 6, "" +p.getGeburtsdatum());
+          profilFlexTable.setText(row, 7, p.getPasswort());
+          profilFlexTable.setText(row, 8, p.getEmail());
+          
+//          profilFlexTable.setWidget(row, 2, new Label());
+//          profilFlexTable.getCellFormatter().addStyleName(row, 1, "watchListNumericColumn");
+//          profilFlexTable.getCellFormatter().addStyleName(row, 2, "watchListNumericColumn");
+//          profilFlexTable.getCellFormatter().addStyleName(row, 3, "watchListRemoveColumn");
 	  }
     });
 
