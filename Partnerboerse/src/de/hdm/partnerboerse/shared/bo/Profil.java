@@ -1,6 +1,7 @@
 package de.hdm.partnerboerse.shared.bo;
 
 import java.util.Date;
+import java.util.Calendar;
 
 public class Profil extends BusinessObjekt {
 
@@ -26,6 +27,19 @@ public class Profil extends BusinessObjekt {
   private String passwort;
   
   private String email;
+  
+  
+  public int getAlter() {
+	  
+	  Calendar calendar = Calendar.getInstance();
+	  calendar.setTime(this.geburtsdatum);
+	  int birthYear = calendar.get(Calendar.YEAR);
+	  int actualYear = 2017;
+	  int age = actualYear-birthYear;
+	  
+	  return age;
+	  //private int age; anlegen? oder nur lokal für die berechnungen verwenden? 
+  }
 
   /**
    * @return the vorname
