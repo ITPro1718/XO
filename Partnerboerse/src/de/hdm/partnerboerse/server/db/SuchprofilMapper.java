@@ -222,5 +222,31 @@ public class SuchprofilMapper {
 			return result;
 	}
 	  
+	  public Suchprofil getSuchprofil (Suchprofil suchprofil) {
+		  Connection con = DBConnection.getConnection();
+
+			try {
+				Statement stmt = con.createStatement();
+
+				ResultSet rs = stmt.executeQuery("SELECT * FROM suchprofil" + "WHERE id=" + suchprofil.getId());
+				if (rs.next()) {
+					Suchprofil s = new Suchprofil();
+					s.setId(rs.getInt("id"));
+					s.setTitle(rs.getString("titel"));
+					s.setHaarFarbe(rs.getString("haarfarbe"));
+					s.setKoerpergroesse(rs.getFloat("koerpergroesse"));
+					s.setRaucher(rs.getBoolean("raucher"));
+					s.setAlter(rs.getInt("age"));
+					s.setEigenprofilID(rs.getInt("epID"));
+					s.setReligion(rs.getString("religion"));
+					
+					return s;
+				}
+			} catch (SQLException e2) {
+				e2.printStackTrace();
+				return null;
+			}
+			return null;
+	  }
 	  
 }

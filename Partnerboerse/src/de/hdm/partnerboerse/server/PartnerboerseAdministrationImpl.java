@@ -288,8 +288,47 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	@Override
 	public ArrayList<Profil> getSuchProfilErgebnisse(Suchprofil suchprofil) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		return null;
-	}
+		Suchprofil suchprofile = this.sMapper.getSuchprofil(suchprofil);
+		ArrayList<Profil> profile = this.pMapper.findAllProfiles();
+		Profil suchprofilowner = this.pMapper.findProfilByKey(suchprofile.getEigenprofilID());
+		ArrayList<Kontaktsperre> kontaktsperrenofsuchprofilowner = this.kMapper.findKontaktsperrenOf(suchprofilowner);
+		ArrayList<Integer> ids = new ArrayList<>();
+		ArrayList<Integer> fpids = new ArrayList<>();
+	
+	
+			//Bevor der Abgleich stattfindet, müssen ALLE Kontaktsperren fpids in der Arraylist fpids vorhanden sein.	
+		for(int j =0; j<kontaktsperrenofsuchprofilowner.size(); j++){
+			Kontaktsperre k = kontaktsperrenofsuchprofilowner.get(j);
+			int fpid = k.getFremdprofilID();
+			fpids.add(fpid);
+			}
+		//Abspeichern der Profil id, mit jedem Durchgang eine neue id.
+		          for (int i= 0; i < profile.size(); i++){
+					Profil p = profile.get(i);
+					int id = p.getId();
+					ids.add(id);
+					//Vergleich der id am Index i mit der kompletten fpid Arraylist.
+						if(fpids.contains(ids.get(i))){
+							profile.set(i, null);
+						}
+						//Falls die Profil id am aktuellen Index i, der Profil id des "Suchprofilbesitzers" entspricht,
+						//wird das Element an der Stelle i null gesetzt, der garbage collector löscht das referenzlose Objekt um neuen Speicher zu schaffen.
+						else if (ids.get(i)== suchprofilowner.getId()){
+								profile.set(i, null);
+						}
+							// Die Methode compare gleicht das Suchprofil mit dem Profil am aktuellen Index i ab, falls es nicht gleich ist, wird das Element in Arraylist profile am Index i null gesetzt.
+							// suchprofile bzw. das Suchprofil-Businessobjekt dient hierbei nur als Hilfsklasse, dass die Methde aufgerufen werden kann, die Methode kann natürlich auch an einer anderen Stelle oder in einer eigenen Hilfsklasse implementiert werden.
+						else if (suchprofile.compare(suchprofile, p) == false){
+								profile.set(i, null);
+							}
+					}
+				
+		
+	
+		return profile;
+}
+
+	
 
 	@Override
 	public ArrayList<Profil> getNotSeenProfilErgebnisse(Suchprofil suchprofil) throws IllegalArgumentException {
