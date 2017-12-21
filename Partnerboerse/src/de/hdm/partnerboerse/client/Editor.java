@@ -22,7 +22,49 @@ import de.hdm.partnerboerse.shared.bo.Profil;
 public class Editor implements EntryPoint {
 	
   private final PartnerboerseAdministrationAsync partnerAdmin = GWT.create(PartnerboerseAdministration.class);
-  private VerticalPanel mainPanel = new VerticalPanel();
+  
+  public void onModuleLoad() {
+
+	  HorizontalPanel navPanel = new HorizontalPanel();
+	  RootPanel.get("Navigator").add(navPanel);
+	  
+	  //Button-Widget erzeugen und benennen
+	  final Button myProfilButton = new Button("Mein Profil");
+	  /*
+	     * Unter welchem Namen können wir den Button durch die CSS-Datei des
+	     * Projekts formatieren?
+	     */
+	  myProfilButton.setStylePrimaryName("xo-menubutton");
+	  
+	     //Hinzufügen des Buttons zum HorizontalPanel.
+	  navPanel.add(myProfilButton);
+	  
+	  //Initialisierung eines ClickHandlers
+	  
+	    myProfilButton.addClickHandler(new ClickHandler() {
+	        @Override
+	  	public void onClick(ClickEvent event) {
+	          /*
+	           * Showcase instantiieren.
+	           */
+	          Showcase showcase = new FindProfilByNameDemo();
+
+	          /*
+	           * Für die Ausgaben haben wir ein separates DIV-Element namens "Details"
+	           * in die zugehörige HTML-Datei eingefügt. Bevor wir den neuen Showcase
+	           * dort einbetten, löschen wir vorsichtshalber sämtliche bisherigen
+	           * Elemente dieses DIV.
+	           */
+	          RootPanel.get("Details").clear();
+	          RootPanel.get("Details").add(showcase);
+	        }
+	      });
+
+	  
+	  
+  
+  
+ /** private VerticalPanel mainPanel = new VerticalPanel();
   private FlexTable profilFlexTable = new FlexTable();
   private HorizontalPanel addPanel = new HorizontalPanel();
   private TextBox newSymbolTextBox = new TextBox();
@@ -55,18 +97,18 @@ public class Editor implements EntryPoint {
     mainPanel.add(lastUpdatedLabel);
 
     // Associate the Main panel with the HTML host page.
-    RootPanel.get("profile").add(mainPanel);
+    RootPanel.get("xo-frame").add(mainPanel);
 
     // Move cursor focus to the input box.
     newSymbolTextBox.setFocus(true);
-
+**/
     /*
      * Neues Button Widget erzeugen und eine Beschriftung festlegen.
      */
-    final Button findProfilButton = new Button("Finde Profile");
+  /**  final Button findProfilButton = new Button("Finde Profile");
     VerticalPanel navPanel = new VerticalPanel();
     
-    RootPanel.get("profile").add(navPanel);
+    RootPanel.get("xo-frame").add(navPanel);
     navPanel.add(findProfilButton);
     
     findProfilButton.addClickHandler(new ClickHandler() {
@@ -118,10 +160,10 @@ public class Editor implements EntryPoint {
 //          profilFlexTable.getCellFormatter().addStyleName(row, 2, "watchListNumericColumn");
 //          profilFlexTable.getCellFormatter().addStyleName(row, 3, "watchListRemoveColumn");
 	  }
-    });
 
   }
 
+**/
 
-
+  }
 }
