@@ -23,58 +23,15 @@ public class Editor implements EntryPoint {
 	
   private final PartnerboerseAdministrationAsync partnerAdmin = GWT.create(PartnerboerseAdministration.class);
   
-  public void onModuleLoad() {
-
-	  HorizontalPanel navPanel = new HorizontalPanel();
-	  RootPanel.get("Navigator").add(navPanel);
-	  
-	  //Button-Widget erzeugen und benennen
-	  final Button myProfilButton = new Button("Mein Profil");
-	  /*
-	     * Unter welchem Namen können wir den Button durch die CSS-Datei des
-	     * Projekts formatieren?
-	     */
-	  myProfilButton.setStylePrimaryName("xo-menubutton");
-	  
-	     //Hinzufügen des Buttons zum HorizontalPanel.
-	  navPanel.add(myProfilButton);
-	  
-	  //Initialisierung eines ClickHandlers
-	  
-	    myProfilButton.addClickHandler(new ClickHandler() {
-	        @Override
-	  	public void onClick(ClickEvent event) {
-	          /*
-	           * Showcase instantiieren.
-	           */
-	          Showcase showcase = new FindProfilByNameDemo();
-
-	          /*
-	           * Für die Ausgaben haben wir ein separates DIV-Element namens "Details"
-	           * in die zugehörige HTML-Datei eingefügt. Bevor wir den neuen Showcase
-	           * dort einbetten, löschen wir vorsichtshalber sämtliche bisherigen
-	           * Elemente dieses DIV.
-	           */
-	          RootPanel.get("Details").clear();
-	          RootPanel.get("Details").add(showcase);
-	        }
-	      });
-
-	  
-	  
-  
-  
- /** private VerticalPanel mainPanel = new VerticalPanel();
+  private VerticalPanel mainPanel = new VerticalPanel();
   private FlexTable profilFlexTable = new FlexTable();
   private HorizontalPanel addPanel = new HorizontalPanel();
-  private TextBox newSymbolTextBox = new TextBox();
-  private Button addProfilButton = new Button("Add");
   private Label lastUpdatedLabel = new Label();
+  
 
 
   @Override
   public void onModuleLoad() {
-
 
     // Create table for Profil
     profilFlexTable.setText(0, 0, "Vorname");
@@ -87,9 +44,6 @@ public class Editor implements EntryPoint {
     profilFlexTable.setText(0, 7, "Passwort");
     profilFlexTable.setText(0, 8, "Email");
     
-    // Assemble Add Stock panel.
-    addPanel.add(newSymbolTextBox);
-    addPanel.add(addProfilButton);
 
     // Assemble Main panel.
     mainPanel.add(profilFlexTable);
@@ -97,10 +51,8 @@ public class Editor implements EntryPoint {
     mainPanel.add(lastUpdatedLabel);
 
     // Associate the Main panel with the HTML host page.
-    RootPanel.get("xo-frame").add(mainPanel);
+    RootPanel.get("Navigator").add(mainPanel);
 
-    // Move cursor focus to the input box.
-    newSymbolTextBox.setFocus(true);
 
     
     // Neues Button Widget erzeugen und eine Beschriftung festlegen.
@@ -108,27 +60,23 @@ public class Editor implements EntryPoint {
     final Button findProfilButton = new Button("Finde Profile");
     VerticalPanel navPanel = new VerticalPanel();
     
-    RootPanel.get("xo-frame").add(navPanel);
+    RootPanel.get("Navigator").add(navPanel);
     navPanel.add(findProfilButton);
     
     findProfilButton.addClickHandler(new ClickHandler() {
       
       @Override
       public void onClick(ClickEvent event) {
-        // TODO Auto-generated method stub
-    	  
+
     	  getProfileFromServer();
-    	  
-        
+  
       }
       
 		private void getProfileFromServer() {
-			
-				
+
 			partnerAdmin.getAllProfils(new AsyncCallback<ArrayList<Profil>>(){
 				
-				public void onFailure(Throwable caught) {
-					// Show the RPC error message to the user					
+				public void onFailure(Throwable caught) {					
 				}
 
 				@Override
@@ -137,9 +85,10 @@ public class Editor implements EntryPoint {
 						addToTable(p);
 					}					
 				}
-							}
-			);
+			});
 		}
+		
+	
       
       private void addToTable(Profil p){
 		  int row = profilFlexTable.getRowCount();
@@ -155,15 +104,7 @@ public class Editor implements EntryPoint {
           profilFlexTable.setText(row, 7, p.getPasswort());
           profilFlexTable.setText(row, 8, p.getEmail());
           
-//          profilFlexTable.setWidget(row, 2, new Label());
-//          profilFlexTable.getCellFormatter().addStyleName(row, 1, "watchListNumericColumn");
-//          profilFlexTable.getCellFormatter().addStyleName(row, 2, "watchListNumericColumn");
-//          profilFlexTable.getCellFormatter().addStyleName(row, 3, "watchListRemoveColumn");
-	  }
-
-  }
-
-*/
-
+  	  }
+    });
   }
 }
