@@ -101,11 +101,11 @@ public class Editor implements EntryPoint {
 
     // Move cursor focus to the input box.
     newSymbolTextBox.setFocus(true);
-**/
-    /*
-     * Neues Button Widget erzeugen und eine Beschriftung festlegen.
-     */
-  /**  final Button findProfilButton = new Button("Finde Profile");
+
+    
+    // Neues Button Widget erzeugen und eine Beschriftung festlegen.
+     
+    final Button findProfilButton = new Button("Finde Profile");
     VerticalPanel navPanel = new VerticalPanel();
     
     RootPanel.get("xo-frame").add(navPanel);
@@ -163,7 +163,7 @@ public class Editor implements EntryPoint {
 
   }
 
-**/
+*/
 
   }
 }

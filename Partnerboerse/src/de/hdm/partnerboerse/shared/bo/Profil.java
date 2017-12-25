@@ -31,13 +31,13 @@ public class Profil extends BusinessObjekt {
   
   public int getAlter() {
 	  
-	 Calendar calendar = Calendar.getInstance();
-	 calendar.setTime(this.geburtsdatum);
-	 int birthYear = calendar.get(Calendar.YEAR);
-	  int actualYear = 2017;
-	  int age = actualYear-birthYear;
+//	 Calendar calendar = Calendar.getInstance();
+//	 calendar.setTime(this.geburtsdatum);
+//	 int birthYear = calendar.get(Calendar.YEAR);
+//	 int actualYear = 2017;
+//	 int age = actualYear-birthYear;
 	 
-	 return age;
+	 return 1;
 	  //private int age; anlegen? oder nur lokal für die Berechnungen verwenden? 
  }
   

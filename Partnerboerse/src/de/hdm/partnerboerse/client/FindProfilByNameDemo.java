@@ -28,7 +28,7 @@ public class FindProfilByNameDemo extends Showcase {
 
 		PartnerboerseAdministrationAsync profilverwaltung = ClientSideSettings.getProfilVerwaltung();
 
-		profilverwaltung.getProfilByName("Schmidt", new ProfilAusgebenCallback(this));
+		profilverwaltung.getProfilByName("Gundermann", new ProfilAusgebenCallback(this));
 	}
 
 	class ProfilAusgebenCallback implements AsyncCallback<ArrayList<Profil>> {
