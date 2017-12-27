@@ -61,7 +61,7 @@ header h1 {
 
 footer h3 {text-align: center;}
 
-#mwrap {
+#mwrap, #mwrapREP {
     width: 70%;
     margin: 35px auto;
 }
