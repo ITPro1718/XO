@@ -30,7 +30,7 @@ public class Profil extends BusinessObjekt {
   
   
   public int getAlter() {
-	  
+	   
 	 Calendar calendar = Calendar.getInstance();
 	 calendar.setTime(this.geburtsdatum);
 	 int birthYear = calendar.get(Calendar.YEAR);
