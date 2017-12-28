@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit 2.7.0//EN"
+  "http://gwtproject.org/doctype/2.7.0/gwt-module.dtd">
+  
+  <module rename-to='PartnerboerseReport'>
+  <!-- Inherit the core Web Toolkit stuff.                        -->
+  <inherits name='com.google.gwt.user.User'/>
+
+  <inherits name='com.google.gwt.user.theme.clean.Clean'/>
+
+
+  <!-- Other module inherits                                      -->
+	<!-- Die folgende Zeile wird benötigt, da wir auch Client-seitig Logging
+		unterstützen wollen. PT, 24.05.2012 -->
+	<inherits name="com.google.gwt.logging.Logging" />
+
+  <!-- Specify the app entry point class.                         -->
+  <entry-point class='de.hdm.partnerboerse.client.ReportGenerator'/>
+
+  <!-- Specify the paths for translatable code                    -->
+  <source path='client'/>
+  <source path='shared'/>
+  
+  <!-- allow Super Dev Mode -->
+  <add-linker name="xsiframe"/>
+
+</module>
+  

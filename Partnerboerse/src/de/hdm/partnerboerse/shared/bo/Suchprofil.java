@@ -129,8 +129,8 @@ public boolean compare(Suchprofil suchprofill, Profil profil){
 		return true;
 	if(suchprofill.isRaucher() == profil.isRaucher())
 		return true;
-	if(suchprofill.getAlter() == profil.getAlter())
-		return true;
+	//if(suchprofill.getAlter() == profil.getAlter())
+		//return true;
 	if(suchprofill.getReligion() == profil.getReligion())
 		return true;
 	else return false;

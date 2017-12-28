@@ -55,7 +55,7 @@ public class Editor implements EntryPoint {
     mainPanel.add(lastUpdatedLabel);
 
     // Associate the Main panel with the HTML host page.
-    RootPanel.get("profile").add(mainPanel);
+    RootPanel.get("mwrap").add(mainPanel);
 
     // Move cursor focus to the input box.
     newSymbolTextBox.setFocus(true);
@@ -66,7 +66,7 @@ public class Editor implements EntryPoint {
     final Button findProfilButton = new Button("Finde Profile");
     VerticalPanel navPanel = new VerticalPanel();
     
-    RootPanel.get("profile").add(navPanel);
+    RootPanel.get("mwrap").add(navPanel);
     navPanel.add(findProfilButton);
     
     findProfilButton.addClickHandler(new ClickHandler() {
