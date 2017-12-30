@@ -3,7 +3,6 @@ package de.hdm.partnerboerse.server.db;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Properties;
 
 import com.google.appengine.api.utils.SystemProperty;
 
@@ -17,13 +16,10 @@ public class DBConnection {
 		
 	private static Connection con = null;
 	
-	private static String localurl = "jdbc:mysql://127.0.0.1:3306/partnerboerse?user=root&password=";
-	private static String user = "root";
-	private static String pw = null;
+	private static String localurl = "jdbc:mysql://localhost:3306/partnerboerse?user=root&password=";
 	private static String googleurl = "jdbc:google:mysql://testprojekt-187820:testprojekt/partnerboerse?user=root&password=123";
 	private static String url;
-	private static Properties info = new Properties();
-	
+
 	
 	
 	public static Connection getConnection() {
@@ -42,9 +38,7 @@ public class DBConnection {
 					}
 				
 				
-				info.put("autoReconnect", "true");
-		        info.put("connectTimeout", "360000");
-				con = DriverManager.getConnection(url, info);
+				con = DriverManager.getConnection(url);
 			} 
 			
 			catch (Exception e) {

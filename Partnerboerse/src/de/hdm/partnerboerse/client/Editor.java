@@ -51,8 +51,8 @@ public class Editor implements EntryPoint {
     mainPanel.add(lastUpdatedLabel);
 
     // Associate the Main panel with the HTML host page.
-    RootPanel.get("Navigator").add(mainPanel);
 
+    RootPanel.get("mwrap").add(mainPanel);
 
     
     // Neues Button Widget erzeugen und eine Beschriftung festlegen.
@@ -60,7 +60,8 @@ public class Editor implements EntryPoint {
     final Button findProfilButton = new Button("Finde Profile");
     VerticalPanel navPanel = new VerticalPanel();
     
-    RootPanel.get("Navigator").add(navPanel);
+
+    RootPanel.get("mwrap").add(navPanel);
     navPanel.add(findProfilButton);
     
     findProfilButton.addClickHandler(new ClickHandler() {

@@ -318,7 +318,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 						}
 							// Die Methode compare gleicht das Suchprofil mit dem Profil am aktuellen Index i ab, falls es nicht gleich ist, wird das Element in Arraylist profile am Index i null gesetzt.
 							// suchprofile bzw. das Suchprofil-Businessobjekt dient hierbei nur als Hilfsklasse, dass die Methde aufgerufen werden kann, die Methode kann natürlich auch an einer anderen Stelle oder in einer eigenen Hilfsklasse implementiert werden.
-						else if (suchprofile.compare(suchprofile, p) == false){
+					else if (suchprofile.compare(suchprofile, p) == false){
 								profile.set(i, null);
 							}
 					}
