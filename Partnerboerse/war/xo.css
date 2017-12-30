@@ -130,11 +130,25 @@ button:hover {background: lightgreen;}
 #contwrap {
     float: left;
     margin-left: 2%;
-    width: 83%;
+    width: 82%;
     background: #fff !important;
+    padding: 10px;
 }
-
-
+#contwrap table {
+    width: 100%;
+}
+.itable td:nth-child(3) {
+    width: 100px;
+}
+.itable td {
+    width: 250px;
+}
+table.etable {
+    margin: 15px 0 100px 0;
+}
+table.etable td {
+    padding: 10px;
+}
 
 
 

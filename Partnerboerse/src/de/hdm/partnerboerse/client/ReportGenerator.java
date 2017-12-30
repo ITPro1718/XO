@@ -12,7 +12,7 @@ public class ReportGenerator implements EntryPoint {
 
 	@Override
 	public void onModuleLoad() {
-		
+
 		// Navigation Area
 		HTML ppic = new HTML("<img src=\"" + "../img/ppic.jpg" + "\">");
 
@@ -20,27 +20,26 @@ public class ReportGenerator implements EntryPoint {
 		Button meineMerkliste = new Button("Merkliste");
 		Button meineKontaktsperren = new Button("Kontaktsperren");
 		Button meineSuchprofile = new Button("Suchprofile");
-		
+
 		HTML reports = new HTML("<h3>" + "REPORTS" + "</h3>");
-		
-		Button meineSuchprofilReports = new Button("Suchprofil Report");		
+
+		Button meineSuchprofilReports = new Button("Suchprofil Report");
 		Button meinePartnervorschläge = new Button("Partnervorschläge");
 
-		 ppic.setTitle("Profilbild");
-		 ppic.addStyleName("ppic");
-		 meinProfil.setTitle("Mein Profil");
-		 meinProfil.addStyleName("button");
-		 meineMerkliste.setTitle("Merkliste");
-		 meineMerkliste.addStyleName("button");
-		 meineKontaktsperren.setTitle("Kontaktsperre");
-		 meineKontaktsperren.addStyleName("button");
-		 meineSuchprofile.setTitle("Suchprofile");
-		 meineSuchprofile.addStyleName("button");
-		 meineSuchprofile.setTitle("Suchprofil Report");
-		 meineSuchprofile.addStyleName("button");
-		 meineSuchprofile.setTitle("Partnervorschläge");
-		 meineSuchprofile.addStyleName("button");
-		 
+		ppic.setTitle("Profilbild");
+		ppic.addStyleName("ppic");
+		meinProfil.setTitle("Mein Profil");
+		meinProfil.addStyleName("button");
+		meineMerkliste.setTitle("Merkliste");
+		meineMerkliste.addStyleName("button");
+		meineKontaktsperren.setTitle("Kontaktsperre");
+		meineKontaktsperren.addStyleName("button");
+		meineSuchprofile.setTitle("Suchprofile");
+		meineSuchprofile.addStyleName("button");
+		meineSuchprofile.setTitle("Suchprofil Report");
+		meineSuchprofile.addStyleName("button");
+		meineSuchprofile.setTitle("Partnervorschläge");
+		meineSuchprofile.addStyleName("button");
 
 		VerticalPanel navi = new VerticalPanel();
 		navi.add(ppic);
@@ -53,8 +52,7 @@ public class ReportGenerator implements EntryPoint {
 		navi.add(meinePartnervorschläge);
 
 		RootPanel.get("navwrap").add(navi);
-		
-		
+
 		// Content Area
 
 		DockPanel dockPanel = new DockPanel();

@@ -15,7 +15,7 @@ public class DBConnection {
 		
 	private static Connection con = null;
 	
-	private static String url = "jdbc:mysql://localhost:3306/partnerboerse";
+	private static String url = "jdbc:mysql://localhost:3306/xo2017";
 	private static String user = "root";
 	private static String pw = null;
 	
@@ -34,7 +34,7 @@ public class DBConnection {
 				 * Diese Verbindung wird dann in der statischen Variable con 
 				 * abgespeichert und fortan verwendet.
 				 */
-				con = DriverManager.getConnection(url, user, pw);
+				con = DriverManager.getConnection(url,user,pw);
 			} 
 			
 			catch (SQLException e1) {
