@@ -27,7 +27,6 @@ public class Profil extends BusinessObjekt {
   private String passwort;
   
   private String email;
-  
 
  
 	//  public int getAlter() {

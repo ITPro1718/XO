@@ -116,9 +116,9 @@ public class Editor implements EntryPoint {
 
 		// Move cursor focus to the input box.
 		newSymbolTextBox.setFocus(true);
+
+
 		
-
-
 		/*
 		 * Neues Button Widget erzeugen und eine Beschriftung festlegen.
 		 */
@@ -128,17 +128,24 @@ public class Editor implements EntryPoint {
 		RootPanel.get("contwrap").add(navPanel);
 		navPanel.add(findProfilButton);
 
+
 		findProfilButton.addClickHandler(new ClickHandler() {
+
 
 			@Override
 			public void onClick(ClickEvent event) {
 				// TODO Auto-generated method stub
 
+
 				getProfileFromServer();
+
+
 
 			}
 
 			private void getProfileFromServer() {
+
+
 
 				partnerAdmin.getAllProfils(new AsyncCallback<ArrayList<Profil>>() {
 

@@ -1,9 +1,10 @@
 package de.hdm.partnerboerse.server.db;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
-// import com.google.appengine.api.rdbms.AppEngineDriver;
-// import com.google.cloud.sql.jdbc.Connection;
+import com.google.appengine.api.utils.SystemProperty;
 
 /**
  * 
@@ -15,32 +16,36 @@ public class DBConnection {
 		
 	private static Connection con = null;
 	
-	private static String url = "jdbc:mysql://localhost:3306/xo2017";
-	private static String user = "root";
-	private static String pw = null;
+	private static String localurl = "jdbc:mysql://localhost:3306/partnerboerse?user=root&password=";
+	private static String googleurl = "jdbc:google:mysql://testprojekt-187820:testprojekt/partnerboerse?user=root&password=123";
+	private static String url;
+
+
 	
 	public static Connection getConnection() {
 		// Wenn es bisher keine Conncetion zur DB gab, ... 
 		if ( con == null ) {
 			try {
-				// Ersteinmal muss der passende DB-Treiber geladen werden
 				
-				// DriverManager.registerDriver(new AppEngineDriver());
 
-				/*
-				 * Dann erst kann uns der DriverManager eine Verbindung mit den oben
-				 * in der Variable url angegebenen Verbindungsinformationen aufbauen.
-				 * 
-				 * Diese Verbindung wird dann in der statischen Variable con 
-				 * abgespeichert und fortan verwendet.
-				 */
-				con = DriverManager.getConnection(url,user,pw);
+				if (SystemProperty.environment.value() == SystemProperty.Environment.Value.Production) {
+					
+					Class.forName("com.mysql.jdbc.GoogleDriver");
+					url = googleurl;
+					} 
+				else {
+					  // Local MySQL instance to use during development.
+					  url = localurl;
+					}
+				
+				
+				con = DriverManager.getConnection(url);
 			} 
 			
-			catch (SQLException e1) {
+			catch (Exception e) {
 				con = null;
-				e1.printStackTrace();
-			}
+				e.printStackTrace();
+			} 
 		}
 		
 		// Zurückgegeben der Verbindung
