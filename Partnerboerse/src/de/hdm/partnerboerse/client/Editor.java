@@ -32,24 +32,18 @@ public class Editor implements EntryPoint {
 	private TextBox newSymbolTextBox = new TextBox();
 	private Button addProfilButton = new Button("Add");
 	private Label lastUpdatedLabel = new Label();
-
+	
+	
+	Navigation nav = new Navigation();
+	EditProfile ep = new EditProfile();
 	@Override
 	public void onModuleLoad() {
 
 		// Navigation Area
-		
-		Navigation nav = new Navigation();
-		
 		RootPanel.get("navwrap").add(nav);
 		
 		
-		// Profile Edit
-		
-		EditProfile ep = new EditProfile();
-		
-		/*
-		 * Panel wird erzeugt und eingefügt.
-		 */		
+		// Profile Edit - Panel wird erzeugt und eingefügt.
 		HTMLPanel editProfilePanel = new HTMLPanel("<h3>" + "Hier können Sie ihre Profilinformationen bearbeiten." + "</h3>");
 		editProfilePanel.add(ep);
 	

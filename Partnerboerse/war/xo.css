@@ -150,6 +150,19 @@ table.etable td {
     padding: 10px;
 }
 
-
+/*REPORT AREA*/
+.rtable {
+    border: solid 1px lightblue;
+}
+.rtable tr:first-child {
+    font-weight: bold;
+    font-size: 18px !important;
+    background: lightblue;
+}
+.rtable td {
+    padding: 5px;
+    text-align: center;
+    font-size: 14px;
+}
 
 

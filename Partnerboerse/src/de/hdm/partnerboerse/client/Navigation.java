@@ -29,21 +29,24 @@ public class Navigation extends VerticalPanel {
 	 * Navigation zeichnen und bereitstellen
 	 */
 
-	// Navigation Area
-	HTML ppic = new HTML("<img src=\"" + "../img/ppic.jpg" + "\">");
+	
+	
 
-	Button meinProfil = new Button("Mein Profil");
-	Button meineMerkliste = new Button("Merkliste");
-	Button meineKontaktsperren = new Button("Kontaktsperren");
-	Button meineSuchprofile = new Button("Suchprofile");
+	final Button meinProfil = new Button("Mein Profil");
+	final Button meineMerkliste = new Button("Merkliste");
+	final Button meineKontaktsperren = new Button("Kontaktsperren");
+	final Button meineSuchprofile = new Button("Suchprofile");
 
 	HTML reports = new HTML("<h3>" + "REPORTS" + "</h3>");
 
-	Button meineSuchprofilReports = new Button("Suchprofil Report");
-	Button meinePartnervorschläge = new Button("Partnervorschläge");
+	final Button meineSuchprofilReports = new Button("Suchprofil Report");
+	final Button meinePartnervorschläge = new Button("Partnervorschläge");
 
 	public void onLoad() {
-
+		
+		// Navigation Area
+		HTML ppic = new HTML("<img src=\"" + "../img/ppic.jpg" + "\">");
+		
 		ppic.setTitle("Profilbild");
 		ppic.addStyleName("ppic");
 		meinProfil.setTitle("Mein Profil");
