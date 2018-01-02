@@ -40,7 +40,6 @@ public class Editor implements EntryPoint {
 		
 		Navigation nav = new Navigation();
 		
-
 		RootPanel.get("navwrap").add(nav);
 		
 		
