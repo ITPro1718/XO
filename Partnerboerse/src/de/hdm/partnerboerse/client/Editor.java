@@ -37,44 +37,11 @@ public class Editor implements EntryPoint {
 	public void onModuleLoad() {
 
 		// Navigation Area
-		HTML ppic = new HTML("<img src=\"" + "../img/ppic.jpg" + "\">");
+		
+		Navigation nav = new Navigation();
+		
 
-		Button meinProfil = new Button("Mein Profil");
-		Button meineMerkliste = new Button("Merkliste");
-		Button meineKontaktsperren = new Button("Kontaktsperren");
-		Button meineSuchprofile = new Button("Suchprofile");
-
-		HTML reports = new HTML("<h3>" + "REPORTS" + "</h3>");
-
-		Button meineSuchprofilReports = new Button("Suchprofil Report");
-		Button meinePartnervorschläge = new Button("Partnervorschläge");
-
-		ppic.setTitle("Profilbild");
-		ppic.addStyleName("ppic");
-		meinProfil.setTitle("Mein Profil");
-		meinProfil.addStyleName("button");
-		meineMerkliste.setTitle("Merkliste");
-		meineMerkliste.addStyleName("button");
-		meineKontaktsperren.setTitle("Kontaktsperre");
-		meineKontaktsperren.addStyleName("button");
-		meineSuchprofile.setTitle("Suchprofile");
-		meineSuchprofile.addStyleName("button");
-		meineSuchprofile.setTitle("Suchprofil Report");
-		meineSuchprofile.addStyleName("button");
-		meineSuchprofile.setTitle("Partnervorschläge");
-		meineSuchprofile.addStyleName("button");
-
-		VerticalPanel navi = new VerticalPanel();
-		navi.add(ppic);
-		navi.add(meinProfil);
-		navi.add(meineMerkliste);
-		navi.add(meineKontaktsperren);
-		navi.add(meineSuchprofile);
-		navi.add(reports);
-		navi.add(meineSuchprofilReports);
-		navi.add(meinePartnervorschläge);
-
-		RootPanel.get("navwrap").add(navi);
+		RootPanel.get("navwrap").add(nav);
 		
 		
 		// Profile Edit
