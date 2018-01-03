@@ -25,9 +25,6 @@ public class SPReport extends VerticalPanel {
 	 * Search Profile Reports zeichnen und bereitstellen
 	 */
 
-	
-
-
 	public void onLoad() {
 		HTML reports = new HTML("<h3>" + "Suchprofil Reports" + "</h3>");
 		reports.addStyleName("repwrap");
@@ -47,8 +44,6 @@ public class SPReport extends VerticalPanel {
 		reportGrid.setText(0, 6, "Religion");
 		reportGrid.setText(0, 7, "Match in %");
 
-		
-		// Navigation Area
 		
 
 

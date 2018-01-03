@@ -36,6 +36,8 @@ public class Editor implements EntryPoint {
 	
 	Navigation nav = new Navigation();
 	EditProfile ep = new EditProfile();
+	Searchprofile sp = new Searchprofile();
+	
 	@Override
 	public void onModuleLoad() {
 
@@ -48,6 +50,13 @@ public class Editor implements EntryPoint {
 		editProfilePanel.add(ep);
 	
 		RootPanel.get("contwrap").add(editProfilePanel);
+		
+		// Search Profile
+		
+		HTMLPanel spPanel = new HTMLPanel("<h3>" + "Hier können Sie Ihr Suchprofil erstellen." + "</h3>");
+		spPanel.add(sp);
+	
+		RootPanel.get("contwrap").add(spPanel);
 		
 		
 		
