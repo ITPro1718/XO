@@ -164,30 +164,27 @@ public class FreitextMapper {
 		return result;
 	}
 
-	public ArrayList<Freitext> findFreitextOf(Eigenschaft eigenschaft){
-		 ArrayList<Freitext> result = new ArrayList<>();
+	public Freitext findFreitextOf(Eigenschaft eigenschaft){
 
 			Connection con = DBConnection.getConnection();
 			try {
 				
 				Statement stmt = con.createStatement();
 
-				ResultSet rs = stmt.executeQuery("SELECT * FROM freitext"+ "WHERE id=" + eigenschaft.getFreitextID() +"ORDER BY id");
+				ResultSet rs = stmt.executeQuery("SELECT * FROM freitext"+ "WHERE id=" + eigenschaft.getFreitextID());
 
 				
-				while (rs.next()) {
-					Freitext a = new Freitext();
-					a.setId(rs.getInt("id"));
-					a.setBeschreibung(rs.getString("beschreibung"));
+				if (rs.next()) {
+					Freitext f = new Freitext();
+					f.setId(rs.getInt("id"));
+					f.setBeschreibung(rs.getString("beschreibung"));
+					return f;
 
-					
-					result.add(a);
 				}
+				
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-
-			
-			return result;
+			return null;
 	}	  
 }

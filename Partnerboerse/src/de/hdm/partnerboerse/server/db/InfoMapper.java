@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import de.hdm.partnerboerse.shared.bo.Eigenschaft;
 import de.hdm.partnerboerse.shared.bo.Info;
 import de.hdm.partnerboerse.shared.bo.Merkzettel;
 import de.hdm.partnerboerse.shared.bo.Profil;
@@ -143,8 +144,15 @@ public class InfoMapper {
 			
 			return result;
 	}
-    
-    
+
+	public ArrayList<Info> findEigenschaftsInfosOf(Eigenschaft eigenschaft) {
+		
+		/**
+		 * not sure what this does
+		 */
+		
+		return null;
+	}
     
 
 }

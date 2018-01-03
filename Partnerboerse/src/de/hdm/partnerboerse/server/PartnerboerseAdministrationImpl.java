@@ -289,9 +289,9 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	@Override
 	public ArrayList<Profil> getSuchProfilErgebnisse(Suchprofil suchprofil) throws IllegalArgumentException {
 
-		Suchprofil suchprofile = this.sMapper.getSuchprofil(suchprofil);
+
 		ArrayList<Profil> profile = this.pMapper.findAllProfiles();
-		Profil suchprofilowner = this.pMapper.findProfilByKey(suchprofile.getEigenprofilID());
+		Profil suchprofilowner = this.pMapper.findProfilByKey(suchprofil.getEigenprofilID());
 		ArrayList<Kontaktsperre> kontaktsperrenofsuchprofilowner = this.kMapper.findKontaktsperrenOf(suchprofilowner);
 		ArrayList<Integer> fpids = new ArrayList<>();
 			
@@ -321,7 +321,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 			// dem Profil ab. z.B. Suchprofil-Haarfarbe = blonde, Profil-Haarfarbe = schwarz ergibt
 			// keinen Treffer.
 			// TODO: Compare Methode implementieren (Applikationslogik!!)
-			else if (suchprofile.compare(suchprofile, p) == false){
+			else if (suchprofil.compare(suchprofil, p) == false){
 				profile.remove(p);
 			}
 		}
@@ -333,8 +333,9 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 
 	@Override
 	public ArrayList<Profil> getNotSeenProfilErgebnisse(Suchprofil suchprofil) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+		
 		return null;
+		
 	}
 
 	@Override
@@ -410,8 +411,9 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 		Freitext f = new Freitext();
 		
 		f.setBeschreibung(text);
-		//Freitext ID von Eigenschaftsobjekt setzen, wie? ID von Freitext(welche der Freitext ID vom Eigenschaftsobjekt entspricht) wird erst im Mapper gesetzt.
-		
+		// Freitext ID von Eigenschaftsobjekt setzen, wie? ID von Freitext(welche der Freitext ID vom 
+		// Eigenschaftsobjekt entspricht) wird erst im Mapper gesetzt.
+				
 		//this.fMapper.insertFreitext(f);
 		
 	}
@@ -455,7 +457,14 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 
 	@Override
 	public void deleteAuswahl(Auswahl auswahl) throws IllegalArgumentException {
-	//Wie löschen wir die Abhängigkeiten bezüglich Element (auswahlID)?
+	/** 
+	 * Wie löschen wir die Abhängigkeiten bezüglich Element (auswahlID)?
+	 * 
+	 * Elemente kann man nicht löschen, wir löschen die Auswahl-FremdID aus dem Element
+	 * und dann erst die Auswahl
+	 * 
+	 */
+		
 	}
 
 	@Override
@@ -492,26 +501,39 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
       throws IllegalArgumentException {
 	
     return this.sMapper.findSuchprofileOf(profilowner);
+    
   }
 
   @Override
   public ArrayList<Info> findInfoOf(Profil profilowner) throws IllegalArgumentException {
+	  
 	return this.iMapper.findInfoOf(profilowner);
+	
   }
 
   @Override
   public ArrayList<Info> findEigenschaftsInfosOf(Eigenschaft eigenschaft)
       throws IllegalArgumentException {
-	// Methode in Mapperklasse implementieren
-    return null;
+	 /**
+	  * Was macht diese Methode?
+	  * TODO: Methode im Info Mapper implementieren
+	  */
+	  
+	  return this.iMapper.findEigenschaftsInfosOf(eigenschaft);
+	  
   }
 
   @Override
-  public ArrayList<Freitext> findFreitextOf(Eigenschaft eigenschaft)
+  public Freitext findFreitextOf(Eigenschaft eigenschaft)
       throws IllegalArgumentException {
-	// hat ein Eigenschaftsobjekt nicht maximal 1 Freitext oder 1 Auswahl(nach unserem relationalen Datenmodell) ? dann wäre der Rückgabewert keine Liste sondern nur "Freitext".
+	  
+	/**
+	 * Gibt den Freitext einer Eigenschaft über den Fremdschlüssel zurück
+	 */
+	  
     return this.fMapper.findFreitextOf(eigenschaft);
   }
+  
   @Override
   public ArrayList<Eigenschaft> findAuswahlOf(Eigenschaft eigenschaft)
       throws IllegalArgumentException {
@@ -523,10 +545,15 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
   }
 
   @Override
-  public ArrayList<Auswahl> findElementeOf(Auswahl auswahl) throws IllegalArgumentException {
-	// Rückgabebewert ArrayList<Element>  wenn wir Elemente von einem Auswahlobjekt suchen? 
+  public ArrayList<Element> findElementeOf(Auswahl auswahl) throws IllegalArgumentException {
+		  
+	  /**
+	   * Gibt alle Elemente einer Auswahl zurück.
+	   * z.B. Auswahl = Sportart
+	   * 	  Elemente = Fußball, Handball
+	   */
 	  
-    return null;
+	return this.aMapper.findElementOf(auswahl);
   }
 
 @Override
