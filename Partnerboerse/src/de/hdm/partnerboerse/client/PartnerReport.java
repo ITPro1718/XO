@@ -25,7 +25,6 @@ public class PartnerReport extends VerticalPanel {
 	 * Partnervorschläge Reports zeichnen und bereitstellen
 	 */
 
-	
 	public void onLoad() {
 		HTML reports = new HTML("<h3>" + "Partnervorschläge" + "</h3>");
 		reports.addStyleName("repwrap");
@@ -46,10 +45,6 @@ public class PartnerReport extends VerticalPanel {
 		preportGrid.setText(0, 7, "Match in %");
 
 		
-		// Navigation Area
-		
-
-
 
 	}
 
