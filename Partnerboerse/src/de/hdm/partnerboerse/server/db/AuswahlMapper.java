@@ -169,6 +169,11 @@ public class AuswahlMapper {
 		return result;
 	}
 	
+	/**
+	 * Gibt alle Elemente aus einer Auswahl zurück
+	 * @param auswahl
+	 * @return
+	 */
 	public ArrayList<Element> findElementOf(Auswahl auswahl){
 		 ArrayList<Element> result = new ArrayList<Element>();
 
@@ -195,6 +200,33 @@ public class AuswahlMapper {
 
 			
 			return result;
-	}	
+	}
+
+	/**
+	 * Gibt eine Auswahl aus einer Eigenschaft aus
+	 * @param eigenschaft
+	 * @return
+	 */
+	public Auswahl findAuswahlOf(Eigenschaft eigenschaft) {
+		Connection con = DBConnection.getConnection();
+
+		try {
+			Statement stmt = con.createStatement();
+
+			ResultSet rs = stmt.executeQuery("SELECT * FROM auswahl WHERE id=" + eigenschaft.getAuswahlID());
+			
+			if (rs.next()) {
+				Auswahl a = new Auswahl();
+				a.setId(rs.getInt("id"));
+				a.setTitel(rs.getString("titel"));
+				return a;
+			}
+		} 
+		catch (SQLException e2) {
+			e2.printStackTrace();
+		}
+
+		return null;
+	}
 
 }

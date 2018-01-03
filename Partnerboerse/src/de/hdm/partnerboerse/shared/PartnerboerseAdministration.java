@@ -460,7 +460,7 @@ public interface PartnerboerseAdministration extends RemoteService {
 	
 	public Freitext findFreitextOf(Eigenschaft eigenschaft) throws IllegalArgumentException;
 	
-	public ArrayList<Eigenschaft> findAuswahlOf(Eigenschaft eigenschaft) throws IllegalArgumentException;
+	public Auswahl findAuswahlOf(Eigenschaft eigenschaft) throws IllegalArgumentException;
 	
 	public ArrayList<Element> findElementeOf(Auswahl auswahl) throws IllegalArgumentException;
 	

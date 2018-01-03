@@ -480,12 +480,14 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
   @Override
   public ArrayList<Kontaktsperre> findKontaktsperrenOf(Profil profilowner)
       throws IllegalArgumentException {
+	  
 	  return this.kMapper.findKontaktsperrenOf(profilowner);
   }
 
   @Override
   public ArrayList<Merkzettel> findMerkzettelnOf(Profil profilowner)
       throws IllegalArgumentException {
+	  
 	  return this.mMapper.findMerkzettelnOf(profilowner);
     
   }
@@ -535,13 +537,14 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
   }
   
   @Override
-  public ArrayList<Eigenschaft> findAuswahlOf(Eigenschaft eigenschaft)
+  public Auswahl findAuswahlOf(Eigenschaft eigenschaft)
       throws IllegalArgumentException {
-	//Rückgabewertfehler: wir wollen Auswahlen eines Eigenschaftsobjekts finden und geben eine Liste mit Eigenschaften zurück? 
-	// Ein Eigenschaftsobjekt hat entweder keine oder maximal eine Auswahl, somit wird die Rückgabe keine Liste von Auswahlen ergeben sondern nur ein einziges Auswahlobjekt, falls vorhanden.
-	 // public Auswahl findAuswahlOf(Eigenschaft eigenschaft) ODER
-	// public Eigenschaft findEigenschafteOf(Info info) ? Ein Infoobjket kann nur eine Eigenschaft haben oder mehrere?
-    return null;
+
+	  /**
+	   * Gibt eine Auswahl aus einer Eigenschaft zurück
+	   */
+	  
+	  return this.aMapper.findAuswahlOf(eigenschaft);
   }
 
   @Override
