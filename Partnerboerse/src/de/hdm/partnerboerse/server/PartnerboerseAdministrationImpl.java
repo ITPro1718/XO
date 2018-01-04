@@ -321,7 +321,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 			// dem Profil ab. z.B. Suchprofil-Haarfarbe = blonde, Profil-Haarfarbe = schwarz ergibt
 			// keinen Treffer.
 			// TODO: Compare Methode implementieren (Applikationslogik!!)
-			else if (suchprofil.compare(suchprofil, p) == false){
+			else if (compare(suchprofil, p) == false){
 				profile.remove(p);
 			}
 		}
@@ -329,12 +329,45 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 		return profile;
 }
 
-	
+	public boolean compare(Suchprofil suchprofill, Profil profil){
+		
+		if(suchprofill.getHaarFarbe() == profil.getHaarfarbe() &&
+			
+		 (suchprofill.getKoerpergroesse() == profil.getKoerpergroesse()) &&
+			
+		(suchprofill.isRaucher() == profil.isRaucher()) &&
+			
+		//if(suchprofill.getAlter() == profil.getAlter())
+			//return true;
+		(suchprofill.getReligion() == profil.getReligion()) ){
+			return true;
+		}
+		else return false;
+		
+	}
 
 	@Override
 	public ArrayList<Profil> getNotSeenProfilErgebnisse(Suchprofil suchprofil) throws IllegalArgumentException {
 		
-		return null;
+		ArrayList<Profil> suchProfilErgebnisse = getSuchProfilErgebnisse(suchprofil);
+		Profil suchprofilowner = this.pMapper.findProfilByKey(suchprofil.getEigenprofilID());
+		ArrayList<Besuch> visitsOfSuchprofilowner= this.bMapper.findByEigenprofil(suchprofilowner);
+       ArrayList<Integer> visitedProfilids = new ArrayList<>();
+			
+		
+		for (Besuch b : visitsOfSuchprofilowner){
+			int visitid = b.getFremdprofilID();
+			visitedProfilids.add(visitid);
+		}
+		for (Profil p : suchProfilErgebnisse){
+			int id = p.getId();
+				
+			
+			if(visitedProfilids.contains(id)){
+				suchProfilErgebnisse.remove(p);
+			}
+		}
+		return suchProfilErgebnisse;
 		
 	}
 
