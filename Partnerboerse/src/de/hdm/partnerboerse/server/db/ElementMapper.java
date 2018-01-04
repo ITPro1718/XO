@@ -55,7 +55,7 @@ public class ElementMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			ResultSet rs = stmt.executeQuery("SELECT * FROM element" + "WHERE id=" + id);
+			ResultSet rs = stmt.executeQuery("SELECT * FROM element  WHERE id=" + id);
 
 			if (rs.next()) {
 				Element element = new Element();
