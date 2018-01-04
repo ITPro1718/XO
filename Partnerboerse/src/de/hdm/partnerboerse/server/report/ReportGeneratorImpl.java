@@ -10,44 +10,45 @@ import de.hdm.partnerboerse.shared.bo.Suchprofil;
 import de.hdm.partnerboerse.shared.report.AllNotSeenProfilesReport;
 import de.hdm.partnerboerse.shared.report.SuchprofilReport;
 
-
 /**
  * The server-side implementation of the RPC service.
  */
 
 public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportGeneratorService {
 
-	
-	private PartnerboerseAdministration administration= null;
-	
-	public ReportGeneratorImpl() throws IllegalArgumentException {
-	  }
+	private static final long serialVersionUID = -13760090660194618L;
 
-	  /**
-	   * Initialsierungsmethode. Siehe dazu Anmerkungen zum No-Argument-Konstruktor.
-	   * 
-	   * @see #ReportGeneratorImpl()
-	   */
-	 public void init() throws IllegalArgumentException {
-	    /*
-	     * Ein ReportGeneratorImpl-Objekt instantiiert für seinen Eigenbedarf eine
-	     * PartnerboerseVerwaltungImpl-Instanz.
-	     */
-	    PartnerboerseAdministrationImpl a = new PartnerboerseAdministrationImpl();
-	    a.init();
-	    this.administration = a;
-	  }
-	 
-	 /**
-	   * Auslesen der zugehörigen PartnerboerseAdministration (interner Gebrauch).
-	   * 
-	   * @return das PartnerboerseVerwaltungsobjekt
-	   */
-	  protected PartnerboerseAdministration getPartnerboerseVerwaltung() {
-	    return this.administration;
-	  }
-	
-	
+	private PartnerboerseAdministration administration = null;
+
+	public ReportGeneratorImpl() throws IllegalArgumentException {
+	}
+
+	/**
+	 * Initialsierungsmethode. Siehe dazu Anmerkungen zum
+	 * No-Argument-Konstruktor.
+	 * 
+	 * @see #ReportGeneratorImpl()
+	 */
+	@Override
+	public void init() throws IllegalArgumentException {
+		/*
+		 * Ein ReportGeneratorImpl-Objekt instantiiert für seinen Eigenbedarf
+		 * eine PartnerboerseVerwaltungImpl-Instanz.
+		 */
+		PartnerboerseAdministrationImpl a = new PartnerboerseAdministrationImpl();
+		a.init();
+		this.administration = a;
+	}
+
+	/**
+	 * Auslesen der zugehörigen PartnerboerseAdministration (interner Gebrauch).
+	 * 
+	 * @return das PartnerboerseVerwaltungsobjekt
+	 */
+	protected PartnerboerseAdministration getPartnerboerseVerwaltung() {
+		return this.administration;
+	}
+
 	@Override
 	public AllNotSeenProfilesReport createAllNotSeenProfilesReport(Profil p) throws IllegalArgumentException {
 		// TODO Auto-generated method stub

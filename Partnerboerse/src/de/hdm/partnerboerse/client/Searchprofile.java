@@ -1,21 +1,11 @@
 package de.hdm.partnerboerse.client;
 
-import java.util.ArrayList;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.DecoratorPanel;
-import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.FormPanel;
-import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
-import com.google.gwt.user.client.ui.FormPanel.SubmitEvent;
 import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
@@ -23,7 +13,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
-import de.hdm.partnerboerse.shared.bo.Profil;
 
 public class Searchprofile extends VerticalPanel {
 
@@ -32,8 +21,7 @@ public class Searchprofile extends VerticalPanel {
 	Button deleteButton = new Button("Suchprofil löschen");
 	Button safeButton = new Button("Suchprofil speichern");
 
-
-
+	@Override
 	public void onLoad() {
 		// Create a FormPanel and point it at a service.
 		final FormPanel form = new FormPanel();
@@ -58,21 +46,20 @@ public class Searchprofile extends VerticalPanel {
 		Label religionLabel = new Label("Religion: ");
 		Label nationLabel = new Label("Nationalität: ");
 
-
 		ListBox bdayListBox = new ListBox();
 		bdayListBox.addItem("20+", "20+");
 		bdayListBox.addItem("30+", "30+");
 		bdayListBox.addItem("40+", "40+");
 		bdayListBox.addItem("50+", "50+");
 		bdayListBox.addItem("60+", "60+");
-		
+
 		ListBox hcolorListBox = new ListBox();
 		hcolorListBox.addItem("braun", "braun");
 		hcolorListBox.addItem("blond", "blond");
 		hcolorListBox.addItem("schwarz", "schwarz");
 		hcolorListBox.addItem("rot", "rot");
 		hcolorListBox.addItem("andere+", "andere");
-		
+
 		ListBox heightListBox = new ListBox();
 		heightListBox.addItem("150+", "150+");
 		heightListBox.addItem("160+", "160+");
@@ -80,7 +67,7 @@ public class Searchprofile extends VerticalPanel {
 		heightListBox.addItem("180+", "180+");
 		heightListBox.addItem("190+", "190+");
 		heightListBox.addItem("200+", "200+");
-		
+
 		ListBox religionListBox = new ListBox();
 		religionListBox.addItem("katholisch", "katholisch");
 		religionListBox.addItem("evangelisch", "evangelisch");
@@ -89,21 +76,19 @@ public class Searchprofile extends VerticalPanel {
 		religionListBox.addItem("hindu", "hindu");
 		religionListBox.addItem("atheist", "atheist");
 		religionListBox.addItem("andere", "andereRel+");
-		
+
 		ListBox smokerListBox = new ListBox();
 		smokerListBox.addItem("Ja", "YSmoker");
 		smokerListBox.addItem("Nein", "NSmoker");
 		smokerListBox.addItem("Gelegentlich", "SSmoker");
-		
-		TextBox nationTB = new TextBox();
-		
-		// Grid erstellen zur besseren Darstellung
 
+		TextBox nationTB = new TextBox();
+
+		// Grid erstellen zur besseren Darstellung
 
 		Grid SprofilGrid = new Grid(3, 4);
 		SprofilGrid.setStyleName("etable");
 		panel.add(SprofilGrid);
-
 
 		// Spalte 2
 		SprofilGrid.setWidget(0, 0, bdayLabel);
@@ -123,11 +108,10 @@ public class Searchprofile extends VerticalPanel {
 		// Spalte 6
 		SprofilGrid.setWidget(1, 2, religionLabel);
 		SprofilGrid.setWidget(1, 3, religionListBox);
-		
+
 		// Spalte 3
 		SprofilGrid.setWidget(2, 2, nationLabel);
 		SprofilGrid.setWidget(2, 3, nationTB);
-		
 
 		// Add a 'submit' button.
 		panel.add(new Button("Submit", new ClickHandler() {
