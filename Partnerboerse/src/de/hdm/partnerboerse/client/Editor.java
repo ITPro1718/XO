@@ -98,7 +98,7 @@ public class Editor implements EntryPoint {
 		navPanel.add(findProfilButton);
 
 
-		findProfilButton.addClickHandler(new ClickHandler() {
+		addProfilButton.addClickHandler(new ClickHandler() {
 
 
 			@Override
