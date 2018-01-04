@@ -60,7 +60,7 @@ public interface PartnerboerseAdministrationAsync {
 
 	void findAllBesuche(AsyncCallback<ArrayList<Besuch>> callback);
 
-	void findAuswahlOf(Eigenschaft eigenschaft, AsyncCallback<ArrayList<Eigenschaft>> callback);
+	void findAuswahlOf(Eigenschaft eigenschaft, AsyncCallback<Auswahl> callback);
 
 	void findBesuchByKey(int id, AsyncCallback<Besuch> callback);
 
@@ -70,9 +70,9 @@ public interface PartnerboerseAdministrationAsync {
 
 	void findEigenschaftsInfosOf(Eigenschaft eigenschaft, AsyncCallback<ArrayList<Info>> callback);
 
-	void findElementeOf(Auswahl auswahl, AsyncCallback<ArrayList<Auswahl>> callback);
+	void findElementeOf(Auswahl auswahl, AsyncCallback<ArrayList<Element>> callback);
 
-	void findFreitextOf(Eigenschaft eigenschaft, AsyncCallback<ArrayList<Freitext>> callback);
+	void findFreitextOf(Eigenschaft eigenschaft, AsyncCallback<Freitext> callback);
 
 	void findInfoOf(Profil profilowner, AsyncCallback<ArrayList<Info>> callback);
 

@@ -24,7 +24,7 @@ public interface ReportGeneratorService extends RemoteService {
 	  
 	  /**
 	   * Erstellen eines <code>AllNotSeenProfilesReport</code>-Reports. Dieser
-	   * Report-Typ stellt sämtliche Nicht-Angesehenen Profile eines Users an.
+	   * Report-Typ stellt sï¿½mtliche Nicht-Angesehenen Profile eines Users an.
 	   * 
 	   * @param p eine Referenz auf das Profilobjekt bzgl. dessen der Report
 	   *          erstellt werden soll.
