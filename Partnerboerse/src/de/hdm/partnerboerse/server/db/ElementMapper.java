@@ -85,7 +85,7 @@ public class ElementMapper {
 
 		try {
 			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT * FROM elemente ODER BY id");
+			ResultSet rs = stmt.executeQuery("SELECT * FROM element ORDER BY id");
 
 			while (rs.next()) {
 				Element element = new Element();
