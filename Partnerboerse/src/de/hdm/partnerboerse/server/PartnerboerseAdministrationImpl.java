@@ -1,7 +1,9 @@
 package de.hdm.partnerboerse.server;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -63,6 +65,31 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 		this.bMapper = BesuchMapper.besuchMapper();
 		
 	}
+	public int getAge(Date date) {
+		
+	    
+	        GregorianCalendar birthday = new GregorianCalendar();
+	        birthday.setTime(date);
+	       
+	        GregorianCalendar today = new GregorianCalendar();
+	       
+	        int age = today.get(Calendar.YEAR) - birthday.get(Calendar.YEAR);
+	       
+	        if(today.get(Calendar.MONTH) <= birthday.get(Calendar.MONTH))
+	        {
+	            if(today.get(Calendar.DATE) < birthday.get(Calendar.DATE))
+	            {
+	                age -= 1;
+	            }
+	        }
+	       
+	        if(age < 0)
+	            throw new IllegalArgumentException("invalid age: "+age);
+	       
+	        return age;
+	    }
+		  
+		
 
 	@Override
 	public void createProfil(int id, String vname, String nname, String haarfarbe, float kgr, boolean raucher,
@@ -337,8 +364,8 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 			
 		(suchprofill.isRaucher() == profil.isRaucher()) &&
 			
-		//if(suchprofill.getAlter() == profil.getAlter())
-			//return true;
+		(suchprofill.getAlter() == getAge(profil.getGeburtsdatum())) &&
+			
 		(suchprofill.getReligion() == profil.getReligion()) ){
 			return true;
 		}
