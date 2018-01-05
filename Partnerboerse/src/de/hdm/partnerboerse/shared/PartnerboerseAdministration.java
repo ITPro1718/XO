@@ -274,7 +274,7 @@ public interface PartnerboerseAdministration extends RemoteService {
 	 * @return alle nicht-gesehenden Ergebnisse des Suchprofils
 	 * @throws IllegalArgumentException
 	 */
-	public ArrayList<Profil> getNotSeenProfilErgebnisse(Suchprofil suchprofil) throws IllegalArgumentException;
+	public ArrayList<Profil> getNotSeenProfilErgebnisse(Profil eigenprofil) throws IllegalArgumentException;
 
 	/**
 	 * Info-Objekt Methoden
@@ -449,8 +449,6 @@ public interface PartnerboerseAdministration extends RemoteService {
 	public ArrayList<Kontaktsperre> findKontaktsperrenOf(Profil profilowner) throws IllegalArgumentException;
 	
 	public ArrayList<Merkzettel> findMerkzettelnOf(Profil profilowner) throws IllegalArgumentException;
-	
-	public ArrayList<Besuch> findBesucheOfe(Profil profilowner) throws IllegalArgumentException;
 	
 	public ArrayList<Suchprofil> findSuchprofileOf(Profil profilowner) throws IllegalArgumentException;
 	

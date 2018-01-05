@@ -1,7 +1,9 @@
 package de.hdm.partnerboerse.server;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -63,6 +65,31 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 		this.bMapper = BesuchMapper.besuchMapper();
 		
 	}
+	public int getAge(Date date) {
+		
+	    
+	        GregorianCalendar birthday = new GregorianCalendar();
+	        birthday.setTime(date);
+	       
+	        GregorianCalendar today = new GregorianCalendar();
+	       
+	        int age = today.get(Calendar.YEAR) - birthday.get(Calendar.YEAR);
+	       
+	        if(today.get(Calendar.MONTH) <= birthday.get(Calendar.MONTH))
+	        {
+	            if(today.get(Calendar.DATE) < birthday.get(Calendar.DATE))
+	            {
+	                age -= 1;
+	            }
+	        }
+	       
+	        if(age < 0)
+	            throw new IllegalArgumentException("invalid age: "+age);
+	       
+	        return age;
+	    }
+		  
+		
 
 	@Override
 	public void createProfil(int id, String vname, String nname, String haarfarbe, float kgr, boolean raucher,
@@ -321,7 +348,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 			// dem Profil ab. z.B. Suchprofil-Haarfarbe = blonde, Profil-Haarfarbe = schwarz ergibt
 			// keinen Treffer.
 			// TODO: Compare Methode implementieren (Applikationslogik!!)
-			else if (suchprofil.compare(suchprofil, p) == false){
+			else if (compare(suchprofil, p) == false){
 				profile.remove(p);
 			}
 		}
@@ -329,13 +356,42 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 		return profile;
 }
 
-	
+	public boolean compare(Suchprofil suchprofill, Profil profil){
+		
+		if(suchprofill.getHaarFarbe() == profil.getHaarfarbe() &&
+			
+		 (suchprofill.getKoerpergroesse() == profil.getKoerpergroesse()) &&
+			
+		(suchprofill.isRaucher() == profil.isRaucher()) &&
+			
+		(suchprofill.getAlter() == getAge(profil.getGeburtsdatum())) &&
+			
+		(suchprofill.getReligion() == profil.getReligion()) ){
+			return true;
+		}
+		else return false;
+		
+	}
 
 	@Override
-	public ArrayList<Profil> getNotSeenProfilErgebnisse(Suchprofil suchprofil) throws IllegalArgumentException {
+	public ArrayList<Profil> getNotSeenProfilErgebnisse(Profil eigenprofil) throws IllegalArgumentException {
 		
-		return null;
-		
+		ArrayList<Profil> allProfils = getAllProfils();
+		ArrayList<Besuch> visitsOfprofilowner= findBesucheOf(eigenprofil);
+        ArrayList<Integer> visitedProfilids = new ArrayList<>();
+			
+		for (Besuch b : visitsOfprofilowner){
+			int visitid = b.getFremdprofilID();
+			visitedProfilids.add(visitid);
+		}
+		for (Profil p : allProfils){
+			int id = p.getId();
+				
+			if(visitedProfilids.contains(id)){
+				allProfils.remove(p);
+			}
+		}
+		return allProfils;	
 	}
 
 	@Override
@@ -492,11 +548,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
     
   }
 
-  @Override
-  public ArrayList<Besuch> findBesucheOfe(Profil profilowner) throws IllegalArgumentException {
- 
-    return this.bMapper.findByEigenprofil(profilowner);
-  }
+
 
   @Override
   public ArrayList<Suchprofil> findSuchprofileOf(Profil profilowner)
