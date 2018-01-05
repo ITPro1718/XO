@@ -19,7 +19,7 @@ public class EigenschaftMapperTest {
 	}
 
 	@Test
-	public void testUpdateAuswahl() {
+	public void testUpdateEigenschaft() {
 		EigenschaftMapper mapper = EigenschaftMapper.eigenschaftMapper();
 		// Neues Testobjekt anlegen
 		Eigenschaft testObjekt = getTestEigenschaftObjekt();
@@ -46,6 +46,11 @@ public class EigenschaftMapperTest {
 		Eigenschaft eigenschaft = new Eigenschaft();
 		eigenschaft.setId(1);
 		eigenschaft.setErlaeuterung("Testeigenschaft");
+		eigenschaft.setIs_a("Auswahl");
+		eigenschaft.setAuswahlID(10);
+		// TODO Eigenschaft sollte nicht zu beiden Fremdschlüsseln eine
+		// Beziehung haben MÜSSEN
+		eigenschaft.setFreitextID(1);
 
 		return eigenschaft;
 
