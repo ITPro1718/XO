@@ -135,7 +135,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 		
 		ArrayList<Merkzettel> merkzettel = this.findMerkzettelnOf(p);
 		ArrayList<Kontaktsperre> kontaktsperren = this.findKontaktsperrenOf(p);
-		ArrayList<Besuch> besuche = this.findBesucheOfe(p);
+		ArrayList<Besuch> besuche = this.findBesucheOf(p);
 		ArrayList<Suchprofil> suchprofile = this.findSuchprofileOf(p);
 		ArrayList<Info> infos = this.findInfoOf(p);
 		
@@ -317,16 +317,9 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	@Override
 	public ArrayList<Profil> getSuchProfilErgebnisse(Suchprofil suchprofil) throws IllegalArgumentException {
 
-<<<<<<< HEAD
 		ArrayList<Profil> profile = getAllProfils();
 		Profil suchprofilowner = getProfilByID(suchprofil.getEigenprofilID());
 		ArrayList<Kontaktsperre> kontaktsperrenofsuchprofilowner = findKontaktsperrenOf(suchprofilowner);
-=======
-
-		ArrayList<Profil> profile = this.getAllProfils();
-		Profil suchprofilowner = this.getProfilByID(suchprofil.getEigenprofilID());
-		ArrayList<Kontaktsperre> kontaktsperrenofsuchprofilowner = this.findKontaktsperrenOf(suchprofilowner);
->>>>>>> refs/remotes/origin/master
 		ArrayList<Integer> fpids = new ArrayList<>();
 	
 		for (Kontaktsperre k : kontaktsperrenofsuchprofilowner){
