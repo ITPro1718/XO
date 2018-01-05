@@ -46,6 +46,8 @@ public interface PartnerboerseAdministrationAsync {
 
 	void deleteEigenschaft(Eigenschaft eigenschaft, AsyncCallback<Void> callback);
 
+	void deleteElementAuswahl(Auswahl auswahl, AsyncCallback<Void> callback);
+
 	void deleteFreitext(Freitext freitext, AsyncCallback<Void> callback);
 
 	void deleteInfo(Info info, AsyncCallback<Void> callback);
