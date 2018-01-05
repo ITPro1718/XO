@@ -108,7 +108,7 @@ public interface PartnerboerseAdministrationAsync {
 
 	void getMerkzettelEintraegeByID(int ID, AsyncCallback<Merkzettel> callback);
 
-	void getNotSeenProfilErgebnisse(Profil eigenprofil, AsyncCallback<ArrayList<Profil>> callback);
+	void getNotSeenSuchProfilErgebnisse(Suchprofil suchprofil, AsyncCallback<ArrayList<Profil>> callback);
 
 	void getProfilByID(int id, AsyncCallback<Profil> callback);
 
