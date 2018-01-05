@@ -149,4 +149,31 @@ public class InfoMapper {
 		return null;
 	}
 
+	public void insertInfo(Info i) {
+		
+		Connection con = DBConnection.getConnection();
+
+		try {
+			Statement stmt = con.createStatement();
+
+			// Es wird der momentan höchste Wert des Primearschluessels
+			// ausgelesen
+			ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid " + "FROM info");
+
+			if (rs.next()) {
+				// a bekommt den neuen höchsten Primaerschluesselwert
+				i.setId(rs.getInt("maxid") + 1);
+				stmt = con.createStatement();
+
+				// Das ist die eigentliche Einfüg-Funktion
+				stmt.executeUpdate("INSERT INTO auswahl(id, bezeichnung, epID, eigenschaftID) " + "VALUES (" + i.getId() + ", "
+						+ i.getText() + ", "+ i.getEigenprofilID() + ", " + i.getEigenschaftsID() + ")");
+				
+			}
+		} catch (SQLException e2) {
+			e2.printStackTrace();
+		}
+		
+	}
+
 }
