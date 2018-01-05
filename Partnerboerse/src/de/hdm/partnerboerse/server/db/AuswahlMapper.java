@@ -9,8 +9,6 @@ import java.util.List;
 
 import de.hdm.partnerboerse.shared.bo.Auswahl;
 import de.hdm.partnerboerse.shared.bo.Eigenschaft;
-import de.hdm.partnerboerse.shared.bo.Element;
-
 
 /**
  * Diese Mapper Klasse dient zur Abbildung von {@link Auswahl} Objekten auf eine
@@ -168,42 +166,10 @@ public class AuswahlMapper {
 		}
 		return result;
 	}
-	
-	/**
-	 * Gibt alle Elemente aus einer Auswahl zurück
-	 * @param auswahl
-	 * @return
-	 */
-	public ArrayList<Element> findElementOf(Auswahl auswahl){
-		 ArrayList<Element> result = new ArrayList<Element>();
-
-			Connection con = DBConnection.getConnection();
-			try {
-				
-				Statement stmt = con.createStatement();
-
-				ResultSet rs = stmt.executeQuery("SELECT * FROM element"+ "WHERE auswahlID=" + auswahl.getId());
-
-				
-				while (rs.next()) {
-					Element e = new Element();
-					e.setId(rs.getInt("id"));
-					e.setBezeichnung(rs.getString("bezeichnung"));
-					e.setAuswahlID(rs.getInt("auswahlID"));
-
-					
-					result.add(e);
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-
-			
-			return result;
-	}
 
 	/**
 	 * Gibt eine Auswahl aus einer Eigenschaft aus
+	 * 
 	 * @param eigenschaft
 	 * @return
 	 */
@@ -214,15 +180,14 @@ public class AuswahlMapper {
 			Statement stmt = con.createStatement();
 
 			ResultSet rs = stmt.executeQuery("SELECT * FROM auswahl WHERE id=" + eigenschaft.getAuswahlID());
-			
+
 			if (rs.next()) {
 				Auswahl a = new Auswahl();
 				a.setId(rs.getInt("id"));
 				a.setTitel(rs.getString("titel"));
 				return a;
 			}
-		} 
-		catch (SQLException e2) {
+		} catch (SQLException e2) {
 			e2.printStackTrace();
 		}
 

@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import de.hdm.partnerboerse.shared.bo.Auswahl;
 import de.hdm.partnerboerse.shared.bo.Element;
 
 /**
@@ -103,8 +104,39 @@ public class ElementMapper {
 		return result;
 	}
 
+	/**
+	 * Gibt alle Elemente aus einer Auswahl zurück
+	 * 
+	 * @param auswahl
+	 * @return
+	 */
+	public ArrayList<Element> findElementOf(Auswahl auswahl) {
+		ArrayList<Element> result = new ArrayList<Element>();
+
+		Connection con = DBConnection.getConnection();
+		try {
+
+			Statement stmt = con.createStatement();
+
+			ResultSet rs = stmt.executeQuery("SELECT * FROM element" + "WHERE auswahlID=" + auswahl.getId());
+
+			while (rs.next()) {
+				Element e = new Element();
+				e.setId(rs.getInt("id"));
+				e.setBezeichnung(rs.getString("bezeichnung"));
+				e.setAuswahlID(rs.getInt("auswahlID"));
+
+				result.add(e);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return result;
+	}
+
 	public void deleteAuswahlIDs() {
 		// TODO: Methode Implementieren
-		
+
 	}
 }
