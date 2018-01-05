@@ -104,6 +104,7 @@ public class ElementMapper {
 		return result;
 	}
 
+
 	/**
 	 * Gibt alle Elemente aus einer Auswahl zurück
 	 * 
@@ -135,8 +136,38 @@ public class ElementMapper {
 		return result;
 	}
 
-	public void deleteAuswahlIDs() {
-		// TODO: Methode Implementieren
 
+	public void deleteElement(Auswahl auswahl) {
+		Connection con = DBConnection.getConnection();
+		
+		try {
+			Statement stmt = con.createStatement();
+			stmt.executeUpdate("DELETE FROM element WHERE auswahlID = " + auswahl.getId());
+		}
+		catch (SQLException e){
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public void insertElementAuswahl(Element e){
+		Connection con = DBConnection.getConnection();
+		
+		try {
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid FROM element");
+			
+			if (rs.next()){
+				e.setId(rs.getInt("maxid") + 1);
+				
+				stmt = con.createStatement();
+				stmt.executeUpdate("INSERT INTO element (id, bezeichnung, auswahlID) VALUES (" + e.getId() + ", " + e.getBezeichnung()
+				+ ", " + e.getAuswahlID() + ")");
+				
+			}
+			
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
 	}
 }

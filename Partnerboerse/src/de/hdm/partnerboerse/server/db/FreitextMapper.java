@@ -51,8 +51,9 @@ public class FreitextMapper {
 	 * 
 	 * @param freitext
 	 *            - {@link Freitext} Element
+	 * @return TODO
 	 */
-	public void insertFreitext(Freitext freitext) {
+	public Freitext insertFreitext(Freitext freitext) {
 		Connection con = DBConnection.getConnection();
 
 		try {
@@ -70,10 +71,13 @@ public class FreitextMapper {
 				// Das ist die eigentliche Einfüg-Funktion
 				stmt.executeUpdate("INSERT INTO freitext(id, beschreibung) " + "VALUES (" + freitext.getId() + ", '"
 						+ freitext.getBeschreibung() + "')");
+				return freitext;
 			}
+			
 		} catch (SQLException e2) {
 			e2.printStackTrace();
 		}
+		return null;
 	}
 
 	/**

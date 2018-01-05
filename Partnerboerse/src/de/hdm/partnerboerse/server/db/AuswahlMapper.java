@@ -52,8 +52,9 @@ public class AuswahlMapper {
 	 * 
 	 * @param auswahl
 	 *            Die speichernde {@link Auswahl}
+	 * @return TODO
 	 */
-	public void insertAuswahl(Auswahl auswahl) {
+	public Auswahl insertAuswahl(Auswahl auswahl) {
 		Connection con = DBConnection.getConnection();
 
 		try {
@@ -71,10 +72,12 @@ public class AuswahlMapper {
 				// Das ist die eigentliche Einfüg-Funktion
 				stmt.executeUpdate("INSERT INTO auswahl(id, titel) " + "VALUES (" + auswahl.getId() + ", '"
 						+ auswahl.getTitel() + "')");
+				return auswahl;
 			}
 		} catch (SQLException e2) {
 			e2.printStackTrace();
 		}
+		return null;
 	}
 
 	/**
