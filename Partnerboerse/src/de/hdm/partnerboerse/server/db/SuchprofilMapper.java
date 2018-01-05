@@ -53,10 +53,12 @@ public class SuchprofilMapper {
 						
 						suchprofil.setId(rs.getInt("maxid") + 1);
 						stmt = con.createStatement();
-
+						
+						int raucher = 1;
 						
 						stmt.executeUpdate("INSERT INTO suchprofil(id, titel, religion, haarfarbe, koerpergroesse, raucher, age, epID) " + "VALUES (" + suchprofil.getId() + ","
-								+ suchprofil.getTitle() +  "," + suchprofil.getReligion() + "," + suchprofil.getHaarFarbe() +  "," + suchprofil.getKoerpergroesse() +  "," + suchprofil.isRaucher() +  "," + suchprofil.getAlter() +  "," + suchprofil.getEigenprofilID() +  ")");
+								+ suchprofil.getTitle() +  "," + suchprofil.getReligion() + "," + suchprofil.getHaarFarbe() +  "," + suchprofil.getKoerpergroesse() +  "," 
+								+ raucher +  "," + suchprofil.getAlter() +  "," + suchprofil.getEigenprofilID() +  ")");
 					}
 				} catch (SQLException e2) {
 					e2.printStackTrace();
@@ -155,7 +157,7 @@ public class SuchprofilMapper {
 		  
 	  }
 		
-
+	  
 	  public ArrayList<Suchprofil> findAll(){
 		  ArrayList <Suchprofil> result = new ArrayList<>();
 

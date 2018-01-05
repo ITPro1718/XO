@@ -242,6 +242,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 		s.setReligion(religion);
 		s.setRaucher(raucher);
 		s.setAlter(alter);
+		s.setEigenprofilID(source.getId());
 		
 
 		this.sMapper.insertSuchprofil(s);
@@ -290,9 +291,9 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	public ArrayList<Profil> getSuchProfilErgebnisse(Suchprofil suchprofil) throws IllegalArgumentException {
 
 
-		ArrayList<Profil> profile = this.pMapper.findAllProfiles();
-		Profil suchprofilowner = this.pMapper.findProfilByKey(suchprofil.getEigenprofilID());
-		ArrayList<Kontaktsperre> kontaktsperrenofsuchprofilowner = this.kMapper.findKontaktsperrenOf(suchprofilowner);
+		ArrayList<Profil> profile = this.getAllProfils();
+		Profil suchprofilowner = this.getProfilByID(suchprofil.getEigenprofilID());
+		ArrayList<Kontaktsperre> kontaktsperrenofsuchprofilowner = this.findKontaktsperrenOf(suchprofilowner);
 		ArrayList<Integer> fpids = new ArrayList<>();
 			
 		
@@ -465,6 +466,16 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	 * 
 	 */
 		
+		ArrayList<Element> el = this.findElementeOf(auswahl);
+		
+		if (el != null){
+			for (Element e : el){
+				// this.deleteElementAuswahl();
+			}
+		}
+		
+	
+		
 	}
 
 	@Override
@@ -516,6 +527,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
   @Override
   public ArrayList<Info> findEigenschaftsInfosOf(Eigenschaft eigenschaft)
       throws IllegalArgumentException {
+	  
 	 /**
 	  * Was macht diese Methode?
 	  * TODO: Methode im Info Mapper implementieren
@@ -594,5 +606,12 @@ public ArrayList<Besuch> findBesucheOf(Profil profilowner) throws IllegalArgumen
 	return this.bMapper.findByEigenprofil(profilowner);
 }
 
+
+@Override
+public void deleteElementAuswahl(Auswahl auswahl) throws IllegalArgumentException {
+
+	this.elMapper.deleteAuswahlIDs();
+	
+}
 
 }

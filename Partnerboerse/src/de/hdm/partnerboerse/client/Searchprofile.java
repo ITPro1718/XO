@@ -60,11 +60,11 @@ public class Searchprofile extends VerticalPanel {
 
 
 		ListBox bdayListBox = new ListBox();
-		bdayListBox.addItem("20+", "20+");
-		bdayListBox.addItem("30+", "30+");
-		bdayListBox.addItem("40+", "40+");
-		bdayListBox.addItem("50+", "50+");
-		bdayListBox.addItem("60+", "60+");
+		bdayListBox.addItem("20", "20");
+		bdayListBox.addItem("30", "30");
+		bdayListBox.addItem("40", "40");
+		bdayListBox.addItem("50", "50");
+		bdayListBox.addItem("60", "60");
 		
 		ListBox hcolorListBox = new ListBox();
 		hcolorListBox.addItem("braun", "braun");
@@ -74,12 +74,12 @@ public class Searchprofile extends VerticalPanel {
 		hcolorListBox.addItem("andere+", "andere");
 		
 		ListBox heightListBox = new ListBox();
-		heightListBox.addItem("150+", "150+");
-		heightListBox.addItem("160+", "160+");
-		heightListBox.addItem("170+", "170+");
-		heightListBox.addItem("180+", "180+");
-		heightListBox.addItem("190+", "190+");
-		heightListBox.addItem("200+", "200+");
+		heightListBox.addItem("150", "150");
+		heightListBox.addItem("160", "160");
+		heightListBox.addItem("170", "170");
+		heightListBox.addItem("180", "180");
+		heightListBox.addItem("190", "190");
+		heightListBox.addItem("200", "200");
 		
 		ListBox religionListBox = new ListBox();
 		religionListBox.addItem("katholisch", "katholisch");
@@ -128,15 +128,50 @@ public class Searchprofile extends VerticalPanel {
 		SprofilGrid.setWidget(2, 2, nationLabel);
 		SprofilGrid.setWidget(2, 3, nationTB);
 		
+		final String haircolor = hcolorListBox.getSelectedItemText();
+		final int height = Integer.parseInt(heightListBox.getSelectedItemText());
+		final boolean raucher = true;
+		final int alter = Integer.parseInt(bdayListBox.getSelectedItemText());
+		final String religion = religionListBox.getSelectedItemText();
+		
 
 		// Add a 'submit' button.
 		panel.add(new Button("Submit", new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
 				form.submit();
+				
+				createSuchprofilCallback();
+			}
+			
+			private void createSuchprofilCallback(){				
+				
+				
+				Profil source = new Profil();
+				source.setId(5);
+				
+				partnerAdmin.createSuchprofil(source, "Suchprofil Test", haircolor, height, raucher, 
+						religion, alter, new AsyncCallback<Void>(){
+
+							@Override
+							public void onFailure(Throwable caught) {
+							
+								
+							}
+
+							@Override
+							public void onSuccess(Void result) {
+								System.out.println(haircolor);
+								System.out.println(alter);
+								System.out.println(religion);
+								
+							}
+					
+				});
+				
 			}
 		}));
-
+			
 	}
 
 }

@@ -474,6 +474,8 @@ public interface PartnerboerseAdministration extends RemoteService {
 	
 	public ArrayList<Besuch> findBesucheOf(Profil profilowner) throws IllegalArgumentException;
 	
+	public void deleteElementAuswahl(Auswahl auswahl) throws IllegalArgumentException;
+	
 	
 
 
