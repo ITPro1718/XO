@@ -1,4 +1,4 @@
-package de.hdm.partnerboerse.server.db;
+package de.hdm.partnerboerse.test.server.db;
 
 import static org.junit.Assert.assertTrue;
 
@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.junit.Test;
 
+import de.hdm.partnerboerse.server.db.EigenschaftMapper;
 import de.hdm.partnerboerse.shared.bo.Eigenschaft;
 
 public class EigenschaftMapperTest {

@@ -7,7 +7,16 @@ import java.util.GregorianCalendar;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
-import de.hdm.partnerboerse.server.db.*;
+import de.hdm.partnerboerse.server.db.AuswahlMapper;
+import de.hdm.partnerboerse.server.db.BesuchMapper;
+import de.hdm.partnerboerse.server.db.EigenschaftMapper;
+import de.hdm.partnerboerse.server.db.ElementMapper;
+import de.hdm.partnerboerse.server.db.FreitextMapper;
+import de.hdm.partnerboerse.server.db.InfoMapper;
+import de.hdm.partnerboerse.server.db.KontaktsperreMapper;
+import de.hdm.partnerboerse.server.db.MerkzettelMapper;
+import de.hdm.partnerboerse.server.db.ProfilMapper;
+import de.hdm.partnerboerse.server.db.SuchprofilMapper;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
 import de.hdm.partnerboerse.shared.bo.Auswahl;
 import de.hdm.partnerboerse.shared.bo.Besuch;
@@ -19,6 +28,7 @@ import de.hdm.partnerboerse.shared.bo.Kontaktsperre;
 import de.hdm.partnerboerse.shared.bo.Merkzettel;
 import de.hdm.partnerboerse.shared.bo.Profil;
 import de.hdm.partnerboerse.shared.bo.Suchprofil;
+import de.hdm.partnerboerse.test.server.db.*;
 
 /**
  * The server-side implementation of the RPC service.

@@ -1,9 +1,11 @@
-package de.hdm.partnerboerse.server.db;
+package de.hdm.partnerboerse.test.server.db;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
+
+import de.hdm.partnerboerse.server.db.ElementMapper;
 
 public class ElementMapperTest {
 
