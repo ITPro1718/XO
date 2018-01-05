@@ -374,28 +374,24 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	}
 
 	@Override
-	public ArrayList<Profil> getNotSeenProfilErgebnisse(Suchprofil suchprofil) throws IllegalArgumentException {
+	public ArrayList<Profil> getNotSeenProfilErgebnisse(Profil eigenprofil) throws IllegalArgumentException {
 		
-		ArrayList<Profil> suchProfilErgebnisse = getSuchProfilErgebnisse(suchprofil);
-		Profil suchprofilowner = this.pMapper.findProfilByKey(suchprofil.getEigenprofilID());
-		ArrayList<Besuch> visitsOfSuchprofilowner= this.bMapper.findByEigenprofil(suchprofilowner);
-       ArrayList<Integer> visitedProfilids = new ArrayList<>();
+		ArrayList<Profil> allProfils = getAllProfils();
+		ArrayList<Besuch> visitsOfprofilowner= findBesucheOf(eigenprofil);
+        ArrayList<Integer> visitedProfilids = new ArrayList<>();
 			
-		
-		for (Besuch b : visitsOfSuchprofilowner){
+		for (Besuch b : visitsOfprofilowner){
 			int visitid = b.getFremdprofilID();
 			visitedProfilids.add(visitid);
 		}
-		for (Profil p : suchProfilErgebnisse){
+		for (Profil p : allProfils){
 			int id = p.getId();
 				
-			
 			if(visitedProfilids.contains(id)){
-				suchProfilErgebnisse.remove(p);
+				allProfils.remove(p);
 			}
 		}
-		return suchProfilErgebnisse;
-		
+		return allProfils;	
 	}
 
 	@Override
@@ -552,11 +548,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
     
   }
 
-  @Override
-  public ArrayList<Besuch> findBesucheOfe(Profil profilowner) throws IllegalArgumentException {
- 
-    return this.bMapper.findByEigenprofil(profilowner);
-  }
+
 
   @Override
   public ArrayList<Suchprofil> findSuchprofileOf(Profil profilowner)
