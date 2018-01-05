@@ -41,9 +41,10 @@ public class EditProfile extends VerticalPanel {
 	TextBox heightTextBox = new TextBox();
 	TextBox religionTextBox = new TextBox();
 
-	CheckBox YsmokerTextBox = new CheckBox("yes");
-	CheckBox NsmokerTextBox = new CheckBox("no");
+	CheckBox YsmokerTextBox = new CheckBox("ja");
+	CheckBox NsmokerTextBox = new CheckBox("nein");
 
+	
 	/*
 	 * Beim Anzeigen werden die anderen Widgets erzeugt. Alle werden in einem
 	 * Raster angeordnet, dessen Größe sich aus dem Platzbedarf der enthaltenen
