@@ -46,6 +46,8 @@ public interface PartnerboerseAdministrationAsync {
 
 	void deleteEigenschaft(Eigenschaft eigenschaft, AsyncCallback<Void> callback);
 
+	void deleteElementAuswahl(Auswahl auswahl, AsyncCallback<Void> callback);
+
 	void deleteFreitext(Freitext freitext, AsyncCallback<Void> callback);
 
 	void deleteInfo(Info info, AsyncCallback<Void> callback);
@@ -108,7 +110,7 @@ public interface PartnerboerseAdministrationAsync {
 
 	void getMerkzettelEintraegeByID(int ID, AsyncCallback<Merkzettel> callback);
 
-	void getNotSeenProfilErgebnisse(Profil eigenprofil, AsyncCallback<ArrayList<Profil>> callback);
+	void getNotSeenSuchProfilErgebnisse(Suchprofil suchprofil, AsyncCallback<ArrayList<Profil>> callback);
 
 	void getProfilByID(int id, AsyncCallback<Profil> callback);
 

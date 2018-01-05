@@ -102,4 +102,9 @@ public class ElementMapper {
 
 		return result;
 	}
+
+	public void deleteAuswahlIDs() {
+		// TODO: Methode Implementieren
+		
+	}
 }

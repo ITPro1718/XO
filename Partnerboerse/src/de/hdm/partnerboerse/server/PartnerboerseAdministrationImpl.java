@@ -135,7 +135,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 		
 		ArrayList<Merkzettel> merkzettel = this.findMerkzettelnOf(p);
 		ArrayList<Kontaktsperre> kontaktsperren = this.findKontaktsperrenOf(p);
-		ArrayList<Besuch> besuche = this.findBesucheOfe(p);
+		ArrayList<Besuch> besuche = this.findBesucheOf(p);
 		ArrayList<Suchprofil> suchprofile = this.findSuchprofileOf(p);
 		ArrayList<Info> infos = this.findInfoOf(p);
 		
@@ -269,6 +269,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 		s.setReligion(religion);
 		s.setRaucher(raucher);
 		s.setAlter(alter);
+		s.setEigenprofilID(source.getId());
 		
 
 		this.sMapper.insertSuchprofil(s);
@@ -316,43 +317,29 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	@Override
 	public ArrayList<Profil> getSuchProfilErgebnisse(Suchprofil suchprofil) throws IllegalArgumentException {
 
-
-		ArrayList<Profil> profile = this.pMapper.findAllProfiles();
-		Profil suchprofilowner = this.pMapper.findProfilByKey(suchprofil.getEigenprofilID());
-		ArrayList<Kontaktsperre> kontaktsperrenofsuchprofilowner = this.kMapper.findKontaktsperrenOf(suchprofilowner);
+		ArrayList<Profil> profile = getAllProfils();
+		Profil suchprofilowner = getProfilByID(suchprofil.getEigenprofilID());
+		ArrayList<Kontaktsperre> kontaktsperrenofsuchprofilowner = findKontaktsperrenOf(suchprofilowner);
 		ArrayList<Integer> fpids = new ArrayList<>();
-			
-		
-		// Bevor der Abgleich stattfindet, müssen ALLE Kontaktsperren fpids in der Arraylist fpids vorhanden sein.	
+	
 		for (Kontaktsperre k : kontaktsperrenofsuchprofilowner){
 			int fpid = k.getFremdprofilID();
 			fpids.add(fpid);
 		}	
 		
-		
-		// Abspeichern der Profil id, mit jedem Durchgang eine neue id.
 		for (Profil p : profile){
 			int id = p.getId();
 				
-			// Wenn eine FremdID in der fpID Liste ist (--> ein geblockter User), wird das Profil aus der
-			// profile-Liste gelöscht.
 			if(fpids.contains(id)){
 				profile.remove(p);
 			}
-			// Wenn die id, die des Suchprofilowners ist, wird das Profil aus der profile-Liste gelöscht.
 			else if (id == suchprofilowner.getId()){
 				profile.remove(p);
 			}
-						
-			// Die Methode compare gleicht die Anforderungen des Suchprofils mit den realen Werten aus
-			// dem Profil ab. z.B. Suchprofil-Haarfarbe = blonde, Profil-Haarfarbe = schwarz ergibt
-			// keinen Treffer.
-			// TODO: Compare Methode implementieren (Applikationslogik!!)
 			else if (compare(suchprofil, p) == false){
 				profile.remove(p);
 			}
-		}
-				
+		}			
 		return profile;
 }
 
@@ -374,24 +361,25 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	}
 
 	@Override
-	public ArrayList<Profil> getNotSeenProfilErgebnisse(Profil eigenprofil) throws IllegalArgumentException {
+	public ArrayList<Profil> getNotSeenSuchProfilErgebnisse(Suchprofil suchprofil) throws IllegalArgumentException {
 		
-		ArrayList<Profil> allProfils = getAllProfils();
-		ArrayList<Besuch> visitsOfprofilowner= findBesucheOf(eigenprofil);
+		ArrayList<Profil> suchProfilErgebnisse = getSuchProfilErgebnisse(suchprofil);
+		Profil suchprofilowner = getProfilByID(suchprofil.getEigenprofilID());
+		ArrayList<Besuch> visitsOfSuchProfilowner= findBesucheOf(suchprofilowner);
         ArrayList<Integer> visitedProfilids = new ArrayList<>();
-			
-		for (Besuch b : visitsOfprofilowner){
+        
+		for (Besuch b : visitsOfSuchProfilowner){
 			int visitid = b.getFremdprofilID();
 			visitedProfilids.add(visitid);
 		}
-		for (Profil p : allProfils){
+		for (Profil p : suchProfilErgebnisse){
 			int id = p.getId();
 				
 			if(visitedProfilids.contains(id)){
-				allProfils.remove(p);
-			}
+				suchProfilErgebnisse.remove(p);
+			}		
 		}
-		return allProfils;	
+		return suchProfilErgebnisse;	
 	}
 
 	@Override
@@ -521,6 +509,16 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	 * 
 	 */
 		
+		ArrayList<Element> el = this.findElementeOf(auswahl);
+		
+		if (el != null){
+			for (Element e : el){
+				// this.deleteElementAuswahl();
+			}
+		}
+		
+	
+		
 	}
 
 	@Override
@@ -568,6 +566,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
   @Override
   public ArrayList<Info> findEigenschaftsInfosOf(Eigenschaft eigenschaft)
       throws IllegalArgumentException {
+	  
 	 /**
 	  * Was macht diese Methode?
 	  * TODO: Methode im Info Mapper implementieren
@@ -646,5 +645,12 @@ public ArrayList<Besuch> findBesucheOf(Profil profilowner) throws IllegalArgumen
 	return this.bMapper.findByEigenprofil(profilowner);
 }
 
+
+@Override
+public void deleteElementAuswahl(Auswahl auswahl) throws IllegalArgumentException {
+
+	this.elMapper.deleteAuswahlIDs();
+	
+}
 
 }

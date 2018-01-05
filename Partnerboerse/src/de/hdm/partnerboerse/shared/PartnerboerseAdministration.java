@@ -274,7 +274,7 @@ public interface PartnerboerseAdministration extends RemoteService {
 	 * @return alle nicht-gesehenden Ergebnisse des Suchprofils
 	 * @throws IllegalArgumentException
 	 */
-	public ArrayList<Profil> getNotSeenProfilErgebnisse(Profil eigenprofil) throws IllegalArgumentException;
+	public ArrayList<Profil> getNotSeenSuchProfilErgebnisse(Suchprofil suchprofil) throws IllegalArgumentException;
 
 	/**
 	 * Info-Objekt Methoden
@@ -471,6 +471,8 @@ public interface PartnerboerseAdministration extends RemoteService {
 	public Besuch findBesuchByKey(int id) throws IllegalArgumentException;
 	
 	public ArrayList<Besuch> findBesucheOf(Profil profilowner) throws IllegalArgumentException;
+	
+	public void deleteElementAuswahl(Auswahl auswahl) throws IllegalArgumentException;
 	
 	
 

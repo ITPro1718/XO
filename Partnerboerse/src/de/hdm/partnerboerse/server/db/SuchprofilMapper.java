@@ -16,12 +16,13 @@ public class SuchprofilMapper {
 	 */
 	private static SuchprofilMapper suchprofilMapper = null;
 
-	/**
-	 * Geschützter Konstruktor - verhindert die Möglichkeit, mit
-	 * <code>new</code> neue Instanzen dieser Klasse zu erzeugen.
-	 */
-	protected SuchprofilMapper() {
-	}
+
+	  /**
+	   * Geschützter Konstruktor - verhindert die Möglichkeit, mit <code>new</code>
+	   * neue Instanzen dieser Klasse zu erzeugen.
+	   */
+	  protected SuchprofilMapper() {
+	  }
 
 	/**
 	 * Stellt sicher, dass es nur eine Instanz der Klasse gibt. Die Klasse kann
