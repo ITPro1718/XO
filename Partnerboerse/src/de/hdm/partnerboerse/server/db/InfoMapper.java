@@ -39,7 +39,8 @@ public class InfoMapper {
 	}
 
 	/**
-	 * Gibt ein Info-Objekt zur�ck, dass per ID gesucht wird (Prim�rschl�ssel)
+	 * Gibt ein Info-Objekt zurueck, dass per ID gesucht wird
+	 * (Primäerschluessel)
 	 * 
 	 * @param id
 	 * @return

@@ -1,5 +1,6 @@
 package de.hdm.partnerboerse.test.server.db;
 
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
@@ -41,6 +42,27 @@ public class EigenschaftMapperTest {
 		Eigenschaft geupdateteEigenschaft = mapper.findByKey(idDesObjektes);
 		assertTrue(updateErlaeuterung.equals(geupdateteEigenschaft.getErlaeuterung()));
 
+	}
+
+	@Test
+	public void testDeleteEigenschaft() {
+		EigenschaftMapper mapper = EigenschaftMapper.eigenschaftMapper();
+		Eigenschaft eigenschaft = getTestEigenschaftObjekt();
+
+		List<Eigenschaft> allEigenschaften = mapper.findAll();
+		if (!allEigenschaften.isEmpty()) {
+			int zuloeschendeId = allEigenschaften.get(0).getId();
+			eigenschaft.setId(zuloeschendeId);
+			mapper.deleteEigenschaft(eigenschaft);
+			assertNull(mapper.findByKey(zuloeschendeId));
+
+			mapper.insertEigenschaft(eigenschaft);
+		}
+	}
+
+	@Test
+	public void testFindByKey() {
+		assertTrue(EigenschaftMapper.eigenschaftMapper().findByKey(3) != null);
 	}
 
 	private Eigenschaft getTestEigenschaftObjekt() {
