@@ -310,7 +310,9 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	@Override
 	public ArrayList<Profil> berechneAehnlichkeitsmass(Profil source, Suchprofil suchprofil)
 			throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+		// TODO Methode implementieren wenn wir den ganzen Eigenschaft/Info shit haben
+		// findAllInfoOf(Profil p) implementieren! danach kann man die hier machen
+		
 		return null;
 	}
 
@@ -348,7 +350,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 			// Die Methode compare gleicht die Anforderungen des Suchprofils mit den realen Werten aus
 			// dem Profil ab. z.B. Suchprofil-Haarfarbe = blonde, Profil-Haarfarbe = schwarz ergibt
 			// keinen Treffer.
-			// TODO: Compare Methode implementieren (Applikationslogik!!)
 			else if (compare(suchprofil, p) == false){
 				profile.remove(p);
 			}
@@ -356,19 +357,24 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 				
 		return profile;
 }
-
+	/**
+	 * Gibt TRUE zurück, wenn ein Profil GENAU mit einem Suchprofil übereinstimmt
+	 * @param suchprofill
+	 * @param profil
+	 * @return
+	 */
 	public boolean compare(Suchprofil suchprofill, Profil profil){
 		
 		if(suchprofill.getHaarFarbe() == profil.getHaarfarbe() &&
 			
-		 (suchprofill.getKoerpergroesse() == profil.getKoerpergroesse()) &&
+		  (suchprofill.getKoerpergroesse() == profil.getKoerpergroesse()) &&
 			
-		(suchprofill.isRaucher() == profil.isRaucher()) &&
+		  (suchprofill.isRaucher() == profil.isRaucher()) &&
 			
-		(suchprofill.getAlter() == getAge(profil.getGeburtsdatum())) &&
+		  (suchprofill.getAlter() == getAge(profil.getGeburtsdatum())) &&
 			
-		(suchprofill.getReligion() == profil.getReligion()) ){
-			return true;
+		  (suchprofill.getReligion() == profil.getReligion()) ){
+			  return true;
 		}
 		else return false;
 		
@@ -449,7 +455,11 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 		 * Freitext
 		 * Element
 		 */
-		//this.iMapper.deleteInfo(info); Abhängigkeiten? 
+		// Eigenschaft eigen = this.findEigenschaftsInfosOf(info);
+		
+		// TODO: Abhängigkeiten von Info und Eigenschaft klären
+		
+		this.iMapper.deleteInfo(info); 
 		
 	}
 
@@ -515,7 +525,25 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 
 	@Override
 	public void deleteEigenschaft(Eigenschaft eigenschaft) throws IllegalArgumentException {
-		//Abhängigkeiten Freitext,Auswahl und Element löschen bevor Eigenschaft gelöscht werden kann
+		/**
+		 * Abhängigkeiten: 
+		 * Freitext,
+		 * Auswahl und Element (Element werden gelöscht bevor die Auswahl gelöscht werden kann
+		 * löschen bevor Eigenschaft gelöscht werden kann
+		 */
+		
+		Auswahl auswahl = this.findAuswahlOf(eigenschaft);
+		Freitext freitext = this.findFreitextOf(eigenschaft);
+		
+		if (auswahl != null){
+			this.deleteAuswahl(auswahl);
+		}
+		
+		if (freitext != null){
+			this.deleteFreitext(freitext);
+		}
+		
+		this.deleteEigenschaft(eigenschaft);
 		
 	}
 
@@ -540,12 +568,13 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 		
 	}
 
-
+	/**
+	 * gibt einen Freitext aus einer Eigenschaft zurück
+	 */
 	@Override
-	public Freitext getFreitext() throws IllegalArgumentException {
+	public Freitext getFreitext(Eigenschaft eigenschaft) throws IllegalArgumentException {
 
-		// this.fMapper.findFreitextOf();
-		return null;
+		return this.fMapper.findFreitextOfEigenschaft(eigenschaft);
 	}
 
 	@Override
@@ -603,6 +632,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 			this.deleteElementAuswahl(auswahl);
 		}
 		
+		this.deleteAuswahl(auswahl);
 	
 		
 	}
@@ -654,7 +684,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
       throws IllegalArgumentException {
 	  
 	 /**
-	  * Was macht diese Methode?
+	  * Diese Methode gibt alle Eigenschaften einer Info zurück
 	  * TODO: Methode im Info Mapper implementieren
 	  */
 	  
@@ -670,7 +700,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	 * Gibt den Freitext einer Eigenschaft über den Fremdschlüssel zurück
 	 */
 	  
-    return this.fMapper.findFreitextOf(eigenschaft);
+    return this.fMapper.findFreitextOfEigenschaft(eigenschaft);
   }
   
   @Override
@@ -735,6 +765,11 @@ public ArrayList<Besuch> findBesucheOf(Profil profilowner) throws IllegalArgumen
 @Override
 public void deleteElementAuswahl(Auswahl auswahl) throws IllegalArgumentException {
 
+	// löscht alle Element-Einträge, die eine bestimmte AuswahlID haben
+	// z.B. wir wollen Auswahl mit der ID 5 löschen (Hobbies)
+	// Element: Fußball enthält Fremdschlüssel AuswahlID = 2
+	// --> ElementEintrag wird gelöscht, nun ist keine Fremdschlüsselabhängigkeit mehr und wir können Auswahl ID 2 löschen.
+	
 	this.elMapper.deleteElement(auswahl);
 	
 }

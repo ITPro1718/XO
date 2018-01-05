@@ -376,11 +376,12 @@ public interface PartnerboerseAdministration extends RemoteService {
 
 	/**
 	 * Freitext anzeigen.
+	 * @param eigenschaft TODO
 	 * 
 	 * @return Freitext-Objekt
 	 * @throws IllegalArgumentException
 	 */
-	public Freitext getFreitext() throws IllegalArgumentException;
+	public Freitext getFreitext(Eigenschaft eigenschaft) throws IllegalArgumentException;
 
 	/**
 	 * Freitext bearbeiten
