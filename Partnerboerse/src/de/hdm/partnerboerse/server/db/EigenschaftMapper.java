@@ -63,7 +63,7 @@ public class EigenschaftMapper {
 				stmt = con.createStatement();
 
 				stmt.executeUpdate("INSERT INTO eigenschaft (id, erlaeuterung) " + "VALUE (" + eigenschaft.getId()
-						+ ", '" + eigenschaft.getErlaeterung() + " ') ");
+						+ ", '" + eigenschaft.getErlaeuterung() + " ') ");
 
 			}
 		} catch (SQLException e2) {
@@ -81,7 +81,7 @@ public class EigenschaftMapper {
 
 		try {
 			Statement stmt = con.createStatement();
-			stmt.executeUpdate("UPDATE eigenschaft" + " SET titel=\"" + eigenschaft.getErlaeterung() + "\""
+			stmt.executeUpdate("UPDATE eigenschaft" + " SET erlaeuterung=\"" + eigenschaft.getErlaeuterung() + "\""
 					+ " WHERE id =" + eigenschaft.getId());
 
 		} catch (SQLException e) {
@@ -125,7 +125,7 @@ public class EigenschaftMapper {
 			if (rs.next()) {
 				Eigenschaft e = new Eigenschaft();
 				e.setId(rs.getInt("id"));
-				e.setErlaeterung(rs.getString("titel"));
+				e.setErlaeuterung(rs.getString("erlaeuterung"));
 				return e;
 			}
 		} catch (SQLException e2) {
@@ -148,12 +148,12 @@ public class EigenschaftMapper {
 
 		try {
 			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT id, erlaeuterung FROM eigenschaft  " + "ORDER BY id");
+			ResultSet rs = stmt.executeQuery("SELECT id, erlaeuterung FROM eigenschaft " + "ORDER BY id");
 
 			while (rs.next()) {
 				Eigenschaft e = new Eigenschaft();
 				e.setId(rs.getInt("id"));
-				e.setErlaeterung(rs.getString("titel"));
+				e.setErlaeuterung(rs.getString("erlaeuterung"));
 
 				result.add(e);
 
