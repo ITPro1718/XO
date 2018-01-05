@@ -9,11 +9,8 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.InsertPanel.ForIsWidget;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
@@ -32,34 +29,31 @@ public class Editor implements EntryPoint {
 	private TextBox newSymbolTextBox = new TextBox();
 	private Button addProfilButton = new Button("Add");
 	private Label lastUpdatedLabel = new Label();
-	
-	
+
 	Navigation nav = new Navigation();
 	EditProfile ep = new EditProfile();
 	Searchprofile sp = new Searchprofile();
-	
+
 	@Override
 	public void onModuleLoad() {
 
 		// Navigation Area
 		RootPanel.get("navwrap").add(nav);
-		
-		
+
 		// Profile Edit - Panel wird erzeugt und eingefügt.
-		HTMLPanel editProfilePanel = new HTMLPanel("<h3>" + "Hier können Sie ihre Profilinformationen bearbeiten." + "</h3>");
+		HTMLPanel editProfilePanel = new HTMLPanel(
+				"<h3>" + "Hier können Sie ihre Profilinformationen bearbeiten." + "</h3>");
 		editProfilePanel.add(ep);
-	
+
 		RootPanel.get("contwrap").add(editProfilePanel);
-		
+
 		// Search Profile
-		
+
 		HTMLPanel spPanel = new HTMLPanel("<h3>" + "Hier können Sie Ihr Suchprofil erstellen." + "</h3>");
 		spPanel.add(sp);
-	
+
 		RootPanel.get("contwrap").add(spPanel);
-		
-		
-		
+
 		// Create table for Profil
 		profilFlexTable.setText(0, 0, "Vorname");
 		profilFlexTable.setText(0, 1, "Nachname");
@@ -86,8 +80,6 @@ public class Editor implements EntryPoint {
 		// Move cursor focus to the input box.
 		newSymbolTextBox.setFocus(true);
 
-
-		
 		/*
 		 * Neues Button Widget erzeugen und eine Beschriftung festlegen.
 		 */
@@ -97,27 +89,21 @@ public class Editor implements EntryPoint {
 		RootPanel.get("contwrap").add(navPanel);
 		navPanel.add(findProfilButton);
 
-
 		addProfilButton.addClickHandler(new ClickHandler() {
-
 
 			@Override
 			public void onClick(ClickEvent event) {
 				// TODO Auto-generated method stub
 
-
 				getProfileFromServer();
-
-
 
 			}
 
 			private void getProfileFromServer() {
 
-
-
 				partnerAdmin.getAllProfils(new AsyncCallback<ArrayList<Profil>>() {
 
+					@Override
 					public void onFailure(Throwable caught) {
 						// Show the RPC error message to the user
 					}

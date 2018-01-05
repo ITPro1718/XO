@@ -8,6 +8,14 @@ import java.util.ArrayList;
 
 import de.hdm.partnerboerse.shared.bo.Element;
 
+/**
+ * Diese Mapper Klasse dient zur Abbildung von {@link Element} Objekten auf eine
+ * relationale Datenbank. Das Mapping ist bidirektional, Objekte werden auf
+ * DB-Strukturen abgebildet und DB-Strukturen auf Java-Objekte.
+ * 
+ * @author Mikulic
+ *
+ */
 public class ElementMapper {
 
 	/**
@@ -47,7 +55,7 @@ public class ElementMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			ResultSet rs = stmt.executeQuery("SELECT * FROM element" + "WHERE id=" + id);
+			ResultSet rs = stmt.executeQuery("SELECT * FROM element  WHERE id=" + id);
 
 			if (rs.next()) {
 				Element element = new Element();
@@ -77,7 +85,7 @@ public class ElementMapper {
 
 		try {
 			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT * FROM elemente ODER BY id");
+			ResultSet rs = stmt.executeQuery("SELECT * FROM element ORDER BY id");
 
 			while (rs.next()) {
 				Element element = new Element();

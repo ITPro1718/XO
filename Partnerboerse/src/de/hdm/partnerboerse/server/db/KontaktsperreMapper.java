@@ -7,169 +7,165 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import de.hdm.partnerboerse.shared.bo.Kontaktsperre;
-import de.hdm.partnerboerse.shared.bo.Merkzettel;
 import de.hdm.partnerboerse.shared.bo.Profil;
 
 public class KontaktsperreMapper {
 
 	/**
-	   * Stellt sicher, dass die Klasse nur ein mal instanziiert wird   * 
-	   */
-	  private static KontaktsperreMapper kontaktsperreMapper = null;
+	 * Stellt sicher, dass die Klasse nur ein mal instanziiert wird *
+	 */
+	private static KontaktsperreMapper kontaktsperreMapper = null;
 
-	  /**
-	   * Geschützter Konstruktor - verhindert die Möglichkeit, mit <code>new</code>
-	   * neue Instanzen dieser Klasse zu erzeugen.
-	   */
-	  protected KontaktsperreMapper() {
-	  }
+	/**
+	 * Geschützter Konstruktor - verhindert die Möglichkeit, mit
+	 * <code>new</code> neue Instanzen dieser Klasse zu erzeugen.
+	 */
+	protected KontaktsperreMapper() {
+	}
 
-	  /**
-	   * Stellt sicher, dass es nur eine Instanz der Klasse gibt. Die Klasse kann nicht mit <code>new</code> instanziiert werden
-	   * 
-	   * @return <code>KontaktsperreMapper</code>-Objekt.
-	   */
-	  public static KontaktsperreMapper kontaktsperreMapper() {
-	    if (kontaktsperreMapper == null) {
-	      kontaktsperreMapper = new KontaktsperreMapper();
-	    }
+	/**
+	 * Stellt sicher, dass es nur eine Instanz der Klasse gibt. Die Klasse kann
+	 * nicht mit <code>new</code> instanziiert werden
+	 * 
+	 * @return <code>KontaktsperreMapper</code>-Objekt.
+	 */
+	public static KontaktsperreMapper kontaktsperreMapper() {
+		if (kontaktsperreMapper == null) {
+			kontaktsperreMapper = new KontaktsperreMapper();
+		}
 
-	    return kontaktsperreMapper;
-	  }
-	  
-	  
-	  /**
-	   * Speichert einen KontaktsperrenEintrag in der DB
-	   * @param kontaktsperre
-	   */
-	  public void insertKontaktsperreEintrag(Kontaktsperre kontaktsperre){
-		  Connection con = DBConnection.getConnection();
+		return kontaktsperreMapper;
+	}
 
-			try {
-				Statement stmt = con.createStatement();
+	/**
+	 * Speichert einen KontaktsperrenEintrag in der DB
+	 * 
+	 * @param kontaktsperre
+	 */
+	public void insertKontaktsperreEintrag(Kontaktsperre kontaktsperre) {
+		Connection con = DBConnection.getConnection();
 
-				
-				ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid " + "FROM kontaktsperre");
+		try {
+			Statement stmt = con.createStatement();
 
-				if (rs.next()) {
-					
-					kontaktsperre.setId(rs.getInt("maxid") + 1);
-					stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid " + "FROM kontaktsperre");
 
-					
-					stmt.executeUpdate("INSERT INTO kontaktsperre (id, epID, fpID) " + "VALUES (" + kontaktsperre.getId() + ","
-							+ kontaktsperre.getEigenprofilID() +  "," + kontaktsperre.getFremdprofilID() +  ")");
-				}
-			} catch (SQLException e2) {
-				e2.printStackTrace();
+			if (rs.next()) {
+
+				kontaktsperre.setId(rs.getInt("maxid") + 1);
+				stmt = con.createStatement();
+
+				stmt.executeUpdate("INSERT INTO kontaktsperre (id, epID, fpID) " + "VALUES (" + kontaktsperre.getId()
+						+ "," + kontaktsperre.getEigenprofilID() + "," + kontaktsperre.getFremdprofilID() + ")");
 			}
-		  
-	  }
-	  
-	  /**
-	   * L�scht einen KontaktsperrenEintrag in der DB
-	   * @param kontaktsperre
-	 * @return 
-	   */
-	  public void deleteKontaktsperreEintrag(Kontaktsperre kontaktsperre){
-		  Connection con = DBConnection.getConnection();
+		} catch (SQLException e2) {
+			e2.printStackTrace();
+		}
 
-			try {
-				Statement stmt = con.createStatement();
+	}
 
-				stmt.executeUpdate("DELETE FROM kontaktsperre" + "WHERE id=" + kontaktsperre.getId());
-			} catch (SQLException e) {
-				e.printStackTrace();
+	/**
+	 * L�scht einen KontaktsperrenEintrag in der DB
+	 * 
+	 * @param kontaktsperre
+	 * @return
+	 */
+	public void deleteKontaktsperreEintrag(Kontaktsperre kontaktsperre) {
+		Connection con = DBConnection.getConnection();
+
+		try {
+			Statement stmt = con.createStatement();
+
+			stmt.executeUpdate("DELETE FROM kontaktsperre" + "WHERE id=" + kontaktsperre.getId());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	/**
+	 * Gibt eine Kontaktsperre zur�ck per ID (Prim�rschl�ssel)
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public Kontaktsperre findByKey(int id) {
+		Connection con = DBConnection.getConnection();
+
+		try {
+			Statement stmt = con.createStatement();
+
+			ResultSet rs = stmt.executeQuery("SELECT * FROM kontaktsperre" + "WHERE id=" + id);
+			if (rs.next()) {
+				Kontaktsperre k = new Kontaktsperre();
+				k.setId(id);
+				k.setEigenprofilID(rs.getInt("epID"));
+				k.setFremdprofilID(rs.getInt("fpID"));
+
+				return k;
 			}
-		  
-	  }
-	  
-	  /**
-	   * Gibt eine Kontaktsperre zur�ck per ID (Prim�rschl�ssel)
-	   * @param id
-	   * @return
-	   */
-	  public Kontaktsperre findByKey(int id){
-		  Connection con = DBConnection.getConnection();
-
-			try {
-				Statement stmt = con.createStatement();
-
-				ResultSet rs = stmt.executeQuery("SELECT * FROM kontaktsperre" + "WHERE id=" + id);
-				if (rs.next()) {
-					Kontaktsperre k = new Kontaktsperre();
-					k.setId(id);
-					k.setEigenprofilID(rs.getInt("epID"));
-					k.setFremdprofilID(rs.getInt("fpID"));
-					
-					return k;
-				}
-			} catch (SQLException e2) {
-				e2.printStackTrace();
-				return null;
-			}
+		} catch (SQLException e2) {
+			e2.printStackTrace();
 			return null;
-	  }
-	  
-	  /**
-	   * Gibt alle Kontaktsperren-Eintr�ge zur�ck
-	   * @return
-	   */
-	  public ArrayList<Kontaktsperre> findAll(){
-		  ArrayList <Kontaktsperre> result = new ArrayList<>();
+		}
+		return null;
+	}
 
-			Connection con = DBConnection.getConnection();
-			try {
-				
-				Statement stmt = con.createStatement();
+	/**
+	 * Gibt alle Kontaktsperren-Eintr�ge zur�ck
+	 * 
+	 * @return
+	 */
+	public ArrayList<Kontaktsperre> findAll() {
+		ArrayList<Kontaktsperre> result = new ArrayList<>();
 
-				ResultSet rs = stmt.executeQuery("SELECT * FROM kontaktsperre"+ "ORDER BY id");
+		Connection con = DBConnection.getConnection();
+		try {
 
-				
-				while (rs.next()) {
-					
-					Kontaktsperre k = new Kontaktsperre();
-					k.setId(rs.getInt("id"));
-					k.setEigenprofilID(rs.getInt("epID"));
-					k.setFremdprofilID(rs.getInt("fpID"));
-					
-	
-					result.add(k);
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
+			Statement stmt = con.createStatement();
+
+			ResultSet rs = stmt.executeQuery("SELECT * FROM kontaktsperre" + "ORDER BY id");
+
+			while (rs.next()) {
+
+				Kontaktsperre k = new Kontaktsperre();
+				k.setId(rs.getInt("id"));
+				k.setEigenprofilID(rs.getInt("epID"));
+				k.setFremdprofilID(rs.getInt("fpID"));
+
+				result.add(k);
 			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
-			
-			return result;
-		 
-	  }
-	  public ArrayList<Kontaktsperre> findKontaktsperrenOf(Profil profilowner){
-		  ArrayList<Kontaktsperre> result = new ArrayList<>();
+		return result;
 
-			Connection con = DBConnection.getConnection();
-			try {
-				
-				Statement stmt = con.createStatement();
+	}
 
-				ResultSet rs = stmt.executeQuery("SELECT * FROM kontaktsperre"+ "WHERE epID=" + profilowner.getId() +"ORDER BY id");
+	public ArrayList<Kontaktsperre> findKontaktsperrenOf(Profil profilowner) {
+		ArrayList<Kontaktsperre> result = new ArrayList<>();
 
-				
-				while (rs.next()) {
-					Kontaktsperre k = new Kontaktsperre();
-					k.setId(rs.getInt("id"));
-					k.setEigenprofilID(rs.getInt("epID"));
-					k.setFremdprofilID(rs.getInt("fpID"));
-					
+		Connection con = DBConnection.getConnection();
+		try {
 
-					
-					result.add(k);
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
+			Statement stmt = con.createStatement();
+
+			ResultSet rs = stmt
+					.executeQuery("SELECT * FROM kontaktsperre" + "WHERE epID=" + profilowner.getId() + "ORDER BY id");
+
+			while (rs.next()) {
+				Kontaktsperre k = new Kontaktsperre();
+				k.setId(rs.getInt("id"));
+				k.setEigenprofilID(rs.getInt("epID"));
+				k.setFremdprofilID(rs.getInt("fpID"));
+
+				result.add(k);
 			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
-			
-			return result;
+		return result;
 	}
 }

@@ -122,20 +122,7 @@ public int hashCode() {
 	result = prime * result + ((title == null) ? 0 : title.hashCode());
 	return result;
 }
-public boolean compare(Suchprofil suchprofill, Profil profil){
-	if(suchprofill.getHaarFarbe() == profil.getHaarfarbe())
-		return true;
-	if (suchprofill.getKoerpergroesse() == profil.getKoerpergroesse())
-		return true;
-	if(suchprofill.isRaucher() == profil.isRaucher())
-		return true;
-	//if(suchprofill.getAlter() == profil.getAlter())
-		//return true;
-	if(suchprofill.getReligion() == profil.getReligion())
-		return true;
-	else return false;
-	
-}
+
 
 @Override
 public boolean equals(Object obj) {

@@ -66,8 +66,6 @@ public interface PartnerboerseAdministrationAsync {
 
 	void findBesucheOf(Profil profilowner, AsyncCallback<ArrayList<Besuch>> callback);
 
-	void findBesucheOfe(Profil profilowner, AsyncCallback<ArrayList<Besuch>> callback);
-
 	void findEigenschaftsInfosOf(Eigenschaft eigenschaft, AsyncCallback<ArrayList<Info>> callback);
 
 	void findElementeOf(Auswahl auswahl, AsyncCallback<ArrayList<Element>> callback);
@@ -110,7 +108,7 @@ public interface PartnerboerseAdministrationAsync {
 
 	void getMerkzettelEintraegeByID(int ID, AsyncCallback<Merkzettel> callback);
 
-	void getNotSeenProfilErgebnisse(Suchprofil suchprofil, AsyncCallback<ArrayList<Profil>> callback);
+	void getNotSeenProfilErgebnisse(Profil eigenprofil, AsyncCallback<ArrayList<Profil>> callback);
 
 	void getProfilByID(int id, AsyncCallback<Profil> callback);
 
