@@ -319,42 +319,29 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	@Override
 	public ArrayList<Profil> getSuchProfilErgebnisse(Suchprofil suchprofil) throws IllegalArgumentException {
 
-
-		ArrayList<Profil> profile = this.getAllProfils();
-		Profil suchprofilowner = this.getProfilByID(suchprofil.getEigenprofilID());
-		ArrayList<Kontaktsperre> kontaktsperrenofsuchprofilowner = this.findKontaktsperrenOf(suchprofilowner);
+		ArrayList<Profil> profile = getAllProfils();
+		Profil suchprofilowner = getProfilByID(suchprofil.getEigenprofilID());
+		ArrayList<Kontaktsperre> kontaktsperrenofsuchprofilowner = findKontaktsperrenOf(suchprofilowner);
 		ArrayList<Integer> fpids = new ArrayList<>();
-			
-		
-		// Bevor der Abgleich stattfindet, müssen ALLE Kontaktsperren fpids in der Arraylist fpids vorhanden sein.	
+	
 		for (Kontaktsperre k : kontaktsperrenofsuchprofilowner){
 			int fpid = k.getFremdprofilID();
 			fpids.add(fpid);
 		}	
 		
-		
-		// Abspeichern der Profil id, mit jedem Durchgang eine neue id.
 		for (Profil p : profile){
 			int id = p.getId();
 				
-			// Wenn eine FremdID in der fpID Liste ist (--> ein geblockter User), wird das Profil aus der
-			// profile-Liste gelöscht.
 			if(fpids.contains(id)){
 				profile.remove(p);
 			}
-			// Wenn die id, die des Suchprofilowners ist, wird das Profil aus der profile-Liste gelöscht.
 			else if (id == suchprofilowner.getId()){
 				profile.remove(p);
 			}
-						
-			// Die Methode compare gleicht die Anforderungen des Suchprofils mit den realen Werten aus
-			// dem Profil ab. z.B. Suchprofil-Haarfarbe = blonde, Profil-Haarfarbe = schwarz ergibt
-			// keinen Treffer.
 			else if (compare(suchprofil, p) == false){
 				profile.remove(p);
 			}
-		}
-				
+		}			
 		return profile;
 }
 	/**
