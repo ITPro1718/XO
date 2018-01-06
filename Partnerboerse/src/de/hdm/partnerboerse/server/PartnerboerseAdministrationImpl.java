@@ -368,25 +368,27 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	}
 
 	@Override
-	public ArrayList<Profil> getNotSeenProfilErgebnisse(Profil eigenprofil) throws IllegalArgumentException {
+public ArrayList<Profil> getNotSeenSuchProfilErgebnisse(Suchprofil suchprofil) throws IllegalArgumentException {
 		
-		ArrayList<Profil> allProfils = getAllProfils();
-		ArrayList<Besuch> visitsOfprofilowner= findBesucheOf(eigenprofil);
+		ArrayList<Profil> suchProfilErgebnisse = getSuchProfilErgebnisse(suchprofil);
+		Profil suchprofilowner = getProfilByID(suchprofil.getEigenprofilID());
+		ArrayList<Besuch> visitsOfSuchProfilowner= findBesucheOf(suchprofilowner);
         ArrayList<Integer> visitedProfilids = new ArrayList<>();
-			
-		for (Besuch b : visitsOfprofilowner){
+        
+		for (Besuch b : visitsOfSuchProfilowner){
 			int visitid = b.getFremdprofilID();
 			visitedProfilids.add(visitid);
 		}
-		for (Profil p : allProfils){
+		for (Profil p : suchProfilErgebnisse){
 			int id = p.getId();
 				
 			if(visitedProfilids.contains(id)){
-				allProfils.remove(p);
-			}
+				suchProfilErgebnisse.remove(p);
+			}		
 		}
-		return allProfils;	
+		return suchProfilErgebnisse;	
 	}
+
 
 	@Override
 	public void createInfo(Profil p, String bezeichnung) throws IllegalArgumentException {
