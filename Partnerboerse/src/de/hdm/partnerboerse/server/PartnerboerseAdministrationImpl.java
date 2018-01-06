@@ -352,7 +352,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	 */
 	public boolean compare(Suchprofil suchprofill, Profil profil){
 		
-		if(suchprofill.getHaarFarbe() == profil.getHaarfarbe() &&
+		if((suchprofill.getHaarFarbe() == profil.getHaarfarbe()) &&
 			
 		  (suchprofill.getKoerpergroesse() == profil.getKoerpergroesse()) &&
 			
@@ -360,7 +360,8 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 			
 		  (suchprofill.getAlter() == getAge(profil.getGeburtsdatum())) &&
 			
-		  (suchprofill.getReligion() == profil.getReligion()) ){
+		  (suchprofill.getReligion() == profil.getReligion()))
+		  {
 			  return true;
 		}
 		else return false;
