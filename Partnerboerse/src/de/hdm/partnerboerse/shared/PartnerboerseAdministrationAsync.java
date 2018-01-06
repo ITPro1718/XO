@@ -20,13 +20,13 @@ public interface PartnerboerseAdministrationAsync {
 
 	void berechneAehnlichkeitsmass(Profil source, Suchprofil suchprofil, AsyncCallback<ArrayList<Profil>> callback);
 
-	void createAuswahl(Eigenschaft eigenschaft, String title, AsyncCallback<Void> callback);
+	void createAuswahl(String title, AsyncCallback<Auswahl> callback);
 
 	void createBesuch(Profil source, Profil target, AsyncCallback<Void> callback);
 
-	void createEigenschaft(Info info, AsyncCallback<Void> callback);
+	void createEigenschaft(Info info, String bezeichnung, String is_a, String string, AsyncCallback<Void> callback);
 
-	void createFreitext(Eigenschaft eigenschaft, String text, AsyncCallback<Void> callback);
+	void createFreitext(String text, AsyncCallback<Freitext> callback);
 
 	void createInfo(Profil p, String bezeichnung, AsyncCallback<Void> callback);
 
@@ -102,7 +102,7 @@ public interface PartnerboerseAdministrationAsync {
 
 	void getElementByID(int id, AsyncCallback<Element> callback);
 
-	void getFreitext(AsyncCallback<Freitext> callback);
+	void getFreitext(Eigenschaft eigenschaft, AsyncCallback<Freitext> callback);
 
 	void getInfoByID(int id, AsyncCallback<Info> callback);
 
