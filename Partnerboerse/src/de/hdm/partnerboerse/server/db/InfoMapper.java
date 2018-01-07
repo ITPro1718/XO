@@ -51,7 +51,7 @@ public class InfoMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			ResultSet rs = stmt.executeQuery("SELECT * FROM info" + "WHERE id=" + id);
+			ResultSet rs = stmt.executeQuery("SELECT * FROM info WHERE id=" + id);
 			if (rs.next()) {
 				Info i = new Info();
 				i.setId(id);
@@ -150,7 +150,7 @@ public class InfoMapper {
 	}
 
 	public void insertInfo(Info i) {
-		
+
 		Connection con = DBConnection.getConnection();
 
 		try {
@@ -166,14 +166,14 @@ public class InfoMapper {
 				stmt = con.createStatement();
 
 				// Das ist die eigentliche Einfüg-Funktion
-				stmt.executeUpdate("INSERT INTO auswahl(id, bezeichnung, epID, eigenschaftID) " + "VALUES (" + i.getId() + ", "
-						+ i.getText() + ", "+ i.getEigenprofilID() + ", " + i.getEigenschaftsID() + ")");
-				
+				stmt.executeUpdate("INSERT INTO auswahl(id, bezeichnung, epID, eigenschaftID) " + "VALUES (" + i.getId()
+						+ ", " + i.getText() + ", " + i.getEigenprofilID() + ", " + i.getEigenschaftsID() + ")");
+
 			}
 		} catch (SQLException e2) {
 			e2.printStackTrace();
 		}
-		
+
 	}
 
 }
