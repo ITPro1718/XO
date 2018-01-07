@@ -1,5 +1,6 @@
 package de.hdm.partnerboerse.test.server.db;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
@@ -63,6 +64,12 @@ public class EigenschaftMapperTest {
 	@Test
 	public void testFindByKey() {
 		assertTrue(EigenschaftMapper.eigenschaftMapper().findByKey(3) != null);
+	}
+
+	@Test
+	public void testFindAll() {
+		EigenschaftMapper mapper = EigenschaftMapper.eigenschaftMapper();
+		assertFalse(mapper.findAll().isEmpty());
 	}
 
 	private Eigenschaft getTestEigenschaftObjekt() {
