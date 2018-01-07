@@ -274,7 +274,7 @@ public interface PartnerboerseAdministration extends RemoteService {
 	 * @return alle nicht-gesehenden Ergebnisse des Suchprofils
 	 * @throws IllegalArgumentException
 	 */
-	public ArrayList<Profil> getNotSeenSuchProfilErgebnisse(Suchprofil suchprofil) throws IllegalArgumentException;
+	public ArrayList<Profil> getNotSeenSuchProfilErgebnisse(Suchprofil suchprofil)cc throws IllegalArgumentException;
 
 	/**
 	 * Info-Objekt Methoden
@@ -376,11 +376,12 @@ public interface PartnerboerseAdministration extends RemoteService {
 
 	/**
 	 * Freitext anzeigen.
+	 * @param eigenschaft TODO
 	 * 
 	 * @return Freitext-Objekt
 	 * @throws IllegalArgumentException
 	 */
-	public Freitext getFreitext() throws IllegalArgumentException;
+	public Freitext getFreitext(Eigenschaft eigenschaft) throws IllegalArgumentException;
 
 	/**
 	 * Freitext bearbeiten

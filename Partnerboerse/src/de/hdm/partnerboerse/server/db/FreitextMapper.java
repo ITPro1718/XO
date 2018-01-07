@@ -167,7 +167,7 @@ public class FreitextMapper {
 		return result;
 	}
 
-	public Freitext findFreitextOf(Eigenschaft eigenschaft) {
+	public Freitext findFreitextOfEigenschaft(Eigenschaft eigenschaft) {
 
 		Connection con = DBConnection.getConnection();
 		try {

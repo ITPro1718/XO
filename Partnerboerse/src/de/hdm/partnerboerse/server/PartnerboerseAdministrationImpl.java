@@ -7,16 +7,7 @@ import java.util.GregorianCalendar;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
-import de.hdm.partnerboerse.server.db.AuswahlMapper;
-import de.hdm.partnerboerse.server.db.BesuchMapper;
-import de.hdm.partnerboerse.server.db.EigenschaftMapper;
-import de.hdm.partnerboerse.server.db.ElementMapper;
-import de.hdm.partnerboerse.server.db.FreitextMapper;
-import de.hdm.partnerboerse.server.db.InfoMapper;
-import de.hdm.partnerboerse.server.db.KontaktsperreMapper;
-import de.hdm.partnerboerse.server.db.MerkzettelMapper;
-import de.hdm.partnerboerse.server.db.ProfilMapper;
-import de.hdm.partnerboerse.server.db.SuchprofilMapper;
+import de.hdm.partnerboerse.server.db.*;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
 import de.hdm.partnerboerse.shared.bo.Auswahl;
 import de.hdm.partnerboerse.shared.bo.Besuch;
@@ -33,35 +24,35 @@ import de.hdm.partnerboerse.shared.bo.Suchprofil;
  * The server-side implementation of the RPC service.
  */
 @SuppressWarnings("serial")
-public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implements PartnerboerseAdministration {
+public class PartnerboerseAdministrationImpl extends RemoteServiceServlet 
+	implements PartnerboerseAdministration {
 
 	private AuswahlMapper aMapper = null;
-
+	
 	private EigenschaftMapper eiMapper = null;
-
+	
 	private ElementMapper elMapper = null;
-
+	
 	private FreitextMapper fMapper = null;
-
+	
 	private InfoMapper iMapper = null;
-
+	
 	private KontaktsperreMapper kMapper = null;
-
+	
 	private MerkzettelMapper mMapper = null;
-
+	
 	private ProfilMapper pMapper = null;
-
+	
 	private SuchprofilMapper sMapper = null;
-
+	
 	private BesuchMapper bMapper = null;
-
+	
 	public PartnerboerseAdministrationImpl() throws IllegalArgumentException {
-
+		
 	}
-
-	@Override
+	
 	public void init() throws IllegalArgumentException {
-
+		
 		this.aMapper = AuswahlMapper.auswahlMapper();
 		this.eiMapper = EigenschaftMapper.eigenschaftMapper();
 		this.elMapper = ElementMapper.elementMapper();
@@ -72,29 +63,33 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		this.pMapper = ProfilMapper.profilMapper();
 		this.sMapper = SuchprofilMapper.suchprofilMapper();
 		this.bMapper = BesuchMapper.besuchMapper();
-
+		
 	}
-
 	public int getAge(Date date) {
-
-		GregorianCalendar birthday = new GregorianCalendar();
-		birthday.setTime(date);
-
-		GregorianCalendar today = new GregorianCalendar();
-
-		int age = today.get(Calendar.YEAR) - birthday.get(Calendar.YEAR);
-
-		if (today.get(Calendar.MONTH) <= birthday.get(Calendar.MONTH)) {
-			if (today.get(Calendar.DATE) < birthday.get(Calendar.DATE)) {
-				age -= 1;
-			}
-		}
-
-		if (age < 0)
-			throw new IllegalArgumentException("invalid age: " + age);
-
-		return age;
-	}
+		
+	    
+	        GregorianCalendar birthday = new GregorianCalendar();
+	        birthday.setTime(date);
+	       
+	        GregorianCalendar today = new GregorianCalendar();
+	       
+	        int age = today.get(Calendar.YEAR) - birthday.get(Calendar.YEAR);
+	       
+	        if(today.get(Calendar.MONTH) <= birthday.get(Calendar.MONTH))
+	        {
+	            if(today.get(Calendar.DATE) < birthday.get(Calendar.DATE))
+	            {
+	                age -= 1;
+	            }
+	        }
+	       
+	        if(age < 0)
+	            throw new IllegalArgumentException("invalid age: "+age);
+	       
+	        return age;
+	    }
+		  
+		
 
 	@Override
 	public void createProfil(int id, String vname, String nname, String haarfarbe, float kgr, boolean raucher,
@@ -111,7 +106,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		p.setEmail(email);
 		p.setId(id);
 		p.setReligion(religion);
-
+		
 		this.pMapper.insert(p);
 	}
 
@@ -122,54 +117,59 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	@Override
 	public void deleteProfil(Profil p) throws IllegalArgumentException {
-
+		
 		/**
-		 * Hier muss man die ganzen Abhngigkeiten abchecken, bevor man ein
-		 * Profil l�scht. z.B. muss man erst alle Merkzettel Eintr�ge l�schen,
-		 * in denen das Profil vorkommt. Erst dann kann man ein Profil l�schen
+		 * Hier muss man die ganzen Abhngigkeiten abchecken, bevor man ein Profil l�scht.
+		 * z.B. muss man erst alle Merkzettel Eintr�ge l�schen, in denen das Profil vorkommt.
+		 * Erst dann kann man ein Profil l�schen
 		 * 
 		 * Abh�ngigkeiten von Profil:
 		 * 
-		 * Merkzettel Kontaktsperre Visit Suchprofil Info
+		 * Merkzettel
+		 * Kontaktsperre
+		 * Visit
+		 * Suchprofil
+		 * Info
 		 * 
 		 */
-
+		
 		ArrayList<Merkzettel> merkzettel = this.findMerkzettelnOf(p);
 		ArrayList<Kontaktsperre> kontaktsperren = this.findKontaktsperrenOf(p);
 		ArrayList<Besuch> besuche = this.findBesucheOf(p);
 		ArrayList<Suchprofil> suchprofile = this.findSuchprofileOf(p);
 		ArrayList<Info> infos = this.findInfoOf(p);
-
-		if (merkzettel != null) {
-			for (Merkzettel m : merkzettel) {
+		
+		
+		if (merkzettel != null){
+			for (Merkzettel m : merkzettel){
 				this.deleteMerkzettelEintrag(m);
 			}
 		}
-
-		if (kontaktsperren != null) {
-			for (Kontaktsperre k : kontaktsperren) {
+		
+		if (kontaktsperren != null){
+			for (Kontaktsperre k : kontaktsperren){
 				this.deleteKontaktsperreEintraege(k);
 			}
 		}
-
-		if (besuche != null) {
-			for (Besuch b : besuche) {
+		
+		if (besuche != null){
+			for (Besuch b : besuche){
 				this.deleteBesuch(b);
 			}
 		}
-
-		if (suchprofile != null) {
-			for (Suchprofil s : suchprofile) {
+		
+		if (suchprofile != null){
+			for (Suchprofil s : suchprofile){
 				this.deleteSuchprofil(s);
 			}
 		}
-
-		if (infos != null) {
-			for (Info i : infos) {
+		
+		if (infos != null){
+			for (Info i : infos){
 				this.deleteInfo(i);
 			}
 		}
-
+		
 		this.pMapper.delete(p);
 	}
 
@@ -177,21 +177,21 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	public ArrayList<Profil> getProfilByName(String name) throws IllegalArgumentException {
 
 		return this.pMapper.findProfilesByName(name);
-
+		
 	}
 
 	@Override
 	public Profil getProfilByID(int id) throws IllegalArgumentException {
 
 		return this.pMapper.findProfilByKey(id);
-
+		
 	}
 
 	@Override
 	public ArrayList<Profil> getAllProfils() throws IllegalArgumentException {
-
+		
 		return this.pMapper.findAllProfiles();
-
+		
 	}
 
 	@Override
@@ -200,13 +200,13 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		Merkzettel m = new Merkzettel();
 		m.setEigenprofilID(source.getId());
 		m.setFremdprofilID(target.getId());
-
+		
 		this.mMapper.insertMerkzettelEintrag(m);
 	}
 
 	@Override
 	public ArrayList<Merkzettel> getAllMerkzettelEintraege() throws IllegalArgumentException {
-
+		
 		return this.mMapper.findAll();
 	}
 
@@ -214,14 +214,15 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	public Merkzettel getMerkzettelEintraegeByID(int ID) throws IllegalArgumentException {
 
 		return this.mMapper.findByKey(ID);
-
+		
 	}
 
 	@Override
 	public void deleteMerkzettelEintrag(Merkzettel merkzettel) throws IllegalArgumentException {
 
 		this.mMapper.deleteMerkzettelEintrag(merkzettel);
-
+		
+		
 	}
 
 	@Override
@@ -230,33 +231,34 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		Kontaktsperre k = new Kontaktsperre();
 		k.setEigenprofilID(source.getId());
 		k.setFremdprofilID(target.getId());
-
+		
 		this.kMapper.insertKontaktsperreEintrag(k);
 	}
 
 	@Override
 	public ArrayList<Kontaktsperre> getAllKontaktsperreEintraege() throws IllegalArgumentException {
-
+		
 		return this.kMapper.findAll();
 	}
 
 	@Override
 	public Kontaktsperre getKontaktsperreEintragByID(int id) throws IllegalArgumentException {
 
-		return this.kMapper.findByKey(id);
 
+		return this.kMapper.findByKey(id);
+		
 	}
 
 	@Override
 	public void deleteKontaktsperreEintraege(Kontaktsperre kontaktsperre) throws IllegalArgumentException {
-
-		this.kMapper.deleteKontaktsperreEintrag(kontaktsperre);
-
+		
+	  this.kMapper.deleteKontaktsperreEintrag(kontaktsperre);
+		
 	}
 
 	@Override
-	public void createSuchprofil(Profil source, String titel, String haarfarbe, float kgr, boolean raucher,
-			String religion, int alter) throws IllegalArgumentException {
+	public void createSuchprofil(Profil source, String titel, String haarfarbe, float kgr, boolean raucher, String religion,
+			int alter) throws IllegalArgumentException {
 		Suchprofil s = new Suchprofil();
 		s.setEigenprofilID(source.getId());
 		s.setHaarFarbe(haarfarbe);
@@ -268,46 +270,49 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		s.setRaucher(raucher);
 		s.setAlter(alter);
 		s.setEigenprofilID(source.getId());
+		
 
 		this.sMapper.insertSuchprofil(s);
-
+		
 	}
 
 	@Override
 	public ArrayList<Suchprofil> getAllSuchprofile() throws IllegalArgumentException {
-
+		
 		return this.sMapper.findAll();
 	}
 
 	@Override
 	public Suchprofil getSuchprofilByID(int id) throws IllegalArgumentException {
-
+		
 		return this.sMapper.findByKey(id);
 	}
 
 	@Override
 	public Suchprofil getSuchprofilByTitle(String title) throws IllegalArgumentException {
-
+		
 		return this.sMapper.findSuchprofilByTitle(title);
-
+		
 	}
 
 	@Override
 	public void updateSuchprofil(Suchprofil suchprofil) throws IllegalArgumentException {
 		this.sMapper.updateSuchprofil(suchprofil);
-
+		
 	}
 
 	@Override
 	public void deleteSuchprofil(Suchprofil suchprofil) throws IllegalArgumentException {
-
-		this.sMapper.deleteSuchprofil(suchprofil);
+		
+		this.sMapper.deleteSuchprofil(suchprofil);	
 	}
 
 	@Override
 	public ArrayList<Profil> berechneAehnlichkeitsmass(Profil source, Suchprofil suchprofil)
 			throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+		// TODO Methode implementieren wenn wir den ganzen Eigenschaft/Info shit haben
+		// findAllInfoOf(Profil p) implementieren! danach kann man die hier machen
+		
 		return null;
 	}
 
@@ -318,68 +323,77 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		Profil suchprofilowner = getProfilByID(suchprofil.getEigenprofilID());
 		ArrayList<Kontaktsperre> kontaktsperrenofsuchprofilowner = findKontaktsperrenOf(suchprofilowner);
 		ArrayList<Integer> fpids = new ArrayList<>();
-
-		for (Kontaktsperre k : kontaktsperrenofsuchprofilowner) {
+	
+		for (Kontaktsperre k : kontaktsperrenofsuchprofilowner){
 			int fpid = k.getFremdprofilID();
 			fpids.add(fpid);
-		}
-
-		for (Profil p : profile) {
+		}	
+		
+		for (Profil p : profile){
 			int id = p.getId();
-
-			if (fpids.contains(id)) {
-				profile.remove(p);
-			} else if (id == suchprofilowner.getId()) {
-				profile.remove(p);
-			} else if (compare(suchprofil, p) == false) {
+				
+			if(fpids.contains(id)){
 				profile.remove(p);
 			}
-		}
+			else if (id == suchprofilowner.getId()){
+				profile.remove(p);
+			}
+			else if (compare(suchprofil, p) == false){
+				profile.remove(p);
+			}
+		}			
 		return profile;
-	}
-
-	public boolean compare(Suchprofil suchprofill, Profil profil) {
-
-		if (suchprofill.getHaarFarbe() == profil.getHaarfarbe() &&
-
-				(suchprofill.getKoerpergroesse() == profil.getKoerpergroesse()) &&
-
-				(suchprofill.isRaucher() == profil.isRaucher()) &&
-
-				(suchprofill.getAlter() == getAge(profil.getGeburtsdatum())) &&
-
-				(suchprofill.getReligion() == profil.getReligion())) {
-			return true;
-		} else
-			return false;
-
+}
+	/**
+	 * Gibt TRUE zurück, wenn ein Profil GENAU mit einem Suchprofil übereinstimmt
+	 * @param suchprofill
+	 * @param profil
+	 * @return
+	 */
+	public boolean compare(Suchprofil suchprofill, Profil profil){
+		
+		if((suchprofill.getHaarFarbe() == profil.getHaarfarbe()) &&
+			
+		  (suchprofill.getKoerpergroesse() == profil.getKoerpergroesse()) &&
+			
+		  (suchprofill.isRaucher() == profil.isRaucher()) &&
+			
+		  (suchprofill.getAlter() == getAge(profil.getGeburtsdatum())) &&
+			
+		  (suchprofill.getReligion() == profil.getReligion()))
+		  {
+			  return true;
+		}
+		else return false;
+		
 	}
 
 	@Override
-	public ArrayList<Profil> getNotSeenSuchProfilErgebnisse(Suchprofil suchprofil) throws IllegalArgumentException {
-
+public ArrayList<Profil> getNotSeenSuchProfilErgebnisse(Suchprofil suchprofil) throws IllegalArgumentException {
+		
 		ArrayList<Profil> suchProfilErgebnisse = getSuchProfilErgebnisse(suchprofil);
 		Profil suchprofilowner = getProfilByID(suchprofil.getEigenprofilID());
-		ArrayList<Besuch> visitsOfSuchProfilowner = findBesucheOf(suchprofilowner);
-		ArrayList<Integer> visitedProfilids = new ArrayList<>();
-
-		for (Besuch b : visitsOfSuchProfilowner) {
+		ArrayList<Besuch> visitsOfSuchProfilowner= findBesucheOf(suchprofilowner);
+        ArrayList<Integer> visitedProfilids = new ArrayList<>();
+        
+		for (Besuch b : visitsOfSuchProfilowner){
 			int visitid = b.getFremdprofilID();
 			visitedProfilids.add(visitid);
 		}
-		for (Profil p : suchProfilErgebnisse) {
+		for (Profil p : suchProfilErgebnisse){
 			int id = p.getId();
-
-			if (visitedProfilids.contains(id)) {
+				
+			if(visitedProfilids.contains(id)){
 				suchProfilErgebnisse.remove(p);
-			}
+			}		
 		}
-		return suchProfilErgebnisse;
+		return suchProfilErgebnisse;	
 	}
+
 
 	@Override
 	public void createInfo(Profil p, String bezeichnung) throws IllegalArgumentException {
-
+		
 		Info i = new Info();
 		i.setText(bezeichnung);
 		i.setEigenprofilID(p.getId());
@@ -392,7 +406,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	@Override
 	public ArrayList<Info> getAllInfos() throws IllegalArgumentException {
 		return this.iMapper.findAll();
-
+		
 	}
 
 	@Override
@@ -417,13 +431,13 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	@Override
 	public void updateInfo(Info info) throws IllegalArgumentException {
-		// Methode fehlt in Mapperklasse
-
+		//  Methode fehlt in Mapperklasse 
+		
+		
 	}
 
 	@Override
 	public void deleteInfo(Info info) throws IllegalArgumentException {
-
 		/**
 		 * Alle Abhängigkeiten müssen erst gelöscht werden:
 		 * Eigenschaft
@@ -431,12 +445,15 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		 * Freitext
 		 * Element
 		 */
-		//this.iMapper.deleteInfo(info); Abhängigkeiten? 
-
+		// Eigenschaft eigen = this.findEigenschaftsInfosOf(info);
+		
+		// TODO: Abhängigkeiten von Info und Eigenschaft klären
+		
+		this.iMapper.deleteInfo(info); 
+		
 	}
 
 	@Override
-
 	public void createEigenschaft(Info info, String bezeichnung, String is_a, String string) throws IllegalArgumentException {
 		
 		/**
@@ -478,29 +495,46 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	@Override
 	public ArrayList<Eigenschaft> getAllEigenschaften() throws IllegalArgumentException {
-
+		
 		return this.eiMapper.findAll();
-
+		
 	}
 
 	@Override
 	public Eigenschaft getEigenschaftByID(int id) throws IllegalArgumentException {
-
+		
 		return this.eiMapper.findByKey(id);
 	}
 
 	@Override
 	public void updateEigenschaft(Eigenschaft eigenschaft) throws IllegalArgumentException {
-
+		
 		this.eiMapper.updateEigenschaft(eigenschaft);
-
+		
 	}
 
 	@Override
 	public void deleteEigenschaft(Eigenschaft eigenschaft) throws IllegalArgumentException {
-		// Abhängigkeiten Freitext,Auswahl und Element löschen bevor Eigenschaft
-		// gelöscht werden kann
-
+		/**
+		 * Abhängigkeiten: 
+		 * Freitext,
+		 * Auswahl und Element (Element werden gelöscht bevor die Auswahl gelöscht werden kann
+		 * löschen bevor Eigenschaft gelöscht werden kann
+		 */
+		
+		Auswahl auswahl = this.findAuswahlOf(eigenschaft);
+		Freitext freitext = this.findFreitextOf(eigenschaft);
+		
+		if (auswahl != null){
+			this.deleteAuswahl(auswahl);
+		}
+		
+		if (freitext != null){
+			this.deleteFreitext(freitext);
+		}
+		
+		this.deleteEigenschaft(eigenschaft);
+		
 	}
 
 	@Override
@@ -524,31 +558,28 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		
 	}
 
-
+	/**
+	 * gibt einen Freitext aus einer Eigenschaft zurück
+	 */
 	@Override
-	public Freitext getFreitext() throws IllegalArgumentException {
-		// Alle Freitexte (Arraylist) oder ein Freitext von einem
-		// Eigenschaftsobjekt? (dann brauchen wir den Übergabewert Eigenschaft
-		// eigenschaft)
+	public Freitext getFreitext(Eigenschaft eigenschaft) throws IllegalArgumentException {
 
-		// this.fMapper.findFreitextOf();
-		return null;
+		return this.fMapper.findFreitextOfEigenschaft(eigenschaft);
 	}
 
 	@Override
 	public void updateFreitext(Freitext freitext) throws IllegalArgumentException {
 		this.fMapper.updateFreitext(freitext);
-
+		
 	}
 
 	@Override
 	public void deleteFreitext(Freitext freitext) throws IllegalArgumentException {
 		this.fMapper.deleteFreitext(freitext);
-
+		
 	}
 
 	@Override
-
 	public Auswahl createAuswahl(String title) throws IllegalArgumentException {
 		
 		Auswahl a = new Auswahl();
@@ -558,24 +589,23 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		
 		
 		return this.aMapper.insertAuswahl(a);
-
+		
 	}
 
 	@Override
 	public ArrayList<Auswahl> getAuswahl() throws IllegalArgumentException {
-
+		
 		return this.aMapper.findAll();
 	}
 
 	@Override
 	public void updateAuswahl(Auswahl auswahl) throws IllegalArgumentException {
 		this.aMapper.updateAuswahl(auswahl);
-
+		
 	}
 
 	@Override
 	public void deleteAuswahl(Auswahl auswahl) throws IllegalArgumentException {
-
 	/** 
 	 * Wie löschen wir die Abhängigkeiten bezüglich Element (auswahlID)?
 	 * 
@@ -587,12 +617,14 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	 */
 		
 		ArrayList<Element> el = this.findElementeOf(auswahl);
-
 		
 		if (el != null){
 			this.deleteElementAuswahl(auswahl);
 		}
-
+		
+		this.deleteAuswahl(auswahl);
+	
+		
 	}
 
 	@Override
@@ -605,116 +637,130 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		return this.elMapper.findByKey(id);
 	}
 
-	@Override
-	public ArrayList<Kontaktsperre> findKontaktsperrenOf(Profil profilowner) throws IllegalArgumentException {
+  @Override
+  public ArrayList<Kontaktsperre> findKontaktsperrenOf(Profil profilowner)
+      throws IllegalArgumentException {
+	  
+	  return this.kMapper.findKontaktsperrenOf(profilowner);
+  }
 
-		return this.kMapper.findKontaktsperrenOf(profilowner);
-	}
-
-	@Override
-	public ArrayList<Merkzettel> findMerkzettelnOf(Profil profilowner) throws IllegalArgumentException {
-
-		return this.mMapper.findMerkzettelnOf(profilowner);
-
-	}
-
-	@Override
-	public ArrayList<Suchprofil> findSuchprofileOf(Profil profilowner) throws IllegalArgumentException {
-
-		return this.sMapper.findSuchprofileOf(profilowner);
-
-	}
-
-	@Override
-	public ArrayList<Info> findInfoOf(Profil profilowner) throws IllegalArgumentException {
-
-		return this.iMapper.findInfoOf(profilowner);
-
-	}
-
-	@Override
-	public ArrayList<Info> findEigenschaftsInfosOf(Eigenschaft eigenschaft) throws IllegalArgumentException {
-
-		/**
-		 * Was macht diese Methode? TODO: Methode im Info Mapper implementieren
-		 */
-
-		return this.iMapper.findEigenschaftsInfosOf(eigenschaft);
-
-	}
-
-	@Override
-	public Freitext findFreitextOf(Eigenschaft eigenschaft) throws IllegalArgumentException {
-
-		/**
-		 * Gibt den Freitext einer Eigenschaft über den Fremdschlüssel zurück
-		 */
-
-		return this.fMapper.findFreitextOf(eigenschaft);
-	}
+  @Override
+  public ArrayList<Merkzettel> findMerkzettelnOf(Profil profilowner)
+      throws IllegalArgumentException {
+	  
+	  return this.mMapper.findMerkzettelnOf(profilowner);
+    
+  }
 
 
-	@Override
-	public Auswahl findAuswahlOf(Eigenschaft eigenschaft) throws IllegalArgumentException {
 
-		/**
-		 * Gibt eine Auswahl aus einer Eigenschaft zurück
-		 */
+  @Override
+  public ArrayList<Suchprofil> findSuchprofileOf(Profil profilowner)
+      throws IllegalArgumentException {
+	
+    return this.sMapper.findSuchprofileOf(profilowner);
+    
+  }
 
-		return this.aMapper.findAuswahlOf(eigenschaft);
-	}
+  @Override
+  public ArrayList<Info> findInfoOf(Profil profilowner) throws IllegalArgumentException {
+	  
+	return this.iMapper.findInfoOf(profilowner);
+	
+  }
 
-	@Override
-	public ArrayList<Element> findElementeOf(Auswahl auswahl) throws IllegalArgumentException {
+  @Override
+  public ArrayList<Info> findEigenschaftsInfosOf(Eigenschaft eigenschaft)
+      throws IllegalArgumentException {
+	  
+	 /**
+	  * Diese Methode gibt alle Eigenschaften einer Info zurück
+	  * TODO: Methode im Info Mapper implementieren
+	  */
+	  
+	  return this.iMapper.findEigenschaftsInfosOf(eigenschaft);
+	  
+  }
 
-		/**
-		 * Gibt alle Elemente einer Auswahl zurück. z.B. Auswahl = Sportart
-		 * Elemente = Fußball, Handball
-		 */
+  @Override
+  public Freitext findFreitextOf(Eigenschaft eigenschaft)
+      throws IllegalArgumentException {
+	  
+	/**
+	 * Gibt den Freitext einer Eigenschaft über den Fremdschlüssel zurück
+	 */
+	  
+    return this.fMapper.findFreitextOfEigenschaft(eigenschaft);
+  }
+  
+  @Override
+  public Auswahl findAuswahlOf(Eigenschaft eigenschaft)
+      throws IllegalArgumentException {
 
-		return this.elMapper.findElementOf(auswahl);
-	}
+	  /**
+	   * Gibt eine Auswahl aus einer Eigenschaft zurück
+	   */
+	  
+	  return this.aMapper.findAuswahlOf(eigenschaft);
+  }
 
-	@Override
-	public void createBesuch(Profil source, Profil target) throws IllegalArgumentException {
-		Besuch b = new Besuch();
-		b.setEigenprofilID(source.getId());
-		b.setFremdprofilID(target.getId());
+  @Override
+  public ArrayList<Element> findElementeOf(Auswahl auswahl) throws IllegalArgumentException {
+		  
+	  /**
+	   * Gibt alle Elemente einer Auswahl zurück.
+	   * z.B. Auswahl = Sportart
+	   * 	  Elemente = Fußball, Handball
+	   */
+	  
+	return this.aMapper.findElementOf(auswahl);
+  }
 
-		this.bMapper.insertBesuch(b);
+@Override
+public void createBesuch(Profil source, Profil target) throws IllegalArgumentException {
+	Besuch b = new Besuch();
+	b.setEigenprofilID(source.getId());
+	b.setFremdprofilID(target.getId());
+	
+	this.bMapper.insertBesuch(b);
+	
+}
 
-	}
+@Override
+public void deleteBesuch(Besuch besuch) throws IllegalArgumentException {
+	
+	this.bMapper.deleteBesuch(besuch);
+	
+}
 
-	@Override
-	public void deleteBesuch(Besuch besuch) throws IllegalArgumentException {
+@Override
+public ArrayList<Besuch> findAllBesuche() throws IllegalArgumentException {
+	
+	return this.bMapper.findAll();
+}
 
-		this.bMapper.deleteBesuch(besuch);
+@Override
+public Besuch findBesuchByKey(int id) throws IllegalArgumentException {
 
-	}
+	return this.bMapper.findByKey(id);
+}
 
-	@Override
-	public ArrayList<Besuch> findAllBesuche() throws IllegalArgumentException {
+@Override
+public ArrayList<Besuch> findBesucheOf(Profil profilowner) throws IllegalArgumentException {
+	
+	return this.bMapper.findByEigenprofil(profilowner);
+}
 
-		return this.bMapper.findAll();
-	}
 
-	@Override
-	public Besuch findBesuchByKey(int id) throws IllegalArgumentException {
+@Override
+public void deleteElementAuswahl(Auswahl auswahl) throws IllegalArgumentException {
 
-		return this.bMapper.findByKey(id);
-	}
-
-	@Override
-	public ArrayList<Besuch> findBesucheOf(Profil profilowner) throws IllegalArgumentException {
-
-		return this.bMapper.findByEigenprofil(profilowner);
-	}
-
-	@Override
-	public void deleteElementAuswahl(Auswahl auswahl) throws IllegalArgumentException {
-
-		
-		this.elMapper.deleteElement(auswahl);
+	// löscht alle Element-Einträge, die eine bestimmte AuswahlID haben
+	// z.B. wir wollen Auswahl mit der ID 5 löschen (Hobbies)
+	// Element: Fußball enthält Fremdschlüssel AuswahlID = 2
+	// --> ElementEintrag wird gelöscht, nun ist keine Fremdschlüsselabhängigkeit mehr und wir können Auswahl ID 2 löschen.
+	
+	this.elMapper.deleteElement(auswahl);
 	
 }
 
@@ -728,6 +774,5 @@ public void createElementAuswahl(int id, String bezeichnung, Auswahl auswahl) th
 	this.elMapper.insertElementAuswahl(e);
 	
 }
-
 
 }
