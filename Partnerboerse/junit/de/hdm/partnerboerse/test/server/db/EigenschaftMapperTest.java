@@ -1,11 +1,14 @@
-package de.hdm.partnerboerse.server.db;
+package de.hdm.partnerboerse.test.server.db;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
 import org.junit.Test;
 
+import de.hdm.partnerboerse.server.db.EigenschaftMapper;
 import de.hdm.partnerboerse.shared.bo.Eigenschaft;
 
 public class EigenschaftMapperTest {
@@ -19,7 +22,7 @@ public class EigenschaftMapperTest {
 	}
 
 	@Test
-	public void testUpdateAuswahl() {
+	public void testUpdateEigenschaft() {
 		EigenschaftMapper mapper = EigenschaftMapper.eigenschaftMapper();
 		// Neues Testobjekt anlegen
 		Eigenschaft testObjekt = getTestEigenschaftObjekt();
@@ -42,10 +45,42 @@ public class EigenschaftMapperTest {
 
 	}
 
+	@Test
+	public void testDeleteEigenschaft() {
+		EigenschaftMapper mapper = EigenschaftMapper.eigenschaftMapper();
+		Eigenschaft eigenschaft = getTestEigenschaftObjekt();
+
+		List<Eigenschaft> allEigenschaften = mapper.findAll();
+		if (!allEigenschaften.isEmpty()) {
+			int zuloeschendeId = allEigenschaften.get(0).getId();
+			eigenschaft.setId(zuloeschendeId);
+			mapper.deleteEigenschaft(eigenschaft);
+			assertNull(mapper.findByKey(zuloeschendeId));
+
+			mapper.insertEigenschaft(eigenschaft);
+		}
+	}
+
+	@Test
+	public void testFindByKey() {
+		assertTrue(EigenschaftMapper.eigenschaftMapper().findByKey(3) != null);
+	}
+
+	@Test
+	public void testFindAll() {
+		EigenschaftMapper mapper = EigenschaftMapper.eigenschaftMapper();
+		assertFalse(mapper.findAll().isEmpty());
+	}
+
 	private Eigenschaft getTestEigenschaftObjekt() {
 		Eigenschaft eigenschaft = new Eigenschaft();
 		eigenschaft.setId(1);
 		eigenschaft.setErlaeuterung("Testeigenschaft");
+		eigenschaft.setIs_a("Auswahl");
+		eigenschaft.setAuswahlID(10);
+		// TODO Eigenschaft sollte nicht zu beiden Fremdschlüsseln eine
+		// Beziehung haben MÜSSEN
+		eigenschaft.setFreitextID(1);
 
 		return eigenschaft;
 

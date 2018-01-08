@@ -274,7 +274,7 @@ public interface PartnerboerseAdministration extends RemoteService {
 	 * @return alle nicht-gesehenden Ergebnisse des Suchprofils
 	 * @throws IllegalArgumentException
 	 */
-	public ArrayList<Profil> getNotSeenSuchProfilErgebnisse(Suchprofil suchprofil) throws IllegalArgumentException;
+	public ArrayList<Profil> getNotSeenSuchProfilErgebnisse(Suchprofil suchprofil)cc throws IllegalArgumentException;
 
 	/**
 	 * Info-Objekt Methoden
@@ -323,10 +323,13 @@ public interface PartnerboerseAdministration extends RemoteService {
 	 * Eigenschaft fuer das bestimmte Info-Objekt erstellen.
 	 * 
 	 * @param info Info-Objekt, auf welches sich die Eigenschaft bezieht
+	 * @param bezeichnung TODO
+	 * @param is_a TODO
+	 * @param string TODO
 	 * @throws IllegalArgumentException
 	 */
 
-	public void createEigenschaft(Info info) throws IllegalArgumentException;
+	public void createEigenschaft(Info info, String bezeichnung, String is_a, String string) throws IllegalArgumentException;
 
 	/**
 	 * Alle Eigenschafts-Objekte anzeigen.
@@ -364,20 +367,21 @@ public interface PartnerboerseAdministration extends RemoteService {
 	/**
 	 * Freitext Methoden
 	 * Neues Freitext-Objekt, bezogen auf ein bestimmtes Eigenschafts-Objekt, erstellen.
-	 * 
-	 * @param eigenschaft die Eigenschaft 
 	 * @param text der Freitext
+	 * 
+	 * @return TODO
 	 * @throws IllegalArgumentException
 	 */
-	public void createFreitext(Eigenschaft eigenschaft, String text) throws IllegalArgumentException;
+	public Freitext createFreitext(String text) throws IllegalArgumentException;
 
 	/**
 	 * Freitext anzeigen.
+	 * @param eigenschaft TODO
 	 * 
 	 * @return Freitext-Objekt
 	 * @throws IllegalArgumentException
 	 */
-	public Freitext getFreitext() throws IllegalArgumentException;
+	public Freitext getFreitext(Eigenschaft eigenschaft) throws IllegalArgumentException;
 
 	/**
 	 * Freitext bearbeiten
@@ -398,12 +402,12 @@ public interface PartnerboerseAdministration extends RemoteService {
 	/**
 	 * Auswahl Methoden
 	 * Neues Auswahl-Objekt, bezogen auf ein bestimmtes Eigenschafts-Objekt, erstellen.
-	 * 
-	 * @param eigenschaft die Eigenschaft
 	 * @param title der Titel der Auswahl
+	 * @return TODO
+	 * 
 	 * @throws IllegalArgumentException
 	 */
-	public void createAuswahl(Eigenschaft eigenschaft, String title) throws IllegalArgumentException;
+	public Auswahl createAuswahl(String title) throws IllegalArgumentException;
 
 	/**
 	 * Auswahl-Objekte anzeigen.
@@ -473,6 +477,8 @@ public interface PartnerboerseAdministration extends RemoteService {
 	public ArrayList<Besuch> findBesucheOf(Profil profilowner) throws IllegalArgumentException;
 	
 	public void deleteElementAuswahl(Auswahl auswahl) throws IllegalArgumentException;
+	
+	public void createElementAuswahl(int id, String bezeichnung, Auswahl auswahl) throws IllegalArgumentException;	
 	
 	
 

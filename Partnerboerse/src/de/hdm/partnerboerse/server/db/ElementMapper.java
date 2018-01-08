@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import de.hdm.partnerboerse.shared.bo.Auswahl;
 import de.hdm.partnerboerse.shared.bo.Element;
 
 /**
@@ -103,8 +104,70 @@ public class ElementMapper {
 		return result;
 	}
 
-	public void deleteAuswahlIDs() {
-		// TODO: Methode Implementieren
+
+	/**
+	 * Gibt alle Elemente aus einer Auswahl zurück
+	 * 
+	 * @param auswahl
+	 * @return
+	 */
+	public ArrayList<Element> findElementOf(Auswahl auswahl) {
+		ArrayList<Element> result = new ArrayList<Element>();
+
+		Connection con = DBConnection.getConnection();
+		try {
+
+			Statement stmt = con.createStatement();
+
+			ResultSet rs = stmt.executeQuery("SELECT * FROM element" + "WHERE auswahlID=" + auswahl.getId());
+
+			while (rs.next()) {
+				Element e = new Element();
+				e.setId(rs.getInt("id"));
+				e.setBezeichnung(rs.getString("bezeichnung"));
+				e.setAuswahlID(rs.getInt("auswahlID"));
+
+				result.add(e);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return result;
+	}
+
+
+	public void deleteElement(Auswahl auswahl) {
+		Connection con = DBConnection.getConnection();
 		
+		try {
+			Statement stmt = con.createStatement();
+			stmt.executeUpdate("DELETE FROM element WHERE auswahlID = " + auswahl.getId());
+		}
+		catch (SQLException e){
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public void insertElementAuswahl(Element e){
+		Connection con = DBConnection.getConnection();
+		
+		try {
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid FROM element");
+			
+			if (rs.next()){
+				e.setId(rs.getInt("maxid") + 1);
+				
+				stmt = con.createStatement();
+				stmt.executeUpdate("INSERT INTO element (id, bezeichnung, auswahlID) VALUES (" + e.getId() + ", " + e.getBezeichnung()
+				+ ", " + e.getAuswahlID() + ")");
+				
+			}
+			
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
 	}
 }
