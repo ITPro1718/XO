@@ -4,7 +4,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
@@ -27,13 +26,12 @@ public class EditMerkliste extends VerticalPanel {
 		merklisteGrid.setStyleName("mltable");
 		this.add(merklisteGrid);
 		
-		Hyperlink link1 = new Hyperlink("Link zum Profil","E-Mail");
 		Button deleteButton = new Button("Profil löschen");
 
 		// Zeile 1
 		merklisteGrid.setText(0, 0, "Vorname");
 		merklisteGrid.setText(0, 1, "Nachname");
-		merklisteGrid.setWidget(0, 2, link1);
+		merklisteGrid.setText(0, 2, "E-Mail");
 		merklisteGrid.setWidget(0, 3, deleteButton);
 
 
