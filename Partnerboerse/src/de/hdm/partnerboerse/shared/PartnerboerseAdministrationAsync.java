@@ -136,4 +136,6 @@ public interface PartnerboerseAdministrationAsync {
 
 	void updateSuchprofil(Suchprofil suchprofil, AsyncCallback<Void> callback);
 
+	void createElementAuswahl(int id, String bezeichnung, Auswahl auswahl, AsyncCallback<Void> callback);
+
 }

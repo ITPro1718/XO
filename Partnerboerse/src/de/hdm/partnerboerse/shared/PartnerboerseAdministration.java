@@ -268,13 +268,13 @@ public interface PartnerboerseAdministration extends RemoteService {
 	public ArrayList<Profil> getSuchProfilErgebnisse(Suchprofil suchprofil) throws IllegalArgumentException;
 
 	/**
-	 * Noch nicht gesehene Profile bezgl. dem Suchprofil zur�ckgeben
+	 * Noch nicht gesehene Profile bezgl. dem Suchprofil zurückgeben
 	 * 
 	 * @param suchprofil das angewendete Suchprofil
 	 * @return alle nicht-gesehenden Ergebnisse des Suchprofils
 	 * @throws IllegalArgumentException
 	 */
-	public ArrayList<Profil> getNotSeenSuchProfilErgebnisse(Suchprofil suchprofil)cc throws IllegalArgumentException;
+	public ArrayList<Profil> getNotSeenSuchProfilErgebnisse(Suchprofil suchprofil) throws IllegalArgumentException;
 
 	/**
 	 * Info-Objekt Methoden
