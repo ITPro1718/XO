@@ -193,7 +193,7 @@ public class ProfilMapper {
 			// benutzte ID ist
 			Statement stmt = con.createStatement();
 
-			ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid + FROM profil");
+			ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid " + "FROM profil");
 
 			// Wenn wir etwas zurückerhalten, kann dies nur einzeilig sein
 			if (rs.next()) {
@@ -204,10 +204,10 @@ public class ProfilMapper {
 
 				Statement stmt1 = con.createStatement();
 				stmt1.executeUpdate(
-						"INSERT INTO profil (id, email, passwort, vorname, nachname,haarfarbe, koerpergroesse, raucher, religion) "
+						"INSERT INTO profil (id, email, passwort, vorname, nachname, geburtstag, haarfarbe, koerpergroesse, raucher, religion) "
 								+ "VALUES (" + profil.getId() + "," + profil.getEmail() + "," + profil.getPasswort()
 								+ "," + profil.getVorname() + "," + profil.getNachname() + ","
-								 + profil.getHaarfarbe() + ","
+								+ profil.getGeburtsdatum() + "," + profil.getHaarfarbe() + ","
 								+ (int) profil.getKoerpergroesse() + "," + profil.isRaucher() + ","
 								+ profil.getReligion() + ")");
 

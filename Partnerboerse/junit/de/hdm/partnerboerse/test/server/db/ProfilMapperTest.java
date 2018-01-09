@@ -3,6 +3,8 @@ package de.hdm.partnerboerse.test.server.db;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.util.List;
+
 import org.junit.Test;
 
 import de.hdm.partnerboerse.server.db.ProfilMapper;
@@ -26,6 +28,30 @@ public class ProfilMapperTest {
 		ProfilMapper mapper = ProfilMapper.profilMapper();
 		Profil profil = getTestProfilObjekt();
 		mapper.insert(profil);
+	}
+
+	@Test
+	public void testUpdateProfil() {
+		ProfilMapper mapper = ProfilMapper.profilMapper();
+		// Neues Testobjekt anlegen
+		Profil testObjekt = getTestProfilObjekt();
+		mapper.insert(testObjekt);
+
+		// Das angelegte Objekt wieder aus der Datenbank auslesen
+		List<Profil> all = mapper.findAllProfiles();
+		Profil neuestesProfilObjektAusDB = all.get(all.size() - 1);
+		int idDesObjektes = neuestesProfilObjektAusDB.getId();
+
+		// Das Objekt Updaten
+		String updateVorname = "UpdateTest";
+		neuestesProfilObjektAusDB.setVorname(updateVorname);
+		mapper.update(neuestesProfilObjektAusDB);
+
+		// Das Objekt wieder auslesen um zu prüfen ob der neue Wert in der DB
+		// steht
+		Profil geupdatetesProfil = mapper.findProfilByKey(idDesObjektes);
+		assertTrue(updateVorname.equals(geupdatetesProfil.getVorname()));
+
 	}
 
 	private Profil getTestProfilObjekt() {
