@@ -158,6 +158,37 @@ public class EditProfile extends VerticalPanel {
       }
     });
 
+    deleteButton.addClickHandler(new ClickHandler() {
+      
+      @Override
+      public void onClick(ClickEvent event) {
+        deleteProfilOnServer();
+        
+      }
+
+      private void deleteProfilOnServer() {
+        
+        Profil profileToDelete = setProfileOnClient();
+        
+        partnerAdmin.deleteProfil(profileToDelete, new AsyncCallback<Void>() {
+
+          @Override
+          public void onFailure(Throwable caught) {
+            Window.alert("Profil konnte nicht gelöscht werden");
+            
+          }
+
+          @Override
+          public void onSuccess(Void result) {
+            //ToDo: Bei erfolgreicher Löschung wird dem Nutzer was angezeigt?
+            //Sobald das geklart ist mit der Gruppe, muss dies implementiert werden
+            //ToDo: alle Abhängigkeiten in der DB müssen auch gelöscht werden
+            Window.alert("Profil wurde gelöscht");
+            
+          }});
+        
+      }
+    });
   }
 
   /*
@@ -177,18 +208,6 @@ public class EditProfile extends VerticalPanel {
      */
     int heightConvert = Integer.parseInt(heightTextBox.getValue());
 
-    String raucherSelectedValue = smokerListBox.getSelectedValue();
-
-    switch (raucherSelectedValue) {
-      case "YSmoker":
-        setProfil.setRaucher(true);
-        break;
-      case "NSmoker":
-        setProfil.setRaucher(false);
-        break;
-
-    }
-
     setProfil.setId(2);
     setProfil.setVorname(vnameTextBox.getValue());
     setProfil.setNachname(lnameTextBox.getValue());
@@ -198,6 +217,21 @@ public class EditProfile extends VerticalPanel {
     setProfil.setKoerpergroesse(heightConvert);
     setProfil.setReligion(religionTextBox.getValue());
     setProfil.setHaarfarbe(hcolorTextBox.getValue());
+    
+    /*
+     * String-Wert von Raucher wird ausgelesen und durch eine Switch-Anweisung
+     * wird der Wert zu einem Boolean konvertiert.
+     */
+    String raucherSelectedValue = smokerListBox.getSelectedValue();
+
+    switch (raucherSelectedValue) {
+      case "YSmoker":
+        setProfil.setRaucher(true);
+        break;
+      case "NSmoker":
+        setProfil.setRaucher(false);
+        break;
+    }
 
     return setProfil;
 
