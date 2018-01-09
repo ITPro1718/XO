@@ -224,7 +224,8 @@ public class ProfilMapper {
     	stmt.setString(2, p.getPasswort());
     	stmt.setString(3, p.getVorname());
     	stmt.setString(4, p.getNachname());
-    	stmt.setDate(5, (Date) p.getGeburtsdatum());
+    	java.sql.Date sqlDate = new java.sql.Date(p.getGeburtsdatum().getTime());
+    	stmt.setDate(5, sqlDate);
     	stmt.setString(6, p.getHaarfarbe());
     	stmt.setInt(7, (int) p.getKoerpergroesse());
     	stmt.setBoolean(8, p.isRaucher());
