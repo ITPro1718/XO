@@ -1,21 +1,12 @@
 package de.hdm.partnerboerse.client;
 
-import java.util.ArrayList;
-
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
-import de.hdm.partnerboerse.shared.bo.Profil;
 
 public class PartnerReport extends VerticalPanel {
 
@@ -25,11 +16,11 @@ public class PartnerReport extends VerticalPanel {
 	 * Partnervorschläge Reports zeichnen und bereitstellen
 	 */
 
+	@Override
 	public void onLoad() {
 		HTML reports = new HTML("<h3>" + "Partnervorschläge" + "</h3>");
 		reports.addStyleName("repwrap");
-		
-		
+
 		FlexTable preportGrid = new FlexTable();
 		preportGrid.setStyleName("rtable");
 		this.add(preportGrid);
@@ -43,8 +34,6 @@ public class PartnerReport extends VerticalPanel {
 		preportGrid.setText(0, 5, "Raucher");
 		preportGrid.setText(0, 6, "Religion");
 		preportGrid.setText(0, 7, "Match in %");
-
-		
 
 	}
 

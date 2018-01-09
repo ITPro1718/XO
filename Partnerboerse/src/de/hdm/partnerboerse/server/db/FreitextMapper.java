@@ -9,7 +9,6 @@ import java.util.List;
 
 import de.hdm.partnerboerse.shared.bo.Eigenschaft;
 import de.hdm.partnerboerse.shared.bo.Freitext;
-import de.hdm.partnerboerse.shared.bo.Suchprofil;
 
 /**
  * Diese Mapper Klasse dient zur Abbildung von {@link Freitext} Objekten auf
@@ -52,8 +51,9 @@ public class FreitextMapper {
 	 * 
 	 * @param freitext
 	 *            - {@link Freitext} Element
+	 * @return TODO
 	 */
-	public void insertFreitext(Freitext freitext) {
+	public Freitext insertFreitext(Freitext freitext) {
 		Connection con = DBConnection.getConnection();
 
 		try {
@@ -71,10 +71,13 @@ public class FreitextMapper {
 				// Das ist die eigentliche Einfüg-Funktion
 				stmt.executeUpdate("INSERT INTO freitext(id, beschreibung) " + "VALUES (" + freitext.getId() + ", '"
 						+ freitext.getBeschreibung() + "')");
+				return freitext;
 			}
+			
 		} catch (SQLException e2) {
 			e2.printStackTrace();
 		}
+		return null;
 	}
 
 	/**
@@ -164,27 +167,26 @@ public class FreitextMapper {
 		return result;
 	}
 
-	public Freitext findFreitextOf(Eigenschaft eigenschaft){
+	public Freitext findFreitextOfEigenschaft(Eigenschaft eigenschaft) {
 
-			Connection con = DBConnection.getConnection();
-			try {
-				
-				Statement stmt = con.createStatement();
+		Connection con = DBConnection.getConnection();
+		try {
 
-				ResultSet rs = stmt.executeQuery("SELECT * FROM freitext"+ "WHERE id=" + eigenschaft.getFreitextID());
+			Statement stmt = con.createStatement();
 
-				
-				if (rs.next()) {
-					Freitext f = new Freitext();
-					f.setId(rs.getInt("id"));
-					f.setBeschreibung(rs.getString("beschreibung"));
-					return f;
+			ResultSet rs = stmt.executeQuery("SELECT * FROM freitext" + "WHERE id=" + eigenschaft.getFreitextID());
 
-				}
-				
-			} catch (SQLException e) {
-				e.printStackTrace();
+			if (rs.next()) {
+				Freitext f = new Freitext();
+				f.setId(rs.getInt("id"));
+				f.setBeschreibung(rs.getString("beschreibung"));
+				return f;
+
 			}
-			return null;
-	}	  
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 }

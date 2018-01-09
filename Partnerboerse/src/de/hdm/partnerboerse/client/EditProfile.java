@@ -1,22 +1,15 @@
 package de.hdm.partnerboerse.client;
 
-import java.util.ArrayList;
-
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
-import de.hdm.partnerboerse.shared.bo.Profil;
 
 public class EditProfile extends VerticalPanel {
 
@@ -48,25 +41,26 @@ public class EditProfile extends VerticalPanel {
 	TextBox heightTextBox = new TextBox();
 	TextBox religionTextBox = new TextBox();
 
-	CheckBox YsmokerTextBox = new CheckBox("yes");
-	CheckBox NsmokerTextBox = new CheckBox("no");
+	CheckBox YsmokerTextBox = new CheckBox("ja");
+	CheckBox NsmokerTextBox = new CheckBox("nein");
 
+	
 	/*
 	 * Beim Anzeigen werden die anderen Widgets erzeugt. Alle werden in einem
 	 * Raster angeordnet, dessen Größe sich aus dem Platzbedarf der enthaltenen
 	 * Widgets bestimmt.
 	 */
+	@Override
 	public void onLoad() {
-		//super.onLoad();
-		
+		// super.onLoad();
+
 		Grid profilIntGrid = new Grid(2, 3);
 		profilIntGrid.setStyleName("itable");
 		this.add(profilIntGrid);
-		
+
 		profilIntGrid.setWidget(1, 0, safeButton);
 		profilIntGrid.setWidget(1, 2, deleteButton);
-		
-		
+
 		Grid profilGrid = new Grid(7, 6);
 		profilGrid.setStyleName("etable");
 		this.add(profilGrid);

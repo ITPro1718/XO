@@ -20,13 +20,13 @@ public interface PartnerboerseAdministrationAsync {
 
 	void berechneAehnlichkeitsmass(Profil source, Suchprofil suchprofil, AsyncCallback<ArrayList<Profil>> callback);
 
-	void createAuswahl(Eigenschaft eigenschaft, String title, AsyncCallback<Void> callback);
+	void createAuswahl(String title, AsyncCallback<Auswahl> callback);
 
 	void createBesuch(Profil source, Profil target, AsyncCallback<Void> callback);
 
-	void createEigenschaft(Info info, AsyncCallback<Void> callback);
+	void createEigenschaft(Info info, String bezeichnung, String is_a, String string, AsyncCallback<Void> callback);
 
-	void createFreitext(Eigenschaft eigenschaft, String text, AsyncCallback<Void> callback);
+	void createFreitext(String text, AsyncCallback<Freitext> callback);
 
 	void createInfo(Profil p, String bezeichnung, AsyncCallback<Void> callback);
 
@@ -46,6 +46,8 @@ public interface PartnerboerseAdministrationAsync {
 
 	void deleteEigenschaft(Eigenschaft eigenschaft, AsyncCallback<Void> callback);
 
+	void deleteElementAuswahl(Auswahl auswahl, AsyncCallback<Void> callback);
+
 	void deleteFreitext(Freitext freitext, AsyncCallback<Void> callback);
 
 	void deleteInfo(Info info, AsyncCallback<Void> callback);
@@ -60,19 +62,17 @@ public interface PartnerboerseAdministrationAsync {
 
 	void findAllBesuche(AsyncCallback<ArrayList<Besuch>> callback);
 
-	void findAuswahlOf(Eigenschaft eigenschaft, AsyncCallback<ArrayList<Eigenschaft>> callback);
+	void findAuswahlOf(Eigenschaft eigenschaft, AsyncCallback<Auswahl> callback);
 
 	void findBesuchByKey(int id, AsyncCallback<Besuch> callback);
 
 	void findBesucheOf(Profil profilowner, AsyncCallback<ArrayList<Besuch>> callback);
 
-	void findBesucheOfe(Profil profilowner, AsyncCallback<ArrayList<Besuch>> callback);
-
 	void findEigenschaftsInfosOf(Eigenschaft eigenschaft, AsyncCallback<ArrayList<Info>> callback);
 
-	void findElementeOf(Auswahl auswahl, AsyncCallback<ArrayList<Auswahl>> callback);
+	void findElementeOf(Auswahl auswahl, AsyncCallback<ArrayList<Element>> callback);
 
-	void findFreitextOf(Eigenschaft eigenschaft, AsyncCallback<ArrayList<Freitext>> callback);
+	void findFreitextOf(Eigenschaft eigenschaft, AsyncCallback<Freitext> callback);
 
 	void findInfoOf(Profil profilowner, AsyncCallback<ArrayList<Info>> callback);
 
@@ -102,7 +102,7 @@ public interface PartnerboerseAdministrationAsync {
 
 	void getElementByID(int id, AsyncCallback<Element> callback);
 
-	void getFreitext(AsyncCallback<Freitext> callback);
+	void getFreitext(Eigenschaft eigenschaft, AsyncCallback<Freitext> callback);
 
 	void getInfoByID(int id, AsyncCallback<Info> callback);
 
@@ -110,7 +110,7 @@ public interface PartnerboerseAdministrationAsync {
 
 	void getMerkzettelEintraegeByID(int ID, AsyncCallback<Merkzettel> callback);
 
-	void getNotSeenProfilErgebnisse(Suchprofil suchprofil, AsyncCallback<ArrayList<Profil>> callback);
+	void getNotSeenSuchProfilErgebnisse(Suchprofil suchprofil, AsyncCallback<ArrayList<Profil>> callback);
 
 	void getProfilByID(int id, AsyncCallback<Profil> callback);
 
@@ -135,5 +135,7 @@ public interface PartnerboerseAdministrationAsync {
 	void updateProfil(Profil p, AsyncCallback<Void> callback);
 
 	void updateSuchprofil(Suchprofil suchprofil, AsyncCallback<Void> callback);
+
+	void createElementAuswahl(int id, String bezeichnung, Auswahl auswahl, AsyncCallback<Void> callback);
 
 }

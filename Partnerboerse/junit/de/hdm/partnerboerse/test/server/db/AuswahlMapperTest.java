@@ -1,4 +1,4 @@
-package de.hdm.partnerboerse.server.db;
+package de.hdm.partnerboerse.test.server.db;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
@@ -8,6 +8,8 @@ import java.util.List;
 
 import org.junit.Test;
 
+import de.hdm.partnerboerse.server.db.AuswahlMapper;
+import de.hdm.partnerboerse.server.db.DBConnection;
 import de.hdm.partnerboerse.shared.bo.Auswahl;
 
 public class AuswahlMapperTest {

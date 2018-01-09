@@ -1,4 +1,4 @@
-package de.hdm.partnerboerse.server.db;
+package de.hdm.partnerboerse.test.server.db;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.junit.Test;
 
+import de.hdm.partnerboerse.server.db.FreitextMapper;
 import de.hdm.partnerboerse.shared.bo.Freitext;
 
 public class FreitextMapperTest {
@@ -52,13 +53,13 @@ public class FreitextMapperTest {
 
 		// Das angelegte Objekt wieder aus der Datenbank auslesen
 		List<Freitext> all = mapper.findAll();
-		Freitext neuestesAuswahlObjektAusDb = all.get(all.size() - 1);
-		int idDesObjektes = neuestesAuswahlObjektAusDb.getId();
+		Freitext neuestesFreitextObjektAusDb = all.get(all.size() - 1);
+		int idDesObjektes = neuestesFreitextObjektAusDb.getId();
 
 		// Das Objekt Updaten
 		String updateTitel = "UpdateTest";
-		neuestesAuswahlObjektAusDb.setBeschreibung(updateTitel);
-		mapper.updateFreitext(neuestesAuswahlObjektAusDb);
+		neuestesFreitextObjektAusDb.setBeschreibung(updateTitel);
+		mapper.updateFreitext(neuestesFreitextObjektAusDb);
 
 		// Das Objekt wieder auselsen um zu prüfen ob der neue Wert in der DB
 		// steht.

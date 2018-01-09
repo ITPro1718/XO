@@ -1,8 +1,9 @@
 package de.hdm.partnerboerse.client;
 
 import java.util.ArrayList;
+
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
+
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
 import de.hdm.partnerboerse.shared.bo.Profil;
 
@@ -23,6 +24,7 @@ public class FindProfilByNameDemo extends Showcase {
 	 * ist eine "Einschubmethode", die von einer Methode der Basisklasse
 	 * <code>ShowCase</code> aufgerufen wird, wenn der Showcase aktiviert wird.
 	 */
+	@Override
 	protected void run() {
 		this.append("Profil nach Namen finden");
 

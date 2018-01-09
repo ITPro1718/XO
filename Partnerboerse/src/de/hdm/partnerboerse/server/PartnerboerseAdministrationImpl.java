@@ -1,7 +1,9 @@
 package de.hdm.partnerboerse.server;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -63,6 +65,31 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 		this.bMapper = BesuchMapper.besuchMapper();
 		
 	}
+	public int getAge(Date date) {
+		
+	    
+	        GregorianCalendar birthday = new GregorianCalendar();
+	        birthday.setTime(date);
+	       
+	        GregorianCalendar today = new GregorianCalendar();
+	       
+	        int age = today.get(Calendar.YEAR) - birthday.get(Calendar.YEAR);
+	       
+	        if(today.get(Calendar.MONTH) <= birthday.get(Calendar.MONTH))
+	        {
+	            if(today.get(Calendar.DATE) < birthday.get(Calendar.DATE))
+	            {
+	                age -= 1;
+	            }
+	        }
+	       
+	        if(age < 0)
+	            throw new IllegalArgumentException("invalid age: "+age);
+	       
+	        return age;
+	    }
+		  
+		
 
 	@Override
 	public void createProfil(int id, String vname, String nname, String haarfarbe, float kgr, boolean raucher,
@@ -108,7 +135,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 		
 		ArrayList<Merkzettel> merkzettel = this.findMerkzettelnOf(p);
 		ArrayList<Kontaktsperre> kontaktsperren = this.findKontaktsperrenOf(p);
-		ArrayList<Besuch> besuche = this.findBesucheOfe(p);
+		ArrayList<Besuch> besuche = this.findBesucheOf(p);
 		ArrayList<Suchprofil> suchprofile = this.findSuchprofileOf(p);
 		ArrayList<Info> infos = this.findInfoOf(p);
 		
@@ -242,6 +269,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 		s.setReligion(religion);
 		s.setRaucher(raucher);
 		s.setAlter(alter);
+		s.setEigenprofilID(source.getId());
 		
 
 		this.sMapper.insertSuchprofil(s);
@@ -282,61 +310,86 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	@Override
 	public ArrayList<Profil> berechneAehnlichkeitsmass(Profil source, Suchprofil suchprofil)
 			throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+		// TODO Methode implementieren wenn wir den ganzen Eigenschaft/Info shit haben
+		// findAllInfoOf(Profil p) implementieren! danach kann man die hier machen
+		
 		return null;
 	}
 
 	@Override
 	public ArrayList<Profil> getSuchProfilErgebnisse(Suchprofil suchprofil) throws IllegalArgumentException {
 
-
-		ArrayList<Profil> profile = this.pMapper.findAllProfiles();
-		Profil suchprofilowner = this.pMapper.findProfilByKey(suchprofil.getEigenprofilID());
-		ArrayList<Kontaktsperre> kontaktsperrenofsuchprofilowner = this.kMapper.findKontaktsperrenOf(suchprofilowner);
+		ArrayList<Profil> profile = getAllProfils();
+		Profil suchprofilowner = getProfilByID(suchprofil.getEigenprofilID());
+		ArrayList<Kontaktsperre> kontaktsperrenofsuchprofilowner = findKontaktsperrenOf(suchprofilowner);
 		ArrayList<Integer> fpids = new ArrayList<>();
-			
-		
-		// Bevor der Abgleich stattfindet, müssen ALLE Kontaktsperren fpids in der Arraylist fpids vorhanden sein.	
+	
 		for (Kontaktsperre k : kontaktsperrenofsuchprofilowner){
 			int fpid = k.getFremdprofilID();
 			fpids.add(fpid);
 		}	
 		
-		
-		// Abspeichern der Profil id, mit jedem Durchgang eine neue id.
 		for (Profil p : profile){
 			int id = p.getId();
 				
-			// Wenn eine FremdID in der fpID Liste ist (--> ein geblockter User), wird das Profil aus der
-			// profile-Liste gelöscht.
 			if(fpids.contains(id)){
 				profile.remove(p);
 			}
-			// Wenn die id, die des Suchprofilowners ist, wird das Profil aus der profile-Liste gelöscht.
 			else if (id == suchprofilowner.getId()){
 				profile.remove(p);
 			}
-						
-			// Die Methode compare gleicht die Anforderungen des Suchprofils mit den realen Werten aus
-			// dem Profil ab. z.B. Suchprofil-Haarfarbe = blonde, Profil-Haarfarbe = schwarz ergibt
-			// keinen Treffer.
-			// TODO: Compare Methode implementieren (Applikationslogik!!)
-			else if (suchprofil.compare(suchprofil, p) == false){
+			else if (compare(suchprofil, p) == false){
 				profile.remove(p);
 			}
-		}
-				
+		}			
 		return profile;
 }
-
-	
-
-	@Override
-	public ArrayList<Profil> getNotSeenProfilErgebnisse(Suchprofil suchprofil) throws IllegalArgumentException {
+	/**
+	 * Gibt TRUE zurück, wenn ein Profil GENAU mit einem Suchprofil übereinstimmt
+	 * @param suchprofill
+	 * @param profil
+	 * @return
+	 */
+	public boolean compare(Suchprofil suchprofill, Profil profil){
 		
-		return null;
+		if((suchprofill.getHaarFarbe() == profil.getHaarfarbe()) &&
+			
+		  (suchprofill.getKoerpergroesse() == profil.getKoerpergroesse()) &&
+			
+		  (suchprofill.isRaucher() == profil.isRaucher()) &&
+			
+		  (suchprofill.getAlter() == getAge(profil.getGeburtsdatum())) &&
+			
+		  (suchprofill.getReligion() == profil.getReligion()))
+		  {
+			  return true;
+		}
+		else return false;
 		
 	}
+
+	@Override
+public ArrayList<Profil> getNotSeenSuchProfilErgebnisse(Suchprofil suchprofil) throws IllegalArgumentException {
+		
+		ArrayList<Profil> suchProfilErgebnisse = getSuchProfilErgebnisse(suchprofil);
+		Profil suchprofilowner = getProfilByID(suchprofil.getEigenprofilID());
+		ArrayList<Besuch> visitsOfSuchProfilowner= findBesucheOf(suchprofilowner);
+        ArrayList<Integer> visitedProfilids = new ArrayList<>();
+        
+		for (Besuch b : visitsOfSuchProfilowner){
+			int visitid = b.getFremdprofilID();
+			visitedProfilids.add(visitid);
+		}
+		for (Profil p : suchProfilErgebnisse){
+			int id = p.getId();
+				
+			if(visitedProfilids.contains(id)){
+				suchProfilErgebnisse.remove(p);
+			}		
+		}
+		return suchProfilErgebnisse;	
+	}
+
 
 	@Override
 	public void createInfo(Profil p, String bezeichnung) throws IllegalArgumentException {
@@ -345,8 +398,9 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 		i.setText(bezeichnung);
 		i.setEigenprofilID(p.getId());
 		
-		//this.iMapper.insertInfo(i); insert-Methode fehlt in Mapper klasse, Update-Methode auch (falls Eigenschaften gelöscht werden ändert sich das Infoobjekt etc.)
-		// TODO: Methode einfügen
+		this.iMapper.insertInfo(i); 
+		// Update-Methode auch (falls Eigenschaften gelöscht werden ändert sich das Infoobjekt etc.)		
+		// TODO: Wie fügen wir die EigenschaftsID hinzu?
 	}
 
 	@Override
@@ -359,6 +413,21 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	public Info getInfoByID(int id) throws IllegalArgumentException {
 		return this.iMapper.findByKey(id);
 	}
+	
+	public Info getAllInfosOf(Profil p){
+		
+		/** 
+		 * TODO: Methode um alle Infos eines Profils zurückzubekommen
+		 * 
+		 * Durch diese Methode erhält man:
+		 * Info, Eigenschaft, Freitext/Auswahl, Element 
+		 * die eine Person angegeben hat.
+		 * 
+		 * Brauchen wir für die Ähnlichkeitsmaß-Berechnung 
+		 */
+		
+		return null;
+	}
 
 	@Override
 	public void updateInfo(Info info) throws IllegalArgumentException {
@@ -369,13 +438,58 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 
 	@Override
 	public void deleteInfo(Info info) throws IllegalArgumentException {
-		//this.iMapper.deleteInfo(info); Abhängigkeiten? 
+		/**
+		 * Alle Abhängigkeiten müssen erst gelöscht werden:
+		 * Eigenschaft
+		 * Auswahl
+		 * Freitext
+		 * Element
+		 */
+		// Eigenschaft eigen = this.findEigenschaftsInfosOf(info);
+		
+		// TODO: Abhängigkeiten von Info und Eigenschaft klären
+		
+		this.iMapper.deleteInfo(info); 
 		
 	}
 
 	@Override
-	public void createEigenschaft(Info info) throws IllegalArgumentException {
-		// brauchen wir hier nicht ain Auswahl auswahl bzw. Freitext freitext Übergabewert, um die AuswahlID/FreitextID dem Eigenschaftsobjekt hinzuzufügen nicht die InfoID.
+	public void createEigenschaft(Info info, String bezeichnung, String is_a, String string) throws IllegalArgumentException {
+		
+		/**
+		 * Diese Methode erstellt ein Eigenschaftsobjekt. Die Eigenschaft kann wiederum eine Auswahl oder ein Freitext
+		 * sein. Die Übergabeparameter sind:
+		 * bezeichnung = bezeichnung der Eigenschaft
+		 * is_a = kann "auswahl" oder "freitext" sein. Dient zur Identifizierung ob die Eigenschaft eine Auswahl oder Freitext ist
+		 * string = ist entweder der Titel des Auswahl oder der Text des Freitextes.
+		 * 
+		 * somit kann die Methode für Auswahl und Freitext benutzt werden		 * 
+		 */
+		
+		Eigenschaft eig = new Eigenschaft();
+		// ID wird vorläufig auf 1 gesetzt und im Mapper abgeändert
+		eig.setId(1);
+		eig.setErlaeuterung(bezeichnung);
+		eig.setIs_a(is_a);
+		/*
+		 * Wenn is_a eine Auswahl ist, wird eine Auswahl erstellt. Der String "string" ist dabei der Titel der Auswahl
+		 * z.B. "Hobbies"
+		 */
+		if (is_a == "auswahl"){
+			Auswahl aus = this.createAuswahl(string);
+			eig.setAuswahlID(aus.getId());
+			
+		}
+		/*
+		 * Wenn is_a ein Freitext ist, wird ein Freitext erstellt. Der String "string" ist dabei der Inhalt des Freitextes
+		 * z.B. "Ich mag Hunde"
+		 */
+		else if (is_a == "freitext"){
+			Freitext f = this.createFreitext(string);
+			eig.setFreitextID(f.getId());
+		}
+		
+		this.eiMapper.insertEigenschaft(eig);
 		
 	}
 
@@ -401,28 +515,56 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 
 	@Override
 	public void deleteEigenschaft(Eigenschaft eigenschaft) throws IllegalArgumentException {
-		//Abhängigkeiten Freitext,Auswahl und Element löschen bevor Eigenschaft gelöscht werden kann
+		/**
+		 * Abhängigkeiten: 
+		 * Freitext,
+		 * Auswahl und Element (Element werden gelöscht bevor die Auswahl gelöscht werden kann
+		 * löschen bevor Eigenschaft gelöscht werden kann
+		 */
+		
+		Auswahl auswahl = this.findAuswahlOf(eigenschaft);
+		Freitext freitext = this.findFreitextOf(eigenschaft);
+		
+		if (auswahl != null){
+			this.deleteAuswahl(auswahl);
+		}
+		
+		if (freitext != null){
+			this.deleteFreitext(freitext);
+		}
+		
+		this.deleteEigenschaft(eigenschaft);
 		
 	}
 
 	@Override
-	public void createFreitext(Eigenschaft eigenschaft, String text) throws IllegalArgumentException {
+	public Freitext createFreitext(String text) throws IllegalArgumentException {
 		
-		Freitext f = new Freitext();
+		/**
+		 * Diese Methode wird bei der Erstellung einer Eigenschaft aufgerufen
+		 * Es wird bei der Erstellung eine freitextID in der Eigenschaft gesetzt
+		 * Im Mapper des Freitextes wird geschaut, welches die höchste freitextID ist,
+		 * und dann +1 gesetzt. Dies ist möglich da ein Freitext NICHT ohne eine 
+		 * Eigenschaft existieren kann
+		 */
 		
+		Freitext f = new Freitext();		
 		f.setBeschreibung(text);
-		// Freitext ID von Eigenschaftsobjekt setzen, wie? ID von Freitext(welche der Freitext ID vom 
-		// Eigenschaftsobjekt entspricht) wird erst im Mapper gesetzt.
+		// ID wird vorerst auf 1 gesetzt und im Mapper angepasst.
+		f.setId(1);
+		
 				
-		//this.fMapper.insertFreitext(f);
+		return this.fMapper.insertFreitext(f);
 		
 	}
 
-
+	/**
+	 * gibt einen Freitext aus einer Eigenschaft zurück
+	 */
 	@Override
-	public Freitext getFreitext() throws IllegalArgumentException {
-		// Alle Freitexte (Arraylist) oder ein Freitext von einem Eigenschaftsobjekt? (dann brauchen wir den Übergabewert Eigenschaft eigenschaft)
-		return null;
+	public Freitext getFreitext(Eigenschaft eigenschaft) throws IllegalArgumentException {
+
+		return this.fMapper.findFreitextOfEigenschaft(eigenschaft);
 	}
 
 	@Override
@@ -438,8 +580,15 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	}
 
 	@Override
-	public void createAuswahl(Eigenschaft eigenschaft, String title) throws IllegalArgumentException {
-		//siehe createFreitext Kommentar. Gleiches Problem.
+	public Auswahl createAuswahl(String title) throws IllegalArgumentException {
+		
+		Auswahl a = new Auswahl();
+		// wird vorerst auf 1 gesetzt und im Mapper auf die MAX + 1 angepasst
+		a.setId(1);
+		a.setTitel(title);
+		
+		
+		return this.aMapper.insertAuswahl(a);
 		
 	}
 
@@ -461,9 +610,20 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	 * Wie löschen wir die Abhängigkeiten bezüglich Element (auswahlID)?
 	 * 
 	 * Elemente kann man nicht löschen, wir löschen die Auswahl-FremdID aus dem Element
-	 * und dann erst die Auswahl
+	 * und dann erst die Auswahl - DONE
+	 * 
+	 * TODO: auswahlID aus der Eigenschaftstabelle löschen
 	 * 
 	 */
+		
+		ArrayList<Element> el = this.findElementeOf(auswahl);
+		
+		if (el != null){
+			this.deleteElementAuswahl(auswahl);
+		}
+		
+		this.deleteAuswahl(auswahl);
+	
 		
 	}
 
@@ -492,11 +652,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
     
   }
 
-  @Override
-  public ArrayList<Besuch> findBesucheOfe(Profil profilowner) throws IllegalArgumentException {
- 
-    return this.bMapper.findByEigenprofil(profilowner);
-  }
+
 
   @Override
   public ArrayList<Suchprofil> findSuchprofileOf(Profil profilowner)
@@ -516,8 +672,9 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
   @Override
   public ArrayList<Info> findEigenschaftsInfosOf(Eigenschaft eigenschaft)
       throws IllegalArgumentException {
+	  
 	 /**
-	  * Was macht diese Methode?
+	  * Diese Methode gibt alle Eigenschaften einer Info zurück
 	  * TODO: Methode im Info Mapper implementieren
 	  */
 	  
@@ -533,7 +690,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	 * Gibt den Freitext einer Eigenschaft über den Fremdschlüssel zurück
 	 */
 	  
-    return this.fMapper.findFreitextOf(eigenschaft);
+    return this.fMapper.findFreitextOfEigenschaft(eigenschaft);
   }
   
   @Override
@@ -594,5 +751,28 @@ public ArrayList<Besuch> findBesucheOf(Profil profilowner) throws IllegalArgumen
 	return this.bMapper.findByEigenprofil(profilowner);
 }
 
+
+@Override
+public void deleteElementAuswahl(Auswahl auswahl) throws IllegalArgumentException {
+
+	// löscht alle Element-Einträge, die eine bestimmte AuswahlID haben
+	// z.B. wir wollen Auswahl mit der ID 5 löschen (Hobbies)
+	// Element: Fußball enthält Fremdschlüssel AuswahlID = 2
+	// --> ElementEintrag wird gelöscht, nun ist keine Fremdschlüsselabhängigkeit mehr und wir können Auswahl ID 2 löschen.
+	
+	this.elMapper.deleteElement(auswahl);
+	
+}
+
+@Override
+public void createElementAuswahl(int id, String bezeichnung, Auswahl auswahl) throws IllegalArgumentException {
+	
+	Element e = new Element();
+	e.setId(1);
+	e.setBezeichnung(bezeichnung);
+	e.setAuswahlID(auswahl.getId());
+	this.elMapper.insertElementAuswahl(e);
+	
+}
 
 }
