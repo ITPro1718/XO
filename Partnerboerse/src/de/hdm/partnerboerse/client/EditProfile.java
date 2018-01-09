@@ -155,7 +155,7 @@ public class EditProfile extends VerticalPanel {
             testProfil.setId(2);
             testProfil.setVorname(vnameTextBox.getValue());
             testProfil.setNachname(lnameTextBox.getValue());
-            testProfil.setGeburtsdatum(new Date("2014-02-14"));
+            testProfil.setGeburtsdatum(new Date(bdayTextBox.getValue()));
             testProfil.setEmail(mailTextBox.getValue());
             testProfil.setPasswort(pwTextBox.getValue());
             testProfil.setKoerpergroesse(heightConvert);
