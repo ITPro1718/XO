@@ -202,12 +202,15 @@ public class ProfilMapper {
 				profil.setId(rs.getInt("maxid") + 1);
 				stmt = con.createStatement();
 
+	            java.util.Date utilDate = profil.getGeburtsdatum();
+	            java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+				
 				Statement stmt1 = con.createStatement();
 				stmt1.executeUpdate(
 						"INSERT INTO profil (id, email, passwort, vorname, nachname, geburtstag, haarfarbe, koerpergroesse, raucher, religion) "
 								+ "VALUES (" + profil.getId() + "," + profil.getEmail() + "," + profil.getPasswort()
 								+ "," + profil.getVorname() + "," + profil.getNachname() + ","
-								+ profil.getGeburtsdatum() + "," + profil.getHaarfarbe() + ","
+								+ sqlDate + "," + profil.getHaarfarbe() + ","
 								+ (int) profil.getKoerpergroesse() + "," + profil.isRaucher() + ","
 								+ profil.getReligion() + ")");
 
@@ -228,6 +231,9 @@ public class ProfilMapper {
 		Connection con = DBConnection.getConnection();
 
 		try {
+		  
+	        java.util.Date utilDate = p.getGeburtsdatum();
+	        java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
 
 			// PreparedStatement inkl. SQL Befehl erstellen
 			PreparedStatement stmt = con
@@ -237,12 +243,14 @@ public class ProfilMapper {
 			stmt.setString(2, p.getPasswort());
 			stmt.setString(3, p.getVorname());
 			stmt.setString(4, p.getNachname());
-			stmt.setDate(5, (Date) p.getGeburtsdatum());
+			stmt.setDate(5, sqlDate);
 			stmt.setString(6, p.getHaarfarbe());
 			stmt.setInt(7, (int) p.getKoerpergroesse());
 			stmt.setBoolean(8, p.isRaucher());
 			stmt.setString(9, p.getReligion());
 			stmt.setInt(10, p.getId());
+			
+		     stmt.executeUpdate();
 
 		} catch (SQLException e2) {
 			e2.printStackTrace();

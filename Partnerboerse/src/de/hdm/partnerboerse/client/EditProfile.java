@@ -1,6 +1,11 @@
 package de.hdm.partnerboerse.client;
 
+import java.util.Date;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Grid;
@@ -11,6 +16,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
+import de.hdm.partnerboerse.shared.bo.Profil;
 
 public class EditProfile extends VerticalPanel {
 
@@ -122,8 +128,63 @@ public class EditProfile extends VerticalPanel {
 		 * Button searchButton = new Button("Suchen");
 		 * profilButtonsPanel.add(searchButton);
 		 */
+		
+        safeButton.addClickHandler(new ClickHandler() {
+          
+          @Override
+          public void onClick(ClickEvent event) {
+              
+            updateProfileOnServer();
+          }
 
-	}
+          @SuppressWarnings("deprecation")
+          private void updateProfileOnServer() {
+            //ToDo Profil darf nicht Übergabeparameter sein, um sein Profil zu bekommen. Muss später Abgeändert werden
+            
+            /*
+             * DateTimerFromat wandelt den Wert von bdayTextBox in Date um
+             */
+            //Date bDayConvert = DateTimeFormat.getFormat("yyyy-MM-dd").parse(bdayTextBox.getValue());
+            /*
+             *  Integer.parseInt wandelt String in int um
+             */
+            int heightConvert = Integer.parseInt(heightTextBox.getValue());
+            
+            Profil testProfil = new Profil();
+            
+            testProfil.setId(2);
+            testProfil.setVorname(vnameTextBox.getValue());
+            testProfil.setNachname(lnameTextBox.getValue());
+            testProfil.setGeburtsdatum(new Date("2014-02-14"));
+            testProfil.setEmail(bdayTextBox.getValue());
+            testProfil.setPasswort(pwTextBox.getValue());
+            testProfil.setKoerpergroesse(heightConvert);
+            testProfil.setReligion(religionTextBox.getValue());
+            testProfil.setRaucher(false);
+            testProfil.setHaarfarbe(hcolorTextBox.getValue());
+            
+            
+
+            partnerAdmin.updateProfil(testProfil, new AsyncCallback<Void>() {
+
+              @Override
+              public void onFailure(Throwable caught) {
+                Window.alert("Profil wurde nicht gespeichert.");
+                
+              }
+
+              @Override
+              public void onSuccess(Void result) {
+                Window.alert(vnameTextBox.getValue() + "Profil wurde gespeichert.");
+                
+                
+              }});
+          }
+
+            
+        });
+        
+    }
 
 	/*
 	 * Click Handlers.
