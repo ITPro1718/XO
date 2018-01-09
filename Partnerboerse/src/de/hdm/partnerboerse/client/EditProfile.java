@@ -138,7 +138,7 @@ public class EditProfile extends VerticalPanel {
       private void updateProfileOnServer() {
         // ToDo Profil darf nicht Übergabeparameter sein, um sein Profil zu bekommen. Muss später
         // Abgeändert werden
-        Profil setProfil = setProfileOnClient();
+        Profil setProfil = getProfileValuesFromFormular();
 
         partnerAdmin.updateProfil(setProfil, new AsyncCallback<Void>() {
 
@@ -168,7 +168,7 @@ public class EditProfile extends VerticalPanel {
 
       private void deleteProfilOnServer() {
         
-        Profil profileToDelete = setProfileOnClient();
+        Profil profileToDelete = getProfileValuesFromFormular();
         
         partnerAdmin.deleteProfil(profileToDelete, new AsyncCallback<Void>() {
 
@@ -195,7 +195,7 @@ public class EditProfile extends VerticalPanel {
    * Werte aus den geänderten Formularen wird ausgelesen und in ein Profil gespeichert
    * und zurück gegeben
    */
-  private Profil setProfileOnClient() {
+  private Profil getProfileValuesFromFormular() {
 
     Profil setProfil = new Profil();
 
@@ -208,6 +208,7 @@ public class EditProfile extends VerticalPanel {
      */
     int heightConvert = Integer.parseInt(heightTextBox.getValue());
 
+    //ToDo: setId muss raus, sobald Google Login Implementiert ist und Übergabeparameter stimmt.
     setProfil.setId(2);
     setProfil.setVorname(vnameTextBox.getValue());
     setProfil.setNachname(lnameTextBox.getValue());
