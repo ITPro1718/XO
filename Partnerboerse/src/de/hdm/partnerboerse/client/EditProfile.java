@@ -4,6 +4,7 @@ import java.util.Date;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
@@ -144,7 +145,7 @@ public class EditProfile extends VerticalPanel {
             /*
              * DateTimerFromat wandelt den Wert von bdayTextBox in Date um
              */
-            //Date bDayConvert = DateTimeFormat.getFormat("yyyy-MM-dd").parse(bdayTextBox.getValue());
+            Date bDayConvert = DateTimeFormat.getFormat("yyyy-MM-dd").parse(bdayTextBox.getValue());
             /*
              *  Integer.parseInt wandelt String in int um
              */
@@ -155,7 +156,7 @@ public class EditProfile extends VerticalPanel {
             testProfil.setId(2);
             testProfil.setVorname(vnameTextBox.getValue());
             testProfil.setNachname(lnameTextBox.getValue());
-            testProfil.setGeburtsdatum(new Date(bdayTextBox.getValue()));
+            testProfil.setGeburtsdatum(bDayConvert);
             testProfil.setEmail(mailTextBox.getValue());
             testProfil.setPasswort(pwTextBox.getValue());
             testProfil.setKoerpergroesse(heightConvert);
