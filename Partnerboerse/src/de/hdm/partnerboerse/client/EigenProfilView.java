@@ -49,17 +49,17 @@ public class EigenProfilView extends VerticalPanel{
 
 		// Spalte 2
 		profilGrid.setText(2, 1, bdayLabel);
-		profilGrid.setText(2, 2, getEmail.getGeburtsdatum());
+		profilGrid.setText(2, 2, getEmail.getGeburtsdatum().toString());
 
 		profilGrid.setText(2, 3, hcolorLabel);
 		profilGrid.setText(2, 4, getEmail.getHaarfarbe());
 
 		// Spalte 3
 		profilGrid.setText(3, 1, heightLabel);
-		profilGrid.setText(3, 1, getEmail.getKoerpergroesse());
+		profilGrid.setText(3, 1, String.valueOf(getEmail.getKoerpergroesse()));
 
 		profilGrid.setText(3, 3, smokerLabel);
-		profilGrid.setText(3, 4, getEmail.isRaucher());
+		profilGrid.setText(3, 4, String.valueOf(getEmail.isRaucher()));
 
 		// Spalte 4
 		profilGrid.setText(4, 1, religionLabel);
