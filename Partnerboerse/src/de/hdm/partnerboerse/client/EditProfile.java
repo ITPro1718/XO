@@ -124,6 +124,9 @@ public class EditProfile extends VerticalPanel {
      * Button searchButton = new Button("Suchen"); profilButtonsPanel.add(searchButton);
      */
 
+    /*
+     * Button zum Speichern des eigenen geändertem Profils
+     */
     safeButton.addClickHandler(new ClickHandler() {
 
       @Override
