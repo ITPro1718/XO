@@ -35,7 +35,7 @@ public class EditProfile extends VerticalPanel {
 	Label lnameLabel = new Label("Nachname: ");
 	Label bdayLabel = new Label("Geburtstag: ");
 	Label hcolorLabel = new Label("Haarfarbe: ");
-	Label heightLabel = new Label("Größe: ");
+	Label heightLabel = new Label("Größe "+ "(in cm): ");
 	Label smokerLabel = new Label("Raucher: ");
 	Label religionLabel = new Label("Religion: ");
 
