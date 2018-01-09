@@ -64,8 +64,8 @@ public class Searchprofile extends VerticalPanel {
 		hcolorListBox.addItem("blond", "blond");
 		hcolorListBox.addItem("schwarz", "schwarz");
 		hcolorListBox.addItem("rot", "rot");
-		hcolorListBox.addItem("andere+", "andere");
-
+		hcolorListBox.addItem("andere", "andere");
+		
 		ListBox heightListBox = new ListBox();
 
 		heightListBox.addItem("150", "150");

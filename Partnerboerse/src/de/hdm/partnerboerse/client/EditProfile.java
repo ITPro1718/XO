@@ -1,15 +1,22 @@
 package de.hdm.partnerboerse.client;
 
+import java.util.Date;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
+import de.hdm.partnerboerse.shared.bo.Profil;
 
 public class EditProfile extends VerticalPanel {
 
@@ -28,7 +35,7 @@ public class EditProfile extends VerticalPanel {
 	Label lnameLabel = new Label("Nachname: ");
 	Label bdayLabel = new Label("Geburtstag: ");
 	Label hcolorLabel = new Label("Haarfarbe: ");
-	Label heightLabel = new Label("Größe: ");
+	Label heightLabel = new Label("Größe "+ "(in cm): ");
 	Label smokerLabel = new Label("Raucher: ");
 	Label religionLabel = new Label("Religion: ");
 
@@ -41,8 +48,7 @@ public class EditProfile extends VerticalPanel {
 	TextBox heightTextBox = new TextBox();
 	TextBox religionTextBox = new TextBox();
 
-	CheckBox YsmokerTextBox = new CheckBox("ja");
-	CheckBox NsmokerTextBox = new CheckBox("nein");
+
 
 	
 	/*
@@ -91,9 +97,14 @@ public class EditProfile extends VerticalPanel {
 		profilGrid.setWidget(4, 4, heightTextBox);
 
 		// Spalte 5
+		ListBox smokerListBox = new ListBox();
+		smokerListBox.addItem("Ja", "YSmoker");
+		smokerListBox.addItem("Nein", "NSmoker");
+		smokerListBox.addItem("Gelegentlich", "SSmoker");
+		
 		profilGrid.setWidget(5, 3, smokerLabel);
-		profilGrid.setWidget(5, 4, YsmokerTextBox);
-		profilGrid.setWidget(5, 5, NsmokerTextBox);
+		profilGrid.setWidget(5, 4, smokerListBox);
+
 
 		// Spalte 6
 		profilGrid.setWidget(6, 1, religionLabel);
@@ -117,8 +128,63 @@ public class EditProfile extends VerticalPanel {
 		 * Button searchButton = new Button("Suchen");
 		 * profilButtonsPanel.add(searchButton);
 		 */
+		
+        safeButton.addClickHandler(new ClickHandler() {
+          
+          @Override
+          public void onClick(ClickEvent event) {
+              
+            updateProfileOnServer();
+          }
 
-	}
+          @SuppressWarnings("deprecation")
+          private void updateProfileOnServer() {
+            //ToDo Profil darf nicht Übergabeparameter sein, um sein Profil zu bekommen. Muss später Abgeändert werden
+            
+            /*
+             * DateTimerFromat wandelt den Wert von bdayTextBox in Date um
+             */
+            //Date bDayConvert = DateTimeFormat.getFormat("yyyy-MM-dd").parse(bdayTextBox.getValue());
+            /*
+             *  Integer.parseInt wandelt String in int um
+             */
+            int heightConvert = Integer.parseInt(heightTextBox.getValue());
+            
+            Profil testProfil = new Profil();
+            
+            testProfil.setId(2);
+            testProfil.setVorname(vnameTextBox.getValue());
+            testProfil.setNachname(lnameTextBox.getValue());
+            testProfil.setGeburtsdatum(new Date("2014-02-14"));
+            testProfil.setEmail(bdayTextBox.getValue());
+            testProfil.setPasswort(pwTextBox.getValue());
+            testProfil.setKoerpergroesse(heightConvert);
+            testProfil.setReligion(religionTextBox.getValue());
+            testProfil.setRaucher(false);
+            testProfil.setHaarfarbe(hcolorTextBox.getValue());
+            
+            
+
+            partnerAdmin.updateProfil(testProfil, new AsyncCallback<Void>() {
+
+              @Override
+              public void onFailure(Throwable caught) {
+                Window.alert("Profil wurde nicht gespeichert.");
+                
+              }
+
+              @Override
+              public void onSuccess(Void result) {
+                Window.alert(vnameTextBox.getValue() + "Profil wurde gespeichert.");
+                
+                
+              }});
+          }
+
+            
+        });
+        
+    }
 
 	/*
 	 * Click Handlers.
