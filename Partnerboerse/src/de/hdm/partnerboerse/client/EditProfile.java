@@ -5,6 +5,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -41,8 +42,7 @@ public class EditProfile extends VerticalPanel {
 	TextBox heightTextBox = new TextBox();
 	TextBox religionTextBox = new TextBox();
 
-	CheckBox YsmokerTextBox = new CheckBox("ja");
-	CheckBox NsmokerTextBox = new CheckBox("nein");
+
 
 	
 	/*
@@ -91,9 +91,14 @@ public class EditProfile extends VerticalPanel {
 		profilGrid.setWidget(4, 4, heightTextBox);
 
 		// Spalte 5
+		ListBox smokerListBox = new ListBox();
+		smokerListBox.addItem("Ja", "YSmoker");
+		smokerListBox.addItem("Nein", "NSmoker");
+		smokerListBox.addItem("Gelegentlich", "SSmoker");
+		
 		profilGrid.setWidget(5, 3, smokerLabel);
-		profilGrid.setWidget(5, 4, YsmokerTextBox);
-		profilGrid.setWidget(5, 5, NsmokerTextBox);
+		profilGrid.setWidget(5, 4, smokerListBox);
+
 
 		// Spalte 6
 		profilGrid.setWidget(6, 1, religionLabel);
