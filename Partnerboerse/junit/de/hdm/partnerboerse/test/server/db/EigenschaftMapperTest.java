@@ -72,6 +72,7 @@ public class EigenschaftMapperTest {
 		assertFalse(mapper.findAll().isEmpty());
 	}
 
+	// Objekt Dummy
 	private Eigenschaft getTestEigenschaftObjekt() {
 		Eigenschaft eigenschaft = new Eigenschaft();
 		eigenschaft.setId(1);
