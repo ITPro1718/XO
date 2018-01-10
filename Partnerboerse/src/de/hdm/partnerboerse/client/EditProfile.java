@@ -21,6 +21,8 @@ public class EditProfile extends VerticalPanel {
 
   private final PartnerboerseAdministrationAsync partnerAdmin =
       GWT.create(PartnerboerseAdministration.class);
+  
+  Profil getProfilFromServer;
 
   /*
    * Widgets, deren Inhalte variable sind, werden als Attribute angelegt.
@@ -58,7 +60,7 @@ public class EditProfile extends VerticalPanel {
    */
   @Override
   public void onLoad() {
-    // super.onLoad();
+    
 
     Grid profilIntGrid = new Grid(2, 3);
     profilIntGrid.setStyleName("itable");
@@ -74,39 +76,65 @@ public class EditProfile extends VerticalPanel {
     // Spalte 1
     profilGrid.setWidget(1, 1, vnameLabel);
     profilGrid.setWidget(1, 2, vnameTextBox);
+    vnameTextBox.setValue(getProfilFromServer.getVorname());
 
     profilGrid.setWidget(1, 3, lnameLabel);
     profilGrid.setWidget(1, 4, lnameTextBox);
+    lnameTextBox.setValue(getProfilFromServer.getNachname());
 
     // Spalte 2
     profilGrid.setWidget(2, 1, bdayLabel);
     profilGrid.setWidget(2, 2, bdayTextBox);
+    bdayTextBox.setValue(getProfilFromServer.getGeburtsdatum().toString());
 
     profilGrid.setWidget(2, 3, mailLabel);
     profilGrid.setWidget(2, 4, mailTextBox);
+    mailTextBox.setValue(getProfilFromServer.getEmail());
 
     // Spalte 3
     profilGrid.setWidget(3, 1, pwLabel);
     profilGrid.setWidget(3, 2, pwTextBox);
+    pwTextBox.setValue(getProfilFromServer.getPasswort());
 
     // Spalte 4
     profilGrid.setWidget(4, 1, hcolorLabel);
     profilGrid.setWidget(4, 2, hcolorTextBox);
+    hcolorTextBox.setValue(getProfilFromServer.getHaarfarbe());
 
     profilGrid.setWidget(4, 3, heightLabel);
     profilGrid.setWidget(4, 4, heightTextBox);
+    heightTextBox.setValue(String.valueOf(getProfilFromServer.getKoerpergroesse()));
 
+    
     // Spalte 5
     smokerListBox.addItem("Ja", "YSmoker");
     smokerListBox.addItem("Nein", "NSmoker");
+    
 
     profilGrid.setWidget(5, 3, smokerLabel);
     profilGrid.setWidget(5, 4, smokerListBox);
+    /*
+     * https://stackoverflow.com/questions/3793650/convert-boolean-to-int-in-java
+     * Konvertiert bei true zu 1 und bei false zu 0
+     */
+    //ToDo: Methode Funktioniert nicht, noch ausbessern
+//    int smokerToInt = (getProfilFromServer.isRaucher()) ? 1 : 0;
+//    switch (smokerToInt) {
+//      case 1:
+//        smokerListBox.getValue(0);
+//        break;
+//      case 2:
+//        smokerListBox.getValue(1);
+//        break;
+//    }
+    
+    //smokerListBox.setValue(1, getProfilFromServer.isRaucher());
 
 
     // Spalte 6
     profilGrid.setWidget(6, 1, religionLabel);
     profilGrid.setWidget(6, 2, religionTextBox);
+    religionTextBox.setValue(getProfilFromServer.getReligion());
 
     /*
      * deleteButton.addClickHandler(new DeleteClickHandler()); deleteButton.setEnabled(false);
@@ -209,7 +237,7 @@ public class EditProfile extends VerticalPanel {
     int heightConvert = Integer.parseInt(heightTextBox.getValue());
 
     //ToDo: setId muss raus, sobald Google Login Implementiert ist und Übergabeparameter stimmt.
-    setProfil.setId(2);
+    setProfil.setId(1);
     setProfil.setVorname(vnameTextBox.getValue());
     setProfil.setNachname(lnameTextBox.getValue());
     setProfil.setGeburtsdatum(bDayConvert);

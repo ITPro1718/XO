@@ -31,6 +31,7 @@ public class Editor implements EntryPoint {
 	private Label lastUpdatedLabel = new Label();
 
 	Navigation nav = new Navigation();
+	EigenProfilView epv = new EigenProfilView();
 	EditProfile ep = new EditProfile();
 	Searchprofile sp = new Searchprofile();
 
@@ -39,13 +40,20 @@ public class Editor implements EntryPoint {
 
 		// Navigation Area
 		RootPanel.get("navwrap").add(nav);
+		
+		// Eigenes Profil anzeigen
+		HTMLPanel eigenProfilViewPanel = new HTMLPanel(
+		    "<h3>" + "Hier können Sie ihr Profil sehen." + "</h3>");
+		eigenProfilViewPanel.add(epv);
+		
+		RootPanel.get("contwrap").add(eigenProfilViewPanel);
 
 		// Profile Edit - Panel wird erzeugt und eingefügt.
-		HTMLPanel editProfilePanel = new HTMLPanel(
-				"<h3>" + "Hier können Sie ihre Profilinformationen bearbeiten." + "</h3>");
-		editProfilePanel.add(ep);
-
-		RootPanel.get("contwrap").add(editProfilePanel);
+//		HTMLPanel editProfilePanel = new HTMLPanel(
+//				"<h3>" + "Hier können Sie ihre Profilinformationen bearbeiten." + "</h3>");
+//		editProfilePanel.add(ep);
+//
+//		RootPanel.get("contwrap").add(editProfilePanel);
 
 		// Search Profile
 
