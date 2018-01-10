@@ -140,6 +140,7 @@ public class EigenProfilView extends VerticalPanel {
     
     editProfilePanel.add(ep);
     
+    RootPanel.get("contwrap").clear();
     RootPanel.get("contwrap").add(editProfilePanel);
        
   }

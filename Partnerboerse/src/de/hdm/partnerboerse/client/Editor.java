@@ -40,13 +40,6 @@ public class Editor implements EntryPoint {
 
 		// Navigation Area
 		RootPanel.get("navwrap").add(nav);
-		
-		// Eigenes Profil anzeigen
-		HTMLPanel eigenProfilViewPanel = new HTMLPanel(
-		    "<h3>" + "Hier können Sie ihr Profil sehen." + "</h3>");
-		eigenProfilViewPanel.add(epv);
-		
-		RootPanel.get("contwrap").add(eigenProfilViewPanel);
 
 		// Profile Edit - Panel wird erzeugt und eingefügt.
 //		HTMLPanel editProfilePanel = new HTMLPanel(
@@ -57,10 +50,10 @@ public class Editor implements EntryPoint {
 
 		// Search Profile
 
-		HTMLPanel spPanel = new HTMLPanel("<h3>" + "Hier können Sie Ihr Suchprofil erstellen." + "</h3>");
-		spPanel.add(sp);
-
-		RootPanel.get("contwrap").add(spPanel);
+//		HTMLPanel spPanel = new HTMLPanel("<h3>" + "Hier können Sie Ihr Suchprofil erstellen." + "</h3>");
+//		spPanel.add(sp);
+//
+//		RootPanel.get("contwrap").add(spPanel);
 
 		// Create table for Profil
 		profilFlexTable.setText(0, 0, "Vorname");

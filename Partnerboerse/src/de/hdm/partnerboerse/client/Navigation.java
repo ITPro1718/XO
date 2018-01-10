@@ -1,8 +1,13 @@
 package de.hdm.partnerboerse.client;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
@@ -57,6 +62,80 @@ public class Navigation extends VerticalPanel {
 		navi.add(reports);
 		navi.add(meineSuchprofilReports);
 		navi.add(meinePartnervorschläge);
+		
+		/*
+		 * Methode lädt die View des eigenen Profils
+		 */
+		meinProfil.addClickHandler(new ClickHandler() {
+          
+          @Override
+          public void onClick(ClickEvent event) {
+            
+            loadEigenProfilView();
+            
+          }
+
+          /*
+           * Methode zeigt das eigene Profil an
+           */
+          private void loadEigenProfilView() {
+            
+            EigenProfilView epv = new EigenProfilView();
+            
+            HTMLPanel eigenProfilViewPanel = new HTMLPanel(
+                "<h3>" + "Hier können Sie ihr Profil sehen." + "</h3>");
+            
+
+            eigenProfilViewPanel.add(epv);
+            RootPanel.get("contwrap").clear();
+            RootPanel.get("contwrap").add(eigenProfilViewPanel);
+                     
+          }
+        });
+		
+	      /*
+         * Methode lädt die View der Merkliste
+         */
+		meineMerkliste.addClickHandler(new ClickHandler() {
+          
+          @Override
+          public void onClick(ClickEvent event) {
+            
+            Window.alert("Clickhandler Logik muss noch erstellt werden, sobald View erstellt wurde");
+            
+          }
+        });
+		
+		/*
+		 * Methode lädt die View der Kontaktsperren
+		 */
+		meineKontaktsperren.addClickHandler(new ClickHandler() {
+          
+          @Override
+          public void onClick(ClickEvent event) {
+            
+            Window.alert("Clickhandler Logik muss noch erstellt werden, sobald View erstellt wurde");
+            
+          }
+        });
+		
+		meineSuchprofile.addClickHandler(new ClickHandler() {
+          
+          @Override
+          public void onClick(ClickEvent event) {
+            
+            Searchprofile sp = new Searchprofile();
+            
+            HTMLPanel spPanel = new HTMLPanel("<h3>" + "Hier können Sie Ihr Suchprofil erstellen." + "</h3>");
+            spPanel.add(sp);
+
+            RootPanel.get("contwrap").clear();
+            RootPanel.get("contwrap").add(spPanel);
+            
+          }
+        });
+		
+		
 
 	}
 
