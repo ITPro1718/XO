@@ -1,5 +1,6 @@
 package de.hdm.partnerboerse.test.server.db;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
@@ -38,6 +39,13 @@ public class KontaktsperreMapperTest {
 	@Test
 	public void testFindByKey() {
 		assertTrue(KontaktsperreMapper.kontaktsperreMapper().findByKey(1) != null);
+	}
+
+	@Test
+	public void testFindAll() {
+		KontaktsperreMapper mapper = KontaktsperreMapper.kontaktsperreMapper();
+		assertFalse(mapper.findAll().isEmpty());
+
 	}
 
 	private Kontaktsperre getTestKontaktsperreObjekt() {
