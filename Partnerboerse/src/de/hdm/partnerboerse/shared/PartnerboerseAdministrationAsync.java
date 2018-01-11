@@ -25,8 +25,6 @@ public interface PartnerboerseAdministrationAsync {
 
 	void createEigenschaft(String erlaueterung, Profil profil, AsyncCallback<Void> callback);
 
-	void createElementAuswahl(int id, String bezeichnung, Auswahl auswahl, AsyncCallback<Void> callback);
-
 	void createFreitext(String text, AsyncCallback<Freitext> callback);
 
 	void createInfo(String bezeichnung, String is_a, String string, AsyncCallback<Void> callback);
@@ -46,8 +44,6 @@ public interface PartnerboerseAdministrationAsync {
 	void deleteBesuch(Besuch besuch, AsyncCallback<Void> callback);
 
 	void deleteEigenschaft(Eigenschaft eigenschaft, AsyncCallback<Void> callback);
-
-	void deleteElementAuswahl(Auswahl auswahl, AsyncCallback<Void> callback);
 
 	void deleteFreitext(Freitext freitext, AsyncCallback<Void> callback);
 
