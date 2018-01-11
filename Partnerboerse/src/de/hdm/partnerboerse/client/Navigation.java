@@ -137,7 +137,7 @@ public class Navigation extends VerticalPanel {
           @Override
           public void onClick(ClickEvent event) {
             
-            Searchprofile sp = new Searchprofile();
+            EditSuchprofil sp = new EditSuchprofil();
             
             HTMLPanel spPanel = new HTMLPanel("<h3>" + "Hier können Sie Ihr Suchprofil erstellen." + "</h3>");
             spPanel.add(sp);
