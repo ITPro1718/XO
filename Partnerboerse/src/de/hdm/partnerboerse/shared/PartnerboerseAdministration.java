@@ -7,7 +7,6 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 import de.hdm.partnerboerse.shared.bo.Auswahl;
 import de.hdm.partnerboerse.shared.bo.Besuch;
 import de.hdm.partnerboerse.shared.bo.Eigenschaft;
-import de.hdm.partnerboerse.shared.bo.Element;
 import de.hdm.partnerboerse.shared.bo.Freitext;
 import de.hdm.partnerboerse.shared.bo.Info;
 import de.hdm.partnerboerse.shared.bo.Kontaktsperre;
@@ -432,23 +431,6 @@ public interface PartnerboerseAdministration extends RemoteService {
 	 */
 	public void deleteAuswahl(Auswahl auswahl) throws IllegalArgumentException;
 
-	/**
-	 * Element Methoden
-	 * Alle Elemente anzeigen.
-	 * 
-	 * @return alle Elemente
-	 * @throws IllegalArgumentException
-	 */
-	public ArrayList<Element> getAllElements() throws IllegalArgumentException;
-
-	/**
-	 * Ein Element-Objekt anzeigen
-	 * 
-	 * @return ein Element-Objekt
-	 * @throws IllegalArgumentException
-	 */
-	public Element getElementByID(int id) throws IllegalArgumentException;
-	
 	public ArrayList<Kontaktsperre> findKontaktsperrenOf(Profil profilowner) throws IllegalArgumentException;
 	
 	public ArrayList<Merkzettel> findMerkzettelnOf(Profil profilowner) throws IllegalArgumentException;
@@ -463,8 +445,6 @@ public interface PartnerboerseAdministration extends RemoteService {
 	
 	public Auswahl findAuswahlOf(Info info) throws IllegalArgumentException;
 	
-	public ArrayList<Element> findElementeOf(Auswahl auswahl) throws IllegalArgumentException;
-	
 	public void createBesuch(Profil source, Profil target) throws IllegalArgumentException;
 	
 	public void deleteBesuch(Besuch besuch) throws IllegalArgumentException;
@@ -474,12 +454,4 @@ public interface PartnerboerseAdministration extends RemoteService {
 	public Besuch findBesuchByKey(int id) throws IllegalArgumentException;
 	
 	public ArrayList<Besuch> findBesucheOf(Profil profilowner) throws IllegalArgumentException;
-	
-	public void deleteElementAuswahl(Auswahl auswahl) throws IllegalArgumentException;
-	
-	public void createElementAuswahl(int id, String bezeichnung, Auswahl auswahl) throws IllegalArgumentException;	
-	
-	
-
-
 }

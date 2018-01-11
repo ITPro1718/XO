@@ -8,7 +8,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import de.hdm.partnerboerse.shared.bo.Auswahl;
 import de.hdm.partnerboerse.shared.bo.Besuch;
 import de.hdm.partnerboerse.shared.bo.Eigenschaft;
-import de.hdm.partnerboerse.shared.bo.Element;
 import de.hdm.partnerboerse.shared.bo.Freitext;
 import de.hdm.partnerboerse.shared.bo.Info;
 import de.hdm.partnerboerse.shared.bo.Kontaktsperre;
@@ -24,11 +23,13 @@ public interface PartnerboerseAdministrationAsync {
 
 	void createBesuch(Profil source, Profil target, AsyncCallback<Void> callback);
 
-	void createEigenschaft(Info info, String bezeichnung, String is_a, String string, AsyncCallback<Void> callback);
+	void createEigenschaft(String erlaueterung, Profil profil, AsyncCallback<Void> callback);
+
+	void createElementAuswahl(int id, String bezeichnung, Auswahl auswahl, AsyncCallback<Void> callback);
 
 	void createFreitext(String text, AsyncCallback<Freitext> callback);
 
-	void createInfo(Profil p, String bezeichnung, AsyncCallback<Void> callback);
+	void createInfo(String bezeichnung, String is_a, String string, AsyncCallback<Void> callback);
 
 	void createKontaksperreEintrag(Profil source, Profil target, AsyncCallback<Void> callback);
 
@@ -62,7 +63,7 @@ public interface PartnerboerseAdministrationAsync {
 
 	void findAllBesuche(AsyncCallback<ArrayList<Besuch>> callback);
 
-	void findAuswahlOf(Eigenschaft eigenschaft, AsyncCallback<Auswahl> callback);
+	void findAuswahlOf(Info info, AsyncCallback<Auswahl> callback);
 
 	void findBesuchByKey(int id, AsyncCallback<Besuch> callback);
 
@@ -70,9 +71,7 @@ public interface PartnerboerseAdministrationAsync {
 
 	void findEigenschaftsInfosOf(Eigenschaft eigenschaft, AsyncCallback<ArrayList<Info>> callback);
 
-	void findElementeOf(Auswahl auswahl, AsyncCallback<ArrayList<Element>> callback);
-
-	void findFreitextOf(Eigenschaft eigenschaft, AsyncCallback<Freitext> callback);
+	void findFreitextOf(Info info, AsyncCallback<Freitext> callback);
 
 	void findInfoOf(Profil profilowner, AsyncCallback<ArrayList<Info>> callback);
 
@@ -83,8 +82,6 @@ public interface PartnerboerseAdministrationAsync {
 	void findSuchprofileOf(Profil profilowner, AsyncCallback<ArrayList<Suchprofil>> callback);
 
 	void getAllEigenschaften(AsyncCallback<ArrayList<Eigenschaft>> callback);
-
-	void getAllElements(AsyncCallback<ArrayList<Element>> callback);
 
 	void getAllInfos(AsyncCallback<ArrayList<Info>> callback);
 
@@ -99,8 +96,6 @@ public interface PartnerboerseAdministrationAsync {
 	void getAuswahl(AsyncCallback<ArrayList<Auswahl>> callback);
 
 	void getEigenschaftByID(int id, AsyncCallback<Eigenschaft> callback);
-
-	void getElementByID(int id, AsyncCallback<Element> callback);
 
 	void getFreitext(Eigenschaft eigenschaft, AsyncCallback<Freitext> callback);
 
@@ -135,7 +130,5 @@ public interface PartnerboerseAdministrationAsync {
 	void updateProfil(Profil p, AsyncCallback<Void> callback);
 
 	void updateSuchprofil(Suchprofil suchprofil, AsyncCallback<Void> callback);
-
-	void createElementAuswahl(int id, String bezeichnung, Auswahl auswahl, AsyncCallback<Void> callback);
 
 }

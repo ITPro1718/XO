@@ -12,7 +12,6 @@ import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
 import de.hdm.partnerboerse.shared.bo.Auswahl;
 import de.hdm.partnerboerse.shared.bo.Besuch;
 import de.hdm.partnerboerse.shared.bo.Eigenschaft;
-import de.hdm.partnerboerse.shared.bo.Element;
 import de.hdm.partnerboerse.shared.bo.Freitext;
 import de.hdm.partnerboerse.shared.bo.Info;
 import de.hdm.partnerboerse.shared.bo.Kontaktsperre;
@@ -30,8 +29,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	private AuswahlMapper aMapper = null;
 	
 	private EigenschaftMapper eiMapper = null;
-	
-	private ElementMapper elMapper = null;
 	
 	private FreitextMapper fMapper = null;
 	
@@ -55,7 +52,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 		
 		this.aMapper = AuswahlMapper.auswahlMapper();
 		this.eiMapper = EigenschaftMapper.eigenschaftMapper();
-		this.elMapper = ElementMapper.elementMapper();
 		this.fMapper = FreitextMapper.freitextMapper();
 		this.iMapper = InfoMapper.infoMapper();
 		this.kMapper = KontaktsperreMapper.kontaktsperreMapper();
@@ -636,27 +632,13 @@ public ArrayList<Profil> getNotSeenSuchProfilErgebnisse(Suchprofil suchprofil) t
 	 * 
 	 */
 		
-		ArrayList<Element> el = this.findElementeOf(auswahl);
-		
-		if (el != null){
-			this.deleteElementAuswahl(auswahl);
-		}
-		
+				
 		this.deleteAuswahl(auswahl);
 	
 		
 	}
 
-	@Override
-	public ArrayList<Element> getAllElements() throws IllegalArgumentException {
-		return this.elMapper.findAll();
-	}
-
-	@Override
-	public Element getElementByID(int id) throws IllegalArgumentException {
-		return this.elMapper.findByKey(id);
-	}
-
+	
   @Override
   public ArrayList<Kontaktsperre> findKontaktsperrenOf(Profil profilowner)
       throws IllegalArgumentException {
@@ -724,17 +706,7 @@ public ArrayList<Profil> getNotSeenSuchProfilErgebnisse(Suchprofil suchprofil) t
 	  return this.aMapper.findAuswahlOf(info);
   }
 
-  @Override
-  public ArrayList<Element> findElementeOf(Auswahl auswahl) throws IllegalArgumentException {
-		  
-	  /**
-	   * Gibt alle Elemente einer Auswahl zurück.
-	   * z.B. Auswahl = Sportart
-	   * 	  Elemente = Fußball, Handball
-	   */
-	  
-	return this.aMapper.findElementOf(auswahl);
-  }
+  
 
 @Override
 public void createBesuch(Profil source, Profil target) throws IllegalArgumentException {
@@ -769,30 +741,6 @@ public Besuch findBesuchByKey(int id) throws IllegalArgumentException {
 public ArrayList<Besuch> findBesucheOf(Profil profilowner) throws IllegalArgumentException {
 	
 	return this.bMapper.findByEigenprofil(profilowner);
-}
-
-
-@Override
-public void deleteElementAuswahl(Auswahl auswahl) throws IllegalArgumentException {
-
-	// löscht alle Element-Einträge, die eine bestimmte AuswahlID haben
-	// z.B. wir wollen Auswahl mit der ID 5 löschen (Hobbies)
-	// Element: Fußball enthält Fremdschlüssel AuswahlID = 2
-	// --> ElementEintrag wird gelöscht, nun ist keine Fremdschlüsselabhängigkeit mehr und wir können Auswahl ID 2 löschen.
-	
-	this.elMapper.deleteElement(auswahl);
-	
-}
-
-@Override
-public void createElementAuswahl(int id, String bezeichnung, Auswahl auswahl) throws IllegalArgumentException {
-	
-	Element e = new Element();
-	e.setId(1);
-	e.setBezeichnung(bezeichnung);
-	e.setAuswahlID(auswahl.getId());
-	this.elMapper.insertElementAuswahl(e);
-	
 }
 
 }
