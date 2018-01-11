@@ -106,7 +106,9 @@ public interface PartnerboerseAdministration extends RemoteService {
 	 * @return alle Profil-Objekte
 	 * @throws IllegalArgumentException
 	 */
-
+	
+	public Profil getProfilByEmail(String email)throws IllegalArgumentException;
+	
 	public ArrayList<Profil> getAllProfils() throws IllegalArgumentException;
 
 	/**

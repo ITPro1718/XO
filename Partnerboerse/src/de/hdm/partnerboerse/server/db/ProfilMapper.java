@@ -82,6 +82,51 @@ public class ProfilMapper {
 				p.setNachname(rs.getString("nachname"));
 				p.setEmail(rs.getString("email"));
 				p.setPasswort(rs.getString("passwort"));
+				// TODO: Datum von java.sql.date in java.util date umwandeln
+				p.setGeburtsdatum(rs.getDate("geburtstag"));
+				p.setRaucher(rs.getBoolean("raucher"));
+				p.setHaarfarbe(rs.getString("haarfarbe"));
+				p.setKoerpergroesse(rs.getInt("koerpergroesse"));
+				p.setReligion(rs.getString("religion"));
+				return p;
+			}
+		}
+		// Exception abfangen
+		catch (SQLException e2) {
+			e2.printStackTrace();
+			return null;
+		}
+
+		return null;
+	}
+	public Profil findProfilByEmail(String email) {
+		// DB-Verbindung holen
+		Connection con = DBConnection.getConnection();
+
+
+		try {
+
+			// PreparedStatement anlegen, welches den SQL Befehl enthült
+			PreparedStatement stmt = con.prepareStatement("SELECT * FROM profil WHERE email =?");
+
+			// Platzhalter (Fragezeichen) mit Werten befüllen
+			stmt.setString(1, email);
+
+			// Query ausführen und Rückgabe dem ResultSet rs zuweisen
+			ResultSet rs = stmt.executeQuery();
+
+			/*
+			 * Tupel aus der Datenbank abfangen
+			 */
+			if (rs.next()) {
+				// Ergebnis-Tupel in Objekt umwandeln und durch Setter befüllen.
+				Profil p = new Profil();
+				p.setId(rs.getInt("id"));
+				p.setVorname(rs.getString("vorname"));
+				p.setNachname(rs.getString("nachname"));
+				p.setEmail(rs.getString("email"));
+				p.setPasswort(rs.getString("passwort"));
+				// TODO: Datum von java.sql.date in java.util date umwandeln
 				p.setGeburtsdatum(rs.getDate("geburtstag"));
 				p.setRaucher(rs.getBoolean("raucher"));
 				p.setHaarfarbe(rs.getString("haarfarbe"));

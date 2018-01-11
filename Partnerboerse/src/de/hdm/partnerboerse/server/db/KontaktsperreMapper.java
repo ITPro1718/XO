@@ -110,6 +110,7 @@ public class KontaktsperreMapper {
 		}
 		return null;
 	}
+	
 
 	/**
 	 * Gibt alle Kontaktsperren-Eintr�ge zur�ck

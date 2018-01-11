@@ -186,6 +186,9 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 		return this.pMapper.findProfilByKey(id);
 		
 	}
+	public Profil getProfilByEmail(String email)throws IllegalArgumentException {
+		return this.pMapper.findProfilByEmail(email);
+	}
 
 	@Override
 	public ArrayList<Profil> getAllProfils() throws IllegalArgumentException {
@@ -315,7 +318,8 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 		
 		return null;
 	}
-
+	
+	
 	@Override
 	public ArrayList<Profil> getSuchProfilErgebnisse(Suchprofil suchprofil) throws IllegalArgumentException {
 
@@ -323,7 +327,22 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 		Profil suchprofilowner = getProfilByID(suchprofil.getEigenprofilID());
 		ArrayList<Kontaktsperre> kontaktsperrenofsuchprofilowner = findKontaktsperrenOf(suchprofilowner);
 		ArrayList<Integer> fpids = new ArrayList<>();
-	
+		ArrayList<Kontaktsperre> allKontaktsperren = getAllKontaktsperreEintraege();
+		ArrayList<Kontaktsperre> blockedSuchprofilowner = new ArrayList<>();
+		ArrayList<Profil> profilBlockedSuchprofilowner = new ArrayList<>();
+		//Wenn die Fremdprofil-ID einer Kontaktsperre (gesperrte Profil ID) mit der eigenen Profil-ID des "Suchprofilbesitzers"
+		//übereinstimmt, wird diese Kontaktsperre zu blockedSuchprofilowner hinzugefügt.( Alle Kontaktsperren die das eigene Profil geblockt haben)
+		for (Kontaktsperre s: allKontaktsperren){
+		if(s.getFremdprofilID() == suchprofilowner.getId()){
+			blockedSuchprofilowner.add(s);
+		}
+		//Besitzer dieser Kontaktsperren finden und einer Arraylist (profilBlockedSuchprofilowner) hinzufügen
+		for( Kontaktsperre t: blockedSuchprofilowner){
+			int epidofkkk = t.getEigenprofilID();
+			Profil pp = getProfilByID(epidofkkk);
+			profilBlockedSuchprofilowner.add(pp);
+		}
+		}
 		for (Kontaktsperre k : kontaktsperrenofsuchprofilowner){
 			int fpid = k.getFremdprofilID();
 			fpids.add(fpid);
@@ -331,10 +350,17 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 		
 		for (Profil p : profile){
 			int id = p.getId();
+		
 				
 			if(fpids.contains(id)){
 				profile.remove(p);
 			}
+			//Wenn die Arraylist mit Profilen,( Profilbesitzer die einen selbst geblockt haben), ein Profil der Liste mit allen Profilen enthält(Abgleich)
+			//so wird dieses Profil aus der Liste aller Profile gelöscht. Somit sind Profile aus der Liste, die das eigene Profil auf der Kontaaktsperrliste hatten.
+			else if (profilBlockedSuchprofilowner.contains(p)){
+				profile.remove(p);
+			}
+	
 			else if (id == suchprofilowner.getId()){
 				profile.remove(p);
 			}
@@ -360,7 +386,9 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 			
 		  (suchprofill.getAlter() == getAge(profil.getGeburtsdatum())) &&
 			
-		  (suchprofill.getReligion() == profil.getReligion()))
+		  (suchprofill.getReligion() == profil.getReligion())) 
+			// eine Auswahl ID im Suchprpfil eingeben oder mehrere? Bei mehreren, würden wir Ablgeichen wenn mindestens 1 Hobby (AuswahlID) mit gesuchtem Profil übereinstimmt.
+		// ( If( ArrayList<Int> ProfilAuswahlIDsOfInfoObjekte.contains(SuchProfilAuswahlID) ) return true;
 		  {
 			  return true;
 		}
