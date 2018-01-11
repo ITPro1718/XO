@@ -31,7 +31,7 @@ public class Searchprofile extends VerticalPanel {
 		// Create a FormPanel and point it at a service.
 		final FormPanel form = new FormPanel();
 		this.add(form);
-		form.setAction("/myFormHandler");
+		form.setAction("Partnerboerse");
 
 		// Because we're going to add a FileUpload widget,
 		// we'll need to set the form to use the POST method,

@@ -265,6 +265,4 @@ public class EditProfile extends VerticalPanel {
     return setProfil;
 
   }
-
-
 }

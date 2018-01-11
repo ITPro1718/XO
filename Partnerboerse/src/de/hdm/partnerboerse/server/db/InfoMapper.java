@@ -55,10 +55,11 @@ public class InfoMapper {
 			if (rs.next()) {
 				Info i = new Info();
 				i.setId(id);
-				i.setEigenprofilID(rs.getInt("epID"));
-				i.setEigenschaftsID(rs.getInt("eigenschaftID"));
 				i.setText(rs.getString("bezeichnung"));
-
+				i.setIs_a(rs.getString("is_a"));
+				i.setAuswahlID(rs.getInt("auswahlID"));
+				i.setFreitextID(rs.getInt("freitextID"));
+				
 				return i;
 			}
 		} catch (SQLException e2) {
@@ -87,9 +88,10 @@ public class InfoMapper {
 				Info i = new Info();
 
 				i.setId(rs.getInt("id"));
-				i.setEigenprofilID(rs.getInt("epID"));
-				i.setEigenschaftsID(rs.getInt("eigenschaftID"));
 				i.setText(rs.getString("bezeichnung"));
+				i.setIs_a(rs.getString("is_a"));
+				i.setAuswahlID(rs.getInt("auswahlID"));
+				i.setFreitextID(rs.getInt("freitextID"));
 
 				result.add(i);
 			}
@@ -127,9 +129,10 @@ public class InfoMapper {
 			while (rs.next()) {
 				Info i = new Info();
 				i.setId(rs.getInt("id"));
-				i.setEigenprofilID(rs.getInt("epID"));
-				i.setEigenschaftsID(rs.getInt("eigenschaftID"));
 				i.setText(rs.getString("bezeichnung"));
+				i.setIs_a(rs.getString("is_a"));
+				i.setAuswahlID(rs.getInt("auswahlID"));
+				i.setFreitextID(rs.getInt("freitextID"));
 
 				result.add(i);
 			}
@@ -166,8 +169,8 @@ public class InfoMapper {
 				stmt = con.createStatement();
 
 				// Das ist die eigentliche Einfüg-Funktion
-				stmt.executeUpdate("INSERT INTO auswahl(id, bezeichnung, epID, eigenschaftID) " + "VALUES (" + i.getId()
-						+ ", " + i.getText() + ", " + i.getEigenprofilID() + ", " + i.getEigenschaftsID() + ")");
+				stmt.executeUpdate("INSERT INTO auswahl(id, bezeichnung, is_a, freitextID, auswahlID) " + "VALUES (" + i.getId()
+						+ ", " + i.getText() + ", " + i.getIs_a() + ", " + i.getFreitextID() + "," + i.getAuswahlID() + ")");
 
 			}
 		} catch (SQLException e2) {

@@ -62,10 +62,8 @@ public class EigenschaftMapper {
 				eigenschaft.setId(rs.getInt("maxid") + 1);
 				stmt = con.createStatement();
 
-				stmt.executeUpdate("INSERT INTO eigenschaft (id, erlaeuterung, is_a, auswahlID, freitextID) "
-						+ "VALUE (" + eigenschaft.getId() + ", '" + eigenschaft.getErlaeuterung() + "', '"
-						+ eigenschaft.getIs_a() + "', '" + eigenschaft.getAuswahlID() + "', '"
-						+ eigenschaft.getFreitextID() + " ') ");
+				stmt.executeUpdate("INSERT INTO eigenschaft (id, erlaeuterung, infoID, epID) "
+						+ "VALUE (" + eigenschaft.getId() + ", " + eigenschaft.getErlaeuterung() + ", " + eigenschaft.getInfoID() + ", " + eigenschaft.getEpID() + " ') ");
 
 			}
 		} catch (SQLException e2) {
@@ -123,11 +121,13 @@ public class EigenschaftMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			ResultSet rs = stmt.executeQuery("SELECT id, erlaeuterung FROM eigenschaft WHERE id=" + id);
+			ResultSet rs = stmt.executeQuery("SELECT * FROM eigenschaft WHERE id=" + id);
 			if (rs.next()) {
 				Eigenschaft e = new Eigenschaft();
 				e.setId(rs.getInt("id"));
 				e.setErlaeuterung(rs.getString("erlaeuterung"));
+				e.setEpID(rs.getInt("epID"));
+				e.setInfoID(rs.getInt("infoID"));
 				return e;
 			}
 		} catch (SQLException e2) {
@@ -150,12 +150,14 @@ public class EigenschaftMapper {
 
 		try {
 			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT id, erlaeuterung FROM eigenschaft " + "ORDER BY id");
+			ResultSet rs = stmt.executeQuery("SELECT * FROM eigenschaft " + "ORDER BY id");
 
 			while (rs.next()) {
 				Eigenschaft e = new Eigenschaft();
 				e.setId(rs.getInt("id"));
 				e.setErlaeuterung(rs.getString("erlaeuterung"));
+				e.setEpID(rs.getInt("epID"));
+				e.setInfoID(rs.getInt("infoID"));
 
 				result.add(e);
 

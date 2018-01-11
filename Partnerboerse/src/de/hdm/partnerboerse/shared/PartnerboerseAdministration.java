@@ -279,11 +279,12 @@ public interface PartnerboerseAdministration extends RemoteService {
 	/**
 	 * Info-Objekt Methoden
 	 * Neues Info-Objekt erstellen.
+	 * @param is_a TODO
+	 * @param string TODO
 	 * 
-	 * @param p eigenes Profil
 	 * @throws IllegalArgumentException
 	 */
-	public void createInfo(Profil p, String bezeichnung) throws IllegalArgumentException;
+	public void createInfo(String bezeichnung, String is_a, String string) throws IllegalArgumentException;
 
 	/**
 	 * Alle Info-Objekte anzeigen.
@@ -321,15 +322,13 @@ public interface PartnerboerseAdministration extends RemoteService {
 	/**
 	 * Eigenschaft Methoden
 	 * Eigenschaft fuer das bestimmte Info-Objekt erstellen.
+	 * @param erlaueterung TODO
+	 * @param profil TODO
 	 * 
-	 * @param info Info-Objekt, auf welches sich die Eigenschaft bezieht
-	 * @param bezeichnung TODO
-	 * @param is_a TODO
-	 * @param string TODO
 	 * @throws IllegalArgumentException
 	 */
 
-	public void createEigenschaft(Info info, String bezeichnung, String is_a, String string) throws IllegalArgumentException;
+	public void createEigenschaft(String erlaueterung, Profil profil) throws IllegalArgumentException;
 
 	/**
 	 * Alle Eigenschafts-Objekte anzeigen.
@@ -460,9 +459,9 @@ public interface PartnerboerseAdministration extends RemoteService {
 	
 	public ArrayList<Info> findEigenschaftsInfosOf(Eigenschaft eigenschaft) throws IllegalArgumentException;
 	
-	public Freitext findFreitextOf(Eigenschaft eigenschaft) throws IllegalArgumentException;
+	public Freitext findFreitextOf(Info info) throws IllegalArgumentException;
 	
-	public Auswahl findAuswahlOf(Eigenschaft eigenschaft) throws IllegalArgumentException;
+	public Auswahl findAuswahlOf(Info info) throws IllegalArgumentException;
 	
 	public ArrayList<Element> findElementeOf(Auswahl auswahl) throws IllegalArgumentException;
 	

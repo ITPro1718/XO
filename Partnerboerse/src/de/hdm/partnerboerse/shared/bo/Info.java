@@ -9,46 +9,51 @@ public class Info extends BusinessObjekt {
   
   private String text;
   
-  private int eigenprofilID;
+  private String is_a;
   
-  private int eigenschaftsID;
+  private int freitextID;
+  
+  private int auswahlID;
 
-  public int getEigenprofilID() {
-	return eigenprofilID;
+public String getText() {
+	return text;
 }
 
-public void setEigenprofilID(int eigenprofilID) {
-	this.eigenprofilID = eigenprofilID;
+public void setText(String text) {
+	this.text = text;
 }
 
-public int getEigenschaftsID() {
-	return eigenschaftsID;
+public String getIs_a() {
+	return is_a;
 }
 
-public void setEigenschaftsID(int eigenschaftsID) {
-	this.eigenschaftsID = eigenschaftsID;
+public void setIs_a(String is_a) {
+	this.is_a = is_a;
 }
 
-/**
-   * @return the text
-   */
-  public String getText() {
-    return text;
-  }
+public int getFreitextID() {
+	return freitextID;
+}
 
-  /**
-   * @param text the text to set
-   */
-  public void setText(String text) {
-    this.text = text;
-  }
+public void setFreitextID(int freitextID) {
+	this.freitextID = freitextID;
+}
+
+public int getAuswahlID() {
+	return auswahlID;
+}
+
+public void setAuswahlID(int auswahlID) {
+	this.auswahlID = auswahlID;
+}
 
 @Override
 public int hashCode() {
 	final int prime = 31;
 	int result = super.hashCode();
-	result = prime * result + eigenprofilID;
-	result = prime * result + eigenschaftsID;
+	result = prime * result + auswahlID;
+	result = prime * result + freitextID;
+	result = prime * result + ((is_a == null) ? 0 : is_a.hashCode());
 	result = prime * result + ((text == null) ? 0 : text.hashCode());
 	return result;
 }
@@ -62,9 +67,14 @@ public boolean equals(Object obj) {
 	if (getClass() != obj.getClass())
 		return false;
 	Info other = (Info) obj;
-	if (eigenprofilID != other.eigenprofilID)
+	if (auswahlID != other.auswahlID)
 		return false;
-	if (eigenschaftsID != other.eigenschaftsID)
+	if (freitextID != other.freitextID)
+		return false;
+	if (is_a == null) {
+		if (other.is_a != null)
+			return false;
+	} else if (!is_a.equals(other.is_a))
 		return false;
 	if (text == null) {
 		if (other.text != null)
@@ -76,7 +86,10 @@ public boolean equals(Object obj) {
 
 @Override
 public String toString() {
-	return "Info [text=" + text + ", eigenprofilID=" + eigenprofilID + ", eigenschaftsID=" + eigenschaftsID + "]";
+	return "Info [text=" + text + ", is_a=" + is_a + ", freitextID=" + freitextID + ", auswahlID=" + auswahlID + "]";
 }
+  
+  
 
 }
+

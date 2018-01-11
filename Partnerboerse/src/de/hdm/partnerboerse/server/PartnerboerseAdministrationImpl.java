@@ -264,8 +264,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 		s.setHaarFarbe(haarfarbe);
 		s.setKoerpergroesse(kgr);
 		s.setTitle(titel);
-		// !!! Für Religion fehlt das Attribut im relationalen Modell
-		// TODO: Datenbank updaten!!
 		s.setReligion(religion);
 		s.setRaucher(raucher);
 		s.setAlter(alter);
@@ -392,13 +390,46 @@ public ArrayList<Profil> getNotSeenSuchProfilErgebnisse(Suchprofil suchprofil) t
 
 
 	@Override
-	public void createInfo(Profil p, String bezeichnung) throws IllegalArgumentException {
+	public void createInfo(String bezeichnung, String is_a, String string) throws IllegalArgumentException {
 		
 		Info i = new Info();
-		i.setText(bezeichnung);
-		i.setEigenprofilID(p.getId());
 		
-		this.iMapper.insertInfo(i); 
+		// id wird vorerst auf 1 gesetzt und im Mapper angepasst.
+		i.setId(1);
+		i.setText(bezeichnung);
+		i.setIs_a(is_a);
+		
+		/**
+		 * Diese Methode erstellt ein Infoobjekt. Die Info kann wiederum eine Auswahl oder ein Freitext
+		 * sein. Die Übergabeparameter sind:
+		 * bezeichnung = bezeichnung der Eigenschaft
+		 * is_a = kann "auswahl" oder "freitext" sein. Dient zur Identifizierung ob die Eigenschaft eine Auswahl oder Freitext ist
+		 * string = ist entweder der Titel des Auswahl oder der Text des Freitextes.
+		 * 
+		 * somit kann die Methode für Auswahl und Freitext benutzt werden		 * 
+		 */
+		
+		/*
+		 * Wenn is_a eine Auswahl ist, wird eine Auswahl erstellt. Der String "string" ist dabei der Titel der Auswahl
+		 * z.B. "Hobbies"
+		 */
+		if (is_a == "auswahl"){
+			Auswahl aus = this.createAuswahl(string);
+			i.setAuswahlID(aus.getId());
+			
+		}
+		/*
+		 * Wenn is_a ein Freitext ist, wird ein Freitext erstellt. Der String "string" ist dabei der Inhalt des Freitextes
+		 * z.B. "Ich mag Hunde"
+		 */
+		else if (is_a == "freitext"){
+			Freitext f = this.createFreitext(string);
+			i.setFreitextID(f.getId());
+		}
+		
+		
+		this.iMapper.insertInfo(i);
+		
 		// Update-Methode auch (falls Eigenschaften gelöscht werden ändert sich das Infoobjekt etc.)		
 		// TODO: Wie fügen wir die EigenschaftsID hinzu?
 	}
@@ -432,62 +463,51 @@ public ArrayList<Profil> getNotSeenSuchProfilErgebnisse(Suchprofil suchprofil) t
 	@Override
 	public void updateInfo(Info info) throws IllegalArgumentException {
 		//  Methode fehlt in Mapperklasse 
+		// TODO: brauchen wir die?
 		
 		
 	}
 
 	@Override
 	public void deleteInfo(Info info) throws IllegalArgumentException {
-		/**
-		 * Alle Abhängigkeiten müssen erst gelöscht werden:
-		 * Eigenschaft
-		 * Auswahl
-		 * Freitext
-		 * Element
-		 */
-		// Eigenschaft eigen = this.findEigenschaftsInfosOf(info);
 		
-		// TODO: Abhängigkeiten von Info und Eigenschaft klären
+		
+		/**
+		 * Abhängigkeiten: 
+		 * Freitext,
+		 * Auswahl und Element (Element werden gelöscht bevor die Auswahl gelöscht werden kann
+		 * löschen bevor Eigenschaft gelöscht werden kann
+		 */
+		
+		Auswahl auswahl = this.findAuswahlOf(info);
+		Freitext freitext = this.findFreitextOf(info);
+		
+		if (auswahl != null){
+			this.deleteAuswahl(auswahl);
+		}
+		
+		if (freitext != null){
+			this.deleteFreitext(freitext);
+		}
+		
 		
 		this.iMapper.deleteInfo(info); 
 		
 	}
 
 	@Override
-	public void createEigenschaft(Info info, String bezeichnung, String is_a, String string) throws IllegalArgumentException {
-		
-		/**
-		 * Diese Methode erstellt ein Eigenschaftsobjekt. Die Eigenschaft kann wiederum eine Auswahl oder ein Freitext
-		 * sein. Die Übergabeparameter sind:
-		 * bezeichnung = bezeichnung der Eigenschaft
-		 * is_a = kann "auswahl" oder "freitext" sein. Dient zur Identifizierung ob die Eigenschaft eine Auswahl oder Freitext ist
-		 * string = ist entweder der Titel des Auswahl oder der Text des Freitextes.
-		 * 
-		 * somit kann die Methode für Auswahl und Freitext benutzt werden		 * 
-		 */
+	public void createEigenschaft(String erlaueterung, Profil profil) throws IllegalArgumentException {
 		
 		Eigenschaft eig = new Eigenschaft();
-		// ID wird vorläufig auf 1 gesetzt und im Mapper abgeändert
-		eig.setId(1);
-		eig.setErlaeuterung(bezeichnung);
-		eig.setIs_a(is_a);
-		/*
-		 * Wenn is_a eine Auswahl ist, wird eine Auswahl erstellt. Der String "string" ist dabei der Titel der Auswahl
-		 * z.B. "Hobbies"
+		eig.setEpID(profil.getId());
+		eig.setErlaeuterung(erlaueterung);
+		
+		/**
+		 * Wenn eine Eigenschaft erstellt wird, wird auch automatisch ein Info Objekt erstellt.
 		 */
-		if (is_a == "auswahl"){
-			Auswahl aus = this.createAuswahl(string);
-			eig.setAuswahlID(aus.getId());
-			
-		}
-		/*
-		 * Wenn is_a ein Freitext ist, wird ein Freitext erstellt. Der String "string" ist dabei der Inhalt des Freitextes
-		 * z.B. "Ich mag Hunde"
-		 */
-		else if (is_a == "freitext"){
-			Freitext f = this.createFreitext(string);
-			eig.setFreitextID(f.getId());
-		}
+		
+		
+		
 		
 		this.eiMapper.insertEigenschaft(eig);
 		
@@ -522,8 +542,8 @@ public ArrayList<Profil> getNotSeenSuchProfilErgebnisse(Suchprofil suchprofil) t
 		 * löschen bevor Eigenschaft gelöscht werden kann
 		 */
 		
-		Auswahl auswahl = this.findAuswahlOf(eigenschaft);
-		Freitext freitext = this.findFreitextOf(eigenschaft);
+		Auswahl auswahl = this.findAuswahlOf(null);
+		Freitext freitext = this.findFreitextOf(null);
 		
 		if (auswahl != null){
 			this.deleteAuswahl(auswahl);
@@ -564,7 +584,7 @@ public ArrayList<Profil> getNotSeenSuchProfilErgebnisse(Suchprofil suchprofil) t
 	@Override
 	public Freitext getFreitext(Eigenschaft eigenschaft) throws IllegalArgumentException {
 
-		return this.fMapper.findFreitextOfEigenschaft(eigenschaft);
+		return this.fMapper.findFreitextOfInfo(null);
 	}
 
 	@Override
@@ -683,25 +703,25 @@ public ArrayList<Profil> getNotSeenSuchProfilErgebnisse(Suchprofil suchprofil) t
   }
 
   @Override
-  public Freitext findFreitextOf(Eigenschaft eigenschaft)
+  public Freitext findFreitextOf(Info info)
       throws IllegalArgumentException {
 	  
 	/**
 	 * Gibt den Freitext einer Eigenschaft über den Fremdschlüssel zurück
 	 */
 	  
-    return this.fMapper.findFreitextOfEigenschaft(eigenschaft);
+    return this.fMapper.findFreitextOfInfo(info);
   }
   
   @Override
-  public Auswahl findAuswahlOf(Eigenschaft eigenschaft)
+  public Auswahl findAuswahlOf(Info info)
       throws IllegalArgumentException {
 
 	  /**
 	   * Gibt eine Auswahl aus einer Eigenschaft zurück
 	   */
 	  
-	  return this.aMapper.findAuswahlOf(eigenschaft);
+	  return this.aMapper.findAuswahlOf(info);
   }
 
   @Override

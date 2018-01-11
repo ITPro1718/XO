@@ -10,6 +10,7 @@ import java.util.List;
 import de.hdm.partnerboerse.shared.bo.Auswahl;
 import de.hdm.partnerboerse.shared.bo.Eigenschaft;
 import de.hdm.partnerboerse.shared.bo.Element;
+import de.hdm.partnerboerse.shared.bo.Info;
 
 /**
  * Diese Mapper Klasse dient zur Abbildung von {@link Auswahl} Objekten auf eine
@@ -205,13 +206,13 @@ public class AuswahlMapper {
 	 * @param eigenschaft
 	 * @return
 	 */
-	public Auswahl findAuswahlOf(Eigenschaft eigenschaft) {
+	public Auswahl findAuswahlOf(Info info) {
 		Connection con = DBConnection.getConnection();
 
 		try {
 			Statement stmt = con.createStatement();
 
-			ResultSet rs = stmt.executeQuery("SELECT * FROM auswahl WHERE id=" + eigenschaft.getAuswahlID());
+			ResultSet rs = stmt.executeQuery("SELECT * FROM auswahl WHERE id=" + info.getAuswahlID());
 
 			if (rs.next()) {
 				Auswahl a = new Auswahl();
