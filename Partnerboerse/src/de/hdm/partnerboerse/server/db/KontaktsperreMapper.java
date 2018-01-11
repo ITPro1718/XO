@@ -84,7 +84,7 @@ public class KontaktsperreMapper {
 	}
 
 	/**
-	 * Gibt eine Kontaktsperre zur�ck per ID (Prim�rschl�ssel)
+	 * Gibt eine Kontaktsperre zurück per ID (Primärschlüssel)
 	 * 
 	 * @param id
 	 * @return
@@ -110,10 +110,9 @@ public class KontaktsperreMapper {
 		}
 		return null;
 	}
-	
 
 	/**
-	 * Gibt alle Kontaktsperren-Eintr�ge zur�ck
+	 * Gibt alle Kontaktsperren-Einträge zurück
 	 * 
 	 * @return
 	 */
@@ -125,7 +124,7 @@ public class KontaktsperreMapper {
 
 			Statement stmt = con.createStatement();
 
-			ResultSet rs = stmt.executeQuery("SELECT * FROM kontaktsperre" + "ORDER BY id");
+			ResultSet rs = stmt.executeQuery("SELECT * FROM kontaktsperre ORDER BY id");
 
 			while (rs.next()) {
 

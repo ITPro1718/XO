@@ -81,7 +81,7 @@ public class ProfilMapperTest {
 		profil.setNachname("Horst");
 		profil.setVorname("Willie");
 		profil.setHaarfarbe("gelb");
-		// profil.setGeburtsdatum(2000-07-03);
+		// profil.setGeburtsdatum(2000-06-11);
 		profil.setKoerpergroesse(156);
 		profil.setRaucher(false);
 		profil.setReligion("katholisch");
