@@ -12,7 +12,9 @@ import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
 public class EditKontaktsperre extends VerticalPanel {
 
 	private final PartnerboerseAdministrationAsync partnerAdmin = GWT.create(PartnerboerseAdministration.class);
-
+	
+	Button deleteButton = new Button("Profil entsperren");
+	
 	/**
 	 * Aufbau Kontaktsperrenliste mit Editierfunktion
 	 */
@@ -24,8 +26,7 @@ public class EditKontaktsperre extends VerticalPanel {
 		FlexTable kontaktsperreGrid = new FlexTable();
 		kontaktsperreGrid.setStyleName("kstable");
 		this.add(kontaktsperreGrid);
-		
-		Button deleteButton = new Button("Profil entsperren");
+
 
 		// Zeile 1
 		kontaktsperreGrid.setText(0, 0, "Vorname");

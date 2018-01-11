@@ -13,6 +13,9 @@ public class EditMerkliste extends VerticalPanel {
 
 	private final PartnerboerseAdministrationAsync partnerAdmin = GWT.create(PartnerboerseAdministration.class);
 
+	
+	Button deleteButton = new Button("Profil löschen");
+	
 	/**
 	 * Aufbau Merkzettelseite mit Editierfunktion
 	 */
@@ -25,8 +28,7 @@ public class EditMerkliste extends VerticalPanel {
 		FlexTable merklisteGrid = new FlexTable();
 		merklisteGrid.setStyleName("mltable");
 		this.add(merklisteGrid);
-		
-		Button deleteButton = new Button("Profil löschen");
+
 
 		// Zeile 1
 		merklisteGrid.setText(0, 0, "Vorname");

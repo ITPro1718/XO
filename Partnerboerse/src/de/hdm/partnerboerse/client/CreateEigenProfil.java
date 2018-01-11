@@ -135,14 +135,14 @@ public class CreateEigenProfil extends VerticalPanel {
 		     * HorizontalPanel profilButtonsPanel = new HorizontalPanel(); profilGrid.setWidget(4, 1,
 		     * profilButtonsPanel);
 		     * 
-		     * Button changeButton = new Button("Name ändern"); changeButton.addClickHandler(new
+		     * Button changeButton = new Button("Name Ã¤ndern"); changeButton.addClickHandler(new
 		     * ChangeClickHandler()); profilButtonsPanel.add(changeButton);
 		     * 
 		     * Button searchButton = new Button("Suchen"); profilButtonsPanel.add(searchButton);
 		     */
 
 		    /*
-		     * Button zum Speichern des eigenen geändertem Profils
+		     * Button zum Speichern des eigenen geÃ¤ndertem Profils
 		     */
 		    safeButton.addClickHandler(new ClickHandler() {
 
@@ -153,8 +153,8 @@ public class CreateEigenProfil extends VerticalPanel {
 		      }
 
 		      private void updateProfileOnServer() {
-		        // ToDo Profil darf nicht Übergabeparameter sein, um sein Profil zu bekommen. Muss später
-		        // Abgeändert werden
+		        // ToDo Profil darf nicht Ãœbergabeparameter sein, um sein Profil zu bekommen. Muss spÃ¤ter
+		        // AbgeÃ¤ndert werden
 		        Profil setProfil = getProfileValuesFromFormular();
 
 		        partnerAdmin.updateProfil(setProfil, new AsyncCallback<Void>() {
@@ -178,8 +178,8 @@ public class CreateEigenProfil extends VerticalPanel {
 		  }
 
 		  /*
-		   * Werte aus den geänderten Formularen wird ausgelesen und in ein Profil gespeichert
-		   * und zurück gegeben
+		   * Werte aus den geÃ¤nderten Formularen wird ausgelesen und in ein Profil gespeichert
+		   * und zurÃ¼ck gegeben
 		   */
 		  private Profil getProfileValuesFromFormular() {
 
@@ -194,7 +194,7 @@ public class CreateEigenProfil extends VerticalPanel {
 		     */
 		    int heightConvert = Integer.parseInt(heightTextBox.getValue());
 
-		    //ToDo: setId muss raus, sobald Google Login Implementiert ist und Übergabeparameter stimmt.
+		    //ToDo: setId muss raus, sobald Google Login Implementiert ist und Ãœbergabeparameter stimmt.
 		    setProfil.setId(1);
 		    setProfil.setVorname(vnameTextBox.getValue());
 		    setProfil.setNachname(lnameTextBox.getValue());
