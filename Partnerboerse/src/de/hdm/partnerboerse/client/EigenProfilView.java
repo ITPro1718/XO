@@ -29,7 +29,7 @@ public class EigenProfilView extends VerticalPanel {
   String lnameLabel = new String("Nachname: ");
   String bdayLabel = new String("Geburtstag: ");
   String hcolorLabel = new String("Haarfarbe: ");
-  String heightLabel = new String("Größe " + "(in cm): ");
+  String heightLabel = new String("Größe (in cm): ");
   String smokerLabel = new String("Raucher: ");
   String religionLabel = new String("Religion: ");
 
@@ -115,7 +115,7 @@ public class EigenProfilView extends VerticalPanel {
 
     // Spalte 3
     profilGrid.setText(3, 1, heightLabel);
-    profilGrid.setText(3, 1, String.valueOf(meinProfil.getKoerpergroesse()));
+    profilGrid.setText(3, 2, String.valueOf(meinProfil.getKoerpergroesse()));
 
     profilGrid.setText(3, 3, smokerLabel);
     profilGrid.setText(3, 4, String.valueOf(meinProfil.isRaucher()));
