@@ -1,6 +1,7 @@
 package de.hdm.partnerboerse.test.server.db;
 
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
@@ -54,15 +55,33 @@ public class ProfilMapperTest {
 
 	}
 
+	@Test
+	public void testDeleteProfil() {
+		ProfilMapper mapper = ProfilMapper.profilMapper();
+		Profil profil = getTestProfilObjekt();
+
+		List<Profil> allProfil = mapper.findAllProfiles();
+		if (!allProfil.isEmpty()) {
+			int zuloeschendeId = allProfil.get(0).getId();
+			mapper.delete(profil);
+			assertNull(mapper.findProfilByKey(zuloeschendeId));
+
+			mapper.insert(profil);
+		}
+	}
+
 	private Profil getTestProfilObjekt() {
 		Profil profil = new Profil();
 
+		// SimpleDateFormat date = new SimpleDateFormat("yyyy-mm-dd");
+
 		profil.setId(1);
-		profil.setEmail("hallo@www.de");
+		profil.setEmail("hello@horst.de");
 		profil.setPasswort("passwort123");
 		profil.setNachname("Horst");
 		profil.setVorname("Willie");
 		profil.setHaarfarbe("gelb");
+		// profil.setGeburtsdatum(2000-07-03);
 		profil.setKoerpergroesse(156);
 		profil.setRaucher(false);
 		profil.setReligion("katholisch");
