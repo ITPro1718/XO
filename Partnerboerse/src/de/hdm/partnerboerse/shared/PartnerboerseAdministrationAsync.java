@@ -113,6 +113,8 @@ public interface PartnerboerseAdministrationAsync {
 	void getNotSeenSuchProfilErgebnisse(Suchprofil suchprofil, AsyncCallback<ArrayList<Profil>> callback);
 
 	void getProfilByID(int id, AsyncCallback<Profil> callback);
+	
+	void getProfilByEmail(String email, AsyncCallback<Profil> callback);
 
 	void getProfilByName(String name, AsyncCallback<ArrayList<Profil>> callback);
 

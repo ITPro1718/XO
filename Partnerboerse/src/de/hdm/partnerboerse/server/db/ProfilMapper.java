@@ -1,7 +1,6 @@
 package de.hdm.partnerboerse.server.db;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -46,8 +45,6 @@ public class ProfilMapper {
 		return profilMapper;
 	}
 
-   	
-
 	/**
 	 * Suchen eines Profils anhand seiner ID
 	 * 
@@ -58,7 +55,6 @@ public class ProfilMapper {
 	public Profil findProfilByKey(int id) {
 		// DB-Verbindung holen
 		Connection con = DBConnection.getConnection();
-
 
 		try {
 
@@ -82,6 +78,51 @@ public class ProfilMapper {
 				p.setNachname(rs.getString("nachname"));
 				p.setEmail(rs.getString("email"));
 				p.setPasswort(rs.getString("passwort"));
+				// TODO: Datum von java.sql.date in java.util date umwandeln
+				p.setGeburtsdatum(rs.getDate("geburtstag"));
+				p.setRaucher(rs.getBoolean("raucher"));
+				p.setHaarfarbe(rs.getString("haarfarbe"));
+				p.setKoerpergroesse(rs.getInt("koerpergroesse"));
+				p.setReligion(rs.getString("religion"));
+				return p;
+			}
+		}
+		// Exception abfangen
+		catch (SQLException e2) {
+			e2.printStackTrace();
+			return null;
+		}
+
+		return null;
+	}
+
+	public Profil findProfilByEmail(String email) {
+		// DB-Verbindung holen
+		Connection con = DBConnection.getConnection();
+
+		try {
+
+			// PreparedStatement anlegen, welches den SQL Befehl enthült
+			PreparedStatement stmt = con.prepareStatement("SELECT * FROM profil WHERE email =?");
+
+			// Platzhalter (Fragezeichen) mit Werten befüllen
+			stmt.setString(1, email);
+
+			// Query ausführen und Rückgabe dem ResultSet rs zuweisen
+			ResultSet rs = stmt.executeQuery();
+
+			/*
+			 * Tupel aus der Datenbank abfangen
+			 */
+			if (rs.next()) {
+				// Ergebnis-Tupel in Objekt umwandeln und durch Setter befüllen.
+				Profil p = new Profil();
+				p.setId(rs.getInt("id"));
+				p.setVorname(rs.getString("vorname"));
+				p.setNachname(rs.getString("nachname"));
+				p.setEmail(rs.getString("email"));
+				p.setPasswort(rs.getString("passwort"));
+				// TODO: Datum von java.sql.date in java.util date umwandeln
 				p.setGeburtsdatum(rs.getDate("geburtstag"));
 				p.setRaucher(rs.getBoolean("raucher"));
 				p.setHaarfarbe(rs.getString("haarfarbe"));
@@ -205,17 +246,16 @@ public class ProfilMapper {
 				profil.setId(rs.getInt("maxid") + 1);
 				stmt = con.createStatement();
 
-	            java.util.Date utilDate = profil.getGeburtsdatum();
-	            java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-				
+				java.util.Date utilDate = profil.getGeburtsdatum();
+				java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+
 				Statement stmt1 = con.createStatement();
 				stmt1.executeUpdate(
 						"INSERT INTO profil (id, email, passwort, vorname, nachname, geburtstag, haarfarbe, koerpergroesse, raucher, religion) "
 								+ "VALUES (" + profil.getId() + "," + profil.getEmail() + "," + profil.getPasswort()
-								+ "," + profil.getVorname() + "," + profil.getNachname() + ","
-								+ sqlDate + "," + profil.getHaarfarbe() + ","
-								+ (int) profil.getKoerpergroesse() + "," + profil.isRaucher() + ","
-								+ profil.getReligion() + ")");
+								+ "," + profil.getVorname() + "," + profil.getNachname() + "," + sqlDate + ","
+								+ profil.getHaarfarbe() + "," + (int) profil.getKoerpergroesse() + ","
+								+ profil.isRaucher() + "," + profil.getReligion() + ")");
 
 			}
 		} catch (SQLException e) {
@@ -234,9 +274,9 @@ public class ProfilMapper {
 		Connection con = DBConnection.getConnection();
 
 		try {
-		  
-	        java.util.Date utilDate = p.getGeburtsdatum();
-	        java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+
+			java.util.Date utilDate = p.getGeburtsdatum();
+			java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
 
 			// PreparedStatement inkl. SQL Befehl erstellen
 			PreparedStatement stmt = con
@@ -252,8 +292,8 @@ public class ProfilMapper {
 			stmt.setBoolean(8, p.isRaucher());
 			stmt.setString(9, p.getReligion());
 			stmt.setInt(10, p.getId());
-			
-		     stmt.executeUpdate();
+
+			stmt.executeUpdate();
 
 		} catch (SQLException e2) {
 			e2.printStackTrace();

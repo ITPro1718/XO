@@ -82,11 +82,9 @@ public class Navigation extends VerticalPanel {
             
             EigenProfilView epv = new EigenProfilView();
             
-            HTMLPanel eigenProfilViewPanel = new HTMLPanel(
-                "<h3>" + "Hier können Sie ihr Profil sehen." + "</h3>");
-            
-
+            HTMLPanel eigenProfilViewPanel = new HTMLPanel("<h3>" + "Hier können Sie ihr Profil sehen." + "</h3>");
             eigenProfilViewPanel.add(epv);
+            
             RootPanel.get("contwrap").clear();
             RootPanel.get("contwrap").add(eigenProfilViewPanel);
                      
@@ -101,7 +99,13 @@ public class Navigation extends VerticalPanel {
           @Override
           public void onClick(ClickEvent event) {
             
-            Window.alert("Clickhandler Logik muss noch erstellt werden, sobald View erstellt wurde");
+            EditMerkliste em = new EditMerkliste();
+            
+            HTMLPanel emPanel = new HTMLPanel("<h3>" + "Hier können Sie ihre Merkliste editieren" + "</h3>");
+            emPanel.add(em);
+            
+            RootPanel.get("contwrap").clear();
+            RootPanel.get("contwrap").add(emPanel);
             
           }
         });
@@ -114,7 +118,16 @@ public class Navigation extends VerticalPanel {
           @Override
           public void onClick(ClickEvent event) {
             
-            Window.alert("Clickhandler Logik muss noch erstellt werden, sobald View erstellt wurde");
+            EditKontaktsperre ep = new EditKontaktsperre();
+            
+            HTMLPanel epPanel = new HTMLPanel("<h3>" + "Hier können Sie ihre Kontaktsperren editieren" + "</h3>");
+            epPanel.add(ep);
+            
+            RootPanel.get("contwrap").clear();
+            RootPanel.get("contwrap").add(epPanel);
+            
+            
+            
             
           }
         });
@@ -124,7 +137,7 @@ public class Navigation extends VerticalPanel {
           @Override
           public void onClick(ClickEvent event) {
             
-            Searchprofile sp = new Searchprofile();
+            EditSuchprofil sp = new EditSuchprofil();
             
             HTMLPanel spPanel = new HTMLPanel("<h3>" + "Hier können Sie Ihr Suchprofil erstellen." + "</h3>");
             spPanel.add(sp);

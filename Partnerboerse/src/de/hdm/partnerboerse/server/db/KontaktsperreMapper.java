@@ -65,7 +65,7 @@ public class KontaktsperreMapper {
 	}
 
 	/**
-	 * L�scht einen KontaktsperrenEintrag in der DB
+	 * Löscht einen KontaktsperrenEintrag in der DB
 	 * 
 	 * @param kontaktsperre
 	 * @return
@@ -76,7 +76,7 @@ public class KontaktsperreMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			stmt.executeUpdate("DELETE FROM kontaktsperre" + "WHERE id=" + kontaktsperre.getId());
+			stmt.executeUpdate("DELETE FROM kontaktsperre WHERE id=" + kontaktsperre.getId());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -84,7 +84,7 @@ public class KontaktsperreMapper {
 	}
 
 	/**
-	 * Gibt eine Kontaktsperre zur�ck per ID (Prim�rschl�ssel)
+	 * Gibt eine Kontaktsperre zurück per ID (Primärschlüssel)
 	 * 
 	 * @param id
 	 * @return
@@ -95,7 +95,7 @@ public class KontaktsperreMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			ResultSet rs = stmt.executeQuery("SELECT * FROM kontaktsperre" + "WHERE id=" + id);
+			ResultSet rs = stmt.executeQuery("SELECT * FROM kontaktsperre WHERE id=" + id);
 			if (rs.next()) {
 				Kontaktsperre k = new Kontaktsperre();
 				k.setId(id);
@@ -112,7 +112,7 @@ public class KontaktsperreMapper {
 	}
 
 	/**
-	 * Gibt alle Kontaktsperren-Eintr�ge zur�ck
+	 * Gibt alle Kontaktsperren-Einträge zurück
 	 * 
 	 * @return
 	 */
@@ -124,7 +124,7 @@ public class KontaktsperreMapper {
 
 			Statement stmt = con.createStatement();
 
-			ResultSet rs = stmt.executeQuery("SELECT * FROM kontaktsperre" + "ORDER BY id");
+			ResultSet rs = stmt.executeQuery("SELECT * FROM kontaktsperre ORDER BY id");
 
 			while (rs.next()) {
 
