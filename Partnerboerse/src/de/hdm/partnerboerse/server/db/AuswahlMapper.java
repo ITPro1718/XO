@@ -9,7 +9,6 @@ import java.util.List;
 
 import de.hdm.partnerboerse.shared.bo.Auswahl;
 import de.hdm.partnerboerse.shared.bo.Eigenschaft;
-import de.hdm.partnerboerse.shared.bo.Element;
 import de.hdm.partnerboerse.shared.bo.Info;
 
 /**
@@ -172,34 +171,6 @@ public class AuswahlMapper {
 		return result;
 	}
 	
-	public ArrayList<Element> findElementOf(Auswahl auswahl){
-		 ArrayList<Element> result = new ArrayList<Element>();
-
-			Connection con = DBConnection.getConnection();
-			try {
-				
-				Statement stmt = con.createStatement();
-
-				ResultSet rs = stmt.executeQuery("SELECT * FROM element"+ "WHERE auswahlID=" + auswahl.getId());
-
-				
-				while (rs.next()) {
-					Element e = new Element();
-					e.setId(rs.getInt("id"));
-					e.setBezeichnung(rs.getString("bezeichnung"));
-					e.setAuswahlID(rs.getInt("auswahlID"));
-
-					
-					result.add(e);
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-
-			
-			return result;
-	}
-
 	/**
 	 * Gibt eine Auswahl aus einer Eigenschaft aus
 	 * 
