@@ -33,7 +33,7 @@ public class Editor implements EntryPoint {
 	Navigation nav = new Navigation();
 	EigenProfilView epv = new EigenProfilView();
 	EditProfile ep = new EditProfile();
-	Searchprofile sp = new Searchprofile();
+	EditSuchprofil sp = new EditSuchprofil();
 
 	@Override
 	public void onModuleLoad() {
