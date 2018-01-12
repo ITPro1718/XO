@@ -40,11 +40,11 @@ public class Editor implements EntryPoint {
 		RootPanel.get("navwrap").add(nav);
 
 		// Profile Edit - Panel wird erzeugt und eingefügt.
-		HTMLPanel editProfilePanel = new HTMLPanel(
-				"<h3>" + "Hier können Sie ihre Profilinformationen bearbeiten." + "</h3>");
-		editProfilePanel.add(ep);
-
-		RootPanel.get("contwrap").add(editProfilePanel);
+//		HTMLPanel editProfilePanel = new HTMLPanel(
+//				"<h3>" + "Hier können Sie ihre Profilinformationen bearbeiten." + "</h3>");
+//		editProfilePanel.add(ep);
+//
+//		RootPanel.get("contwrap").add(editProfilePanel);
 
 		// Search Profile
 
