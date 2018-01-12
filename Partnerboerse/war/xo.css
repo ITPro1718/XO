@@ -149,6 +149,17 @@ table.etable {
 table.etable td {
     padding: 10px;
 }
+.desctable td:first-child {
+    width: 23%;
+}
+.desctable {
+    margin-left: 45px;
+}
+.desctable textarea{
+	width:400px;
+	height:50px;
+}
+
 
 /*REPORT AREA*/
 .rtable {
@@ -165,4 +176,28 @@ table.etable td {
     font-size: 14px;
 }
 
+/*************************************************
+MEDIA QUERRIES
+*************************************************/
+@media screen 
+  and (min-device-width: 1430px) 
+  and (max-device-width: 1900px) { 
+  	#contwrap {
+		width: 81%;
+	}
+	.button {
+    width: 90%;
+	}
+}
+
+@media screen 
+  and (min-device-width: 1000px) 
+  and (max-device-width: 1429px) { 
+  	#contwrap {
+		width: 80%;
+	}
+	.button {
+    width: 85%;
+	}
+}
 

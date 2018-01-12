@@ -14,13 +14,14 @@ import com.google.appengine.api.utils.SystemProperty;
 
 public class DBConnection {
 		
+
 	private static Connection con = null;
 	
 	private static String localurl = "jdbc:mysql://localhost:3306/partnerboerse?user=root&password=";
 	private static String googleurl = "jdbc:google:mysql://testprojekt-187820:testprojekt/partnerboerse?user=root&password=123";
 	private static String url;
 
-
+	
 	
 	public static Connection getConnection() {
 		// Wenn es bisher keine Conncetion zur DB gab, ... 
@@ -34,7 +35,7 @@ public class DBConnection {
 					url = googleurl;
 					} 
 				else {
-					  // Local MySQL instance to use during development.
+					 // Local MySQL instance to use during development.
 					 
 					  url = localurl;
 					}
