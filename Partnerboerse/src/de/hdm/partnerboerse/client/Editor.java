@@ -8,6 +8,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -39,11 +40,11 @@ public class Editor implements EntryPoint {
 		RootPanel.get("navwrap").add(nav);
 
 		// Profile Edit - Panel wird erzeugt und eingefügt.
-//		HTMLPanel editProfilePanel = new HTMLPanel(
-//				"<h3>" + "Hier können Sie ihre Profilinformationen bearbeiten." + "</h3>");
-//		editProfilePanel.add(ep);
-//
-//		RootPanel.get("contwrap").add(editProfilePanel);
+		HTMLPanel editProfilePanel = new HTMLPanel(
+				"<h3>" + "Hier können Sie ihre Profilinformationen bearbeiten." + "</h3>");
+		editProfilePanel.add(ep);
+
+		RootPanel.get("contwrap").add(editProfilePanel);
 
 		// Search Profile
 
