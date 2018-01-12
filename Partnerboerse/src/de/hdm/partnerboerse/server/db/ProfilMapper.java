@@ -221,13 +221,17 @@ public class ProfilMapper {
 		return result;
 	}
 	
-  /*
+  /**
    * Lädt alle Profile aus der DB, die zu einer Merkliste gehören
    */
   public ArrayList<Profil> findProfileForMerkliste(Profil eigenProfil) {
     Connection con = DBConnection.getConnection();
     ArrayList<Profil> results = new ArrayList<>();
 
+    /**
+     * Select Befehl holt alle Profile, die sich auf dem Merkzettel befinden.
+     * Zusätzlich werden alle Profile rausgenommen, die sich auf irgendeiner Sperrliste befinden. 
+     */
     try (PreparedStatement stmt = con.prepareStatement("SELECT p.* FROM profil p "
         + "JOIN merkzettel m ON p.id = m.fpID "
         + "LEFT JOIN kontaktsperre k ON p.id = k.epID "
