@@ -1,12 +1,16 @@
 package de.hdm.partnerboerse.client;
 
+import java.util.ArrayList;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
+import de.hdm.partnerboerse.shared.bo.Profil;
 
 public class EditKontaktsperre extends VerticalPanel {
 
@@ -38,7 +42,40 @@ public class EditKontaktsperre extends VerticalPanel {
   }
 
   private void loadKontaktsperreFromServer() {
-    // TODO Auto-generated method stub
+    
+    // TODO Simon-Profil rausnehmen, sobald Login implementiert ist
+    Profil simonProfil = new Profil();
+    simonProfil.setId(1);
+    
+    partnerAdmin.getProfileForKontaktsperre(simonProfil, new AsyncCallback<ArrayList<Profil>>() {
+      
+      @Override
+      public void onSuccess(ArrayList<Profil> result) {
+        loadEditKontaktsperreView(result);
+        
+      }
+
+      @Override
+      public void onFailure(Throwable caught) {
+        Window.alert("Kontaktsperre konnte nicht geladen werden");
+        
+      }
+    });
+    
+  }
+  
+  private void loadEditKontaktsperreView(ArrayList<Profil> result) {
+
+    for (Profil p: result) {
+
+      int row = kontaktsperreGrid.getRowCount();
+
+
+      kontaktsperreGrid.setText(row, 0, p.getVorname());
+      kontaktsperreGrid.setText(row, 1, p.getNachname());
+      kontaktsperreGrid.setText(row, 2, p.getEmail());
+
+   }
     
   }
 

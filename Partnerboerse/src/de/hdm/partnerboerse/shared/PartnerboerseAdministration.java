@@ -459,4 +459,6 @@ public interface PartnerboerseAdministration extends RemoteService {
 
 	public ArrayList<Profil> getProfileForMerkzettel(Profil eigenProfil) throws IllegalArgumentException;
 	
+	public ArrayList<Profil> getProfileForKontaktsperre(Profil eigenProfil) throws IllegalArgumentException;
+	
 }

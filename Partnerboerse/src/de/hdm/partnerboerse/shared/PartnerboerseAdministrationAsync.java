@@ -129,6 +129,10 @@ public interface PartnerboerseAdministrationAsync {
 
 	void updateSuchprofil(Suchprofil suchprofil, AsyncCallback<Void> callback);
 
-    void getProfileForMerkzettel(Profil eigenProfil, AsyncCallback<ArrayList<Profil>> callback);
+    void getProfileForMerkzettel(Profil eigenProfil,
+        AsyncCallback<ArrayList<Profil>> callback);
+
+    void getProfileForKontaktsperre(Profil eigenProfil,
+        AsyncCallback<ArrayList<Profil>> callback);
 
 }

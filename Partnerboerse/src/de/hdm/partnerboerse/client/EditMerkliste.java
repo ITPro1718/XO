@@ -46,7 +46,7 @@ public class EditMerkliste extends VerticalPanel {
   //ToDo: Methode muss geändert 
   private void loadMerklisteFromServer() {
     
-    //ToDo: muss raus, sobald Login implementiert ist.
+    // TODO Simon-Profil rausnehmen, sobald Login implementiert ist
     Profil simonProfil = new Profil();
     simonProfil.setId(1);
 
@@ -65,8 +65,10 @@ public class EditMerkliste extends VerticalPanel {
       }});
   }
   
-  private void loadEditMerklisteView(ArrayList<Profil> result) {
-    
+  /*
+   * Schleife setzt alle Profile in das Flextable (merklisteGrid)
+   */
+  private void loadEditMerklisteView(ArrayList<Profil> result) {    
     
     for (Profil p: result) {
 

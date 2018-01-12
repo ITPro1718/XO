@@ -222,9 +222,8 @@ public class ProfilMapper {
 	}
 	
   /*
-   * Lädt alle Profile aus der DB, die zu einem Profil gehören
+   * Lädt alle Profile aus der DB, die zu einer Merkliste gehören
    */
-  // ToDo:
   public ArrayList<Profil> findProfileForMerkliste(Profil eigenProfil) {
     Connection con = DBConnection.getConnection();
     ArrayList<Profil> results = new ArrayList<>();
@@ -234,11 +233,7 @@ public class ProfilMapper {
 
       stmt.setString(1, Integer.toString(eigenProfil.getId()));
 
-      profileForMerkliste(results, stmt);
-      
-      for(Profil p: results) {
-        System.out.println(p.getVorname());
-      }
+      setProfilInArray(results, stmt);
 
     } catch (SQLException e) {
       e.printStackTrace();
@@ -247,10 +242,11 @@ public class ProfilMapper {
   }
 
   /**
-   * @param result
-   * @param stmt Methode gehort zu findProfileForMerkliste
+   * @param results
+   * @param stmt 
+   * Methode ordnet eine Menge von Profilen in ein ArrayList zu
    */
-  private void profileForMerkliste(ArrayList<Profil> result, PreparedStatement stmt) {
+  private void setProfilInArray(ArrayList<Profil> results, PreparedStatement stmt) {
 
     try (ResultSet rs = stmt.executeQuery();) {
 
@@ -270,7 +266,7 @@ public class ProfilMapper {
         p.setReligion(rs.getString("religion"));
 
         // Hinzufügen des neuen Objekts zum Ergebnisarraylist
-        result.add(p);
+        results.add(p);
       }
 
     } catch (SQLException e) {
@@ -278,7 +274,30 @@ public class ProfilMapper {
     }
   }
 
-	/**
+  /*
+   * Lädt alle Profile aus der DB, die zu einer Kontaktsperre gehören
+   */
+  public ArrayList<Profil> findProfileForKontaktsperre(Profil eigenProfil) {
+    
+    Connection con = DBConnection.getConnection();
+    ArrayList<Profil> results = new ArrayList<>();
+    
+    try(PreparedStatement stmt = con.prepareStatement("SELECT p.* FROM profil p "
+        + "JOIN kontaktsperre k ON p.id = k.fpID WHERE k.epID = ? ORDER BY p.vorname")) {
+      
+      stmt.setString(1, Integer.toString(eigenProfil.getId()));
+      
+      setProfilInArray(results, stmt);
+      
+      
+    } catch (SQLException e) {
+
+    }
+    return results;
+    
+  }
+
+  /**
 	 * Einfügen eines Profils in die Datenbank
 	 * 
 	 * @param p
@@ -379,4 +398,5 @@ public class ProfilMapper {
 			e2.printStackTrace();
 		}
 	}
+
 }

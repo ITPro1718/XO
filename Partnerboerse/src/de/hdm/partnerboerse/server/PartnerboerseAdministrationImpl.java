@@ -199,6 +199,14 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
       return this.pMapper.findProfileForMerkliste(eigenProfil);   
       
     }
+	
+	@Override
+	public ArrayList<Profil> getProfileForKontaktsperre(Profil eigenProfil)
+	    throws IllegalArgumentException {
+	  
+	  return this.pMapper.findProfileForKontaktsperre(eigenProfil);
+	  
+	}
 
 	public ArrayList<Profil> getAllProfils() throws IllegalArgumentException {
 		
