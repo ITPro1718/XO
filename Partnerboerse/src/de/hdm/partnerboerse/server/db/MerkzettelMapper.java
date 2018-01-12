@@ -122,7 +122,7 @@ public class MerkzettelMapper {
 
 			Statement stmt = con.createStatement();
 
-			ResultSet rs = stmt.executeQuery("SELECT * FROM merkzettel" + "ORDER BY id");
+			ResultSet rs = stmt.executeQuery("SELECT * FROM merkzettel ORDER BY id");
 
 			while (rs.next()) {
 				Merkzettel m = new Merkzettel();

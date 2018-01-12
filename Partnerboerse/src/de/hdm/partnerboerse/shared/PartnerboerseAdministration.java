@@ -480,7 +480,9 @@ public interface PartnerboerseAdministration extends RemoteService {
 	
 	public void deleteElementAuswahl(Auswahl auswahl) throws IllegalArgumentException;
 	
-	public void createElementAuswahl(int id, String bezeichnung, Auswahl auswahl) throws IllegalArgumentException;	
+	public void createElementAuswahl(int id, String bezeichnung, Auswahl auswahl) throws IllegalArgumentException;
+
+	public ArrayList<Profil> getProfileForMerkzettel(Profil eigenProfil) throws IllegalArgumentException;
 	
 	
 

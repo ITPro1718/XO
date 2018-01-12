@@ -140,4 +140,6 @@ public interface PartnerboerseAdministrationAsync {
 
 	void createElementAuswahl(int id, String bezeichnung, Auswahl auswahl, AsyncCallback<Void> callback);
 
+    void getProfileForMerkzettel(Profil eigenProfil, AsyncCallback<ArrayList<Profil>> callback);
+
 }

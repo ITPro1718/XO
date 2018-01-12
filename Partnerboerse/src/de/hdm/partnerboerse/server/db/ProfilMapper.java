@@ -1,13 +1,11 @@
 package de.hdm.partnerboerse.server.db;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-
 import de.hdm.partnerboerse.shared.bo.Profil;
 
 /**
@@ -225,6 +223,63 @@ public class ProfilMapper {
 		// Ergebnisvektor zurückgeben
 		return result;
 	}
+	
+  /*
+   * Lädt alle Profile aus der DB, die zu einem Profil gehören
+   */
+  // ToDo:
+  public ArrayList<Profil> findProfileForMerkliste(Profil eigenProfil) {
+    Connection con = DBConnection.getConnection();
+    ArrayList<Profil> results = new ArrayList<>();
+
+    try (PreparedStatement stmt = con.prepareStatement("SELECT p.* FROM profil p "
+        + "JOIN merkzettel m ON p.id = m.fpID " + "WHERE m.epID = ? " + "ORDER BY p.vorname")) {
+
+      stmt.setString(1, Integer.toString(eigenProfil.getId()));
+
+      profileForMerkliste(results, stmt);
+      
+      for(Profil p: results) {
+        System.out.println(p.getVorname());
+      }
+
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return results;
+  }
+
+  /**
+   * @param result
+   * @param stmt Methode gehort zu findProfileForMerkliste
+   */
+  private void profileForMerkliste(ArrayList<Profil> result, PreparedStatement stmt) {
+
+    try (ResultSet rs = stmt.executeQuery();) {
+
+      // Für jeden Eintrag im Suchergebnis wird nun ein Account-Objekt
+      // erstellt.
+      while (rs.next()) {
+        Profil p = new Profil();
+        p.setId(rs.getInt("id"));
+        p.setVorname(rs.getString("vorname"));
+        p.setNachname(rs.getString("nachname"));
+        p.setEmail(rs.getString("email"));
+        p.setPasswort(rs.getString("passwort"));
+        p.setGeburtsdatum(rs.getDate("geburtstag"));
+        p.setRaucher(rs.getBoolean("raucher"));
+        p.setHaarfarbe(rs.getString("haarfarbe"));
+        p.setKoerpergroesse(rs.getInt("koerpergroesse"));
+        p.setReligion(rs.getString("religion"));
+
+        // Hinzufügen des neuen Objekts zum Ergebnisarraylist
+        result.add(p);
+      }
+
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+  }
 
 	/**
 	 * Einfügen eines Profils in die Datenbank
