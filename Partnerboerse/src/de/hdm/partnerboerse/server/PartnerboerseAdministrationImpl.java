@@ -4,10 +4,16 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
-
-import de.hdm.partnerboerse.server.db.*;
+import de.hdm.partnerboerse.server.db.AuswahlMapper;
+import de.hdm.partnerboerse.server.db.BesuchMapper;
+import de.hdm.partnerboerse.server.db.EigenschaftMapper;
+import de.hdm.partnerboerse.server.db.FreitextMapper;
+import de.hdm.partnerboerse.server.db.InfoMapper;
+import de.hdm.partnerboerse.server.db.KontaktsperreMapper;
+import de.hdm.partnerboerse.server.db.MerkzettelMapper;
+import de.hdm.partnerboerse.server.db.ProfilMapper;
+import de.hdm.partnerboerse.server.db.SuchprofilMapper;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
 import de.hdm.partnerboerse.shared.bo.Auswahl;
 import de.hdm.partnerboerse.shared.bo.Besuch;
@@ -182,11 +188,18 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 		return this.pMapper.findProfilByKey(id);
 		
 	}
+	@Override
 	public Profil getProfilByEmail(String email)throws IllegalArgumentException {
 		return this.pMapper.findProfilByEmail(email);
-	}
-
+	}	
+	
 	@Override
+    public ArrayList<Profil> getProfileForMerkzettel(Profil eigenProfil) throws IllegalArgumentException {
+	  
+      return this.pMapper.findProfileForMerkliste(eigenProfil);   
+      
+    }
+
 	public ArrayList<Profil> getAllProfils() throws IllegalArgumentException {
 		
 		return this.pMapper.findAllProfiles();

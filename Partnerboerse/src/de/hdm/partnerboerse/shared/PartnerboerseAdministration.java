@@ -456,4 +456,7 @@ public interface PartnerboerseAdministration extends RemoteService {
 	public Besuch findBesuchByKey(int id) throws IllegalArgumentException;
 	
 	public ArrayList<Besuch> findBesucheOf(Profil profilowner) throws IllegalArgumentException;
+
+	public ArrayList<Profil> getProfileForMerkzettel(Profil eigenProfil) throws IllegalArgumentException;
+	
 }

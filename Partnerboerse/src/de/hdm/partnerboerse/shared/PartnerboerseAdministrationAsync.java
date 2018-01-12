@@ -129,4 +129,6 @@ public interface PartnerboerseAdministrationAsync {
 
 	void updateSuchprofil(Suchprofil suchprofil, AsyncCallback<Void> callback);
 
+    void getProfileForMerkzettel(Profil eigenProfil, AsyncCallback<ArrayList<Profil>> callback);
+
 }

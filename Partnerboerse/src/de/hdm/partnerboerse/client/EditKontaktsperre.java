@@ -5,37 +5,42 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.VerticalPanel;
-
 import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
 
 public class EditKontaktsperre extends VerticalPanel {
 
-	private final PartnerboerseAdministrationAsync partnerAdmin = GWT.create(PartnerboerseAdministration.class);
-	
-	Button deleteButton = new Button("Profil entsperren");
-	
-	/**
-	 * Aufbau Kontaktsperrenliste mit Editierfunktion
-	 */
-	
-	public void onLoad() {
-		HTML kontaktsperre = new HTML("<h3>" + "Kontaktsperrenliste" + "</h3>");
-		kontaktsperre.addStyleName("kswrap");
+  private final PartnerboerseAdministrationAsync partnerAdmin =
+      GWT.create(PartnerboerseAdministration.class);
+  FlexTable kontaktsperreGrid = new FlexTable();
 
-		FlexTable kontaktsperreGrid = new FlexTable();
-		kontaktsperreGrid.setStyleName("kstable");
-		this.add(kontaktsperreGrid);
+  /**
+   * Aufbau Kontaktsperrenliste mit Editierfunktion
+   */
 
+  public void onLoad() {
+    HTML kontaktsperre = new HTML("<h3>" + "Kontaktsperrenliste" + "</h3>");
+    kontaktsperre.addStyleName("kswrap");
 
-		// Zeile 1
-		kontaktsperreGrid.setText(0, 0, "Vorname");
-		kontaktsperreGrid.setText(0, 1, "Nachname");
-		kontaktsperreGrid.setText(0, 2,"E-Mail");
-		kontaktsperreGrid.setWidget(0, 3, deleteButton);
+    kontaktsperreGrid.setStyleName("kstable");
+    this.add(kontaktsperreGrid);
 
+    Button deleteButton = new Button("Profil entsperren");
 
-	}
+    // Zeile 1
+    kontaktsperreGrid.setText(0, 0, "Vorname");
+    kontaktsperreGrid.setText(0, 1, "Nachname");
+    kontaktsperreGrid.setText(0, 2, "E-Mail");
+    kontaktsperreGrid.setWidget(0, 3, deleteButton);
+    
+    loadKontaktsperreFromServer();
+
+  }
+
+  private void loadKontaktsperreFromServer() {
+    // TODO Auto-generated method stub
+    
+  }
 
 
 }
