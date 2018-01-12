@@ -13,7 +13,7 @@ import de.hdm.partnerboerse.shared.bo.Profil;
  * der Datenbank holt und in Objekten speichert. Diese Klasse enth�lt die
  * typischen CRUD-Methoden
  * 
- * @author Burghardt, Mikulic
+ * @author Burghardt, Mikulic, Gundermann
  */
 
 public class ProfilMapper {
@@ -183,7 +183,7 @@ public class ProfilMapper {
 		return result;
 	}
 
-	public ArrayList<Profil> findProfilesByName(String name) {
+	public ArrayList<Profil> findProfileByName(String name) {
 		Connection con = DBConnection.getConnection();
 		ArrayList<Profil> result = new ArrayList<Profil>();
 
@@ -241,6 +241,29 @@ public class ProfilMapper {
     return results;
   }
 
+  /*
+   * Lädt alle Profile aus der DB, die zu einer Kontaktsperre gehören
+   */
+  public ArrayList<Profil> findProfileForKontaktsperre(Profil eigenProfil) {
+    
+    Connection con = DBConnection.getConnection();
+    ArrayList<Profil> results = new ArrayList<>();
+    
+    try(PreparedStatement stmt = con.prepareStatement("SELECT p.* FROM profil p "
+        + "JOIN kontaktsperre k ON p.id = k.fpID WHERE k.epID = ? ORDER BY p.vorname")) {
+      
+      stmt.setString(1, Integer.toString(eigenProfil.getId()));
+      
+      setProfilInArray(results, stmt);
+      
+      
+    } catch (SQLException e) {    
+      e.printStackTrace();
+    }
+    return results;
+    
+  }
+  
   /**
    * @param results
    * @param stmt 
@@ -272,29 +295,6 @@ public class ProfilMapper {
     } catch (SQLException e) {
       e.printStackTrace();
     }
-  }
-
-  /*
-   * Lädt alle Profile aus der DB, die zu einer Kontaktsperre gehören
-   */
-  public ArrayList<Profil> findProfileForKontaktsperre(Profil eigenProfil) {
-    
-    Connection con = DBConnection.getConnection();
-    ArrayList<Profil> results = new ArrayList<>();
-    
-    try(PreparedStatement stmt = con.prepareStatement("SELECT p.* FROM profil p "
-        + "JOIN kontaktsperre k ON p.id = k.fpID WHERE k.epID = ? ORDER BY p.vorname")) {
-      
-      stmt.setString(1, Integer.toString(eigenProfil.getId()));
-      
-      setProfilInArray(results, stmt);
-      
-      
-    } catch (SQLException e) {
-
-    }
-    return results;
-    
   }
 
   /**
@@ -348,15 +348,13 @@ public class ProfilMapper {
 	public void update(Profil p) {
 		Connection con = DBConnection.getConnection();
 
-		try {
+		try(PreparedStatement stmt = con.prepareStatement("UPDATE profil "
+		    + "SET email=?, passwort=?, vorname=?, nachname=?, geburtstag=?,"
+            + "haarfarbe=?, koerpergroesse=?, raucher=?, religion=? WHERE id = ?")) {
 
 			java.util.Date utilDate = p.getGeburtsdatum();
 			java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
 
-			// PreparedStatement inkl. SQL Befehl erstellen
-			PreparedStatement stmt = con
-					.prepareStatement("UPDATE profil SET email=?, passwort=?, vorname=?, nachname=?, geburtstag=?,"
-							+ "haarfarbe=?, koerpergroesse=?, raucher=?, religion=? WHERE id = ?");
 			stmt.setString(1, p.getEmail());
 			stmt.setString(2, p.getPasswort());
 			stmt.setString(3, p.getVorname());
@@ -377,16 +375,13 @@ public class ProfilMapper {
 
 	/**
 	 * Löschen der Daten eines Profils aus der Datenbank
-	 * 
-	 * @param p,
-	 *            das zu löschende Objekt
+	 * @param p ist das zu löschende Objekt
 	 */
 	public void delete(Profil p) {
 		Connection con = DBConnection.getConnection();
 
-		try {
-			// PreparedStatement inkl SQL Befehl erstellen
-			PreparedStatement stmt = con.prepareStatement("DELETE FROM profil WHERE id = ?");
+        // PreparedStatement inkl SQL Befehl erstellen
+		try(PreparedStatement stmt = con.prepareStatement("DELETE FROM profil WHERE id = ?")) {
 
 			// Platzhalter mit ID aus dem Objekt befüllen
 			stmt.setInt(1, p.getId());
@@ -394,8 +389,8 @@ public class ProfilMapper {
 			// Statement ausführen
 			stmt.executeUpdate();
 
-		} catch (SQLException e2) {
-			e2.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 	}
 
