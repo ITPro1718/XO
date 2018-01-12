@@ -229,7 +229,9 @@ public class ProfilMapper {
     ArrayList<Profil> results = new ArrayList<>();
 
     try (PreparedStatement stmt = con.prepareStatement("SELECT p.* FROM profil p "
-        + "JOIN merkzettel m ON p.id = m.fpID " + "WHERE m.epID = ? " + "ORDER BY p.vorname")) {
+        + "JOIN merkzettel m ON p.id = m.fpID "
+        + "LEFT JOIN kontaktsperre k ON p.id = k.epID "
+        + "WHERE m.epID = ? and k.id IS NULL ORDER BY p.vorname")) {
 
       stmt.setString(1, Integer.toString(eigenProfil.getId()));
 
