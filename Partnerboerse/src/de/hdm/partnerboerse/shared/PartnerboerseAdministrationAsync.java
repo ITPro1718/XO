@@ -19,15 +19,17 @@ public interface PartnerboerseAdministrationAsync {
 
 	void berechneAehnlichkeitsmass(Profil source, Suchprofil suchprofil, AsyncCallback<ArrayList<Profil>> callback);
 
-	void createAuswahl(String title, AsyncCallback<Auswahl> callback);
+	void createAuswahl(Auswahl auswahl, AsyncCallback<Auswahl> callback);
 
 	void createBesuch(Profil source, Profil target, AsyncCallback<Void> callback);
 
-	void createEigenschaft(String erlaueterung, Profil profil, AsyncCallback<Void> callback);
+	void createEigenschaftForAuswahl(Profil p, Info i, Auswahl a, AsyncCallback<Void> callback);
 
-	void createFreitext(String text, AsyncCallback<Freitext> callback);
+	void createEigenschaftForFreitext(Profil p, Info i, Freitext f, AsyncCallback<Void> callback);
 
-	void createInfo(String bezeichnung, String is_a, String string, AsyncCallback<Void> callback);
+	void createFreitext(Freitext freitext, AsyncCallback<Freitext> callback);
+
+	void createInfoForFreitext(Info info, Freitext freitext, AsyncCallback<Info> callback);
 
 	void createKontaksperreEintrag(Profil source, Profil target, AsyncCallback<Void> callback);
 
@@ -103,11 +105,15 @@ public interface PartnerboerseAdministrationAsync {
 
 	void getNotSeenSuchProfilErgebnisse(Suchprofil suchprofil, AsyncCallback<ArrayList<Profil>> callback);
 
-	void getProfilByID(int id, AsyncCallback<Profil> callback);
-	
 	void getProfilByEmail(String email, AsyncCallback<Profil> callback);
 
+	void getProfilByID(int id, AsyncCallback<Profil> callback);
+
 	void getProfilByName(String name, AsyncCallback<ArrayList<Profil>> callback);
+
+	void getProfileForKontaktsperre(Profil eigenProfil, AsyncCallback<ArrayList<Profil>> callback);
+
+	void getProfileForMerkzettel(Profil eigenProfil, AsyncCallback<ArrayList<Profil>> callback);
 
 	void getSuchProfilErgebnisse(Suchprofil suchprofil, AsyncCallback<ArrayList<Profil>> callback);
 
@@ -128,11 +134,5 @@ public interface PartnerboerseAdministrationAsync {
 	void updateProfil(Profil p, AsyncCallback<Void> callback);
 
 	void updateSuchprofil(Suchprofil suchprofil, AsyncCallback<Void> callback);
-
-    void getProfileForMerkzettel(Profil eigenProfil,
-        AsyncCallback<ArrayList<Profil>> callback);
-
-    void getProfileForKontaktsperre(Profil eigenProfil,
-        AsyncCallback<ArrayList<Profil>> callback);
 
 }

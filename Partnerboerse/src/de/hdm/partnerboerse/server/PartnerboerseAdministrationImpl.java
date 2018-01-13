@@ -435,45 +435,13 @@ public ArrayList<Profil> getNotSeenSuchProfilErgebnisse(Suchprofil suchprofil) t
 
 
 	@Override
-	public void createInfo(String bezeichnung, String is_a, String string) throws IllegalArgumentException {
+	public Info createInfoForFreitext(Info info, Freitext freitext) throws IllegalArgumentException {
 		
-		Info i = new Info();
-		
-		// id wird vorerst auf 1 gesetzt und im Mapper angepasst.
-		i.setId(1);
-		i.setText(bezeichnung);
-		i.setIs_a(is_a);
-		
-		/**
-		 * Diese Methode erstellt ein Infoobjekt. Die Info kann wiederum eine Auswahl oder ein Freitext
-		 * sein. Die Übergabeparameter sind:
-		 * bezeichnung = bezeichnung der Eigenschaft
-		 * is_a = kann "auswahl" oder "freitext" sein. Dient zur Identifizierung ob die Eigenschaft eine Auswahl oder Freitext ist
-		 * string = ist entweder der Titel des Auswahl oder der Text des Freitextes.
-		 * 
-		 * somit kann die Methode für Auswahl und Freitext benutzt werden		 * 
-		 */
-		
-		/*
-		 * Wenn is_a eine Auswahl ist, wird eine Auswahl erstellt. Der String "string" ist dabei der Titel der Auswahl
-		 * z.B. "Hobbies"
-		 */
-		if (is_a == "auswahl"){
-			Auswahl aus = this.createAuswahl(string);
-			i.setAuswahlID(aus.getId());
-			
-		}
-		/*
-		 * Wenn is_a ein Freitext ist, wird ein Freitext erstellt. Der String "string" ist dabei der Inhalt des Freitextes
-		 * z.B. "Ich mag Hunde"
-		 */
-		else if (is_a == "freitext"){
-			Freitext f = this.createFreitext(string);
-			i.setFreitextID(f.getId());
-		}
+		Freitext f = this.createFreitext(freitext);
+		info.setFreitextID(f.getId());
 		
 		
-		this.iMapper.insertInfo(i);
+		return this.iMapper.insertInfo(info);
 		
 		// Update-Methode auch (falls Eigenschaften gelöscht werden ändert sich das Infoobjekt etc.)		
 		// TODO: Wie fügen wir die EigenschaftsID hinzu?
@@ -508,7 +476,7 @@ public ArrayList<Profil> getNotSeenSuchProfilErgebnisse(Suchprofil suchprofil) t
 	@Override
 	public void updateInfo(Info info) throws IllegalArgumentException {
 		//  Methode fehlt in Mapperklasse 
-		// TODO: brauchen wir die?
+		// TODO: wir brauchen die Methode
 		
 		
 	}
@@ -541,21 +509,37 @@ public ArrayList<Profil> getNotSeenSuchProfilErgebnisse(Suchprofil suchprofil) t
 	}
 
 	@Override
-	public void createEigenschaft(String erlaueterung, Profil profil) throws IllegalArgumentException {
+	public void createEigenschaftForAuswahl(Profil p, Info i, Auswahl a) throws IllegalArgumentException {
 		
 		Eigenschaft eig = new Eigenschaft();
-		eig.setEpID(profil.getId());
-		eig.setErlaeuterung(erlaueterung);
+		eig.setEpID(p.getId());
+		
 		
 		/**
 		 * Wenn eine Eigenschaft erstellt wird, wird auch automatisch ein Info Objekt erstellt.
 		 */
+		
+		Info inf = this.createInfoForFreitext(i, null);
+		// Auswahl aus = this.getAuswahlByTitle(a.getTitle());
+		
 		
 		
 		
 		
 		this.eiMapper.insertEigenschaft(eig);
 		
+	}
+	
+	@Override
+	public void createEigenschaftForFreitext(Profil profil, Info info, Freitext freitext) throws IllegalArgumentException {
+			Eigenschaft eig = new Eigenschaft();
+			eig.setEpID(profil.getId());
+			
+			
+			Info inf = this.createInfoForFreitext(info, freitext);
+			eig.setInfoID(inf.getId());
+			
+			this.eiMapper.insertEigenschaft(eig);
 	}
 
 	@Override
@@ -603,23 +587,10 @@ public ArrayList<Profil> getNotSeenSuchProfilErgebnisse(Suchprofil suchprofil) t
 	}
 
 	@Override
-	public Freitext createFreitext(String text) throws IllegalArgumentException {
+	public Freitext createFreitext(Freitext freitext) throws IllegalArgumentException {
 		
-		/**
-		 * Diese Methode wird bei der Erstellung einer Eigenschaft aufgerufen
-		 * Es wird bei der Erstellung eine freitextID in der Eigenschaft gesetzt
-		 * Im Mapper des Freitextes wird geschaut, welches die höchste freitextID ist,
-		 * und dann +1 gesetzt. Dies ist möglich da ein Freitext NICHT ohne eine 
-		 * Eigenschaft existieren kann
-		 */
 		
-		Freitext f = new Freitext();		
-		f.setBeschreibung(text);
-		// ID wird vorerst auf 1 gesetzt und im Mapper angepasst.
-		f.setId(1);
-		
-				
-		return this.fMapper.insertFreitext(f);
+		return this.fMapper.insertFreitext(freitext);
 		
 	}
 
@@ -645,12 +616,11 @@ public ArrayList<Profil> getNotSeenSuchProfilErgebnisse(Suchprofil suchprofil) t
 	}
 
 	@Override
-	public Auswahl createAuswahl(String title) throws IllegalArgumentException {
+	public Auswahl createAuswahl(Auswahl auswahl) throws IllegalArgumentException {
 		
 		Auswahl a = new Auswahl();
 		// wird vorerst auf 1 gesetzt und im Mapper auf die MAX + 1 angepasst
 		a.setId(1);
-		a.setTitel(title);
 		
 		
 		return this.aMapper.insertAuswahl(a);
@@ -677,7 +647,7 @@ public ArrayList<Profil> getNotSeenSuchProfilErgebnisse(Suchprofil suchprofil) t
 	 * Elemente kann man nicht löschen, wir löschen die Auswahl-FremdID aus dem Element
 	 * und dann erst die Auswahl - DONE
 	 * 
-	 * TODO: auswahlID aus der Eigenschaftstabelle löschen
+	 * TODO: auswahlID aus der Infotabelle löschen
 	 * 
 	 */
 		

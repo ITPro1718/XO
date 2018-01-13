@@ -1,6 +1,9 @@
 package de.hdm.partnerboerse.client;
 
+import java.util.ArrayList;
 import java.util.Date;
+
+import com.google.api.server.spi.auth.common.User;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -19,6 +22,9 @@ import com.google.gwt.user.datepicker.client.DateBox;
 
 import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
+import de.hdm.partnerboerse.shared.bo.Eigenschaft;
+import de.hdm.partnerboerse.shared.bo.Freitext;
+import de.hdm.partnerboerse.shared.bo.Info;
 import de.hdm.partnerboerse.shared.bo.Profil;
 
 public class EditProfile extends VerticalPanel {
@@ -158,6 +164,9 @@ public class EditProfile extends VerticalPanel {
 		descripton.setWidget(0, 0, sdescriptLab);
 		descripton.setWidget(0, 1, sdescript);
 		// sdescript.setValue(getProfilFromServer.getVorname());
+		/*
+		 * Methode: GetAllInfosOf(Profil p), damit man alle Infos hat und in die Widgets schreiben kann
+		 */
 
 		Grid infoGrid = new Grid(4, 6);
 		infoGrid.setStyleName("etable");
@@ -262,6 +271,37 @@ public class EditProfile extends VerticalPanel {
 			public void onClick(ClickEvent event) {
 
 				updateProfileOnServer();
+				generateInfosOfUser();
+			}
+			
+			private void generateInfosOfUser(){
+				
+				Freitext f = new Freitext();
+				f.setBeschreibung(sdescript.getValue());
+				
+				Info i = new Info();
+				i.setText(sdescriptLab.getText());
+				
+				Profil prof = new Profil();
+				prof.setId(1);
+				
+				partnerAdmin.createEigenschaftForFreitext(prof, i, f, new AsyncCallback<Void>(){
+
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+						
+					}
+
+					@Override
+					public void onSuccess(Void result) {
+						// TODO Auto-generated method stub
+						
+					}
+				});
+				
+				
+				
 			}
 
 			private void updateProfileOnServer() {
@@ -372,4 +412,6 @@ public class EditProfile extends VerticalPanel {
 		return setProfil;
 
 	}
+	
+	
 }

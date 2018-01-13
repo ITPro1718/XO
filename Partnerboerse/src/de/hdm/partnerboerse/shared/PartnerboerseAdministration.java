@@ -280,12 +280,12 @@ public interface PartnerboerseAdministration extends RemoteService {
 	/**
 	 * Info-Objekt Methoden
 	 * Neues Info-Objekt erstellen.
-	 * @param is_a TODO
-	 * @param string TODO
-	 * 
+	 * @param info TODO
+	 * @param freitext TODO
+	 * @return TODO
 	 * @throws IllegalArgumentException
 	 */
-	public void createInfo(String bezeichnung, String is_a, String string) throws IllegalArgumentException;
+	public Info createInfoForFreitext(Info info, Freitext freitext) throws IllegalArgumentException;
 
 	/**
 	 * Alle Info-Objekte anzeigen.
@@ -323,13 +323,15 @@ public interface PartnerboerseAdministration extends RemoteService {
 	/**
 	 * Eigenschaft Methoden
 	 * Eigenschaft fuer das bestimmte Info-Objekt erstellen.
-	 * @param erlaueterung TODO
-	 * @param profil TODO
-	 * 
+	 * @param p TODO
+	 * @param i TODO
+	 * @param a TODO
 	 * @throws IllegalArgumentException
 	 */
 
-	public void createEigenschaft(String erlaueterung, Profil profil) throws IllegalArgumentException;
+	public void createEigenschaftForAuswahl(Profil p, Info i, Auswahl a) throws IllegalArgumentException;
+	
+	public void createEigenschaftForFreitext(Profil p, Info i, Freitext f) throws IllegalArgumentException;
 
 	/**
 	 * Alle Eigenschafts-Objekte anzeigen.
@@ -367,12 +369,11 @@ public interface PartnerboerseAdministration extends RemoteService {
 	/**
 	 * Freitext Methoden
 	 * Neues Freitext-Objekt, bezogen auf ein bestimmtes Eigenschafts-Objekt, erstellen.
-	 * @param text der Freitext
-	 * 
+	 * @param freitext TODO
 	 * @return TODO
 	 * @throws IllegalArgumentException
 	 */
-	public Freitext createFreitext(String text) throws IllegalArgumentException;
+	public Freitext createFreitext(Freitext freitext) throws IllegalArgumentException;
 
 	/**
 	 * Freitext anzeigen.
@@ -402,12 +403,12 @@ public interface PartnerboerseAdministration extends RemoteService {
 	/**
 	 * Auswahl Methoden
 	 * Neues Auswahl-Objekt, bezogen auf ein bestimmtes Eigenschafts-Objekt, erstellen.
-	 * @param title der Titel der Auswahl
+	 * @param auswahl TODO
 	 * @return TODO
 	 * 
 	 * @throws IllegalArgumentException
 	 */
-	public Auswahl createAuswahl(String title) throws IllegalArgumentException;
+	public Auswahl createAuswahl(Auswahl auswahl) throws IllegalArgumentException;
 
 	/**
 	 * Auswahl-Objekte anzeigen.

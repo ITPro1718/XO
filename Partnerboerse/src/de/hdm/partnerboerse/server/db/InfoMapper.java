@@ -152,7 +152,7 @@ public class InfoMapper {
 		return null;
 	}
 
-	public void insertInfo(Info i) {
+	public Info insertInfo(Info i) {
 
 		Connection con = DBConnection.getConnection();
 
@@ -171,11 +171,13 @@ public class InfoMapper {
 				// Das ist die eigentliche Einfüg-Funktion
 				stmt.executeUpdate("INSERT INTO auswahl(id, bezeichnung, is_a, freitextID, auswahlID) " + "VALUES (" + i.getId()
 						+ ", " + i.getText() + ", " + i.getIs_a() + ", " + i.getFreitextID() + "," + i.getAuswahlID() + ")");
+				return i;
 
 			}
 		} catch (SQLException e2) {
 			e2.printStackTrace();
 		}
+		return null;
 
 	}
 
