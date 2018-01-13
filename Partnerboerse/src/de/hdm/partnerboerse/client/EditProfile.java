@@ -1,6 +1,5 @@
 package de.hdm.partnerboerse.client;
 
-import java.util.Date;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -16,7 +15,6 @@ import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.datepicker.client.DateBox;
-
 import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
 import de.hdm.partnerboerse.shared.bo.Profil;
@@ -116,7 +114,7 @@ public class EditProfile extends VerticalPanel {
 
 		profilGrid.setWidget(2, 1, bdayLabel);
 		profilGrid.setWidget(2, 2, bdayTextBox);
-		//bdayTextBox.setValue(getProfilFromServer.getGeburtsdatum().toString());
+		bdayTextBox.setValue(getProfilFromServer.getGeburtsdatum());
 
 		profilGrid.setWidget(2, 3, mailLabel);
 		profilGrid.setWidget(2, 4, mailTextBox);
@@ -142,6 +140,28 @@ public class EditProfile extends VerticalPanel {
 
 		profilGrid.setWidget(4, 3, smokerLabel);
 		profilGrid.setWidget(4, 4, smokerListBox);
+		
+	      /*
+         * https://stackoverflow.com/questions/3793650/convert-boolean-to-int-in
+         * -java Konvertiert bei true zu 1 und bei false zu 0
+         */
+        // ToDo: Methode Funktioniert nicht, noch ausbessern
+        // int smokerToInt = (getProfilFromServer.isRaucher()) ? 1 : 0;
+        // switch (smokerToInt) {
+        // case 1:
+        // smokerListBox.getValue(0);
+        // break;
+        // case 2:
+        // smokerListBox.getValue(1);
+        // break;
+        // }
+
+        // smokerListBox.setValue(1, getProfilFromServer.isRaucher());
+
+        // Spalte 6
+        profilGrid.setWidget(5, 1, religionLabel);
+        profilGrid.setWidget(5, 2, religionTextBox);
+        religionTextBox.setValue(getProfilFromServer.getReligion());
 
 		/*
 		 * Grid für die Eingenschaftsobjekte. Zur besseren Beschreibung eines
@@ -212,27 +232,7 @@ public class EditProfile extends VerticalPanel {
 		infoGrid.setWidget(3, 3, searchForLab);
 		infoGrid.setWidget(3, 4, searchFor);
 
-		/*
-		 * https://stackoverflow.com/questions/3793650/convert-boolean-to-int-in
-		 * -java Konvertiert bei true zu 1 und bei false zu 0
-		 */
-		// ToDo: Methode Funktioniert nicht, noch ausbessern
-		// int smokerToInt = (getProfilFromServer.isRaucher()) ? 1 : 0;
-		// switch (smokerToInt) {
-		// case 1:
-		// smokerListBox.getValue(0);
-		// break;
-		// case 2:
-		// smokerListBox.getValue(1);
-		// break;
-		// }
 
-		// smokerListBox.setValue(1, getProfilFromServer.isRaucher());
-
-		// Spalte 6
-		profilGrid.setWidget(6, 1, religionLabel);
-		profilGrid.setWidget(6, 2, religionTextBox);
-		religionTextBox.setValue(getProfilFromServer.getReligion());
 
 		/*
 		 * deleteButton.addClickHandler(new DeleteClickHandler());
@@ -334,9 +334,11 @@ public class EditProfile extends VerticalPanel {
 		Profil setProfil = new Profil();
 
 		/*
-		 * DateTimerFromat wandelt den Wert von bdayTextBox in Date um
+		 * DateTimerFromat wandelt den Wert von bdayTextBox in Date um.
+		 * Wird nicht mehr benötigt, da wir jetzt eine Datebox nutzen.
 		 */
 		//Date bDayConvert = DateTimeFormat.getFormat("yyyy-MM-dd").parse(bdayTextBox.getValue());
+		
 		/*
 		 * Integer.parseInt wandelt String in int um
 		 */
@@ -347,13 +349,14 @@ public class EditProfile extends VerticalPanel {
 		setProfil.setId(1);
 		setProfil.setVorname(vnameTextBox.getValue());
 		setProfil.setNachname(lnameTextBox.getValue());
-		//setProfil.setGeburtsdatum(bDayConvert);
+		setProfil.setGeburtsdatum(bdayTextBox.getValue());
 		setProfil.setEmail(mailTextBox.getValue());
 		setProfil.setPasswort(pwTextBox.getValue());
 		setProfil.setKoerpergroesse(heightConvert);
 		setProfil.setReligion(religionTextBox.getValue());
 		setProfil.setHaarfarbe(hcolorTextBox.getValue());
 
+		
 		/*
 		 * String-Wert von Raucher wird ausgelesen und durch eine
 		 * Switch-Anweisung wird der Wert zu einem Boolean konvertiert.
