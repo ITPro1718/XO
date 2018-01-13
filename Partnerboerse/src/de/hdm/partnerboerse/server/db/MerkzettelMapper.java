@@ -64,7 +64,7 @@ public class MerkzettelMapper {
 	}
 
 	/**
-	 * L�scht einen MerkzettelEintrag in der DB
+	 * Löscht einen MerkzettelEintrag in der DB
 	 * 
 	 * @param merkzettel
 	 * @return
@@ -82,7 +82,7 @@ public class MerkzettelMapper {
 	}
 
 	/**
-	 * Gibt eine Merkzettel zur�ck per ID (Prim�rschl�ssel)
+	 * Gibt eine Merkzettel zurück per ID (Primärschlüssel)
 	 * 
 	 * @param id
 	 * @return
@@ -93,7 +93,7 @@ public class MerkzettelMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			ResultSet rs = stmt.executeQuery("SELECT * FROM merkzettel" + "WHERE id=" + id);
+			ResultSet rs = stmt.executeQuery("SELECT * FROM merkzettel WHERE id=" + id);
 			if (rs.next()) {
 				Merkzettel m = new Merkzettel();
 				m.setId(id);
@@ -110,7 +110,7 @@ public class MerkzettelMapper {
 	}
 
 	/**
-	 * Gibt alle Merkzettel-Eintr�ge zur�ck
+	 * Gibt alle Merkzettel-Einträge zurück
 	 * 
 	 * @return
 	 */

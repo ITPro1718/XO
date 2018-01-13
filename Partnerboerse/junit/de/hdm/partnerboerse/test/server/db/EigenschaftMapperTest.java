@@ -77,11 +77,11 @@ public class EigenschaftMapperTest {
 		Eigenschaft eigenschaft = new Eigenschaft();
 		eigenschaft.setId(1);
 		eigenschaft.setErlaeuterung("Testeigenschaft");
-		eigenschaft.setIs_a("Auswahl");
-		eigenschaft.setAuswahlID(10);
+		// eigenschaft.setIs_a("Auswahl");
+		// eigenschaft.setAuswahlID(10);
 		// TODO Eigenschaft sollte nicht zu beiden Fremdschlüsseln eine
 		// Beziehung haben MÜSSEN
-		eigenschaft.setFreitextID(1);
+		// eigenschaft.setFreitextID(1);
 
 		return eigenschaft;
 
