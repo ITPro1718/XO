@@ -51,8 +51,8 @@ public class InfoMapperTest {
 		Info info = new Info();
 		info.setId(1);
 		info.setText("Testinfo");
-		info.setEigenprofilID(1);
-		info.setEigenschaftsID(10);
+		// info.setEigenprofilID(1);
+		// info.setEigenschaftsID(10);
 
 		return info;
 

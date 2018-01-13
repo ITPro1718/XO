@@ -3,12 +3,8 @@ package de.hdm.partnerboerse.client;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.FormPanel;
-import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
-import com.google.gwt.user.client.ui.FormPanel.SubmitEvent;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -34,43 +30,36 @@ public class Searchprofile extends VerticalPanel {
 	ListBox heightListBox = new ListBox();
 	ListBox religionListBox = new ListBox();
 	ListBox smokerListBox = new ListBox();
-	TextBox titel = new TextBox();
+	TextBox title = new TextBox();
 
 	@Override
 	public void onLoad() {
-		
-
-		
 
 		Label bdayLabel = new Label("Alter: ");
 		Label hcolorLabel = new Label("Haarfarbe: ");
 		Label heightLabel = new Label("Größe: ");
 		Label smokerLabel = new Label("Raucher: ");
 		Label religionLabel = new Label("Religion: ");
-		Label titelLabel = new Label("Titel des Suchprofils");
-		
+		Label titleLabel = new Label("title des Suchprofils");
 
 		bdayListBox.addItem("20", "20");
 		bdayListBox.addItem("30", "30");
 		bdayListBox.addItem("40", "40");
 		bdayListBox.addItem("50", "50");
 		bdayListBox.addItem("60", "60");
-		
-		
+
 		hcolorListBox.addItem("braun", "braun");
 		hcolorListBox.addItem("blond", "blond");
 		hcolorListBox.addItem("schwarz", "schwarz");
 		hcolorListBox.addItem("rot", "rot");
 		hcolorListBox.addItem("andere", "andere");
-		
-		
+
 		heightListBox.addItem("1.50", "1.50");
 		heightListBox.addItem("1.60", "1.60");
 		heightListBox.addItem("1.70", "1.70");
 		heightListBox.addItem("1.80", "1.80");
 		heightListBox.addItem("1.90", "1.90");
 		heightListBox.addItem("2.00", "2.00");
-		
 
 		religionListBox.addItem("katholisch", "katholisch");
 		religionListBox.addItem("evangelisch", "evangelisch");
@@ -107,58 +96,58 @@ public class Searchprofile extends VerticalPanel {
 		// Spalte 6
 		SprofilGrid.setWidget(1, 2, religionLabel);
 		SprofilGrid.setWidget(1, 3, religionListBox);
-		
+
 		// Spalte 7
-		SprofilGrid.setWidget(2, 2, titelLabel);
-		SprofilGrid.setWidget(2, 3, titel);
-		
+		SprofilGrid.setWidget(2, 2, titleLabel);
+		SprofilGrid.setWidget(2, 3, title);
+
 		this.add(safeButton);
-				
-		
-		safeButton.addClickHandler(new ClickHandler(){
-			
+
+		safeButton.addClickHandler(new ClickHandler() {
+
 			@Override
-			public void onClick(ClickEvent event){
+			public void onClick(ClickEvent event) {
 				createSuchprofilCallback();
-			}			
-			
-			private void createSuchprofilCallback(){				
-				
+			}
+
+			private void createSuchprofilCallback() {
+
 				Profil source = new Profil();
 				source.setId(2);
-				
+
 				Suchprofil search = getSuchprofilWerte();
-				
-				
-				partnerAdmin.createSuchprofil(source, search.getTitle(), search.getHaarFarbe(), (float) search.getKoerpergroesse(), 
-						search.isRaucher(), search.getReligion(), search.getAlter(), new AsyncCallback<Void>(){
+
+				partnerAdmin.createSuchprofil(source, search.getTitle(), search.getHaarFarbe(),
+						(float) search.getKoerpergroesse(), search.isRaucher(), search.getReligion(), search.getAlter(),
+						new AsyncCallback<Void>() {
 
 							@Override
 							public void onFailure(Throwable caught) {
-								
+
 							}
 
 							@Override
 							public void onSuccess(Void result) {
 								ListViewSuchProfil lvsp = new ListViewSuchProfil();
-					            
-					            HTMLPanel splistViewPanel = new HTMLPanel("<h3>" + "Hier können sie ein Suchprofil erstellen!" + "</h3>");
-					            splistViewPanel.add(lvsp);
-					            
-					            RootPanel.get("contwrap").clear();
-					            RootPanel.get("contwrap").add(splistViewPanel);
+
+								HTMLPanel splistViewPanel = new HTMLPanel(
+										"<h3>" + "Hier können sie ein Suchprofil erstellen!" + "</h3>");
+								splistViewPanel.add(lvsp);
+
+								RootPanel.get("contwrap").clear();
+								RootPanel.get("contwrap").add(splistViewPanel);
 							}
-					
-				});
-					
-				}
+
+						});
+
+			}
 
 		});
-			
-		}
-	
-	private Suchprofil getSuchprofilWerte(){
-		
+
+	}
+
+	private Suchprofil getSuchprofilWerte() {
+
 		Suchprofil s = new Suchprofil();
 		s.setId(1);
 		int alter = Integer.parseInt(bdayListBox.getSelectedValue());
@@ -166,7 +155,7 @@ public class Searchprofile extends VerticalPanel {
 		s.setHaarFarbe(hcolorListBox.getSelectedValue());
 		float kgr = Float.parseFloat(heightListBox.getSelectedValue());
 		s.setKoerpergroesse(kgr);
-		
+
 		String raucherSelectedValue = smokerListBox.getSelectedValue();
 		switch (raucherSelectedValue) {
 		case "YSmoker":
@@ -176,10 +165,10 @@ public class Searchprofile extends VerticalPanel {
 			s.setRaucher(false);
 			break;
 		}
-		
+
 		s.setReligion(religionListBox.getSelectedValue());
-		s.setTitle(titel.getValue());
-		
+		s.setTitle(title.getValue());
+
 		return s;
 	}
 }
