@@ -10,8 +10,10 @@ import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
 import com.google.gwt.user.client.ui.FormPanel.SubmitEvent;
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -133,14 +135,18 @@ public class Searchprofile extends VerticalPanel {
 
 							@Override
 							public void onFailure(Throwable caught) {
-								Window.alert("Es ist ein Fehler aufgetreten");
 								
 							}
 
 							@Override
 							public void onSuccess(Void result) {
-								Window.alert("Suchprofil wurde gespeichert.");
-								
+								ListViewSuchProfil lvsp = new ListViewSuchProfil();
+					            
+					            HTMLPanel splistViewPanel = new HTMLPanel("<h3>" + "Hier können sie ein Suchprofil erstellen!" + "</h3>");
+					            splistViewPanel.add(lvsp);
+					            
+					            RootPanel.get("contwrap").clear();
+					            RootPanel.get("contwrap").add(splistViewPanel);
 							}
 					
 				});
