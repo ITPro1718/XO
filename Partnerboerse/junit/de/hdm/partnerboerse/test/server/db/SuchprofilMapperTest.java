@@ -1,5 +1,6 @@
 package de.hdm.partnerboerse.test.server.db;
 
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
@@ -38,6 +39,22 @@ public class SuchprofilMapperTest {
 
 	}
 
+	@Test
+	public void testDeleteSuchprofil() {
+		SuchprofilMapper mapper = SuchprofilMapper.suchprofilMapper();
+		Suchprofil suchprofil = getTestSuchprofilObjekt();
+
+		List<Suchprofil> allSuchprofil = mapper.findAll();
+		if (!allSuchprofil.isEmpty()) {
+			int zuloeschendeId = allSuchprofil.get(0).getId();
+			suchprofil.setId(zuloeschendeId);
+			mapper.deleteSuchprofil(suchprofil);
+			assertNull(mapper.findByKey(zuloeschendeId));
+
+			mapper.insertSuchprofil(suchprofil);
+		}
+	}
+
 	private Suchprofil getTestSuchprofilObjekt() {
 		Suchprofil suchprofil = new Suchprofil();
 		suchprofil.setId(1);
@@ -47,7 +64,7 @@ public class SuchprofilMapperTest {
 		suchprofil.setKoerpergroesse(123);
 		suchprofil.setRaucher(false);
 		suchprofil.setReligion("evangelisch");
-		suchprofil.setTitle("TestSuchprofil");
+		// suchprofil.setTitle("TestSuchprofil");
 
 		return suchprofil;
 	}
