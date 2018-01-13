@@ -53,9 +53,9 @@ public class SuchprofilMapper {
 				stmt = con.createStatement();
 
 				stmt.executeUpdate(
-						"INSERT INTO suchprofil(id, titel, religion, haarfarbe, koerpergroesse, raucher, age, epID) "
-								+ "VALUES (" + suchprofil.getId() + "," + suchprofil.getTitle() + ","
-								+ suchprofil.getReligion() + "," + suchprofil.getHaarFarbe() + ","
+						"INSERT INTO suchprofil (id, titel, religion, haarfarbe, koerpergroesse, raucher, age, epID) "
+								+ "VALUES (" + suchprofil.getId() + ",'" + suchprofil.getTitle() + "','"
+								+ suchprofil.getReligion() + "','" + suchprofil.getHaarFarbe() + "',"
 								+ suchprofil.getKoerpergroesse() + "," + suchprofil.isRaucher() + ","
 								+ suchprofil.getAlter() + "," + suchprofil.getEigenprofilID() + ")");
 			}

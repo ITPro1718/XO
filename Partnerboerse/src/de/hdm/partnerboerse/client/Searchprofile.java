@@ -18,6 +18,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
 import de.hdm.partnerboerse.shared.bo.Profil;
+import de.hdm.partnerboerse.shared.bo.Suchprofil;
 
 public class Searchprofile extends VerticalPanel {
 
@@ -25,33 +26,27 @@ public class Searchprofile extends VerticalPanel {
 
 	Button deleteButton = new Button("Suchprofil löschen");
 	Button safeButton = new Button("Suchprofil speichern");
+	VerticalPanel panel = new VerticalPanel();
+	ListBox bdayListBox = new ListBox();
+	ListBox hcolorListBox = new ListBox();
+	ListBox heightListBox = new ListBox();
+	ListBox religionListBox = new ListBox();
+	ListBox smokerListBox = new ListBox();
+	TextBox titel = new TextBox();
 
 	@Override
 	public void onLoad() {
-		// Create a FormPanel and point it at a service.
-		final FormPanel form = new FormPanel();
-		this.add(form);
-		form.setAction("Partnerboerse");
+		
 
-		// Because we're going to add a FileUpload widget,
-		// we'll need to set the form to use the POST method,
-		// and multipart MIME encoding.
-		form.setEncoding(FormPanel.ENCODING_MULTIPART);
-		form.setMethod(FormPanel.METHOD_POST);
-
-		// Create a panel to hold all of the form widgets.
-		VerticalPanel panel = new VerticalPanel();
-		panel.setSpacing(10);
-		form.setWidget(panel);
+		
 
 		Label bdayLabel = new Label("Alter: ");
 		Label hcolorLabel = new Label("Haarfarbe: ");
 		Label heightLabel = new Label("Größe: ");
 		Label smokerLabel = new Label("Raucher: ");
 		Label religionLabel = new Label("Religion: ");
-		Label nationLabel = new Label("Nationalität: ");
-
-		ListBox bdayListBox = new ListBox();
+		Label titelLabel = new Label("Titel des Suchprofils");
+		
 
 		bdayListBox.addItem("20", "20");
 		bdayListBox.addItem("30", "30");
@@ -59,24 +54,22 @@ public class Searchprofile extends VerticalPanel {
 		bdayListBox.addItem("50", "50");
 		bdayListBox.addItem("60", "60");
 		
-		ListBox hcolorListBox = new ListBox();
+		
 		hcolorListBox.addItem("braun", "braun");
 		hcolorListBox.addItem("blond", "blond");
 		hcolorListBox.addItem("schwarz", "schwarz");
 		hcolorListBox.addItem("rot", "rot");
 		hcolorListBox.addItem("andere", "andere");
 		
-		ListBox heightListBox = new ListBox();
-
-		heightListBox.addItem("150", "150");
-		heightListBox.addItem("160", "160");
-		heightListBox.addItem("170", "170");
-		heightListBox.addItem("180", "180");
-		heightListBox.addItem("190", "190");
-		heightListBox.addItem("200", "200");
+		
+		heightListBox.addItem("1.50", "1.50");
+		heightListBox.addItem("1.60", "1.60");
+		heightListBox.addItem("1.70", "1.70");
+		heightListBox.addItem("1.80", "1.80");
+		heightListBox.addItem("1.90", "1.90");
+		heightListBox.addItem("2.00", "2.00");
 		
 
-		ListBox religionListBox = new ListBox();
 		religionListBox.addItem("katholisch", "katholisch");
 		religionListBox.addItem("evangelisch", "evangelisch");
 		religionListBox.addItem("moslem", "moslem");
@@ -85,18 +78,14 @@ public class Searchprofile extends VerticalPanel {
 		religionListBox.addItem("atheist", "atheist");
 		religionListBox.addItem("andere", "andereRel+");
 
-		ListBox smokerListBox = new ListBox();
 		smokerListBox.addItem("Ja", "YSmoker");
 		smokerListBox.addItem("Nein", "NSmoker");
-		smokerListBox.addItem("Gelegentlich", "SSmoker");
-
-		TextBox nationTB = new TextBox();
 
 		// Grid erstellen zur besseren Darstellung
 
-		Grid SprofilGrid = new Grid(3, 4);
+		Grid SprofilGrid = new Grid(3, 5);
 		SprofilGrid.setStyleName("etable");
-		panel.add(SprofilGrid);
+		this.add(SprofilGrid);
 
 		// Spalte 2
 		SprofilGrid.setWidget(0, 0, bdayLabel);
@@ -116,72 +105,75 @@ public class Searchprofile extends VerticalPanel {
 		// Spalte 6
 		SprofilGrid.setWidget(1, 2, religionLabel);
 		SprofilGrid.setWidget(1, 3, religionListBox);
-
-		// Spalte 3
-		SprofilGrid.setWidget(2, 2, nationLabel);
-		SprofilGrid.setWidget(2, 3, nationTB);
-
 		
-		final String haircolor = hcolorListBox.getSelectedItemText();
-		final int height = Integer.parseInt(heightListBox.getSelectedItemText());
-		final boolean raucher = true;
-		final int alter = Integer.parseInt(bdayListBox.getSelectedItemText());
-		final String religion = religionListBox.getSelectedItemText();
-
-		// Add a 'submit' button.
-		panel.add(new Button("Submit", new ClickHandler() {
+		// Spalte 7
+		SprofilGrid.setWidget(2, 2, titelLabel);
+		SprofilGrid.setWidget(2, 3, titel);
+		
+		this.add(safeButton);
+				
+		
+		safeButton.addClickHandler(new ClickHandler(){
+			
 			@Override
-			public void onClick(ClickEvent event) {
-				form.submit();
-				
-				// createSuchprofilCallback();
-				
-				// Add an event handler to the form.
-			    form.addSubmitHandler(new FormPanel.SubmitHandler() {
-			      @Override
-			      public void onSubmit(SubmitEvent event) {
-			        
-			      
-				
-				form.addSubmitCompleteHandler(new FormPanel.SubmitCompleteHandler() {
-			        public void onSubmitComplete(SubmitCompleteEvent event) {
-			          // When the form submission is successfully completed, this event is
-			          // fired. Assuming the service returned a response of type text/html,
-			          // we can get the result text here (see the FormPanel documentation for
-			          // further explanation).
-			          Window.alert(event.getResults());
-			        }
-			      });
-			      }
-			    });
-			}
-			
-			
+			public void onClick(ClickEvent event){
+				createSuchprofilCallback();
+			}			
 			
 			private void createSuchprofilCallback(){				
 				
-				
 				Profil source = new Profil();
-				source.setId(5);
+				source.setId(2);
 				
-				partnerAdmin.createSuchprofil(source, "Suchprofil Test", haircolor, height, raucher, 
-						religion, alter, new AsyncCallback<Void>(){
+				Suchprofil search = getSuchprofilWerte();
+				
+				
+				partnerAdmin.createSuchprofil(source, search.getTitle(), search.getHaarFarbe(), (float) search.getKoerpergroesse(), 
+						search.isRaucher(), search.getReligion(), search.getAlter(), new AsyncCallback<Void>(){
 
 							@Override
 							public void onFailure(Throwable caught) {
-							
+								Window.alert("Es ist ein Fehler aufgetreten");
 								
 							}
 
 							@Override
 							public void onSuccess(Void result) {
-																
+								Window.alert("Suchprofil wurde gespeichert.");
+								
 							}
 					
-				});	
-			}
-		}));
-			
-	}
+				});
+					
+				}
 
+		});
+			
+		}
+	
+	private Suchprofil getSuchprofilWerte(){
+		
+		Suchprofil s = new Suchprofil();
+		s.setId(1);
+		int alter = Integer.parseInt(bdayListBox.getSelectedValue());
+		s.setAlter(alter);
+		s.setHaarFarbe(hcolorListBox.getSelectedValue());
+		float kgr = Float.parseFloat(heightListBox.getSelectedValue());
+		s.setKoerpergroesse(kgr);
+		
+		String raucherSelectedValue = smokerListBox.getSelectedValue();
+		switch (raucherSelectedValue) {
+		case "YSmoker":
+			s.setRaucher(true);
+			break;
+		case "NSmoker":
+			s.setRaucher(false);
+			break;
+		}
+		
+		s.setReligion(religionListBox.getSelectedValue());
+		s.setTitle(titel.getValue());
+		
+		return s;
+	}
 }

@@ -111,7 +111,7 @@ public class EditProfile extends VerticalPanel {
 		lnameTextBox.setValue(getProfilFromServer.getNachname());
 
 		// Spalte 2
-		DateTimeFormat dateFormat = DateTimeFormat.getFormat("MM/dd/yyyy");
+		DateTimeFormat dateFormat = DateTimeFormat.getFormat("yyyy-mm-dd");
 		bdayTextBox.setFormat(new DateBox.DefaultFormat(dateFormat));
 
 		profilGrid.setWidget(2, 1, bdayLabel);

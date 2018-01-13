@@ -1,9 +1,13 @@
 package de.hdm.partnerboerse.client;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
@@ -44,6 +48,29 @@ public class ListViewSuchProfil extends VerticalPanel{
 		splistGrid.setText(1, 0, "Name des Suchprofils");
 		splistGrid.setWidget(1, 1, editButton);
 		splistGrid.setWidget(1, 2, deleteButton);	
+		
+		createButton.addClickHandler(new ClickHandler() {
+	          
+	          @Override
+	          public void onClick(ClickEvent event) {
+	            
+	            loadCreateSuchprofilView();
+	            
+	          }
+
+	          
+	          private void loadCreateSuchprofilView() {
+	            
+	            Searchprofile spl = new Searchprofile();
+	            
+	            HTMLPanel createsuchprofilViewPanel = new HTMLPanel("<h3>" + "Hier können sie ein Suchprofil erstellen!" + "</h3>");
+	            createsuchprofilViewPanel.add(spl);
+	            
+	            RootPanel.get("contwrap").clear();
+	            RootPanel.get("contwrap").add(createsuchprofilViewPanel);
+	                     
+	          }
+	        });
 		
 	}
 }
