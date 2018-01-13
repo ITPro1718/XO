@@ -16,13 +16,12 @@ public class SuchprofilMapper {
 	 */
 	private static SuchprofilMapper suchprofilMapper = null;
 
-
-	  /**
-	   * Geschützter Konstruktor - verhindert die Möglichkeit, mit <code>new</code>
-	   * neue Instanzen dieser Klasse zu erzeugen.
-	   */
-	  protected SuchprofilMapper() {
-	  }
+	/**
+	 * Geschützter Konstruktor - verhindert die Möglichkeit, mit
+	 * <code>new</code> neue Instanzen dieser Klasse zu erzeugen.
+	 */
+	protected SuchprofilMapper() {
+	}
 
 	/**
 	 * Stellt sicher, dass es nur eine Instanz der Klasse gibt. Die Klasse kann
@@ -54,7 +53,7 @@ public class SuchprofilMapper {
 
 				stmt.executeUpdate(
 						"INSERT INTO suchprofil(id, titel, religion, haarfarbe, koerpergroesse, raucher, age, epID) "
-								+ "VALUES (" + suchprofil.getId() + "," + suchprofil.getTitle() + ","
+								+ "VALUES (" + suchprofil.getId() + "," + suchprofil.getTitel() + ","
 								+ suchprofil.getReligion() + "," + suchprofil.getHaarFarbe() + ","
 								+ suchprofil.getKoerpergroesse() + "," + suchprofil.isRaucher() + ","
 								+ suchprofil.getAlter() + "," + suchprofil.getEigenprofilID() + ")");
@@ -70,7 +69,7 @@ public class SuchprofilMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			stmt.executeUpdate("UPDATE suchprofil " + "SET titel=\"" + suchprofil.getTitle() + "\", " + "religion=\""
+			stmt.executeUpdate("UPDATE suchprofil " + "SET titel=\"" + suchprofil.getTitel() + "\", " + "religion=\""
 					+ suchprofil.getReligion() + "\", " + "haarfarbe=\"" + suchprofil.getHaarFarbe() + "\", "
 					+ "koerpergroesse=\"" + suchprofil.getKoerpergroesse() + "\" " + "raucher=\""
 					+ suchprofil.isRaucher() + "\", " + "age=\"" + suchprofil.getAlter() + "WHERE id="
