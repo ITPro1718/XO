@@ -1,5 +1,6 @@
 package de.hdm.partnerboerse.test.server.db;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
@@ -53,6 +54,17 @@ public class SuchprofilMapperTest {
 
 			mapper.insertSuchprofil(suchprofil);
 		}
+	}
+
+	@Test
+	public void testFindByKey() {
+		assertTrue(SuchprofilMapper.suchprofilMapper().findByKey(1) != null);
+	}
+
+	@Test
+	public void testFindAll() {
+		SuchprofilMapper mapper = SuchprofilMapper.suchprofilMapper();
+		assertFalse(mapper.findAll().isEmpty());
 	}
 
 	private Suchprofil getTestSuchprofilObjekt() {
