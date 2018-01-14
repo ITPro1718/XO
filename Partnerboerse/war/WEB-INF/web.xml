@@ -5,14 +5,31 @@ xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
 http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 
+
+  <!-- Default page to server -->
+  <welcome-file-list>
+    <welcome-file>Partnerboerse.html</welcome-file>
+  </welcome-file-list>
+  
+  <!-- Servlets -->
   <servlet>
+    <servlet-name>loginService</servlet-name>
+    <servlet-class>de.hdm.partnerboerse.client.LoginServiceImpl</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>loginService</servlet-name>
+    <url-pattern>/xo-partnerboerse/login</url-pattern>
+  </servlet-mapping>
+  
+    <servlet>
     <servlet-name>partnerboerseServlet</servlet-name>
     <servlet-class>de.hdm.partnerboerse.server.PartnerboerseAdministrationImpl</servlet-class>
   </servlet>
   
   <servlet-mapping>
     <servlet-name>partnerboerseServlet</servlet-name>
-    <url-pattern>/Partnerboerse/partnerboerseadministration</url-pattern>
+    <url-pattern>/xo-partnerboerse/partnerboerseadministration</url-pattern>
   </servlet-mapping>
   
   <servlet>
@@ -24,12 +41,6 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
     <servlet-name>reportGeneratorServlet</servlet-name>
     <url-pattern>/xo-partnerboerse/reportgenerator</url-pattern>
   </servlet-mapping>
-  
-  <!-- Default page to server -->
-  <welcome-file-list>
-    <welcome-file>Partnerboerse.html</welcome-file>
-  </welcome-file-list>
-  
 
 
 </web-app>
