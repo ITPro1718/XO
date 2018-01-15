@@ -145,16 +145,16 @@ public class EditProfile extends VerticalPanel {
          * https://stackoverflow.com/questions/3793650/convert-boolean-to-int-in
          * -java Konvertiert bei true zu 1 und bei false zu 0
          */
-        // ToDo: Methode Funktioniert nicht, noch ausbessern
-        // int smokerToInt = (getProfilFromServer.isRaucher()) ? 1 : 0;
-        // switch (smokerToInt) {
-        // case 1:
-        // smokerListBox.getValue(0);
-        // break;
-        // case 2:
-        // smokerListBox.getValue(1);
-        // break;
-        // }
+         //ToDo: Methode Funktioniert nicht, noch ausbessern
+         int smokerToInt = (getProfilFromServer.isRaucher()) ? 1 : 0;
+         switch (smokerToInt) {
+         case 1:
+         smokerListBox.getValue(0);
+         break;
+         case 2:
+         smokerListBox.getValue(1);
+         break;
+         }
 
         // smokerListBox.setValue(1, getProfilFromServer.isRaucher());
 
