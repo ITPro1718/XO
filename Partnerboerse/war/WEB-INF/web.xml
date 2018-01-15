@@ -19,7 +19,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 
   <servlet-mapping>
     <servlet-name>loginService</servlet-name>
-    <url-pattern>/xo-partnerboerse/login</url-pattern>
+    <url-pattern>/Partnerboerse/login</url-pattern>
   </servlet-mapping>
   
     <servlet>

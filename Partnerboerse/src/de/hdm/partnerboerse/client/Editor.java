@@ -17,10 +17,23 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
 import de.hdm.partnerboerse.shared.bo.Profil;
+import com.google.gwt.user.client.ui.Anchor;
 
 public class Editor implements EntryPoint {
 
 	private final PartnerboerseAdministrationAsync partnerAdmin = GWT.create(PartnerboerseAdministration.class);
+
+	//Loginattribute
+	private LoginInfo loginInfo = null;
+	private VerticalPanel loginPanel = new VerticalPanel();
+	private Label loginLabel = new Label(
+			"Please sign in to your Google Account to access the StockWatcher application.");
+	private Anchor signInLink = new Anchor("Sign In");
+	
+	//Logoutattribute
+	  private Anchor signOutLink = new Anchor("Sign Out");
+
+	  //Unnötige Attribute?! Muss angepasst werden
 	private VerticalPanel mainPanel = new VerticalPanel();
 	private FlexTable profilFlexTable = new FlexTable();
 	private HorizontalPanel addPanel = new HorizontalPanel();
@@ -35,23 +48,47 @@ public class Editor implements EntryPoint {
 
 	@Override
 	public void onModuleLoad() {
+		// Check login status using login service.
+		LoginServiceAsync loginService = GWT.create(LoginService.class);
+		loginService.login(GWT.getHostPageBaseURL(), new AsyncCallback<LoginInfo>() {
+			public void onFailure(Throwable error) {
+			}
 
+			public void onSuccess(LoginInfo result) {
+				loginInfo = result;
+				if (loginInfo.isLoggedIn()) {
+					loadXO();
+				} else {
+					loadLogin();
+				}
+			}
+		});
+	}
+
+	private void loadXO() {
+
+		
+		// Set up sign out hyperlink.
+	    signOutLink.setHref(loginInfo.getLogoutUrl());
+	    
 		// Navigation Area
 		RootPanel.get("navwrap").add(nav);
 
 		// Profile Edit - Panel wird erzeugt und eingefügt.
-//		HTMLPanel editProfilePanel = new HTMLPanel(
-//				"<h3>" + "Hier können Sie ihre Profilinformationen bearbeiten." + "</h3>");
-//		editProfilePanel.add(ep);
-//
-//		RootPanel.get("contwrap").add(editProfilePanel);
+		// HTMLPanel editProfilePanel = new HTMLPanel(
+		// "<h3>" + "Hier können Sie ihre Profilinformationen bearbeiten." +
+		// "</h3>");
+		// editProfilePanel.add(ep);
+		//
+		// RootPanel.get("contwrap").add(editProfilePanel);
 
 		// Search Profile
 
-//		HTMLPanel spPanel = new HTMLPanel("<h3>" + "Hier können Sie Ihr Suchprofil erstellen." + "</h3>");
-//		spPanel.add(sp);
-//
-//		RootPanel.get("contwrap").add(spPanel);
+		// HTMLPanel spPanel = new HTMLPanel("<h3>" + "Hier können Sie Ihr
+		// Suchprofil erstellen." + "</h3>");
+		// spPanel.add(sp);
+		//
+		// RootPanel.get("contwrap").add(spPanel);
 
 		// Create table for Profil
 		profilFlexTable.setText(0, 0, "Vorname");
@@ -68,10 +105,14 @@ public class Editor implements EntryPoint {
 		addPanel.add(newSymbolTextBox);
 		addPanel.add(addProfilButton);
 
+	    // Assemble Main panel 4 logout
+	    mainPanel.add(signOutLink);
 		// Assemble Main panel.
 		mainPanel.add(profilFlexTable);
 		mainPanel.add(addPanel);
 		mainPanel.add(lastUpdatedLabel);
+
+
 
 		// Associate the Main panel with the HTML host page.
 		RootPanel.get("contwrap").add(mainPanel);
@@ -140,6 +181,14 @@ public class Editor implements EntryPoint {
 			}
 		});
 
+	}
+
+	private void loadLogin() {
+		// Assemble login panel.
+		signInLink.setHref(loginInfo.getLoginUrl());
+		loginPanel.add(loginLabel);
+		loginPanel.add(signInLink);
+		RootPanel.get("contwrap").add(loginPanel);
 	}
 
 }
