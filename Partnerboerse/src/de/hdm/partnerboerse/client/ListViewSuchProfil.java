@@ -13,64 +13,122 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
 
-public class ListViewSuchProfil extends VerticalPanel{
-	
+public class ListViewSuchProfil extends VerticalPanel {
+
 	private final PartnerboerseAdministrationAsync partnerAdmin = GWT.create(PartnerboerseAdministration.class);
-	
+
 	Button createButton = new Button("Suchprofil erstellen");
-	Button deleteButton = new Button("<img src=\"" + "../img/deletePic.png" + "\">");
-	Button editButton = new Button("<img src=\"" + "../img/editPic.png" + "\">");
+	Button deleteButton = new Button("Suchprofil löschen");
+	Button editButton = new Button("Suchprofil bearbeiten");
+	Button searchButton = new Button("suchen, aufgehts!");
 
 	/**
-	 * Aufbau Suchprofilliste mit Löschfunktion
+	 * Aufbau Suchprofilliste mit Bearbeiten, Löschen und Suchenfunktion
 	 */
-	
+
 	@Override
 	public void onLoad() {
 		HTML splist = new HTML("<h3>" + "Suchprofilliste" + "</h3>");
-		splist.addStyleName("mlwrap");
-		
-//		HTML deletePic = new HTML("<img src=\"" + "../img/deletePic.png" + "\">");
-//		HTML editPic = new HTML("<img src=\"" + "../img/editPic.png" + "\">");
-//
-//		ppic.setTitle("Profilbild");
-//		ppic.addStyleName("ppic");
+		/**
+		 * TODO in CSS einbinden
+		 */
+		splist.addStyleName("spwrap");
 
 		FlexTable splistGrid = new FlexTable();
-		splistGrid.setStyleName("mltable");
+		
+		/**
+		 * TODO in CSS einbinden
+		 */
+		splistGrid.setStyleName("sptable");
 		this.add(splistGrid);
 
 		// Zeile 1
 
 		splistGrid.setWidget(0, 0, createButton);
 
-		//Zeile 2
+		// Zeile 2
 		splistGrid.setText(1, 0, "Name des Suchprofils");
 		splistGrid.setWidget(1, 1, editButton);
-		splistGrid.setWidget(1, 2, deleteButton);	
-		
-		createButton.addClickHandler(new ClickHandler() {
-	          
-	          @Override
-	          public void onClick(ClickEvent event) {
-	            
-	            loadCreateSuchprofilView();
-	            
-	          }
+		splistGrid.setWidget(1, 2, deleteButton);
+		splistGrid.setWidget(1, 3, searchButton);
 
-	          
-	          private void loadCreateSuchprofilView() {
-	            
-	            Searchprofile spl = new Searchprofile();
-	            
-	            HTMLPanel createsuchprofilViewPanel = new HTMLPanel("<h3>" + "Hier können sie ein Suchprofil erstellen!" + "</h3>");
-	            createsuchprofilViewPanel.add(spl);
-	            
-	            RootPanel.get("contwrap").clear();
-	            RootPanel.get("contwrap").add(createsuchprofilViewPanel);
-	                     
-	          }
-	        });
+		/**
+		 * Button zum Erstellen eines Suchprofils
+		 */
+		createButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+
+				loadCreateSuchprofilView();
+
+			}
+
+			private void loadCreateSuchprofilView() {
+
+				CreateSuchprofil spl = new CreateSuchprofil();
+
+				HTMLPanel createsuchprofilViewPanel = new HTMLPanel(
+						"<h3>" + "Hier können sie ein Suchprofil erstellen!" + "</h3>");
+				createsuchprofilViewPanel.add(spl);
+
+				RootPanel.get("contwrap").clear();
+				RootPanel.get("contwrap").add(createsuchprofilViewPanel);
+
+			}
+		});
+
+		/**
+		 * TODO Button zum löschen der Suchprofile
+		 */
+		deleteButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+
+				loadCreateSuchprofilView();
+
+			}
+
+			private void loadCreateSuchprofilView() {
+
+				CreateSuchprofil spl = new CreateSuchprofil();
+
+				HTMLPanel createsuchprofilViewPanel = new HTMLPanel(
+						"<h3>" + "Hier können sie ein Suchprofil erstellen!" + "</h3>");
+				createsuchprofilViewPanel.add(spl);
+
+				RootPanel.get("contwrap").clear();
+				RootPanel.get("contwrap").add(createsuchprofilViewPanel);
+
+			}
+		});
 		
+		/**
+		 * TODO Button zum Suchen nach den Fremdprofilen
+		 */
+		searchButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+
+				loadCreateSuchprofilView();
+
+			}
+
+			private void loadCreateSuchprofilView() {
+
+				CreateSuchprofil spl = new CreateSuchprofil();
+
+				HTMLPanel createsuchprofilViewPanel = new HTMLPanel(
+						"<h3>" + "Hier können sie ein Suchprofil erstellen!" + "</h3>");
+				createsuchprofilViewPanel.add(spl);
+
+				RootPanel.get("contwrap").clear();
+				RootPanel.get("contwrap").add(createsuchprofilViewPanel);
+
+			}
+		});
+
 	}
 }

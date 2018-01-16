@@ -6,6 +6,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -84,7 +85,7 @@ public class EigenProfilView extends VerticalPanel {
   private void updateProfilTable(Profil result) {
     Profil meinProfil = result;
 
-    Grid profilIntGrid = new Grid(2, 3);
+    FlexTable profilIntGrid = new FlexTable();
     profilIntGrid.setStyleName("itable");
     this.add(profilIntGrid);
 
