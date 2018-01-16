@@ -187,6 +187,7 @@ public class EditProfile extends VerticalPanel {
     Grid infoGrid = new Grid(4, 6);
     infoGrid.setStyleName("etable");
     this.add(infoGrid);
+    
 
     infoGrid.setWidget(0, 1, hobbyLab);
     infoGrid.setWidget(0, 2, hobby);
@@ -297,7 +298,15 @@ public class EditProfile extends VerticalPanel {
 
       }
       
+      /**
+       * TODO: Hier Update befehle nehmen und nicht die insert
+       * 
+       */
       private void generateInfosOfUser(){
+			
+			// TODO: aktuelles Profil nehmen und nicht hässlich hardcoden
+			Profil prof = new Profil();
+			prof.setId(1);
 			
 			Freitext f = new Freitext();
 			f.setBeschreibung(sdescript.getValue());
@@ -305,23 +314,37 @@ public class EditProfile extends VerticalPanel {
 			Info i = new Info();
 			i.setText(sdescriptLab.getText());
 			
-			Profil prof = new Profil();
-			prof.setId(1);
-			
 			partnerAdmin.createEigenschaftForFreitext(prof, i, f, new AsyncCallback<Void>(){
 
 				@Override
+				public void onFailure(Throwable caught) {					
+				}
+
+				@Override
+				public void onSuccess(Void result) {				
+				}
+			});
+			
+			Freitext f1 = new Freitext();
+			f1.setBeschreibung(hobby.getValue());
+			
+			Info i1 = new Info();
+			i.setText(hobbyLab.getText());
+			
+			partnerAdmin.createEigenschaftForFreitext(prof, i1, f1, new AsyncCallback<Void>(){
+
+				@Override
 				public void onFailure(Throwable caught) {
-					// TODO Auto-generated method stub
-					
 				}
 
 				@Override
 				public void onSuccess(Void result) {
-					// TODO Auto-generated method stub
-					
 				}
+				
 			});
+			
+			
+			
       }
 
     });

@@ -8,14 +8,18 @@ import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
+import de.hdm.partnerboerse.shared.bo.Freitext;
+import de.hdm.partnerboerse.shared.bo.Info;
 import de.hdm.partnerboerse.shared.bo.Profil;
 
 public class CreateEigenProfil extends VerticalPanel {
@@ -50,6 +54,28 @@ public class CreateEigenProfil extends VerticalPanel {
   TextBox religionTextBox = new TextBox();
 
   ListBox smokerListBox = new ListBox();
+  
+  Label sdescriptLab = new Label("Beschreibe dich kurz: ");
+  Label hobbyLab = new Label("Deine Hobbies: ");
+  Label jobLab = new Label("Dein Beruf: ");
+  Label nationLab = new Label("Deine Nationalität: ");
+  Label eduLab = new Label("Dein Bildungsniveau: ");
+  Label musicLab = new Label("Deine lieblings Musik: ");
+
+  Label sexPrefLab = new Label("Deine sexuellen Vorlieben: ");
+  Label searchForLab = new Label("Du Bist auf der Suche Nach? ");
+  Label sexOrientLab = new Label("Deine sexuelle Ausrichtung: ");
+
+  TextBox hobby = new TextBox();
+  TextBox job = new TextBox();
+  TextBox nation = new TextBox();
+  TextBox music = new TextBox();
+  TextArea sdescript = new TextArea();
+  TextBox sexPref = new TextBox();
+
+  ListBox edu = new ListBox();
+  ListBox sexOrient = new ListBox();
+  ListBox searchFor = new ListBox();
 
 
 
@@ -100,6 +126,67 @@ public class CreateEigenProfil extends VerticalPanel {
     // Spalte 4
     profilGrid.setWidget(4, 1, religionLabel);
     profilGrid.setWidget(4, 2, religionTextBox);
+    
+    FlexTable descripton = new FlexTable();
+    descripton.setStyleName("desctable");
+    this.add(descripton);
+
+    descripton.setWidget(0, 0, sdescriptLab);
+    descripton.setWidget(0, 1, sdescript);
+    // sdescript.setValue(getProfilFromServer.getVorname());
+
+    Grid infoGrid = new Grid(4, 6);
+    infoGrid.setStyleName("etable");
+    this.add(infoGrid);
+
+    infoGrid.setWidget(0, 1, hobbyLab);
+    infoGrid.setWidget(0, 2, hobby);
+    // hobby.setValue(getProfilFromServer.getNachname());
+
+    // Spalte 2
+    infoGrid.setWidget(0, 3, jobLab);
+    infoGrid.setWidget(0, 4, job);
+    // job.setValue(getProfilFromServer.getGeburtsdatum().toString());
+
+    infoGrid.setWidget(1, 1, nationLab);
+    infoGrid.setWidget(1, 2, nation);
+    // nation.setValue(getProfilFromServer.getEmail());
+
+    // Spalte 3
+    edu.addItem("Universität", "uni");
+    edu.addItem("Abitur", "abi");
+    edu.addItem("Fachhochschulreife", "fh");
+    edu.addItem("Realschulabschluss", "real");
+    edu.addItem("Hauptschulabschluss", "haupt");
+    edu.addItem("Andere", "andere");
+
+    infoGrid.setWidget(1, 3, eduLab);
+    infoGrid.setWidget(1, 4, edu);
+
+    // Spalte 4
+    infoGrid.setWidget(2, 1, musicLab);
+    infoGrid.setWidget(2, 2, music);
+    // music.setValue(getProfilFromServer.getHaarfarbe());
+
+    infoGrid.setWidget(2, 3, sexPrefLab);
+    infoGrid.setWidget(2, 4, sexPref);
+    // heightTextBox.setValue(String.valueOf(getProfilFromServer.getKoerpergroesse()));
+
+    // Spalte 5
+    searchFor.addItem("Beziehung", "beziehung");
+    searchFor.addItem("One-Night-Stand", "ons");
+    searchFor.addItem("Swinger", "swinger");
+
+    sexOrient.addItem("Heterosexuell", "hetero");
+    sexOrient.addItem("Homosexuell", "homo");
+    sexOrient.addItem("Bisexuell", "bi");
+    sexOrient.addItem("Andere", "andere");
+
+    infoGrid.setWidget(3, 1, sexOrientLab);
+    infoGrid.setWidget(3, 2, sexOrient);
+
+    infoGrid.setWidget(3, 3, searchForLab);
+    infoGrid.setWidget(3, 4, searchFor);
 
     /**
      * Button zum Speichern des eigenen geänderten Profils
@@ -110,6 +197,7 @@ public class CreateEigenProfil extends VerticalPanel {
       public void onClick(ClickEvent event) {
 
         createProfileOnServer();
+        generateInfosOfUser();
       }
 
       private void createProfileOnServer() {
@@ -136,6 +224,32 @@ public class CreateEigenProfil extends VerticalPanel {
           }
         });
 
+      }
+      
+      private void generateInfosOfUser(){
+			
+			Freitext f = new Freitext();
+			f.setBeschreibung(sdescript.getValue());
+			
+			Info i = new Info();
+			i.setText(sdescriptLab.getText());
+			
+			// TODO: aktuelles Profil verwenden und kein Mockup
+			Profil prof = new Profil();
+			prof.setId(1);
+			
+			partnerAdmin.createEigenschaftForFreitext(prof, i, f, new AsyncCallback<Void>(){
+
+				@Override
+				public void onFailure(Throwable caught) {
+					
+				}
+
+				@Override
+				public void onSuccess(Void result){
+					
+				}
+			});
       }
     });
 

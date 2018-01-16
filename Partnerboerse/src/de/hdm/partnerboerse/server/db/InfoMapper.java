@@ -167,15 +167,23 @@ public class InfoMapper {
 				// a bekommt den neuen höchsten Primaerschluesselwert
 				i.setId(rs.getInt("maxid") + 1);
 				stmt = con.createStatement();
+				
+				if (i.getAuswahlID() == 0){
+					stmt.executeUpdate("INSERT INTO info (id, bezeichnung, is_a, freitextID, auswahlID) VALUES (" + i.getId()
+					+ ",'" + i.getText() + "','" + i.getIs_a() + "'," + i.getFreitextID() + "," + null + ")");
+				}
+				
+				if (i.getFreitextID() == 0){
+					stmt.executeUpdate("INSERT INTO info (id, bezeichnung, is_a, freitextID, auswahlID) VALUES (" + i.getId()
+					+ ",'" + i.getText() + "','" + i.getIs_a() + "'," + null + "," + i.getAuswahlID() + ")");
+				}
 
-				// Das ist die eigentliche Einfüg-Funktion
-				stmt.executeUpdate("INSERT INTO auswahl(id, bezeichnung, is_a, freitextID, auswahlID) " + "VALUES (" + i.getId()
-						+ ", '" + i.getText() + "', '" + i.getIs_a() + "', " + i.getFreitextID() + "," + i.getAuswahlID() + ")");
 				return i;
 
 			}
 		} catch (SQLException e2) {
 			e2.printStackTrace();
+			System.out.println("Hier liegt der Fehler amk");
 		}
 		return null;
 

@@ -425,13 +425,12 @@ public ArrayList<Profil> getNotSeenSuchProfilErgebnisse(Suchprofil suchprofil) t
 	public Info createInfoForFreitext(Info info, Freitext freitext) throws IllegalArgumentException {
 		
 		Freitext f = this.createFreitext(freitext);
+		info.setIs_a("freitext");
 		info.setFreitextID(f.getId());
 		
 		
 		return this.iMapper.insertInfo(info);
 		
-		// Update-Methode auch (falls Eigenschaften gelöscht werden ändert sich das Infoobjekt etc.)		
-		// TODO: Wie fügen wir die EigenschaftsID hinzu?
 	}
 
 	@Override
@@ -511,8 +510,6 @@ public ArrayList<Profil> getNotSeenSuchProfilErgebnisse(Suchprofil suchprofil) t
 		
 		
 		
-		
-		
 		this.eiMapper.insertEigenschaft(eig);
 		
 	}
@@ -520,11 +517,11 @@ public ArrayList<Profil> getNotSeenSuchProfilErgebnisse(Suchprofil suchprofil) t
 	@Override
 	public void createEigenschaftForFreitext(Profil profil, Info info, Freitext freitext) throws IllegalArgumentException {
 			Eigenschaft eig = new Eigenschaft();
-			eig.setEpID(profil.getId());
 			
-			
+			eig.setEpID(profil.getId());			
 			Info inf = this.createInfoForFreitext(info, freitext);
 			eig.setInfoID(inf.getId());
+			eig.setErlaeuterung(inf.getText());
 			
 			this.eiMapper.insertEigenschaft(eig);
 	}

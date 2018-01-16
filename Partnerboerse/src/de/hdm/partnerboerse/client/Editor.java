@@ -10,10 +10,13 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
@@ -49,6 +52,7 @@ public class Editor implements EntryPoint {
   EigenProfilView epv = new EigenProfilView();
   EditProfile ep = new EditProfile();
   EditSuchprofil sp = new EditSuchprofil();
+  
 
   @Override
   public void onModuleLoad() {
@@ -122,6 +126,8 @@ public class Editor implements EntryPoint {
 
     // Associate the Main panel with the HTML host page.
     RootPanel.get("contwrap").add(mainPanel);
+    
+    
 
     // Move cursor focus to the input box.
     newSymbolTextBox.setFocus(true);
