@@ -1,5 +1,6 @@
 package de.hdm.partnerboerse.client;
 
+import java.util.ArrayList;
 import java.util.Date;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -18,6 +19,7 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
+import de.hdm.partnerboerse.shared.bo.Auswahl;
 import de.hdm.partnerboerse.shared.bo.Freitext;
 import de.hdm.partnerboerse.shared.bo.Info;
 import de.hdm.partnerboerse.shared.bo.Profil;
@@ -173,14 +175,8 @@ public class CreateEigenProfil extends VerticalPanel {
     // heightTextBox.setValue(String.valueOf(getProfilFromServer.getKoerpergroesse()));
 
     // Spalte 5
-    searchFor.addItem("Beziehung", "beziehung");
-    searchFor.addItem("One-Night-Stand", "ons");
-    searchFor.addItem("Swinger", "swinger");
-
-    sexOrient.addItem("Heterosexuell", "hetero");
-    sexOrient.addItem("Homosexuell", "homo");
-    sexOrient.addItem("Bisexuell", "bi");
-    sexOrient.addItem("Andere", "andere");
+    getItemsOfAuswahl();
+ 
 
     infoGrid.setWidget(3, 1, sexOrientLab);
     infoGrid.setWidget(3, 2, sexOrient);
@@ -227,29 +223,58 @@ public class CreateEigenProfil extends VerticalPanel {
       }
       
       private void generateInfosOfUser(){
-			
-			Freitext f = new Freitext();
-			f.setBeschreibung(sdescript.getValue());
-			
-			Info i = new Info();
-			i.setText(sdescriptLab.getText());
-			
+						
 			// TODO: aktuelles Profil verwenden und kein Mockup
 			Profil prof = new Profil();
 			prof.setId(1);
 			
+			
+			Freitext f = new Freitext();
+			f.setBeschreibung(sdescript.getValue());			
+			Info i = new Info();
+			i.setText(sdescriptLab.getText());			
 			partnerAdmin.createEigenschaftForFreitext(prof, i, f, new AsyncCallback<Void>(){
 
 				@Override
 				public void onFailure(Throwable caught) {
-					
 				}
 
 				@Override
 				public void onSuccess(Void result){
-					
 				}
 			});
+			
+			Freitext f1 = new Freitext();
+			f.setBeschreibung(hobby.getValue());
+			Info i1 = new Info();
+			i1.setText(hobbyLab.getText());
+			partnerAdmin.createEigenschaftForFreitext(prof, i1, f1, new AsyncCallback<Void>(){
+
+				@Override
+				public void onFailure(Throwable caught) {
+				}
+
+				@Override
+				public void onSuccess(Void result) {
+				}
+				
+			});
+			
+			Auswahl a = new Auswahl();
+			a.setTitel(searchFor.getSelectedValue());
+			Info i3 = new Info();
+			i3.setText(searchForLab.getText());
+			partnerAdmin.createEigenschaftForAuswahl(prof, i3, a, new AsyncCallback<Void>(){
+
+				@Override
+				public void onFailure(Throwable caught) {
+				}
+
+				@Override
+				public void onSuccess(Void result) {
+				}
+			});
+			
       }
     });
 
@@ -298,6 +323,32 @@ public class CreateEigenProfil extends VerticalPanel {
 
     return setProfil;
 
+  }
+  
+  private void getItemsOfAuswahl(){
+	  
+	  	  
+	  partnerAdmin.getAuswahl(new AsyncCallback<ArrayList<Auswahl>>(){
+
+		@Override
+		public void onFailure(Throwable caught) {			
+		}
+
+		@Override
+		public void onSuccess(ArrayList<Auswahl> result) {
+
+			for (Auswahl a : result){
+				if ( a.getAuswahlFor() == "Sexualität"){
+					sexOrient.addItem(a.getTitel(), a.getTitel());					
+				}
+				if (a.getAuswahlFor() == "searchingFor"){
+					searchFor.addItem(a.getTitel(), a.getTitel());
+				}
+			}				
+		}
+				  
+	  });
+	  	  
   }
 
   public LoginInfo getLoginInfo() {

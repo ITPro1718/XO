@@ -432,6 +432,16 @@ public ArrayList<Profil> getNotSeenSuchProfilErgebnisse(Suchprofil suchprofil) t
 		return this.iMapper.insertInfo(info);
 		
 	}
+	
+	@Override
+	public Info createInfoForAuswahl(Info info, Auswahl auswahl) throws IllegalArgumentException {
+
+		info.setIs_a("auswahl");
+		Auswahl aus = this.findAuswahlByTitle(auswahl);
+		info.setAuswahlID(aus.getId());
+
+		return this.iMapper.insertInfo(info);
+	}
 
 	@Override
 	public ArrayList<Info> getAllInfos() throws IllegalArgumentException {
@@ -500,14 +510,9 @@ public ArrayList<Profil> getNotSeenSuchProfilErgebnisse(Suchprofil suchprofil) t
 		Eigenschaft eig = new Eigenschaft();
 		eig.setEpID(p.getId());
 		
-		
-		/**
-		 * Wenn eine Eigenschaft erstellt wird, wird auch automatisch ein Info Objekt erstellt.
-		 */
-		
-		Info inf = this.createInfoForFreitext(i, null);
-		// Auswahl aus = this.getAuswahlByTitle(a.getTitle());
-		
+			
+		Info inf = this.createInfoForAuswahl(i, a);
+		eig.setInfoID(inf.getId());
 		
 		
 		this.eiMapper.insertEigenschaft(eig);
@@ -745,5 +750,13 @@ public ArrayList<Besuch> findBesucheOf(Profil profilowner) throws IllegalArgumen
 	
 	return this.bMapper.findByEigenprofil(profilowner);
 }
+
+@Override
+public Auswahl findAuswahlByTitle(Auswahl auswahl) throws IllegalArgumentException {
+
+	return this.aMapper.findAuswahlByTitle(auswahl);
+}
+
+
 
 }

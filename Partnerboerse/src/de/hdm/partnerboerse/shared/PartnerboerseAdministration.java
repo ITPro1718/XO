@@ -459,4 +459,8 @@ public interface PartnerboerseAdministration extends RemoteService {
 	
 	public ArrayList<Profil> getProfileForKontaktsperre(Profil eigenProfil) throws IllegalArgumentException;
 	
+	public Auswahl findAuswahlByTitle(Auswahl auswahl) throws IllegalArgumentException;
+	
+	public Info createInfoForAuswahl(Info info, Auswahl auswahl) throws IllegalArgumentException;
+	
 }

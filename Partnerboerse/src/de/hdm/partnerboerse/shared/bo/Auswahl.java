@@ -11,6 +11,8 @@ public class Auswahl extends BusinessObjekt {
 	private static final long serialVersionUID = 1L;
 
 	private String titel;
+	
+	private String auswahlFor;
 
 	/**
 	 * Liefert den Titel der Auswahl.
@@ -68,6 +70,14 @@ public class Auswahl extends BusinessObjekt {
 	@Override
 	public String toString() {
 		return "Auswahl [titel=" + titel + "]";
+	}
+
+	public String getAuswahlFor() {
+		return auswahlFor;
+	}
+
+	public void setAuswahlFor(String auswahlFor) {
+		this.auswahlFor = auswahlFor;
 	}
 
 }

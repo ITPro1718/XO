@@ -71,8 +71,8 @@ public class AuswahlMapper {
 				stmt = con.createStatement();
 
 				// Das ist die eigentliche Einfüg-Funktion
-				stmt.executeUpdate("INSERT INTO auswahl(id, titel) " + "VALUES (" + auswahl.getId() + ", '"
-						+ auswahl.getTitel() + "')");
+				stmt.executeUpdate("INSERT INTO auswahl(id, titel, auswahlFor) VALUES (" + auswahl.getId() + ", '"
+						+ auswahl.getTitel() + "','" + auswahl.getAuswahlFor() +"')");
 				return auswahl;
 			}
 		} catch (SQLException e2) {
@@ -130,11 +130,12 @@ public class AuswahlMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			ResultSet rs = stmt.executeQuery("SELECT id, titel FROM auswahl WHERE id=" + id);
+			ResultSet rs = stmt.executeQuery("SELECT * FROM auswahl WHERE id=" + id);
 			if (rs.next()) {
 				Auswahl a = new Auswahl();
 				a.setId(rs.getInt("id"));
 				a.setTitel(rs.getString("titel"));
+				a.setAuswahlFor(rs.getString("auswahlFor"));
 				return a;
 			}
 		} catch (SQLException e2) {
@@ -156,12 +157,13 @@ public class AuswahlMapper {
 
 		try {
 			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT id, titel FROM auswahl " + "ORDER BY id");
+			ResultSet rs = stmt.executeQuery("SELECT * FROM auswahl ORDER BY id");
 
 			while (rs.next()) {
 				Auswahl a = new Auswahl();
 				a.setId(rs.getInt("id"));
 				a.setTitel(rs.getString("titel"));
+				a.setAuswahlFor(rs.getString("auswahlFor"));
 
 				result.add(a);
 			}
@@ -189,6 +191,29 @@ public class AuswahlMapper {
 				Auswahl a = new Auswahl();
 				a.setId(rs.getInt("id"));
 				a.setTitel(rs.getString("titel"));
+				a.setAuswahlFor(rs.getString("auswahlFor"));
+				return a;
+			}
+		} catch (SQLException e2) {
+			e2.printStackTrace();
+		}
+
+		return null;
+	}
+
+	public Auswahl findAuswahlByTitle(Auswahl auswahl) {
+		Connection con = DBConnection.getConnection();
+
+		try {
+			Statement stmt = con.createStatement();
+
+			ResultSet rs = stmt.executeQuery("SELECT * FROM auswahl WHERE titel='" + auswahl.getTitel() + "'");
+
+			if (rs.next()) {
+				Auswahl a = new Auswahl();
+				a.setId(rs.getInt("id"));
+				a.setTitel(rs.getString("titel"));
+				a.setAuswahlFor(rs.getString("auswahlFor"));
 				return a;
 			}
 		} catch (SQLException e2) {

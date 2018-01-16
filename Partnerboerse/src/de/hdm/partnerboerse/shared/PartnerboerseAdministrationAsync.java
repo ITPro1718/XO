@@ -1,7 +1,9 @@
 package de.hdm.partnerboerse.shared;
 
 import java.util.ArrayList;
+
 import com.google.gwt.user.client.rpc.AsyncCallback;
+
 import de.hdm.partnerboerse.shared.bo.Auswahl;
 import de.hdm.partnerboerse.shared.bo.Besuch;
 import de.hdm.partnerboerse.shared.bo.Eigenschaft;
@@ -26,13 +28,15 @@ public interface PartnerboerseAdministrationAsync {
 
 	void createFreitext(Freitext freitext, AsyncCallback<Freitext> callback);
 
+	void createInfoForAuswahl(Info info, Auswahl auswahl, AsyncCallback<Info> callback);
+
 	void createInfoForFreitext(Info info, Freitext freitext, AsyncCallback<Info> callback);
 
 	void createKontaksperreEintrag(Profil source, Profil target, AsyncCallback<Void> callback);
 
 	void createMerkzettelEintrag(Profil source, Profil target, AsyncCallback<Void> callback);
 
-    void createProfil(Profil p, AsyncCallback<Void> callback);
+	void createProfil(Profil p, AsyncCallback<Void> callback);
 
 	void createSuchprofil(Profil source, String titel, String haarfarbe, float kgr, boolean raucher, String religion,
 			int alter, AsyncCallback<Void> callback);
@@ -56,6 +60,8 @@ public interface PartnerboerseAdministrationAsync {
 	void deleteSuchprofil(Suchprofil suchprofil, AsyncCallback<Void> callback);
 
 	void findAllBesuche(AsyncCallback<ArrayList<Besuch>> callback);
+
+	void findAuswahlByTitle(Auswahl auswahl, AsyncCallback<Auswahl> callback);
 
 	void findAuswahlOf(Info info, AsyncCallback<Auswahl> callback);
 
