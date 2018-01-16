@@ -170,7 +170,7 @@ public class InfoMapper {
 
 				// Das ist die eigentliche Einfüg-Funktion
 				stmt.executeUpdate("INSERT INTO auswahl(id, bezeichnung, is_a, freitextID, auswahlID) " + "VALUES (" + i.getId()
-						+ ", " + i.getText() + ", " + i.getIs_a() + ", " + i.getFreitextID() + "," + i.getAuswahlID() + ")");
+						+ ", '" + i.getText() + "', '" + i.getIs_a() + "', " + i.getFreitextID() + "," + i.getAuswahlID() + ")");
 				return i;
 
 			}
