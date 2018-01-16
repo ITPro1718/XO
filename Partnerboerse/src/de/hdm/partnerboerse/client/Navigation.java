@@ -3,13 +3,11 @@ package de.hdm.partnerboerse.client;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-
 import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
 
@@ -17,10 +15,11 @@ public class Navigation extends VerticalPanel {
 
 	private final PartnerboerseAdministrationAsync partnerAdmin = GWT.create(PartnerboerseAdministration.class);
 
+	LoginInfo loginInfo = null;
+	
 	/*
 	 * Navigation zeichnen und bereitstellen
 	 */
-
 	final Button meinProfil = new Button("Mein Profil");
 	final Button meineMerkliste = new Button("Merkliste");
 	final Button meineKontaktsperren = new Button("Kontaktsperren");
@@ -29,7 +28,7 @@ public class Navigation extends VerticalPanel {
 	HTML reports = new HTML("<h3>" + "REPORTS" + "</h3>");
 
 	final Button meineSuchprofilReports = new Button("Suchprofil Report");
-	final Button meinePartnervorschläge = new Button("Partnervorschläge");
+	final Button meinePartnervorschlaege = new Button("Partnervorschläge");
 
 	@Override
 	public void onLoad() {
@@ -61,7 +60,7 @@ public class Navigation extends VerticalPanel {
 		navi.add(meineSuchprofile);
 		navi.add(reports);
 		navi.add(meineSuchprofilReports);
-		navi.add(meinePartnervorschläge);
+		navi.add(meinePartnervorschlaege);
 		
 		/*
 		 * Methode lädt die View des eigenen Profils
@@ -81,6 +80,7 @@ public class Navigation extends VerticalPanel {
           private void loadEigenProfilView() {
             
             EigenProfilView epv = new EigenProfilView();
+            epv.setLoginInfo(loginInfo);
             
             HTMLPanel eigenProfilViewPanel = new HTMLPanel("<h3>" + "Hier können Sie ihr Profil sehen." + "</h3>");
             eigenProfilViewPanel.add(epv);
@@ -151,6 +151,14 @@ public class Navigation extends VerticalPanel {
 		
 
 	}
+
+  public LoginInfo getLoginInfo() {
+    return loginInfo;
+  }
+
+  public void setLoginInfo(LoginInfo loginInfo) {
+    this.loginInfo = loginInfo;
+  }
 
 	/*
 	 * Click Handlers.

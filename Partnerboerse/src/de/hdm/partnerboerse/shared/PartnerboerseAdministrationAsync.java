@@ -33,8 +33,7 @@ public interface PartnerboerseAdministrationAsync {
 
 	void createMerkzettelEintrag(Profil source, Profil target, AsyncCallback<Void> callback);
 
-	void createProfil(int id, String vname, String nname, String haarfarbe, float kgr, boolean raucher, String religion,
-			Date geb, String pw, String email, AsyncCallback<Void> callback);
+	void createProfil(Profil p, AsyncCallback<Void> callback);
 
 	void createSuchprofil(Profil source, String titel, String haarfarbe, float kgr, boolean raucher, String religion,
 			int alter, AsyncCallback<Void> callback);

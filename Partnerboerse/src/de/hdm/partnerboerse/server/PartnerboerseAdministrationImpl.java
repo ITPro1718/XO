@@ -94,21 +94,8 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 		
 
 	@Override
-	public void createProfil(int id, String vname, String nname, String haarfarbe, float kgr, boolean raucher,
-			String religion, Date geb, String pw, String email) throws IllegalArgumentException {
-
-		Profil p = new Profil();
-		p.setVorname(vname);
-		p.setNachname(nname);
-		p.setHaarfarbe(haarfarbe);
-		p.setKoerpergroesse(kgr);
-		p.setRaucher(raucher);
-		p.setGeburtsdatum(geb);
-		p.setPasswort(pw);
-		p.setEmail(email);
-		p.setId(id);
-		p.setReligion(religion);
-		
+	public void createProfil(Profil p) throws IllegalArgumentException {
+		System.out.println("test02"+p.toString());
 		this.pMapper.insert(p);
 	}
 
