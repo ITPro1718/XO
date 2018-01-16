@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import de.hdm.partnerboerse.shared.bo.Profil;
 
@@ -353,7 +352,7 @@ public class ProfilMapper {
     Connection con = DBConnection.getConnection();
 
     try (PreparedStatement stmt = con.prepareStatement(
-        "UPDATE profil " + "vorname = ?, nachname = ?, geburtstag = ?, "
+        "UPDATE profil set vorname = ?, nachname = ?, geburtstag = ?, "
             + "haarfarbe = ?, koerpergroesse=  ?, raucher = ?, religion = ? WHERE email = ?")) {
 
       java.util.Date utilDate = p.getGeburtsdatum();
