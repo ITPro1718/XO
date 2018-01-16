@@ -116,7 +116,7 @@ public class BesuchMapper {
 			Statement stmt = con.createStatement();
 
 			ResultSet rs = stmt
-					.executeQuery("SELECT * FROM besuch" + "WHERE epID=" + p.getId());
+					.executeQuery("SELECT * FROM besuch" + "WHERE epID=" + p.getId() + " ORDER BY id");
 			if (rs.next()) {
 				Besuch besuch = new Besuch();
 				besuch.setId(rs.getInt("id"));

@@ -174,7 +174,7 @@ public class FreitextMapper {
 
 			Statement stmt = con.createStatement();
 
-			ResultSet rs = stmt.executeQuery("SELECT * FROM freitext" + "WHERE id=" + info.getFreitextID());
+			ResultSet rs = stmt.executeQuery("SELECT * FROM freitext WHERE id = " + info.getFreitextID());
 
 			if (rs.next()) {
 				Freitext f = new Freitext();

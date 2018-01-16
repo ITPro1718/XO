@@ -1,10 +1,7 @@
 package de.hdm.partnerboerse.shared;
 
 import java.util.ArrayList;
-import java.util.Date;
-
 import com.google.gwt.user.client.rpc.AsyncCallback;
-
 import de.hdm.partnerboerse.shared.bo.Auswahl;
 import de.hdm.partnerboerse.shared.bo.Besuch;
 import de.hdm.partnerboerse.shared.bo.Eigenschaft;
@@ -35,8 +32,7 @@ public interface PartnerboerseAdministrationAsync {
 
 	void createMerkzettelEintrag(Profil source, Profil target, AsyncCallback<Void> callback);
 
-	void createProfil(int id, String vname, String nname, String haarfarbe, float kgr, boolean raucher, String religion,
-			Date geb, String pw, String email, AsyncCallback<Void> callback);
+    void createProfil(Profil p, AsyncCallback<Void> callback);
 
 	void createSuchprofil(Profil source, String titel, String haarfarbe, float kgr, boolean raucher, String religion,
 			int alter, AsyncCallback<Void> callback);

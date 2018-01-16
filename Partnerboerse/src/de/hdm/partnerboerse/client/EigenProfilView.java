@@ -19,6 +19,8 @@ public class EigenProfilView extends VerticalPanel {
   private final PartnerboerseAdministrationAsync partnerAdmin =
       GWT.create(PartnerboerseAdministration.class);
 
+  LoginInfo loginInfo = null;
+
   /*
    * Widgets, deren Inhalte variable sind, werden als Attribute angelegt.
    */
@@ -36,56 +38,49 @@ public class EigenProfilView extends VerticalPanel {
   public void onLoad() {
 
     loadProfileFromServer();
-    
+
     editButton.addClickHandler(new ClickHandler() {
-      
+
       @Override
       public void onClick(ClickEvent event) {
-        
-        partnerAdmin.getProfilByID(1, new AsyncCallback<Profil>() {
+
+        partnerAdmin.getProfilByEmail(loginInfo.getEmailAddress(), new AsyncCallback<Profil>() {
 
           @Override
           public void onFailure(Throwable caught) {
-            Window.alert("Daten wurden nicht geladen!");
-            
+            // TODO Auto-generated method stub
+
           }
 
           @Override
           public void onSuccess(Profil result) {
             loadEditProfilView(result);
-            
-          }
 
-});
-        
+          }
+        });
+
       }
     });
   }
 
   private void loadProfileFromServer() {
 
-    partnerAdmin.getProfilByID(1, new AsyncCallback<Profil>() {
+    partnerAdmin.getProfilByEmail(loginInfo.getEmailAddress(), new AsyncCallback<Profil>() {
 
       @Override
       public void onFailure(Throwable caught) {
-        
-        Window.alert("Daten wurden nicht geladen!");
+        // TODO Auto-generated method stub
 
       }
 
       @Override
       public void onSuccess(Profil result) {
-        
         updateProfilTable(result);
 
       }
-
     });
-
   }
 
-  //ToDo: Parameter muss umgeändert werden von "Profil result" in Google+ Email später
-  //sobald Login da ist.
   private void updateProfilTable(Profil result) {
     Profil meinProfil = result;
 
@@ -125,24 +120,33 @@ public class EigenProfilView extends VerticalPanel {
     profilGrid.setText(4, 2, meinProfil.getReligion());
 
   }
-  
-  //ToDo: Überlegen wie man den Parameter für die neue View übertragen kann
+
+  // ToDo: Überlegen wie man den Parameter für die neue View übertragen kann
   private void loadEditProfilView(Profil result) {
-    
+
     EditProfile ep = new EditProfile();
-    
-    //ToDo: Sollte man umändern, wirkt ziemlich unsicher
+    ep.setLoginInfo(loginInfo);
+
+    // ToDo: Sollte man umändern, wirkt ziemlich unsicher
     ep.getProfilFromServer = result;
-    
+
     // Profile Edit - Panel wird erzeugt und eingefügt.
-    HTMLPanel editProfilePanel = new HTMLPanel(
-            "<h3>" + "Hier können Sie ihre Profilinformationen bearbeiten." + "</h3>");
-    
+    HTMLPanel editProfilePanel =
+        new HTMLPanel("<h3>" + "Hier können Sie ihre Profilinformationen bearbeiten." + "</h3>");
+
     editProfilePanel.add(ep);
-    
+
     RootPanel.get("contwrap").clear();
     RootPanel.get("contwrap").add(editProfilePanel);
-       
+
+  }
+
+  public LoginInfo getLoginInfo() {
+    return loginInfo;
+  }
+
+  public void setLoginInfo(LoginInfo loginInfo) {
+    this.loginInfo = loginInfo;
   }
 
 }

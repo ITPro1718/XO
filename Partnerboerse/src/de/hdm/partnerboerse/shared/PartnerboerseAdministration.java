@@ -29,9 +29,6 @@ public interface PartnerboerseAdministration extends RemoteService {
 
 	/**
 	 * Profil Methoden Ein Profil anlegen.
-	 * 
-	 * @param id
-	 *            Prim�rschl�ssel
 	 * @param vname
 	 *            Vorname
 	 * @param nname
@@ -50,10 +47,10 @@ public interface PartnerboerseAdministration extends RemoteService {
 	 *            Passwort
 	 * @param email
 	 *            Email
+	 * 
 	 * @throws IllegalArgumentException
 	 */
-	public void createProfil(int id, String vname, String nname, String haarfarbe, float kgr, boolean raucher,
-			String religion, Date geb, String pw, String email) throws IllegalArgumentException;
+	public void createProfil(Profil p) throws IllegalArgumentException;
 
 	/**
 	 * Profil aendern. (evtl. Was wird veraendert, Attribute?)
