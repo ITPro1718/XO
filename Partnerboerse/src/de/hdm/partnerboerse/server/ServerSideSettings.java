@@ -74,7 +74,7 @@ public class ServerSideSettings extends CommonSettings {
 	   * @return die Logger-Instanz für die Server-Seite
 	   */
 	
-	private static Logger getLogger(){
+	public static Logger getLogger(){
 		return LOG;
 	}
 

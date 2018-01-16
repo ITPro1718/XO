@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Logger;
+import de.hdm.partnerboerse.server.ServerSideSettings;
 import de.hdm.partnerboerse.shared.bo.Profil;
 
 /**
@@ -15,6 +17,8 @@ import de.hdm.partnerboerse.shared.bo.Profil;
  */
 
 public class ProfilMapper {
+  
+  Logger logger = ServerSideSettings.getLogger();
 
   /**
    * Stellt sicher, dass die Klasse nur ein mal instanziiert wird *
@@ -339,6 +343,7 @@ public class ProfilMapper {
 
     } catch (SQLException e) {
       e.printStackTrace();
+      logger.severe("ProfilMapper.insert konnte Daten nicht in die DB gespeichert werden: " + e.getMessage() + e.getCause());
     }
 
   }

@@ -1,15 +1,19 @@
 package de.hdm.partnerboerse.server.db;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-
+import java.util.logging.Logger;
+import de.hdm.partnerboerse.server.ServerSideSettings;
 import de.hdm.partnerboerse.shared.bo.Profil;
 import de.hdm.partnerboerse.shared.bo.Suchprofil;
 
 public class SuchprofilMapper {
+  
+  Logger logger = ServerSideSettings.getLogger();
 
 	/**
 	 * Stellt sicher, dass die Klasse nur ein mal instanziiert wird *
@@ -39,27 +43,22 @@ public class SuchprofilMapper {
 
 	public void insertSuchprofil(Suchprofil suchprofil) {
 
-		Connection con = DBConnection.getConnection();
+	    Connection con = DBConnection.getConnection();
 
-		try {
-			Statement stmt = con.createStatement();
+		try(PreparedStatement stmt = con.prepareStatement("INSERT INTO suchprofil (titel, haarfarbe, koerpergroesse, raucher, age, epID) "
+		    + "VALUES (?, ?, ?, ?, ?, ?)")) {
 
-			ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid " + "FROM suchprofil");
-
-			if (rs.next()) {
-
-				suchprofil.setId(rs.getInt("maxid") + 1);
-				stmt = con.createStatement();
-
-				stmt.executeUpdate(
-						"INSERT INTO suchprofil (id, titel, religion, haarfarbe, koerpergroesse, raucher, age, epID) "
-								+ "VALUES (" + suchprofil.getId() + ",'" + suchprofil.getTitle() + "','"
-								+ suchprofil.getReligion() + "','" + suchprofil.getHaarFarbe() + "',"
-								+ suchprofil.getKoerpergroesse() + "," + suchprofil.isRaucher() + ","
-								+ suchprofil.getAlter() + "," + suchprofil.getEigenprofilID() + ")");
-			}
-		} catch (SQLException e2) {
-			e2.printStackTrace();
+	      stmt.setString(1, suchprofil.getTitle());
+	      stmt.setString(2, suchprofil.getHaarFarbe());
+	      stmt.setDouble(3, suchprofil.getKoerpergroesse());
+	      stmt.setBoolean(4, suchprofil.isRaucher());
+	      stmt.setInt(5, suchprofil.getAlter());
+	      stmt.setInt(6, suchprofil.getEigenprofilID());
+	      
+	      stmt.executeUpdate();     
+			
+		} catch (SQLException e) {
+			logger.severe("SuchProfilMapper.insert konnte Daten nicht in die DB gespeichert werden: " + e.getMessage() + e.getCause());
 		}
 	}
 
