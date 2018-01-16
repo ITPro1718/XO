@@ -5,7 +5,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -18,7 +18,7 @@ import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
 import de.hdm.partnerboerse.shared.bo.Profil;
 import de.hdm.partnerboerse.shared.bo.Suchprofil;
 
-public class Searchprofile extends VerticalPanel {
+public class CreateSuchprofil extends VerticalPanel {
 
 	private final PartnerboerseAdministrationAsync partnerAdmin = GWT.create(PartnerboerseAdministration.class);
 
@@ -42,6 +42,9 @@ public class Searchprofile extends VerticalPanel {
 		Label religionLabel = new Label("Religion: ");
 		Label titleLabel = new Label("title des Suchprofils");
 
+		/**
+		 * DropDown in Profil genauso wie bei Suchprofil
+		 */
 		bdayListBox.addItem("20", "20");
 		bdayListBox.addItem("30", "30");
 		bdayListBox.addItem("40", "40");
@@ -74,7 +77,7 @@ public class Searchprofile extends VerticalPanel {
 
 		// Grid erstellen zur besseren Darstellung
 
-		Grid SprofilGrid = new Grid(3, 5);
+		FlexTable SprofilGrid = new FlexTable();
 		SprofilGrid.setStyleName("etable");
 		this.add(SprofilGrid);
 

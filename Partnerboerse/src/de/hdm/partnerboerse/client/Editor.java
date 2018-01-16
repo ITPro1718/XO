@@ -34,11 +34,11 @@ public class Editor implements EntryPoint {
   
   private VerticalPanel loginPanel = new VerticalPanel();
   private Label loginLabel =
-      new Label("Please sign in to your Google Account to access the StockWatcher application.");
-  private Anchor signInLink = new Anchor("Sign In");
+      new Label("Melde dich mit deinem Google-Konto an, dann kann es schon losgehen!");
+  private Anchor signInLink = new Anchor("anmelden");
 
   // Logoutattribute
-  private Anchor signOutLink = new Anchor("Sign Out");
+  private Anchor signOutLink = new Anchor("abmelden");
 
   // Unnötige Attribute?! Muss angepasst werden
   private VerticalPanel mainPanel = new VerticalPanel();
