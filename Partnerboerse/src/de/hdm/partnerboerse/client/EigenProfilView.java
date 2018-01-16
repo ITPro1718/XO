@@ -125,6 +125,7 @@ public class EigenProfilView extends VerticalPanel {
   private void loadEditProfilView(Profil result) {
 
     EditProfile ep = new EditProfile();
+    ep.setLoginInfo(loginInfo);
 
     // ToDo: Sollte man umändern, wirkt ziemlich unsicher
     ep.getProfilFromServer = result;

@@ -188,7 +188,7 @@ public class SuchprofilMapper {
 			Statement stmt = con.createStatement();
 
 			ResultSet rs = stmt
-					.executeQuery("SELECT * FROM suchprofil" + "WHERE epID=" + profilowner.getId() + "ORDER BY id");
+					.executeQuery("SELECT * FROM suchprofil WHERE epID = " + profilowner.getId() + " ORDER BY id");
 
 			while (rs.next()) {
 				Suchprofil s = new Suchprofil();

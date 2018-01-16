@@ -152,7 +152,7 @@ public class KontaktsperreMapper {
 			Statement stmt = con.createStatement();
 
 			ResultSet rs = stmt
-					.executeQuery("SELECT * FROM kontaktsperre" + "WHERE epID=" + profilowner.getId() + "ORDER BY id");
+					.executeQuery("SELECT * FROM kontaktsperre WHERE epID = " + profilowner.getId() + " ORDER BY id");
 
 			while (rs.next()) {
 				Kontaktsperre k = new Kontaktsperre();

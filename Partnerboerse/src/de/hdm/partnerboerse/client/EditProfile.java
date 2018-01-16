@@ -9,8 +9,10 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -278,16 +280,14 @@ public class EditProfile extends VerticalPanel {
           public void onSuccess(Void result) {
             Window.alert(vnameTextBox.getValue() + " Profil wurde gespeichert.");
 
-//            EigenProfilView epv = new EigenProfilView();
-//            //Editor ed = new Editor();
-//            //epv.setLoginInfo(ed.getLoginInfo());
-//            //Window.alert("Test :" + getLoginInfo().toString());
-//            
-//            HTMLPanel eigenProfilViewPanel = new HTMLPanel("<h3>" + "Hier können Sie ihr Profil sehen." + "</h3>");
-//            eigenProfilViewPanel.add(epv);
-//            
-//            RootPanel.get("contwrap").clear();
-//            RootPanel.get("contwrap").add(eigenProfilViewPanel);
+            EigenProfilView epv = new EigenProfilView();
+            epv.setLoginInfo(loginInfo);
+            
+            HTMLPanel eigenProfilViewPanel = new HTMLPanel("<h3>" + "Hier können Sie ihr Profil sehen." + "</h3>");
+            eigenProfilViewPanel.add(epv);
+            
+            RootPanel.get("contwrap").clear();
+            RootPanel.get("contwrap").add(eigenProfilViewPanel);
 
           }
         });
@@ -356,7 +356,7 @@ public class EditProfile extends VerticalPanel {
     setProfil.setVorname(vnameTextBox.getValue());
     setProfil.setNachname(lnameTextBox.getValue());
     setProfil.setGeburtsdatum(bdayTextBox.getValue());
-    setProfil.setEmail("test@example.com");
+    setProfil.setEmail(loginInfo.getEmailAddress());
     setProfil.setPasswort(pwTextBox.getValue());
     setProfil.setKoerpergroesse(heightConvert);
     setProfil.setReligion(religionTextBox.getValue());
