@@ -241,37 +241,7 @@ public class CreateEigenProfil extends VerticalPanel {
 
 				@Override
 				public void onSuccess(Void result){
-				}
-			});
-			
-			Freitext f1 = new Freitext();
-			f.setBeschreibung(hobby.getValue());
-			Info i1 = new Info();
-			i1.setText(hobbyLab.getText());
-			partnerAdmin.createEigenschaftForFreitext(prof, i1, f1, new AsyncCallback<Void>(){
-
-				@Override
-				public void onFailure(Throwable caught) {
-				}
-
-				@Override
-				public void onSuccess(Void result) {
-				}
-				
-			});
-			
-			Auswahl a = new Auswahl();
-			a.setTitel(searchFor.getSelectedValue());
-			Info i3 = new Info();
-			i3.setText(searchForLab.getText());
-			partnerAdmin.createEigenschaftForAuswahl(prof, i3, a, new AsyncCallback<Void>(){
-
-				@Override
-				public void onFailure(Throwable caught) {
-				}
-
-				@Override
-				public void onSuccess(Void result) {
+					nextFreitextCallback();
 				}
 			});
 			
@@ -358,7 +328,49 @@ public class CreateEigenProfil extends VerticalPanel {
   public void setLoginInfo(LoginInfo loginInfo) {
     this.loginInfo = loginInfo;
   }
+  
+  private void nextFreitextCallback(){
+	  	
+	  	Profil prof = new Profil();
+		prof.setId(1);
+	  
+		Freitext f1 = new Freitext();
+		f1.setBeschreibung(hobby.getValue());
+		Info i1 = new Info();
+		i1.setText(hobbyLab.getText());
+		partnerAdmin.createEigenschaftForFreitext(prof, i1, f1, new AsyncCallback<Void>(){
 
+			@Override
+			public void onFailure(Throwable caught) {
+			}
 
+			@Override
+			public void onSuccess(Void result) {
+				auswahlCallback();
+			}
+			
+		});
+	  
+  }
+  
+  private void auswahlCallback(){
+	  
+	  	Profil prof = new Profil();
+		prof.setId(1);
+	  
+	  	Auswahl a = new Auswahl();
+		a.setTitel(searchFor.getSelectedValue());
+		Info i3 = new Info();
+		i3.setText(searchForLab.getText());
+		partnerAdmin.createEigenschaftForAuswahl(prof, i3, a, new AsyncCallback<Void>(){
 
+			@Override
+			public void onFailure(Throwable caught) {
+			}
+
+			@Override
+			public void onSuccess(Void result) {
+			}
+		});
+  }
 }

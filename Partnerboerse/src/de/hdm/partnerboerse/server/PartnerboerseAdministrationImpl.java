@@ -509,10 +509,10 @@ public ArrayList<Profil> getNotSeenSuchProfilErgebnisse(Suchprofil suchprofil) t
 		
 		Eigenschaft eig = new Eigenschaft();
 		eig.setEpID(p.getId());
-		
-			
+					
 		Info inf = this.createInfoForAuswahl(i, a);
 		eig.setInfoID(inf.getId());
+		eig.setErlaeuterung(inf.getText());
 		
 		
 		this.eiMapper.insertEigenschaft(eig);
@@ -521,6 +521,7 @@ public ArrayList<Profil> getNotSeenSuchProfilErgebnisse(Suchprofil suchprofil) t
 	
 	@Override
 	public void createEigenschaftForFreitext(Profil profil, Info info, Freitext freitext) throws IllegalArgumentException {
+			
 			Eigenschaft eig = new Eigenschaft();
 			
 			eig.setEpID(profil.getId());			

@@ -183,7 +183,6 @@ public class InfoMapper {
 			}
 		} catch (SQLException e2) {
 			e2.printStackTrace();
-			System.out.println("Hier liegt der Fehler amk");
 		}
 		return null;
 
