@@ -63,7 +63,7 @@ public class EigenschaftMapperTest {
 
 	@Test
 	public void testFindByKey() {
-		assertTrue(EigenschaftMapper.eigenschaftMapper().findByKey(3) != null);
+		assertTrue(EigenschaftMapper.eigenschaftMapper().findByKey(1) != null);
 	}
 
 	@Test

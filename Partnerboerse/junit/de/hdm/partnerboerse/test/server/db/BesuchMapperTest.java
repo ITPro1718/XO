@@ -15,7 +15,7 @@ public class BesuchMapperTest {
 
 	@Test
 	public void testFindByKey() {
-		assertTrue(BesuchMapper.besuchMapper().findByKey(7) != null);
+		assertTrue(BesuchMapper.besuchMapper().findByKey(1) != null);
 	}
 
 	@Test
