@@ -16,6 +16,7 @@ public class EditKontaktsperre extends VerticalPanel {
 
   private final PartnerboerseAdministrationAsync partnerAdmin =
       GWT.create(PartnerboerseAdministration.class);
+  Profil profil = ClientSideSettings.getProfil();
   FlexTable kontaktsperreGrid = new FlexTable();
 
   /**
@@ -43,11 +44,7 @@ public class EditKontaktsperre extends VerticalPanel {
 
   private void loadKontaktsperreFromServer() {
     
-    // TODO Simon-Profil rausnehmen, sobald Login implementiert ist
-    Profil simonProfil = new Profil();
-    simonProfil.setId(1);
-    
-    partnerAdmin.getProfileForKontaktsperre(simonProfil, new AsyncCallback<ArrayList<Profil>>() {
+    partnerAdmin.getProfileForKontaktsperre(profil, new AsyncCallback<ArrayList<Profil>>() {
       
       @Override
       public void onSuccess(ArrayList<Profil> result) {

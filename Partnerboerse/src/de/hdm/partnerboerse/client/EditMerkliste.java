@@ -18,6 +18,8 @@ public class EditMerkliste extends VerticalPanel {
 
   private final PartnerboerseAdministrationAsync partnerAdmin =
       GWT.create(PartnerboerseAdministration.class);
+  
+  Profil profil = ClientSideSettings.getProfil();
 
   /**
    * Aufbau Merkzettelseite mit Editierfunktion
@@ -45,12 +47,8 @@ public class EditMerkliste extends VerticalPanel {
 
   //ToDo: Methode muss geändert 
   private void loadMerklisteFromServer() {
-    
-    // TODO Simon-Profil rausnehmen, sobald Login implementiert ist
-    Profil simonProfil = new Profil();
-    simonProfil.setId(1);
 
-    partnerAdmin.getProfileForMerkzettel(simonProfil, new AsyncCallback<ArrayList<Profil>>() {
+    partnerAdmin.getProfileForMerkzettel(profil, new AsyncCallback<ArrayList<Profil>>() {
 
       @Override
       public void onFailure(Throwable caught) {

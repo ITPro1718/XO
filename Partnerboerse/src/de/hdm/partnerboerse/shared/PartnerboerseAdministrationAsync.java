@@ -133,7 +133,7 @@ public interface PartnerboerseAdministrationAsync {
 
 	void updateInfo(Info info, AsyncCallback<Void> callback);
 
-	void updateProfil(Profil p, AsyncCallback<Void> callback);
+	void updateProfil(Profil p, AsyncCallback<Void> asyncCallback);
 
 	void updateSuchprofil(Suchprofil suchprofil, AsyncCallback<Void> callback);
 
