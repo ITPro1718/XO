@@ -62,6 +62,7 @@ public class Editor implements EntryPoint {
 
       public void onSuccess(LoginInfo result) {
         loginInfo = result;
+        ClientSideSettings.setLoginInfo(loginInfo);
         if (loginInfo.isLoggedIn()) {
 
           // loadXO();
@@ -75,14 +76,14 @@ public class Editor implements EntryPoint {
   }
 
   public void loadXO() {
-
+    
+    getProfilesFromServer();
 
     // Set up sign out hyperlink.
     signOutLink.setHref(loginInfo.getLogoutUrl());
 
     // Navigation Area
     RootPanel.get("navwrap").add(nav);
-    nav.setLoginInfo(loginInfo);
 
     // Profile Edit - Panel wird erzeugt und eingefügt.
     // HTMLPanel editProfilePanel = new HTMLPanel(
@@ -195,6 +196,23 @@ public class Editor implements EntryPoint {
 
   }
 
+  private void getProfilesFromServer() {
+    partnerAdmin.getProfilByEmail(loginInfo.getEmailAddress(), new AsyncCallback<Profil>() {
+
+      @Override
+      public void onFailure(Throwable caught) {
+        // TODO Auto-generated method stub
+        
+      }
+
+      @Override
+      public void onSuccess(Profil result) {
+        
+        ClientSideSettings.setProfil(result);
+        
+      }});
+    }
+
   private void loadLogin() {
     // Assemble login panel.
     signInLink.setHref(loginInfo.getLoginUrl());
@@ -240,14 +258,6 @@ public class Editor implements EntryPoint {
       }
     });
 
-  }
-
-  public LoginInfo getLoginInfo() {
-    return loginInfo;
-  }
-
-  public void setLoginInfo(LoginInfo loginInfo) {
-    this.loginInfo = loginInfo;
   }
 
 }

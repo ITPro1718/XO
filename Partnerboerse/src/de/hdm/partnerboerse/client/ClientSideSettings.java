@@ -8,6 +8,7 @@ import de.hdm.partnerboerse.shared.CommonSettings;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
 import de.hdm.partnerboerse.shared.ReportGeneratorServiceAsync;
+import de.hdm.partnerboerse.shared.bo.Profil;
 
 public class ClientSideSettings extends CommonSettings {
 
@@ -23,6 +24,10 @@ public class ClientSideSettings extends CommonSettings {
 	 * Dienst namens <code>ReportGenerator</code>.
 	 */
 	private static ReportGeneratorServiceAsync reportGeneratorService = null;
+	
+	private static LoginInfo loginInfo = null;
+	
+	private static Profil profil = null;
 
 	/**
 	 * Name des Client-seitigen Loggers.
@@ -92,5 +97,33 @@ public class ClientSideSettings extends CommonSettings {
 		// So, nun brauchen wir den ReportGenerator nur noch zurÃ¼ckzugeben.
 		return reportGeneratorService;
 	}
+
+  /**
+   * @return the loginInfo
+   */
+  public static LoginInfo getLoginInfo() {
+    return loginInfo;
+  }
+
+  /**
+   * @param loginInfo the loginInfo to set
+   */
+  public static void setLoginInfo(LoginInfo loginInfo) {
+    ClientSideSettings.loginInfo = loginInfo;
+  }
+
+  /**
+   * @return the profil
+   */
+  public static Profil getProfil() {
+    return profil;
+  }
+
+  /**
+   * @param profil the profil to set
+   */
+  public static void setProfil(Profil profil) {
+    ClientSideSettings.profil = profil;
+  }
 
 }

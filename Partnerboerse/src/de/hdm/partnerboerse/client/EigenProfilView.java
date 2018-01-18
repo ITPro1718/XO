@@ -20,7 +20,7 @@ public class EigenProfilView extends VerticalPanel {
   private final PartnerboerseAdministrationAsync partnerAdmin =
       GWT.create(PartnerboerseAdministration.class);
 
-  LoginInfo loginInfo = null;
+  LoginInfo loginInfo = ClientSideSettings.getLoginInfo();
 
   /*
    * Widgets, deren Inhalte variable sind, werden als Attribute angelegt.
@@ -32,51 +32,20 @@ public class EigenProfilView extends VerticalPanel {
   String lnameLabel = new String("Nachname: ");
   String bdayLabel = new String("Geburtstag: ");
   String hcolorLabel = new String("Haarfarbe: ");
-  String heightLabel = new String("Größe (in cm): ");
+  String heightLabel = new String("GrÃ¶ÃŸe (in cm): ");
   String smokerLabel = new String("Raucher: ");
   String religionLabel = new String("Religion: ");
 
   public void onLoad() {
 
-    loadProfileFromServer();
+    updateProfilTable(ClientSideSettings.getProfil());
 
     editButton.addClickHandler(new ClickHandler() {
 
       @Override
       public void onClick(ClickEvent event) {
 
-        partnerAdmin.getProfilByEmail(loginInfo.getEmailAddress(), new AsyncCallback<Profil>() {
-
-          @Override
-          public void onFailure(Throwable caught) {
-            // TODO Auto-generated method stub
-
-          }
-
-          @Override
-          public void onSuccess(Profil result) {
-            loadEditProfilView(result);
-
-          }
-        });
-
-      }
-    });
-  }
-
-  private void loadProfileFromServer() {
-
-    partnerAdmin.getProfilByEmail(loginInfo.getEmailAddress(), new AsyncCallback<Profil>() {
-
-      @Override
-      public void onFailure(Throwable caught) {
-        // TODO Auto-generated method stub
-
-      }
-
-      @Override
-      public void onSuccess(Profil result) {
-        updateProfilTable(result);
+        loadEditProfilView(ClientSideSettings.getProfil());
 
       }
     });
@@ -122,32 +91,23 @@ public class EigenProfilView extends VerticalPanel {
 
   }
 
-  // ToDo: Überlegen wie man den Parameter für die neue View übertragen kann
+  // ToDo: Ãœberlegen wie man den Parameter fÃ¼r die neue View Ã¼bertragen kann
   private void loadEditProfilView(Profil result) {
 
     EditProfile ep = new EditProfile();
-    ep.setLoginInfo(loginInfo);
 
-    // ToDo: Sollte man umändern, wirkt ziemlich unsicher
+    // ToDo: Sollte man umÃ¤ndern, wirkt ziemlich unsicher
     ep.getProfilFromServer = result;
 
-    // Profile Edit - Panel wird erzeugt und eingefügt.
+    // Profile Edit - Panel wird erzeugt und eingefÃ¼gt.
     HTMLPanel editProfilePanel =
-        new HTMLPanel("<h3>" + "Hier können Sie ihre Profilinformationen bearbeiten." + "</h3>");
+        new HTMLPanel("<h3>" + "Hier kÃ¶nnen Sie ihre Profilinformationen bearbeiten." + "</h3>");
 
     editProfilePanel.add(ep);
 
     RootPanel.get("contwrap").clear();
     RootPanel.get("contwrap").add(editProfilePanel);
 
-  }
-
-  public LoginInfo getLoginInfo() {
-    return loginInfo;
-  }
-
-  public void setLoginInfo(LoginInfo loginInfo) {
-    this.loginInfo = loginInfo;
   }
 
 }

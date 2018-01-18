@@ -52,14 +52,7 @@ public interface PartnerboerseAdministration extends RemoteService {
 	 */
 	public void createProfil(Profil p) throws IllegalArgumentException;
 
-	/**
-	 * Profil aendern. (evtl. Was wird veraendert, Attribute?)
-	 * 
-	 * @param p
-	 *            Eigenes Profil
-	 * @throws IllegalArgumentException
-	 */
-	public void updateProfil(Profil p) throws IllegalArgumentException;
+	void updateProfil(Profil p);
 
 	/**
 	 * 

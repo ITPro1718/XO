@@ -1,5 +1,7 @@
 package de.hdm.partnerboerse.client;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -28,9 +30,9 @@ public class EditProfile extends VerticalPanel {
   private final PartnerboerseAdministrationAsync partnerAdmin =
       GWT.create(PartnerboerseAdministration.class);
   
-  LoginInfo loginInfo = null;
+  LoginInfo loginInfo = ClientSideSettings.getLoginInfo();
 
-  Profil getProfilFromServer;
+  Profil getProfilFromServer = ClientSideSettings.getProfil();
 
   /*
    * Widgets, deren Inhalte variable sind, werden als Attribute angelegt.
@@ -46,7 +48,7 @@ public class EditProfile extends VerticalPanel {
   Label lnameLabel = new Label("Nachname: ");
   Label bdayLabel = new Label("Geburtstag: ");
   Label hcolorLabel = new Label("Haarfarbe: ");
-  Label heightLabel = new Label("Größe " + "(in cm): ");
+  Label heightLabel = new Label("Größe (im cm)");
   Label smokerLabel = new Label("Raucher: ");
   Label religionLabel = new Label("Religion: ");
 
@@ -82,6 +84,8 @@ public class EditProfile extends VerticalPanel {
   ListBox edu = new ListBox();
   ListBox sexOrient = new ListBox();
   ListBox searchFor = new ListBox();
+  
+  DateTimeFormat dateFormat = DateTimeFormat.getFormat("yyyy-mm-dd");
 
   /*
    * Beim Anzeigen werden die anderen Widgets erzeugt. Alle werden in einem Raster angeordnet,
@@ -115,7 +119,6 @@ public class EditProfile extends VerticalPanel {
     lnameTextBox.setValue(getProfilFromServer.getNachname());
 
     // Spalte 2
-    DateTimeFormat dateFormat = DateTimeFormat.getFormat("yyyy-mm-dd");
     bdayTextBox.setFormat(new DateBox.DefaultFormat(dateFormat));
 
     profilGrid.setWidget(2, 1, bdayLabel);
@@ -270,9 +273,9 @@ public class EditProfile extends VerticalPanel {
 
       private void updateProfileOnServer() {
 
-        Profil setProfil = getProfileValuesFromFormular();
+        getProfilFromServer = getProfileValuesFromFormular();
 
-        partnerAdmin.updateProfil(setProfil, new AsyncCallback<Void>() {
+        partnerAdmin.updateProfil(getProfilFromServer, new AsyncCallback<Void>() {
 
           @Override
           public void onFailure(Throwable caught) {
@@ -284,8 +287,9 @@ public class EditProfile extends VerticalPanel {
           public void onSuccess(Void result) {
             Window.alert(vnameTextBox.getValue() + " Profil wurde gespeichert.");
 
+            ClientSideSettings.setProfil(getProfilFromServer);
+            
             EigenProfilView epv = new EigenProfilView();
-            epv.setLoginInfo(loginInfo);
             
             HTMLPanel eigenProfilViewPanel = new HTMLPanel("<h3>" + "Hier können Sie ihr Profil sehen." + "</h3>");
             eigenProfilViewPanel.add(epv);
@@ -295,7 +299,6 @@ public class EditProfile extends VerticalPanel {
 
           }
         });
-
       }
       
       /**
@@ -404,12 +407,14 @@ public class EditProfile extends VerticalPanel {
      * Integer.parseInt wandelt String in int um
      */
     int heightConvert = Integer.parseInt(heightTextBox.getValue());
+    String stringDate = dateFormat.format(bdayTextBox.getValue());
+    @SuppressWarnings("deprecation")
+    Date dateFormat = new Date(stringDate);
 
-    // ToDo: setId muss raus, sobald Google Login Implementiert ist und
-    // Übergabeparameter stimmt.
+    setProfil.setId(getProfilFromServer.getId());
     setProfil.setVorname(vnameTextBox.getValue());
     setProfil.setNachname(lnameTextBox.getValue());
-    setProfil.setGeburtsdatum(bdayTextBox.getValue());
+    setProfil.setGeburtsdatum(dateFormat);
     setProfil.setEmail(loginInfo.getEmailAddress());
     setProfil.setPasswort(pwTextBox.getValue());
     setProfil.setKoerpergroesse(heightConvert);
@@ -436,11 +441,4 @@ public class EditProfile extends VerticalPanel {
 
   }
 
-  public LoginInfo getLoginInfo() {
-    return loginInfo;
-  }
-
-  public void setLoginInfo(LoginInfo loginInfo) {
-    this.loginInfo = loginInfo;
-  }
 }
