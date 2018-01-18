@@ -223,27 +223,11 @@ public class CreateEigenProfil extends VerticalPanel {
       }
       
       private void generateInfosOfUser(){
-						
-			// TODO: aktuelles Profil verwenden und kein Mockup
-			Profil prof = new Profil();
-			prof.setId(1);
-			
-			
-			Freitext f = new Freitext();
-			f.setBeschreibung(sdescript.getValue());			
-			Info i = new Info();
-			i.setText(sdescriptLab.getText());			
-			partnerAdmin.createEigenschaftForFreitext(prof, i, f, new AsyncCallback<Void>(){
-
-				@Override
-				public void onFailure(Throwable caught) {
-				}
-
-				@Override
-				public void onSuccess(Void result){
-					nextFreitextCallback();
-				}
-			});
+							
+			freitextTextAreaCallback(sdescript, sdescriptLab);
+			auswahlCallback(searchFor, searchForLab);
+			freitextCallback(hobby, hobbyLab);
+				auswahlCallback(sexOrient, sexOrientLab);
 			
       }
     });
@@ -329,16 +313,16 @@ public class CreateEigenProfil extends VerticalPanel {
     this.loginInfo = loginInfo;
   }
   
-  private void nextFreitextCallback(){
+  private Boolean freitextTextAreaCallback(TextArea textArea, Label label){
 	  	
 	  	Profil prof = new Profil();
 		prof.setId(1);
 	  
-		Freitext f1 = new Freitext();
-		f1.setBeschreibung(hobby.getValue());
-		Info i1 = new Info();
-		i1.setText(hobbyLab.getText());
-		partnerAdmin.createEigenschaftForFreitext(prof, i1, f1, new AsyncCallback<Void>(){
+		Freitext f = new Freitext();
+		f.setBeschreibung(textArea.getValue());
+		Info i = new Info();
+		i.setText(label.getText());
+		partnerAdmin.createEigenschaftForFreitext(prof, i, f, new AsyncCallback<Void>(){
 
 			@Override
 			public void onFailure(Throwable caught) {
@@ -346,23 +330,49 @@ public class CreateEigenProfil extends VerticalPanel {
 
 			@Override
 			public void onSuccess(Void result) {
-				auswahlCallback();
+				
+			}
+			
+		});
+		return true;
+	  
+  }
+  
+  private void freitextCallback(TextBox textbox, Label label){
+	  	
+	  	Profil prof = new Profil();
+		prof.setId(1);
+	  
+		Freitext f = new Freitext();
+		f.setBeschreibung(textbox.getValue());
+		Info i = new Info();
+		i.setText(label.getText());
+		partnerAdmin.createEigenschaftForFreitext(prof, i, f, new AsyncCallback<Void>(){
+
+			@Override
+			public void onFailure(Throwable caught) {
+			}
+
+			@Override
+			public void onSuccess(Void result) {
+				
 			}
 			
 		});
 	  
-  }
+}
   
-  private void auswahlCallback(){
+  private Boolean auswahlCallback(ListBox listBox, Label label){
 	  
+	  // TODO: eingeloggtes Profil verwenden
 	  	Profil prof = new Profil();
 		prof.setId(1);
 	  
 	  	Auswahl a = new Auswahl();
-		a.setTitel(searchFor.getSelectedValue());
-		Info i3 = new Info();
-		i3.setText(searchForLab.getText());
-		partnerAdmin.createEigenschaftForAuswahl(prof, i3, a, new AsyncCallback<Void>(){
+		a.setTitel(listBox.getSelectedValue());
+		Info i = new Info();
+		i.setText(label.getText());
+		partnerAdmin.createEigenschaftForAuswahl(prof, i, a, new AsyncCallback<Void>(){
 
 			@Override
 			public void onFailure(Throwable caught) {
@@ -372,5 +382,6 @@ public class CreateEigenProfil extends VerticalPanel {
 			public void onSuccess(Void result) {
 			}
 		});
+		return true;
   }
 }
