@@ -195,43 +195,45 @@ public class CreateEigenProfil extends VerticalPanel {
       public void onClick(ClickEvent event) {
 
         createProfileOnServer();
-        generateInfosOfUser();
+        
       }
 
       private void createProfileOnServer() {
 
         Profil setProfil = getProfileValuesFromFormular();
-        System.out.println("tes01" + setProfil.toString());
+        // System.out.println("tes01" + setProfil.toString());
 
 
-        partnerAdmin.createProfil(setProfil, new AsyncCallback<Void>() {
+        partnerAdmin.createProfil(setProfil, new AsyncCallback<Profil>() {
 
-          @Override
-          public void onFailure(Throwable caught) {
-            Window.alert("Fehler: Profil konnte nicht erstellt werden!");
+			@Override
+			public void onFailure(Throwable caught) {
+				
+			}
 
-          }
+			@Override
+			public void onSuccess(Profil result) {
+				 ClientSideSettings.setProfil(result);		  	
+				 generateInfosOfUser();
+				  	
+				 Editor ed = new Editor();
+				 RootPanel.get("contwrap").clear();
+				 ed.onModuleLoad();
+				
+			}
 
-          @Override
-          public void onSuccess(Void result) {
-        	  
-        	// Profil-Objekt in den ClientSideSettings aktualisieren
-        	// ClientSideSettings.setProfil(setProfil);
-
-            Editor ed = new Editor();
-            RootPanel.get("contwrap").clear();
-            ed.onModuleLoad();
-
-          }
+          
         });
 
       }
       
+      
       private void generateInfosOfUser(){
 							
-		  // freitextTextAreaCallback();
-    	  auswahlCallback();
-			
+//		  freitextTextAreaCallback();
+//    	  auswahlCallback();
+    	  hobbyFreitextCallback();
+    	  sexOrientAuswahlCallback();
 			
       }
     });
@@ -361,7 +363,7 @@ public class CreateEigenProfil extends VerticalPanel {
   
   private void auswahlCallback(){
 	  
-	  Profil profil = ClientSideSettings.getProfil();
+	  	Profil profil = ClientSideSettings.getProfil();
 	  	  
 	  	Auswahl a = new Auswahl();
 		a.setTitel(searchFor.getSelectedValue());
@@ -375,7 +377,6 @@ public class CreateEigenProfil extends VerticalPanel {
 
 			@Override
 			public void onSuccess(Void result) {
-				
 			}
 		});
   }

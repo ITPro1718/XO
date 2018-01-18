@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 import de.hdm.partnerboerse.server.ServerSideSettings;
@@ -322,11 +323,14 @@ public class ProfilMapper {
     
     Connection con = DBConnection.getConnection();
 
-    try (PreparedStatement stmt = con.prepareStatement("INSERT INTO profil "
-        + "(email, passwort, vorname, nachname, geburtstag, haarfarbe, koerpergroesse, raucher, religion) "
-        + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
-      
-      
+    try (PreparedStatement stmt = con.prepareStatement("INSERT INTO profil (email, passwort, vorname, nachname, geburtstag, "
+    	+ "haarfarbe, koerpergroesse, raucher, religion) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
+    	
+    	Statement stmt1 = con.createStatement();
+		ResultSet rs = stmt1.executeQuery("SELECT MAX(id) AS maxid FROM profil");
+		if (rs.next()){
+			p.setId(rs.getInt("maxid") + 1);
+		}
 
       java.util.Date utilDate = p.getGeburtsdatum();
       java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
@@ -342,6 +346,7 @@ public class ProfilMapper {
       stmt.setString(9, p.getReligion());
 
       stmt.executeUpdate();
+
 
     } catch (SQLException e) {
       e.printStackTrace();
@@ -361,7 +366,8 @@ public class ProfilMapper {
 
     try (PreparedStatement stmt = con.prepareStatement(
         "UPDATE profil set vorname = ?, nachname = ?, geburtstag = ?, "
-            + "haarfarbe = ?, koerpergroesse=  ?, raucher = ?, religion = ? WHERE email = ?")) {
+            + "haarfarbe = ?, koerpergroesse=  ?, raucher = ?, religion = ? ,email = ?")) {
+    	
 
       java.util.Date utilDate = p.getGeburtsdatum();
       java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
@@ -377,11 +383,12 @@ public class ProfilMapper {
       
       stmt.executeUpdate();
       
-      return p;
 
     } catch (SQLException e2) {
       e2.printStackTrace();
     }
+    
+    
     return p;
   }
 

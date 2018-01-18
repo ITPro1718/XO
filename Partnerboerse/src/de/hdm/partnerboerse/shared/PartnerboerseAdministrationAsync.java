@@ -36,7 +36,7 @@ public interface PartnerboerseAdministrationAsync {
 
 	void createMerkzettelEintrag(Profil source, Profil target, AsyncCallback<Void> callback);
 
-	void createProfil(Profil p, AsyncCallback<Void> callback);
+	void createProfil(Profil p, AsyncCallback<Profil> callback);
 
 	void createSuchprofil(Profil source, String titel, String haarfarbe, float kgr, boolean raucher, String religion,
 			int alter, AsyncCallback<Void> callback);
@@ -133,7 +133,7 @@ public interface PartnerboerseAdministrationAsync {
 
 	void updateInfo(Info info, AsyncCallback<Void> callback);
 
-	void updateProfil(Profil p, AsyncCallback<Void> asyncCallback);
+	void updateProfil(Profil p, AsyncCallback<Void> callback);
 
 	void updateSuchprofil(Suchprofil suchprofil, AsyncCallback<Void> callback);
 

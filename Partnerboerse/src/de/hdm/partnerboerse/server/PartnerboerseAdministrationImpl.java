@@ -94,9 +94,9 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 		
 
 	@Override
-	public void createProfil(Profil p) throws IllegalArgumentException {
-		System.out.println("test02"+p.toString());
-		this.pMapper.insert(p);
+	public Profil createProfil(Profil p) throws IllegalArgumentException {
+		//System.out.println("test02"+p.toString());
+		return this.pMapper.insert(p);
 	}
 
 	@Override
@@ -508,13 +508,13 @@ public ArrayList<Profil> getNotSeenSuchProfilErgebnisse(Suchprofil suchprofil) t
 	public void createEigenschaftForAuswahl(Profil p, Info i, Auswahl a) throws IllegalArgumentException {
 		
 		Eigenschaft eig = new Eigenschaft();
-		eig.setEpID(p.getId());
-					
+		
 		Info inf = this.createInfoForAuswahl(i, a);
 		eig.setInfoID(inf.getId());
 		eig.setErlaeuterung(inf.getText());
 		
-		
+		eig.setEpID(p.getId());
+	
 		this.eiMapper.insertEigenschaft(eig);
 		
 	}

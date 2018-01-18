@@ -47,10 +47,11 @@ public interface PartnerboerseAdministration extends RemoteService {
 	 *            Passwort
 	 * @param email
 	 *            Email
+	 * @return TODO
 	 * 
 	 * @throws IllegalArgumentException
 	 */
-	public void createProfil(Profil p) throws IllegalArgumentException;
+	public Profil createProfil(Profil p) throws IllegalArgumentException;
 
 	void updateProfil(Profil p);
 
