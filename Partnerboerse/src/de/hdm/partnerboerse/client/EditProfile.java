@@ -407,12 +407,14 @@ public class EditProfile extends VerticalPanel {
     int heightConvert = Integer.parseInt(heightTextBox.getValue());
     // String stringDate = dateFormat.format(bdayTextBox.getValue());
     // @SuppressWarnings("deprecation")
-    // Date date = new Date(stringDate);
+    // Date date = new Date(stringDate)
+    java.util.Date utilDate = bdayTextBox.getValue();
+    java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
 
     setProfil.setId(getProfilFromServer.getId());
     setProfil.setVorname(vnameTextBox.getValue());
     setProfil.setNachname(lnameTextBox.getValue());
-    setProfil.setGeburtsdatum(bdayTextBox.getValue());
+    setProfil.setGeburtsdatum(sqlDate);
     setProfil.setEmail(loginInfo.getEmailAddress());
     setProfil.setPasswort(pwTextBox.getValue());
     setProfil.setKoerpergroesse(heightConvert);
