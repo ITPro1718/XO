@@ -1,7 +1,5 @@
 package de.hdm.partnerboerse.client;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -19,6 +17,7 @@ import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.datepicker.client.DateBox;
+import com.google.gwt.user.datepicker.client.DateBox.DefaultFormat;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
 import de.hdm.partnerboerse.shared.bo.Freitext;
@@ -29,7 +28,7 @@ public class EditProfile extends VerticalPanel {
 
   private final PartnerboerseAdministrationAsync partnerAdmin =
       GWT.create(PartnerboerseAdministration.class);
-  
+
   LoginInfo loginInfo = ClientSideSettings.getLoginInfo();
 
   Profil getProfilFromServer = ClientSideSettings.getProfil();
@@ -84,7 +83,7 @@ public class EditProfile extends VerticalPanel {
   ListBox edu = new ListBox();
   ListBox sexOrient = new ListBox();
   ListBox searchFor = new ListBox();
-  
+
   DateTimeFormat dateFormat = DateTimeFormat.getFormat("yyyy-mm-dd");
 
   /*
@@ -190,7 +189,7 @@ public class EditProfile extends VerticalPanel {
     Grid infoGrid = new Grid(4, 6);
     infoGrid.setStyleName("etable");
     this.add(infoGrid);
-    
+
 
     infoGrid.setWidget(0, 1, hobbyLab);
     infoGrid.setWidget(0, 2, hobby);
@@ -275,6 +274,7 @@ public class EditProfile extends VerticalPanel {
 
         getProfilFromServer = getProfileValuesFromFormular();
 
+
         partnerAdmin.updateProfil(getProfilFromServer, new AsyncCallback<Void>() {
 
           @Override
@@ -287,67 +287,65 @@ public class EditProfile extends VerticalPanel {
           public void onSuccess(Void result) {
             Window.alert(vnameTextBox.getValue() + " Profil wurde gespeichert.");
 
+
             ClientSideSettings.setProfil(getProfilFromServer);
-            
+
             EigenProfilView epv = new EigenProfilView();
-            
-            HTMLPanel eigenProfilViewPanel = new HTMLPanel("<h3>" + "Hier können Sie ihr Profil sehen." + "</h3>");
+
+            HTMLPanel eigenProfilViewPanel =
+                new HTMLPanel("<h3>" + "Hier können Sie ihr Profil sehen." + "</h3>");
             eigenProfilViewPanel.add(epv);
-            
+
             RootPanel.get("contwrap").clear();
             RootPanel.get("contwrap").add(eigenProfilViewPanel);
 
           }
         });
       }
-      
+
       /**
        * TODO: Hier Update befehle nehmen und nicht die insert
        * 
        */
-      private void generateInfosOfUser(){
-			
-			// TODO: aktuelles Profil nehmen und nicht hässlich hardcoden
-			Profil prof = new Profil();
-			prof.setId(1);
-			
-			Freitext f = new Freitext();
-			f.setBeschreibung(sdescript.getValue());
-			
-			Info i = new Info();
-			i.setText(sdescriptLab.getText());
-			
-			partnerAdmin.createEigenschaftForFreitext(prof, i, f, new AsyncCallback<Void>(){
+      private void generateInfosOfUser() {
 
-				@Override
-				public void onFailure(Throwable caught) {					
-				}
+        // TODO: aktuelles Profil nehmen und nicht hässlich hardcoden
+        Profil prof = new Profil();
+        prof.setId(1);
 
-				@Override
-				public void onSuccess(Void result) {				
-				}
-			});
-			
-			Freitext f1 = new Freitext();
-			f1.setBeschreibung(hobby.getValue());
-			
-			Info i1 = new Info();
-			i.setText(hobbyLab.getText());
-			
-			partnerAdmin.createEigenschaftForFreitext(prof, i1, f1, new AsyncCallback<Void>(){
+        Freitext f = new Freitext();
+        f.setBeschreibung(sdescript.getValue());
 
-				@Override
-				public void onFailure(Throwable caught) {
-				}
+        Info i = new Info();
+        i.setText(sdescriptLab.getText());
 
-				@Override
-				public void onSuccess(Void result) {
-				}
-				
-			});
-			
-			
-			
+        partnerAdmin.createEigenschaftForFreitext(prof, i, f, new AsyncCallback<Void>() {
+
+          @Override
+          public void onFailure(Throwable caught) {}
+
+          @Override
+          public void onSuccess(Void result) {}
+        });
+
+        Freitext f1 = new Freitext();
+        f1.setBeschreibung(hobby.getValue());
+
+        Info i1 = new Info();
+        i.setText(hobbyLab.getText());
+
+        partnerAdmin.createEigenschaftForFreitext(prof, i1, f1, new AsyncCallback<Void>() {
+
+          @Override
+          public void onFailure(Throwable caught) {}
+
+          @Override
+          public void onSuccess(Void result) {}
+
+        });
+
+
+
       }
 
     });
@@ -389,9 +387,9 @@ public class EditProfile extends VerticalPanel {
     });
   }
 
-  /*
-   * Werte aus den geänderten Formularen wird ausgelesen und in ein Profil gespeichert und zurück
-   * gegeben
+  /**
+   * TODO: Datum muss noch aderster gemappt werden es ist falsch! Werte aus den geänderten
+   * Formularen wird ausgelesen und in ein Profil gespeichert und zurück gegeben
    */
   private Profil getProfileValuesFromFormular() {
 
@@ -407,20 +405,19 @@ public class EditProfile extends VerticalPanel {
      * Integer.parseInt wandelt String in int um
      */
     int heightConvert = Integer.parseInt(heightTextBox.getValue());
-    String stringDate = dateFormat.format(bdayTextBox.getValue());
-    @SuppressWarnings("deprecation")
-    Date dateFormat = new Date(stringDate);
+    // String stringDate = dateFormat.format(bdayTextBox.getValue());
+    // @SuppressWarnings("deprecation")
+    // Date date = new Date(stringDate);
 
     setProfil.setId(getProfilFromServer.getId());
     setProfil.setVorname(vnameTextBox.getValue());
     setProfil.setNachname(lnameTextBox.getValue());
-    setProfil.setGeburtsdatum(dateFormat);
+    setProfil.setGeburtsdatum(bdayTextBox.getValue());
     setProfil.setEmail(loginInfo.getEmailAddress());
     setProfil.setPasswort(pwTextBox.getValue());
     setProfil.setKoerpergroesse(heightConvert);
     setProfil.setReligion(religionTextBox.getValue());
     setProfil.setHaarfarbe(hcolorTextBox.getValue());
-
 
     /*
      * String-Wert von Raucher wird ausgelesen und durch eine Switch-Anweisung wird der Wert zu
