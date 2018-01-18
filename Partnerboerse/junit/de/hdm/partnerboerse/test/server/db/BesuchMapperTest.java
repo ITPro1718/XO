@@ -1,6 +1,10 @@
 package de.hdm.partnerboerse.test.server.db;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+
+import java.util.List;
 
 import org.junit.Test;
 
@@ -11,7 +15,36 @@ public class BesuchMapperTest {
 
 	@Test
 	public void testFindByKey() {
-		assertTrue(BesuchMapper.besuchMapper().findByKey(1) != null);
+		assertTrue(BesuchMapper.besuchMapper().findByKey(7) != null);
+	}
+
+	@Test
+	public void testFindAll() {
+		BesuchMapper mapper = BesuchMapper.besuchMapper();
+		assertFalse(mapper.findAll().isEmpty());
+	}
+
+	@Test
+	public void testInsertBesuch() {
+		BesuchMapper mapper = BesuchMapper.besuchMapper();
+		Besuch besuch = getTestBesuchObjekt();
+		mapper.insertBesuch(besuch);
+	}
+
+	@Test
+	public void testDeleteBesuch() {
+		BesuchMapper mapper = BesuchMapper.besuchMapper();
+		Besuch besuch = getTestBesuchObjekt();
+
+		List<Besuch> allBesuche = mapper.findAll();
+		if (!allBesuche.isEmpty()) {
+			int zuloeschendeId = allBesuche.get(0).getId();
+			besuch.setId(zuloeschendeId);
+			mapper.deleteBesuch(besuch);
+			assertNull(mapper.findByKey(zuloeschendeId));
+
+			mapper.insertBesuch(besuch);
+		}
 	}
 
 	private Besuch getTestBesuchObjekt() {

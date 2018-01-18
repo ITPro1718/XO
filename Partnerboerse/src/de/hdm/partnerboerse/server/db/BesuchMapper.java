@@ -166,7 +166,7 @@ public class BesuchMapper {
 
 		try {
 			Statement stmt = con.createStatement();
-			stmt.executeUpdate("DELETE FROM freitext WHERE id=" + besuch.getId());
+			stmt.executeUpdate("DELETE FROM besuch WHERE id=" + besuch.getId());
 
 		} catch (Exception e) {
 			e.printStackTrace();
