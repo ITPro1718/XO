@@ -353,7 +353,7 @@ public class ProfilMapper {
    * 
    * @param p das Profil-Objekt, das in die DB geschrieben werden soll
    */
-  public void update(Profil p) {
+  public Profil update(Profil p) {
     Connection con = DBConnection.getConnection();
 
     try (PreparedStatement stmt = con.prepareStatement(
@@ -371,12 +371,15 @@ public class ProfilMapper {
       stmt.setBoolean(6, p.isRaucher());
       stmt.setString(7, p.getReligion());
       stmt.setString(8, p.getEmail());
-
+      
       stmt.executeUpdate();
+      
+      return p;
 
     } catch (SQLException e2) {
       e2.printStackTrace();
     }
+    return p;
   }
 
   /**
