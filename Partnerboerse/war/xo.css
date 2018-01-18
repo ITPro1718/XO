@@ -179,25 +179,75 @@ table.etable td {
 /*************************************************
 MEDIA QUERRIES
 *************************************************/
-@media screen 
-  and (min-device-width: 1430px) 
-  and (max-device-width: 1900px) { 
-  	#contwrap {
-		width: 81%;
+/* Phones */
+@media only screen and (min-width: 375px) and (max-width: 767px) {
+    #mwrap {
+		width: 95%;
 	}
-	.button {
-    width: 90%;
-	}
-}
-
-@media screen 
-  and (min-device-width: 1000px) 
-  and (max-device-width: 1429px) { 
-  	#contwrap {
+    #contwrap {
 		width: 80%;
 	}
-	.button {
+	.ppic {
+    	width: 85%;
+	}
+	#navwrap button {
+    	width: 100%;
+    	font-size: 12px !important;
+    	height: auto;
+	}
+}
+/* IPad Land */
+@media only screen and (min-width: 1024px) and (max-width: 1223px) {
+    #mwrap {
+		width: 95%;
+	}
+    #contwrap {
+		width: 80%;
+	}
+	.ppic {
     width: 85%;
+	}
+	#navwrap button {
+    width: 100%;
+    font-size: 12px !important;
+    height: auto;
+	}
+}
+/* IPad Port */
+@media only screen and (min-width: 768px) and (max-width: 1223px) {
+    #mwrap {
+		width: 95%;
+	}
+    #contwrap {
+		width: 80%;
+	}
+	.ppic {
+    width: 85%;
+	}
+	#navwrap button {
+    width: 100%;
+    font-size: 12px !important;
+    height: auto;
+	}
+}
+/* Laps */
+@media only screen and (min-width: 1224px) and (max-width: 1823px) {
+    #contwrap {
+		width: 80%;
+	}
+	.ppic {
+    width: 85%;
+	}
+	#navwrap button {
+    width: 100%;
+    font-size: 12px !important;
+    height: auto;
+	}
+}
+/* Large screens ----------- */
+@media only screen and (min-width: 1824px) {
+    #contwrap {
+		width: 81%;
 	}
 }
 
