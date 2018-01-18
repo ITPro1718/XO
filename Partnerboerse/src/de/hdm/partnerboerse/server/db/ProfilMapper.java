@@ -318,13 +318,15 @@ public class ProfilMapper {
    * @param p das zu speichernde Profil-Objekt
    * 
    */
-  public void insert(Profil p) {
+  public Profil insert(Profil p) {
     
     Connection con = DBConnection.getConnection();
 
     try (PreparedStatement stmt = con.prepareStatement("INSERT INTO profil "
         + "(email, passwort, vorname, nachname, geburtstag, haarfarbe, koerpergroesse, raucher, religion) "
         + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
+      
+      
 
       java.util.Date utilDate = p.getGeburtsdatum();
       java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
@@ -345,6 +347,7 @@ public class ProfilMapper {
       e.printStackTrace();
       logger.severe("ProfilMapper.insert konnte Daten nicht in die DB gespeichert werden: " + e.getMessage() + e.getCause());
     }
+    return p;
 
   }
 
