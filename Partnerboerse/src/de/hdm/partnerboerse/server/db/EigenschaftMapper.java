@@ -55,7 +55,7 @@ public class EigenschaftMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid " + "FROM eigenschaft");
+			ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid FROM eigenschaft");
 
 			if (rs.next()) {
 

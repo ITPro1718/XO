@@ -31,6 +31,8 @@ public class CreateEigenProfil extends VerticalPanel {
 
   // Loginattribute
   private LoginInfo loginInfo = null;
+  
+  
 
   /*
    * Widgets, deren Inhalte variable sind, werden als Attribute angelegt.
@@ -212,6 +214,9 @@ public class CreateEigenProfil extends VerticalPanel {
 
           @Override
           public void onSuccess(Void result) {
+        	  
+        	// Profil-Objekt in den ClientSideSettings aktualisieren
+        	// ClientSideSettings.setProfil(setProfil);
 
             Editor ed = new Editor();
             RootPanel.get("contwrap").clear();
@@ -224,10 +229,9 @@ public class CreateEigenProfil extends VerticalPanel {
       
       private void generateInfosOfUser(){
 							
-			freitextTextAreaCallback(sdescript, sdescriptLab);
-			auswahlCallback(searchFor, searchForLab);
-			freitextCallback(hobby, hobbyLab);
-				auswahlCallback(sexOrient, sexOrientLab);
+		  // freitextTextAreaCallback();
+    	  auswahlCallback();
+			
 			
       }
     });
@@ -274,7 +278,7 @@ public class CreateEigenProfil extends VerticalPanel {
         setProfil.setRaucher(false);
         break;
     }
-
+       
     return setProfil;
 
   }
@@ -313,41 +317,35 @@ public class CreateEigenProfil extends VerticalPanel {
     this.loginInfo = loginInfo;
   }
   
-  private Boolean freitextTextAreaCallback(TextArea textArea, Label label){
-	  	
-	  	Profil prof = new Profil();
-		prof.setId(1);
+  private void freitextTextAreaCallback(){
 	  
+	  	Profil profil = ClientSideSettings.getProfil();
+	  		  
 		Freitext f = new Freitext();
-		f.setBeschreibung(textArea.getValue());
+		f.setBeschreibung(sdescript.getValue());
 		Info i = new Info();
-		i.setText(label.getText());
-		partnerAdmin.createEigenschaftForFreitext(prof, i, f, new AsyncCallback<Void>(){
+		i.setText(sdescriptLab.getText());
+		partnerAdmin.createEigenschaftForFreitext(profil, i, f, new AsyncCallback<Void>(){
 
 			@Override
 			public void onFailure(Throwable caught) {
 			}
 
 			@Override
-			public void onSuccess(Void result) {
-				
+			public void onSuccess(Void result) {				
 			}
-			
 		});
-		return true;
-	  
   }
   
-  private void freitextCallback(TextBox textbox, Label label){
-	  	
-	  	Profil prof = new Profil();
-		prof.setId(1);
+  private void hobbyFreitextCallback(){
 	  
+	  Profil profil = ClientSideSettings.getProfil();
+	  		  
 		Freitext f = new Freitext();
-		f.setBeschreibung(textbox.getValue());
+		f.setBeschreibung(hobby.getValue());
 		Info i = new Info();
-		i.setText(label.getText());
-		partnerAdmin.createEigenschaftForFreitext(prof, i, f, new AsyncCallback<Void>(){
+		i.setText(hobbyLab.getText());
+		partnerAdmin.createEigenschaftForFreitext(profil, i, f, new AsyncCallback<Void>(){
 
 			@Override
 			public void onFailure(Throwable caught) {
@@ -355,24 +353,42 @@ public class CreateEigenProfil extends VerticalPanel {
 
 			@Override
 			public void onSuccess(Void result) {
-				
 			}
 			
 		});
 	  
 }
   
-  private Boolean auswahlCallback(ListBox listBox, Label label){
+  private void auswahlCallback(){
 	  
-	  // TODO: eingeloggtes Profil verwenden
-	  	Profil prof = new Profil();
-		prof.setId(1);
-	  
+	  Profil profil = ClientSideSettings.getProfil();
+	  	  
 	  	Auswahl a = new Auswahl();
-		a.setTitel(listBox.getSelectedValue());
+		a.setTitel(searchFor.getSelectedValue());
 		Info i = new Info();
-		i.setText(label.getText());
-		partnerAdmin.createEigenschaftForAuswahl(prof, i, a, new AsyncCallback<Void>(){
+		i.setText(searchForLab.getText());
+		partnerAdmin.createEigenschaftForAuswahl(profil, i, a, new AsyncCallback<Void>(){
+
+			@Override
+			public void onFailure(Throwable caught) {
+			}
+
+			@Override
+			public void onSuccess(Void result) {
+				
+			}
+		});
+  }
+  
+  private void sexOrientAuswahlCallback(){
+	  
+	  Profil profil = ClientSideSettings.getProfil();
+  	  
+	  	Auswahl a = new Auswahl();
+		a.setTitel(sexOrient.getSelectedValue());
+		Info i = new Info();
+		i.setText(sexOrientLab.getText());
+		partnerAdmin.createEigenschaftForAuswahl(profil, i, a, new AsyncCallback<Void>(){
 
 			@Override
 			public void onFailure(Throwable caught) {
@@ -382,6 +398,6 @@ public class CreateEigenProfil extends VerticalPanel {
 			public void onSuccess(Void result) {
 			}
 		});
-		return true;
   }
 }
+
