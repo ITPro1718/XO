@@ -315,8 +315,49 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	@Override
 	public ArrayList<Profil> berechneAehnlichkeitsmass(Profil source, Suchprofil suchprofil)
 			throws IllegalArgumentException {
-		// TODO Methode implementieren wenn wir den ganzen Eigenschaft/Info shit haben
-		// findAllInfoOf(Profil p) implementieren! danach kann man die hier machen
+		//Suchprofilergebnisse von einem Suchprofil die wir später mit den Profileigenschaften und AuswahlIDs und Freitexten vom eigenen Profil (Sourceprofil) abgleichen
+		
+		ArrayList<Profil> profile = getSuchProfilErgebnisse(suchprofil);
+		
+		// Alle AuswahlIDs und Freitexte des Sourceprofils die wir abgleichen müssen
+		
+		ArrayList<Info> allInfosOfSourceProfil = findInfoOf(source);
+		ArrayList<Integer>allAuswahlIDsOfSourceProfil = new ArrayList<>();
+		ArrayList<String>allFreitexteOfSourceProfil = new ArrayList<>();
+		
+		//Profileigenschaften vom Sourceprofil die wir ablgeichen
+		
+		int ageOfSourceprofil = getAge(source.getGeburtsdatum());
+		String religionOfSourceprofil =source.getReligion();
+		String haarfarbeOfSourceprofil = source.getHaarfarbe();
+		double koerpergroesseOfSourceprofil = source.getKoerpergroesse();
+		boolean raucherOfSourceprofil = source.isRaucher();
+		
+		// Die folgende Schleife geht alle Infoobjekte des Sourceprofils durch und befüllt die ArrayList mit AuswahlIDs wenn das Infoobjekt eine Auswahl ist, 
+		//oder die ArrayList mit Freitexten(Strings) wenn das Infoobjekt ein Freitext ist.
+		//Somit hat man alle AuswahlIDS und Freitexte vom Sourceprofil die man mit den Suchprofilergebnissen vergleichen kann.
+		
+		for(Info i: allInfosOfSourceProfil){
+			if(i.getIs_a() == "auswahl"){
+			Auswahl auswahl = findAuswahlOf(i);
+			int auswahlID = auswahl.getId();
+			allAuswahlIDsOfSourceProfil.add(auswahlID);
+			}
+			else if (i.getIs_a() == "freitext"){
+			Freitext freitext = findFreitextOf(i);
+			String freitextOfFreitext = freitext.getBeschreibung();
+			allFreitexteOfSourceProfil.add(freitextOfFreitext);
+			}
+				}
+		
+		//TODO: Abgleich Profileigenschaften, AuswahlIDs und Freitexte vom eigenen Profil mit Suchprofilergebnissen. 
+		// z.B.:Wenn die Hälfte aller abgeglichenen Attribute gleich ist mit denen eines Fremdprofils, ist derjenige einem zu 50% ähnlich.
+		//Hinweis: sexuelle Orientierung muss ein Pflichtattribut beim Profilerstellen sein, sonst kann man nicht rausfiltern ob Männer oder Frauen angezeigt werden sollen
+		
+	
+		//TODO: Alle Infos von allen Suchprofilergebnissen finden zum Abgleich.
+		
+		
 		
 		return null;
 	}
