@@ -328,14 +328,12 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	
 	public ArrayList<Integer> findAllAuswahlIDsOfProfil(Profil profil){
 		
-		ArrayList<Info> allInfosOfProfil = findInfoOf(profil);
 		ArrayList<Integer>allAuswahlIDsOfProfil = new ArrayList<>();
 		
-		for(Info i: allInfosOfProfil){
+		for(Info i: findInfoOf(profil)){
 			if(i.getIs_a() == "auswahl"){
-			Auswahl auswahl = findAuswahlOf(i);
-			int auswahlID = auswahl.getId();
-			allAuswahlIDsOfProfil.add(auswahlID);
+			
+			allAuswahlIDsOfProfil.add(findAuswahlOf(i).getId());
 			}
 		}
 		return allAuswahlIDsOfProfil;
@@ -343,14 +341,12 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	
 	public ArrayList<String> findAllFreitexteOfProfil(Profil profil){
 		
-		ArrayList<Info> allInfosOfProfil = findInfoOf(profil);
 		ArrayList<String>allFreitexteOfProfil = new ArrayList<>();
 		
-		for(Info i: allInfosOfProfil){
+		for(Info i: findInfoOf(profil)){
 			if(i.getIs_a() == "freitext"){
-			Freitext freitext = findFreitextOf(i);
-			String freitextOfFreitext = freitext.getBeschreibung();
-			allFreitexteOfProfil.add(freitextOfFreitext);
+		
+			allFreitexteOfProfil.add(findFreitextOf(i).getBeschreibung());
 			}
 		}
 		return allFreitexteOfProfil;
@@ -359,24 +355,11 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	@Override
 	public ArrayList<Profil> berechneAehnlichkeitsmass(Profil source, Suchprofil suchprofil)
 			throws IllegalArgumentException {
-		//Suchprofilergebnisse von einem Suchprofil die wir später mit den Profileigenschaften und AuswahlIDs und Freitexten vom eigenen Profil (Sourceprofil) abgleichen
-		
-		ArrayList<Profil> profile = getSuchProfilErgebnisse(suchprofil);
 		
 		// Alle AuswahlIDs und Freitexte des Sourceprofils die wir abgleichen müssen
 		
-	
 		ArrayList<Integer>allAuswahlIDsOfSourceProfil = findAllAuswahlIDsOfProfil(source);
 		ArrayList<String>allFreitexteOfSourceProfil = findAllFreitexteOfProfil(source);
-		
-		//Profileigenschaften vom Sourceprofil die wir ablgeichen
-		
-		int ageOfSourceprofil = getAge(source.getGeburtsdatum());
-		String religionOfSourceprofil =source.getReligion();
-		String haarfarbeOfSourceprofil = source.getHaarfarbe();
-		double koerpergroesseOfSourceprofil = source.getKoerpergroesse();
-		boolean raucherOfSourceprofil = source.isRaucher();
-		
 		
 		// Die Schleife geht alle Suchprofilergebnisse durch (Profile) und vergleicht Profileigenschaften  mit den eigenen Profileigenschaften ab.
 		// Die Gewichtungen können durch die oben implementierte MEthode "setGEwichtungen" belieb gesetzt werden und werden am Ende der schleife wieder prozentual umgerechnet 
@@ -394,28 +377,28 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 		float o4 = this.gewichtungKoerpergroesse;
 		float o5 = this.gewichtungRaucher;
 		float summe = o1+o2+o3+o4+o5;
+		float x = (float) 100/summe;
 		
-		for (Profil p : profile){
+		for (Profil p : getSuchProfilErgebnisse(suchprofil)){
 			float p1=0;
 			float p2=0;
 			float p3=0;
 			float p4=0;
 			float p5=0;
-			float x = (float) 100/summe;
-			if(p.getHaarfarbe() == haarfarbeOfSourceprofil){
-			p1=o1;
+			if(p.getHaarfarbe() == source.getHaarfarbe()){
+				p1=o1;
 			}
-			else if(p.getReligion() == religionOfSourceprofil){
-			p2=o2;
+			else if(p.getReligion() == source.getReligion()){
+				p2=o2;
 			}
-			else if(getAge(p.getGeburtsdatum())== ageOfSourceprofil){
+			else if(getAge(p.getGeburtsdatum())== getAge(source.getGeburtsdatum())){
 				p3=o3;
 			
 			}
-			else if (p.getKoerpergroesse()== koerpergroesseOfSourceprofil){
+			else if (p.getKoerpergroesse()== source.getKoerpergroesse()){
 				p4=o4;
 			}
-			else if (p.isRaucher()== raucherOfSourceprofil){
+			else if (p.isRaucher()== source.isRaucher()){
 				p5=o5;
 			}
 			ähnlichkeitInProzent.add((p1*x)+(p2*x)+(p3*x)+(p4*x)+(p5*x));
