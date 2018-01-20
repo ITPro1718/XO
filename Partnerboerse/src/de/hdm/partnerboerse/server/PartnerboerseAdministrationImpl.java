@@ -49,6 +49,20 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	private SuchprofilMapper sMapper = null;
 	
 	private BesuchMapper bMapper = null;
+	private int gewichtungHaarfarbe; 
+	private int gewichtungReligion; 
+	private int gewichtungKoerpergroesse; 
+	private int gewichtungAlter; 
+	private int gewichtungRaucher; 
+	
+	public void setGewichtungen (int gwHaarfarbe, int gwReligion, int gwKoerpergroesse, int gwAlter, int gwRaucher) {
+
+		this.gewichtungHaarfarbe = gwHaarfarbe;
+		this.gewichtungReligion = gwReligion;
+		this.gewichtungKoerpergroesse = gwKoerpergroesse;
+		this.gewichtungAlter = gwKoerpergroesse;
+		this.gewichtungRaucher = gwRaucher;
+		}
 	
 	public PartnerboerseAdministrationImpl() throws IllegalArgumentException {
 		
@@ -311,6 +325,36 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 		
 		this.sMapper.deleteSuchprofil(suchprofil);	
 	}
+	
+	public ArrayList<Integer> findAllAuswahlIDsOfProfil(Profil profil){
+		
+		ArrayList<Info> allInfosOfProfil = findInfoOf(profil);
+		ArrayList<Integer>allAuswahlIDsOfProfil = new ArrayList<>();
+		
+		for(Info i: allInfosOfProfil){
+			if(i.getIs_a() == "auswahl"){
+			Auswahl auswahl = findAuswahlOf(i);
+			int auswahlID = auswahl.getId();
+			allAuswahlIDsOfProfil.add(auswahlID);
+			}
+		}
+		return allAuswahlIDsOfProfil;
+	}
+	
+	public ArrayList<String> findAllFreitexteOfProfil(Profil profil){
+		
+		ArrayList<Info> allInfosOfProfil = findInfoOf(profil);
+		ArrayList<String>allFreitexteOfProfil = new ArrayList<>();
+		
+		for(Info i: allInfosOfProfil){
+			if(i.getIs_a() == "freitext"){
+			Freitext freitext = findFreitextOf(i);
+			String freitextOfFreitext = freitext.getBeschreibung();
+			allFreitexteOfProfil.add(freitextOfFreitext);
+			}
+		}
+		return allFreitexteOfProfil;
+	}
 
 	@Override
 	public ArrayList<Profil> berechneAehnlichkeitsmass(Profil source, Suchprofil suchprofil)
@@ -321,9 +365,9 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 		
 		// Alle AuswahlIDs und Freitexte des Sourceprofils die wir abgleichen müssen
 		
-		ArrayList<Info> allInfosOfSourceProfil = findInfoOf(source);
-		ArrayList<Integer>allAuswahlIDsOfSourceProfil = new ArrayList<>();
-		ArrayList<String>allFreitexteOfSourceProfil = new ArrayList<>();
+	
+		ArrayList<Integer>allAuswahlIDsOfSourceProfil = findAllAuswahlIDsOfProfil(source);
+		ArrayList<String>allFreitexteOfSourceProfil = findAllFreitexteOfProfil(source);
 		
 		//Profileigenschaften vom Sourceprofil die wir ablgeichen
 		
@@ -333,29 +377,54 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 		double koerpergroesseOfSourceprofil = source.getKoerpergroesse();
 		boolean raucherOfSourceprofil = source.isRaucher();
 		
-		// Die folgende Schleife geht alle Infoobjekte des Sourceprofils durch und befüllt die ArrayList mit AuswahlIDs wenn das Infoobjekt eine Auswahl ist, 
-		//oder die ArrayList mit Freitexten(Strings) wenn das Infoobjekt ein Freitext ist.
-		//Somit hat man alle AuswahlIDS und Freitexte vom Sourceprofil die man mit den Suchprofilergebnissen vergleichen kann.
 		
-		for(Info i: allInfosOfSourceProfil){
-			if(i.getIs_a() == "auswahl"){
-			Auswahl auswahl = findAuswahlOf(i);
-			int auswahlID = auswahl.getId();
-			allAuswahlIDsOfSourceProfil.add(auswahlID);
+		// Die Schleife geht alle Suchprofilergebnisse durch (Profile) und vergleicht Profileigenschaften  mit den eigenen Profileigenschaften ab.
+		// Die Gewichtungen können durch die oben implementierte MEthode "setGEwichtungen" belieb gesetzt werden und werden am Ende der schleife wieder prozentual umgerechnet 
+		//(alle Gewichtungen zusammen ergeben 100% egal welche Zahl man gesetzt hat)
+		// Bsp. Haarfarbegewichtung 10, Religiongewichtung 20, Koerpergroessegewichtung 0 , Altergewichtung 30, Rauchergewichtung 50,
+		// Summe = 110, 
+		//Ähnlichkeit in Prozent = 10*(100/110))+(20*(100/110))+(0*(100/110))+(30*(100/110))+(50*(100/110)
+		// =9.090909% + 18.181818% + 0% + 27.272728% + 45.454548% = 100%
+		// Somit kann man wenn man die Gewichtung 0 setzt, trotzdem 100% erreichen weil das Attribut nicht mit einberechnet wird.
+		
+		ArrayList<Float> ähnlichkeitInProzent = new ArrayList<>();
+		float o1 = this.gewichtungHaarfarbe;
+		float o2 = this.gewichtungReligion;
+		float o3 = this.gewichtungAlter;
+		float o4 = this.gewichtungKoerpergroesse;
+		float o5 = this.gewichtungRaucher;
+		float summe = o1+o2+o3+o4+o5;
+		
+		for (Profil p : profile){
+			float p1=0;
+			float p2=0;
+			float p3=0;
+			float p4=0;
+			float p5=0;
+			float x = (float) 100/summe;
+			if(p.getHaarfarbe() == haarfarbeOfSourceprofil){
+			p1=o1;
 			}
-			else if (i.getIs_a() == "freitext"){
-			Freitext freitext = findFreitextOf(i);
-			String freitextOfFreitext = freitext.getBeschreibung();
-			allFreitexteOfSourceProfil.add(freitextOfFreitext);
+			else if(p.getReligion() == religionOfSourceprofil){
+			p2=o2;
 			}
-				}
-		
-		//TODO: Abgleich Profileigenschaften, AuswahlIDs und Freitexte vom eigenen Profil mit Suchprofilergebnissen. 
-		// z.B.:Wenn die Hälfte aller abgeglichenen Attribute gleich ist mit denen eines Fremdprofils, ist derjenige einem zu 50% ähnlich.
-		//Hinweis: sexuelle Orientierung muss ein Pflichtattribut beim Profilerstellen sein, sonst kann man nicht rausfiltern ob Männer oder Frauen angezeigt werden sollen
-		
+			else if(getAge(p.getGeburtsdatum())== ageOfSourceprofil){
+				p3=o3;
+			
+			}
+			else if (p.getKoerpergroesse()== koerpergroesseOfSourceprofil){
+				p4=o4;
+			}
+			else if (p.isRaucher()== raucherOfSourceprofil){
+				p5=o5;
+			}
+			ähnlichkeitInProzent.add((p1*x)+(p2*x)+(p3*x)+(p4*x)+(p5*x));
+			}
+			
 	
 		//TODO: Alle Infos von allen Suchprofilergebnissen finden zum Abgleich.
+		//TODO: Abgleich AuswahlIDs und Freitexte vom eigenen Profil mit Suchprofilergebnissen. 
+	   //Hinweis: sexuelle Orientierung muss ein Pflichtattribut beim Profilerstellen sein, sonst kann man nicht rausfiltern ob Männer oder Frauen angezeigt werden sollen
 		
 		
 		
