@@ -181,7 +181,6 @@ public class Editor implements EntryPoint {
         profilFlexTable.setText(row, 4, "" + p.isRaucher());
         profilFlexTable.setText(row, 5, p.getReligion());
         profilFlexTable.setText(row, 6, "" + p.getGeburtsdatum());
-        profilFlexTable.setText(row, 7, p.getPasswort());
         profilFlexTable.setText(row, 8, p.getEmail());
 
         // profilFlexTable.setWidget(row, 2, new Label());

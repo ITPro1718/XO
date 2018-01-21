@@ -23,8 +23,7 @@ public class Profil extends BusinessObjekt {
   private String religion;
   
   private Date geburtsdatum;
-  
-  private String passwort;
+
   
   private String email;
 
@@ -130,19 +129,6 @@ public class Profil extends BusinessObjekt {
     this.geburtsdatum = geburtsdatum;
   }
 
-  /**
-   * @return the passwort
-   */
-  public String getPasswort() {
-    return passwort;
-  }
-
-  /**
-   * @param passwort the passwort to set
-   */
-  public void setPasswort(String passwort) {
-    this.passwort = passwort;
-  }
 
   /**
    * @return the email
@@ -172,7 +158,6 @@ public class Profil extends BusinessObjekt {
     temp = Double.doubleToLongBits(koerpergroesse);
     result = prime * result + (int) (temp ^ (temp >>> 32));
     result = prime * result + ((nachname == null) ? 0 : nachname.hashCode());
-    result = prime * result + ((passwort == null) ? 0 : passwort.hashCode());
     result = prime * result + (raucher ? 1231 : 1237);
     result = prime * result + ((religion == null) ? 0 : religion.hashCode());
     result = prime * result + ((vorname == null) ? 0 : vorname.hashCode());
@@ -213,11 +198,7 @@ public class Profil extends BusinessObjekt {
         return false;
     } else if (!nachname.equals(other.nachname))
       return false;
-    if (passwort == null) {
-      if (other.passwort != null)
-        return false;
-    } else if (!passwort.equals(other.passwort))
-      return false;
+    
     if (raucher != other.raucher)
       return false;
     if (religion == null) {
@@ -240,7 +221,7 @@ public class Profil extends BusinessObjekt {
   public String toString() {
     return "Profil [vorname=" + vorname + ", nachname=" + nachname + ", haarfarbe=" + haarfarbe
         + ", koerpergroesse=" + koerpergroesse + ", raucher=" + raucher + ", religion=" + religion
-        + ", geburtsdatum=" + geburtsdatum + ", passwort=" + passwort + ", email=" + email + "]";
+        + ", geburtsdatum=" + geburtsdatum + ", passwort=" + ", email=" + email + "]";
   }
   
 }

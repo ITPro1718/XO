@@ -39,12 +39,7 @@ public class EigenProfilView extends VerticalPanel {
   
   Label sdescriptLab = new Label("Beschreibe dich kurz: ");
   Label hobbyLab = new Label("Deine Hobbies: ");
-  Label jobLab = new Label("Dein Beruf: ");
-  Label nationLab = new Label("Deine Nationalität: ");
-  Label eduLab = new Label("Dein Bildungsniveau: ");
   Label musicLab = new Label("Deine lieblings Musik: ");
-
-  Label sexPrefLab = new Label("Deine sexuellen Vorlieben: ");
   Label searchForLab = new Label("Du Bist auf der Suche Nach? ");
   Label sexOrientLab = new Label("Deine sexuelle Ausrichtung: ");
 
@@ -119,31 +114,18 @@ public class EigenProfilView extends VerticalPanel {
 	  this.add(infoGrid);
 	  
 	  infoGrid.setWidget(0, 1, hobbyLab);
-	  // infoGrid.setWidget(0, 2, hobby);
-
-	  // Spalte 2
-	  infoGrid.setWidget(0, 3, jobLab);
-	  // infoGrid.setWidget(0, 4, job);
-
-	  infoGrid.setWidget(1, 1, nationLab);
-	  // infoGrid.setWidget(1, 2, nation);
-	  
-	  infoGrid.setWidget(1, 3, eduLab);
-	  // infoGrid.setWidget(1, 4, edu);
+	  // infoGrid.setWidget(0, 2, hobby);	  
 
 	  // Spalte 4
-	  infoGrid.setWidget(2, 1, musicLab);
-	  // infoGrid.setWidget(2, 2, music);
+	  infoGrid.setWidget(1, 1, musicLab);
+	  // infoGrid.setWidget(1, 2, music);
 
-
-	  infoGrid.setWidget(2, 3, sexPrefLab);
-	  // infoGrid.setWidget(2, 4, sexPref);
 	  
-	  infoGrid.setWidget(3, 1, sexOrientLab);
-	  // infoGrid.setWidget(3, 2, sexOrient);
+	  infoGrid.setWidget(1, 3, sexOrientLab);
+	  // infoGrid.setWidget(1, 4, sexOrient);
 
-	  infoGrid.setWidget(3, 3, searchForLab);
-	  // infoGrid.setWidget(3, 4, searchFor);
+	  infoGrid.setWidget(0, 3, searchForLab);
+	  // infoGrid.setWidget(0, 4, searchFor);
 
   }
    

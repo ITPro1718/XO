@@ -59,23 +59,13 @@ public class CreateEigenProfil extends VerticalPanel {
   
   Label sdescriptLab = new Label("Beschreibe dich kurz: ");
   Label hobbyLab = new Label("Deine Hobbies: ");
-  Label jobLab = new Label("Dein Beruf: ");
-  Label nationLab = new Label("Deine Nationalität: ");
-  Label eduLab = new Label("Dein Bildungsniveau: ");
   Label musicLab = new Label("Deine lieblings Musik: ");
-
-  Label sexPrefLab = new Label("Deine sexuellen Vorlieben: ");
   Label searchForLab = new Label("Du Bist auf der Suche Nach? ");
   Label sexOrientLab = new Label("Deine sexuelle Ausrichtung: ");
 
   TextBox hobby = new TextBox();
-  TextBox job = new TextBox();
-  TextBox nation = new TextBox();
-  TextBox music = new TextBox();
   TextArea sdescript = new TextArea();
-  TextBox sexPref = new TextBox();
-
-  ListBox edu = new ListBox();
+  TextBox music = new TextBox();
   ListBox sexOrient = new ListBox();
   ListBox searchFor = new ListBox();
 
@@ -157,44 +147,18 @@ public class CreateEigenProfil extends VerticalPanel {
     infoGrid.setWidget(0, 2, hobby);
     // hobby.setValue(getProfilFromServer.getNachname());
 
-    // Spalte 2
-    infoGrid.setWidget(0, 3, jobLab);
-    infoGrid.setWidget(0, 4, job);
-    // job.setValue(getProfilFromServer.getGeburtsdatum().toString());
-
-    infoGrid.setWidget(1, 1, nationLab);
-    infoGrid.setWidget(1, 2, nation);
-    // nation.setValue(getProfilFromServer.getEmail());
-
-    // Spalte 3
-    edu.addItem("Universität", "uni");
-    edu.addItem("Abitur", "abi");
-    edu.addItem("Fachhochschulreife", "fh");
-    edu.addItem("Realschulabschluss", "real");
-    edu.addItem("Hauptschulabschluss", "haupt");
-    edu.addItem("Andere", "andere");
-
-    infoGrid.setWidget(1, 3, eduLab);
-    infoGrid.setWidget(1, 4, edu);
-
-    // Spalte 4
-    infoGrid.setWidget(2, 1, musicLab);
-    infoGrid.setWidget(2, 2, music);
-    // music.setValue(getProfilFromServer.getHaarfarbe());
-
-    infoGrid.setWidget(2, 3, sexPrefLab);
-    infoGrid.setWidget(2, 4, sexPref);
-    // heightTextBox.setValue(String.valueOf(getProfilFromServer.getKoerpergroesse()));
 
     // Spalte 5
     getItemsOfAuswahl();
  
+    infoGrid.setWidget(1, 1, musicLab);
+    infoGrid.setWidget(1, 2, music);
+    
+    infoGrid.setWidget(1, 3, sexOrientLab);
+    infoGrid.setWidget(1, 4, sexOrient);
 
-    infoGrid.setWidget(3, 1, sexOrientLab);
-    infoGrid.setWidget(3, 2, sexOrient);
-
-    infoGrid.setWidget(3, 3, searchForLab);
-    infoGrid.setWidget(3, 4, searchFor);
+    infoGrid.setWidget(0, 3, searchForLab);
+    infoGrid.setWidget(0, 4, searchFor);
 
     /**
      * Button zum Speichern des eigenen geänderten Profils
@@ -223,8 +187,9 @@ public class CreateEigenProfil extends VerticalPanel {
 
 			@Override
 			public void onSuccess(Profil result) {
-				 ClientSideSettings.setProfil(result);		  	
-				 generateInfosOfUser();
+				 ClientSideSettings.setProfil(result);	
+				 
+				 sexOrientAuswahlCallback();
 				  	
 				 Editor ed = new Editor();
 				 RootPanel.get("contwrap").clear();
@@ -235,16 +200,6 @@ public class CreateEigenProfil extends VerticalPanel {
 
       }
       
-      
-      private void generateInfosOfUser(){
-    	  // TODO: funktioniert net
-							
-//		  freitextTextAreaCallback();
-//    	  auswahlCallback();
-//    	  hobbyFreitextCallback();
-    	  sexOrientAuswahlCallback();
-			
-      }
     });
 
   }
@@ -273,8 +228,6 @@ public class CreateEigenProfil extends VerticalPanel {
     setProfil.setReligion(religionListBox.getSelectedValue());
     setProfil.setHaarfarbe(hcolorListBox.getSelectedValue());
     setProfil.setEmail(loginInfo.getEmailAddress());
-    // TODO: Wichtig Passwort muss raus, sobald das Datenmodell geändert wurde
-    setProfil.setPasswort("sdfghfdghhjfhgdhggm");
     String raucherSelectedValue = smokerListBox.getSelectedValue();
 
     /*
@@ -320,13 +273,6 @@ public class CreateEigenProfil extends VerticalPanel {
 	  	  
   }
 
-  public LoginInfo getLoginInfo() {
-    return loginInfo;
-  }
-
-  public void setLoginInfo(LoginInfo loginInfo) {
-    this.loginInfo = loginInfo;
-  }
   
   private void freitextTextAreaCallback(){
 	  
@@ -343,7 +289,8 @@ public class CreateEigenProfil extends VerticalPanel {
 			}
 
 			@Override
-			public void onSuccess(Void result) {				
+			public void onSuccess(Void result) {
+				musicFreitextCallback();
 			}
 		});
   }
@@ -364,6 +311,7 @@ public class CreateEigenProfil extends VerticalPanel {
 
 			@Override
 			public void onSuccess(Void result) {
+				auswahlCallback();
 			}
 			
 		});
@@ -386,6 +334,7 @@ public class CreateEigenProfil extends VerticalPanel {
 
 			@Override
 			public void onSuccess(Void result) {
+				freitextTextAreaCallback();
 			}
 		});
   }
@@ -406,8 +355,39 @@ public class CreateEigenProfil extends VerticalPanel {
 
 			@Override
 			public void onSuccess(Void result) {
+				hobbyFreitextCallback();
 			}
 		});
   }
+  
+private void musicFreitextCallback(){
+	  
+	  Profil profil = ClientSideSettings.getProfil();
+	  		  
+		Freitext f = new Freitext();
+		f.setBeschreibung(music.getValue());
+		Info i = new Info();
+		i.setText(musicLab.getText());
+		partnerAdmin.createEigenschaftForFreitext(profil, i, f, new AsyncCallback<Void>(){
+
+			@Override
+			public void onFailure(Throwable caught) {
+			}
+
+			@Override
+			public void onSuccess(Void result) {
+			}
+			
+		});
+	  
+}
+
+  public LoginInfo getLoginInfo() {
+	    return loginInfo;
+	  }
+
+	  public void setLoginInfo(LoginInfo loginInfo) {
+	    this.loginInfo = loginInfo;
+	  }
 }
 
