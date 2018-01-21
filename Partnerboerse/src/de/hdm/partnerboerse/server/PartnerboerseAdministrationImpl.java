@@ -49,6 +49,20 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	private SuchprofilMapper sMapper = null;
 	
 	private BesuchMapper bMapper = null;
+	private int gewichtungHaarfarbe; 
+	private int gewichtungReligion; 
+	private int gewichtungKoerpergroesse; 
+	private int gewichtungAlter; 
+	private int gewichtungRaucher; 
+	
+	public void setGewichtungen (int gwHaarfarbe, int gwReligion, int gwKoerpergroesse, int gwAlter, int gwRaucher) {
+
+		this.gewichtungHaarfarbe = gwHaarfarbe;
+		this.gewichtungReligion = gwReligion;
+		this.gewichtungKoerpergroesse = gwKoerpergroesse;
+		this.gewichtungAlter = gwKoerpergroesse;
+		this.gewichtungRaucher = gwRaucher;
+		}
 	
 	public PartnerboerseAdministrationImpl() throws IllegalArgumentException {
 		
@@ -311,12 +325,91 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 		
 		this.sMapper.deleteSuchprofil(suchprofil);	
 	}
+	
+	public ArrayList<Integer> findAllAuswahlIDsOfProfil(Profil profil){
+		
+		ArrayList<Integer>allAuswahlIDsOfProfil = new ArrayList<>();
+		
+		for(Info i: findInfoOf(profil)){
+			if(i.getIs_a() == "auswahl"){
+			
+			allAuswahlIDsOfProfil.add(findAuswahlOf(i).getId());
+			}
+		}
+		return allAuswahlIDsOfProfil;
+	}
+	
+	public ArrayList<String> findAllFreitexteOfProfil(Profil profil){
+		
+		ArrayList<String>allFreitexteOfProfil = new ArrayList<>();
+		
+		for(Info i: findInfoOf(profil)){
+			if(i.getIs_a() == "freitext"){
+		
+			allFreitexteOfProfil.add(findFreitextOf(i).getBeschreibung());
+			}
+		}
+		return allFreitexteOfProfil;
+	}
 
 	@Override
 	public ArrayList<Profil> berechneAehnlichkeitsmass(Profil source, Suchprofil suchprofil)
 			throws IllegalArgumentException {
-		// TODO Methode implementieren wenn wir den ganzen Eigenschaft/Info shit haben
-		// findAllInfoOf(Profil p) implementieren! danach kann man die hier machen
+		
+		// Alle AuswahlIDs und Freitexte des Sourceprofils die wir abgleichen müssen
+		
+		ArrayList<Integer>allAuswahlIDsOfSourceProfil = findAllAuswahlIDsOfProfil(source);
+		ArrayList<String>allFreitexteOfSourceProfil = findAllFreitexteOfProfil(source);
+		
+		// Die Schleife geht alle Suchprofilergebnisse durch (Profile) und vergleicht Profileigenschaften  mit den eigenen Profileigenschaften ab.
+		// Die Gewichtungen können durch die oben implementierte MEthode "setGEwichtungen" belieb gesetzt werden und werden am Ende der schleife wieder prozentual umgerechnet 
+		//(alle Gewichtungen zusammen ergeben 100% egal welche Zahl man gesetzt hat)
+		// Bsp. Haarfarbegewichtung 10, Religiongewichtung 20, Koerpergroessegewichtung 0 , Altergewichtung 30, Rauchergewichtung 50,
+		// Summe = 110, 
+		//Ähnlichkeit in Prozent = 10*(100/110))+(20*(100/110))+(0*(100/110))+(30*(100/110))+(50*(100/110)
+		// =9.090909% + 18.181818% + 0% + 27.272728% + 45.454548% = 100%
+		// Somit kann man wenn man die Gewichtung 0 setzt, trotzdem 100% erreichen weil das Attribut nicht mit einberechnet wird.
+		
+		ArrayList<Float> ähnlichkeitInProzent = new ArrayList<>();
+		float o1 = this.gewichtungHaarfarbe;
+		float o2 = this.gewichtungReligion;
+		float o3 = this.gewichtungAlter;
+		float o4 = this.gewichtungKoerpergroesse;
+		float o5 = this.gewichtungRaucher;
+		float summe = o1+o2+o3+o4+o5;
+		float x = (float) 100/summe;
+		
+		for (Profil p : getSuchProfilErgebnisse(suchprofil)){
+			float p1=0;
+			float p2=0;
+			float p3=0;
+			float p4=0;
+			float p5=0;
+			if(p.getHaarfarbe() == source.getHaarfarbe()){
+				p1=o1;
+			}
+			else if(p.getReligion() == source.getReligion()){
+				p2=o2;
+			}
+			else if(getAge(p.getGeburtsdatum())== getAge(source.getGeburtsdatum())){
+				p3=o3;
+			
+			}
+			else if (p.getKoerpergroesse()== source.getKoerpergroesse()){
+				p4=o4;
+			}
+			else if (p.isRaucher()== source.isRaucher()){
+				p5=o5;
+			}
+			ähnlichkeitInProzent.add((p1*x)+(p2*x)+(p3*x)+(p4*x)+(p5*x));
+			}
+			
+	
+		//TODO: Alle Infos von allen Suchprofilergebnissen finden zum Abgleich.
+		//TODO: Abgleich AuswahlIDs und Freitexte vom eigenen Profil mit Suchprofilergebnissen. 
+	   //Hinweis: sexuelle Orientierung muss ein Pflichtattribut beim Profilerstellen sein, sonst kann man nicht rausfiltern ob Männer oder Frauen angezeigt werden sollen
+		
+		
 		
 		return null;
 	}
