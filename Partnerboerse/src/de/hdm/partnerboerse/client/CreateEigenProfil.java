@@ -44,18 +44,16 @@ public class CreateEigenProfil extends VerticalPanel {
   Label lnameLabel = new Label("Nachname: ");
   Label bdayLabel = new Label("Geburtstag: ");
   Label hcolorLabel = new Label("Haarfarbe: ");
-  Label heightLabel = new Label("Größe " + "(in cm): ");
+  Label heightLabel = new Label("Größe (in cm): ");
   Label smokerLabel = new Label("Raucher: ");
   Label religionLabel = new Label("Religion: ");
 
-  TextBox mailTextBox = new TextBox();
-  TextBox pwTextBox = new TextBox();
   TextBox vnameTextBox = new TextBox();
   TextBox lnameTextBox = new TextBox();
   TextBox bdayTextBox = new TextBox();
-  TextBox hcolorTextBox = new TextBox();
+  ListBox hcolorListBox = new ListBox();
   TextBox heightTextBox = new TextBox();
-  TextBox religionTextBox = new TextBox();
+  ListBox religionListBox = new ListBox();
 
   ListBox smokerListBox = new ListBox();
   
@@ -112,8 +110,14 @@ public class CreateEigenProfil extends VerticalPanel {
     profilGrid.setWidget(2, 2, bdayTextBox);
 
 
+    hcolorListBox.addItem("schwarz", "schwarz");
+    hcolorListBox.addItem("braun", "braun");
+    hcolorListBox.addItem("blond", "blond");
+    hcolorListBox.addItem("grau", "grau");
+    hcolorListBox.addItem("sonstige", "sonstige");
+    
     profilGrid.setWidget(2, 3, hcolorLabel);
-    profilGrid.setWidget(2, 4, hcolorTextBox);
+    profilGrid.setWidget(2, 4, hcolorListBox);
 
     // Spalte 3
     profilGrid.setWidget(3, 1, heightLabel);
@@ -128,8 +132,14 @@ public class CreateEigenProfil extends VerticalPanel {
     profilGrid.setWidget(3, 4, smokerListBox);
 
     // Spalte 4
+    religionListBox.addItem("christlich", "christlich");
+    religionListBox.addItem("muslimisch", "muslimisch");
+    religionListBox.addItem("jüdisch", "jüdisch");
+    religionListBox.addItem("buddhistisch", "buddhistisch");
+    religionListBox.addItem("atheist", "atheist");
+    
     profilGrid.setWidget(4, 1, religionLabel);
-    profilGrid.setWidget(4, 2, religionTextBox);
+    profilGrid.setWidget(4, 2, religionListBox);
     
     FlexTable descripton = new FlexTable();
     descripton.setStyleName("desctable");
@@ -220,19 +230,18 @@ public class CreateEigenProfil extends VerticalPanel {
 				 RootPanel.get("contwrap").clear();
 				 ed.onModuleLoad();
 				
-			}
-
-          
+			}          
         });
 
       }
       
       
       private void generateInfosOfUser(){
+    	  // TODO: funktioniert net
 							
 //		  freitextTextAreaCallback();
 //    	  auswahlCallback();
-    	  hobbyFreitextCallback();
+//    	  hobbyFreitextCallback();
     	  sexOrientAuswahlCallback();
 			
       }
@@ -261,8 +270,8 @@ public class CreateEigenProfil extends VerticalPanel {
     setProfil.setNachname(lnameTextBox.getValue());
     setProfil.setGeburtsdatum(bDayConvert);
     setProfil.setKoerpergroesse(heightConvert);
-    setProfil.setReligion(religionTextBox.getValue());
-    setProfil.setHaarfarbe(hcolorTextBox.getValue());
+    setProfil.setReligion(religionListBox.getSelectedValue());
+    setProfil.setHaarfarbe(hcolorListBox.getSelectedValue());
     setProfil.setEmail(loginInfo.getEmailAddress());
     // TODO: Wichtig Passwort muss raus, sobald das Datenmodell geändert wurde
     setProfil.setPasswort("sdfghfdghhjfhgdhggm");

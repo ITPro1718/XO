@@ -9,6 +9,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
@@ -32,13 +33,25 @@ public class EigenProfilView extends VerticalPanel {
   String lnameLabel = new String("Nachname: ");
   String bdayLabel = new String("Geburtstag: ");
   String hcolorLabel = new String("Haarfarbe: ");
-  String heightLabel = new String("GrÃ¶ÃŸe (in cm): ");
+  String heightLabel = new String("Größe (in cm): ");
   String smokerLabel = new String("Raucher: ");
   String religionLabel = new String("Religion: ");
+  
+  Label sdescriptLab = new Label("Beschreibe dich kurz: ");
+  Label hobbyLab = new Label("Deine Hobbies: ");
+  Label jobLab = new Label("Dein Beruf: ");
+  Label nationLab = new Label("Deine Nationalität: ");
+  Label eduLab = new Label("Dein Bildungsniveau: ");
+  Label musicLab = new Label("Deine lieblings Musik: ");
+
+  Label sexPrefLab = new Label("Deine sexuellen Vorlieben: ");
+  Label searchForLab = new Label("Du Bist auf der Suche Nach? ");
+  Label sexOrientLab = new Label("Deine sexuelle Ausrichtung: ");
 
   public void onLoad() {
 
     updateProfilTable(ClientSideSettings.getProfil());
+    loadInfoTable(ClientSideSettings.getProfil());
 
     editButton.addClickHandler(new ClickHandler() {
 
@@ -90,6 +103,50 @@ public class EigenProfilView extends VerticalPanel {
     profilGrid.setText(4, 2, meinProfil.getReligion());
 
   }
+  
+  private void loadInfoTable(Profil profil){
+	  // TODO: Get all Infos of User Callback, dann Infos in Grid einfügen
+	  
+	  FlexTable descripton = new FlexTable();
+	  descripton.setStyleName("desctable");
+	  this.add(descripton);
+	  
+	  descripton.setWidget(0, 0, sdescriptLab);
+	  // descripton.setWidget(0, 1, );
+
+	  Grid infoGrid = new Grid(4, 6);
+	  infoGrid.setStyleName("etable");
+	  this.add(infoGrid);
+	  
+	  infoGrid.setWidget(0, 1, hobbyLab);
+	  // infoGrid.setWidget(0, 2, hobby);
+
+	  // Spalte 2
+	  infoGrid.setWidget(0, 3, jobLab);
+	  // infoGrid.setWidget(0, 4, job);
+
+	  infoGrid.setWidget(1, 1, nationLab);
+	  // infoGrid.setWidget(1, 2, nation);
+	  
+	  infoGrid.setWidget(1, 3, eduLab);
+	  // infoGrid.setWidget(1, 4, edu);
+
+	  // Spalte 4
+	  infoGrid.setWidget(2, 1, musicLab);
+	  // infoGrid.setWidget(2, 2, music);
+
+
+	  infoGrid.setWidget(2, 3, sexPrefLab);
+	  // infoGrid.setWidget(2, 4, sexPref);
+	  
+	  infoGrid.setWidget(3, 1, sexOrientLab);
+	  // infoGrid.setWidget(3, 2, sexOrient);
+
+	  infoGrid.setWidget(3, 3, searchForLab);
+	  // infoGrid.setWidget(3, 4, searchFor);
+
+  }
+   
 
   // ToDo: Ãœberlegen wie man den Parameter fÃ¼r die neue View Ã¼bertragen kann
   private void loadEditProfilView(Profil result) {
@@ -101,7 +158,7 @@ public class EigenProfilView extends VerticalPanel {
 
     // Profile Edit - Panel wird erzeugt und eingefÃ¼gt.
     HTMLPanel editProfilePanel =
-        new HTMLPanel("<h3>" + "Hier kÃ¶nnen Sie ihre Profilinformationen bearbeiten." + "</h3>");
+        new HTMLPanel("<h3>" + "Hier können Sie ihre Profilinformationen bearbeiten." + "</h3>");
 
     editProfilePanel.add(ep);
 

@@ -41,8 +41,6 @@ public class EditProfile extends VerticalPanel {
   Button safeButton = new Button("Profil speichern");
 
   // Label, Textboxen und ListBoxen für das ProfilGrid
-  Label mailLabel = new Label("E-Mail: ");
-  Label pwLabel = new Label("Passwort: ");
   Label vnameLabel = new Label("Vorname: ");
   Label lnameLabel = new Label("Nachname: ");
   Label bdayLabel = new Label("Geburtstag: ");
@@ -51,14 +49,12 @@ public class EditProfile extends VerticalPanel {
   Label smokerLabel = new Label("Raucher: ");
   Label religionLabel = new Label("Religion: ");
 
-  TextBox mailTextBox = new TextBox();
-  TextBox pwTextBox = new TextBox();
   TextBox vnameTextBox = new TextBox();
   TextBox lnameTextBox = new TextBox();
   DateBox bdayTextBox = new DateBox();
-  TextBox hcolorTextBox = new TextBox();
+  ListBox hcolorListBox = new ListBox();
   TextBox heightTextBox = new TextBox();
-  TextBox religionTextBox = new TextBox();
+  ListBox religionListBox = new ListBox();
   ListBox smokerListBox = new ListBox();
 
   // Label, Textboxen und ListBoxen für das InfoGrid
@@ -124,30 +120,28 @@ public class EditProfile extends VerticalPanel {
     profilGrid.setWidget(2, 2, bdayTextBox);
     bdayTextBox.setValue(getProfilFromServer.getGeburtsdatum());
 
-    profilGrid.setWidget(2, 3, mailLabel);
-    profilGrid.setWidget(2, 4, mailTextBox);
-    mailTextBox.setValue(getProfilFromServer.getEmail());
-
-    // Spalte 3
-    profilGrid.setWidget(3, 1, pwLabel);
-    profilGrid.setWidget(3, 2, pwTextBox);
-    pwTextBox.setValue(getProfilFromServer.getPasswort());
-
+    
     // Spalte 4
-    profilGrid.setWidget(3, 3, hcolorLabel);
-    profilGrid.setWidget(3, 4, hcolorTextBox);
-    hcolorTextBox.setValue(getProfilFromServer.getHaarfarbe());
+    hcolorListBox.addItem("schwarz", "schwarz");
+    hcolorListBox.addItem("braun", "braun");
+    hcolorListBox.addItem("blond", "blond");
+    hcolorListBox.addItem("grau", "grau");
+    hcolorListBox.addItem("sonstige", "sonstige");
+    
+    profilGrid.setWidget(2, 3, hcolorLabel);
+    profilGrid.setWidget(2, 4, hcolorListBox);
+    // hcolorListBox.setValue(getProfilFromServer.getHaarfarbe());
 
-    profilGrid.setWidget(4, 1, heightLabel);
-    profilGrid.setWidget(4, 2, heightTextBox);
+    profilGrid.setWidget(3, 1, heightLabel);
+    profilGrid.setWidget(3, 2, heightTextBox);
     heightTextBox.setValue(String.valueOf(getProfilFromServer.getKoerpergroesse()));
 
     // Spalte 5
     smokerListBox.addItem("Ja", "YSmoker");
     smokerListBox.addItem("Nein", "NSmoker");
 
-    profilGrid.setWidget(4, 3, smokerLabel);
-    profilGrid.setWidget(4, 4, smokerListBox);
+    profilGrid.setWidget(3, 3, smokerLabel);
+    profilGrid.setWidget(3, 4, smokerListBox);
 
     /*
      * https://stackoverflow.com/questions/3793650/convert-boolean-to-int-in -java Konvertiert bei
@@ -167,9 +161,15 @@ public class EditProfile extends VerticalPanel {
     // smokerListBox.setValue(1, getProfilFromServer.isRaucher());
 
     // Spalte 6
-    profilGrid.setWidget(5, 1, religionLabel);
-    profilGrid.setWidget(5, 2, religionTextBox);
-    religionTextBox.setValue(getProfilFromServer.getReligion());
+    religionListBox.addItem("christlich", "christlich");
+    religionListBox.addItem("muslimisch", "muslimisch");
+    religionListBox.addItem("jüdisch", "jüdisch");
+    religionListBox.addItem("buddhistisch", "buddhistisch");
+    religionListBox.addItem("atheist", "atheist");
+    
+    profilGrid.setWidget(4, 1, religionLabel);
+    profilGrid.setWidget(4, 2, religionListBox);
+    // religionListBox.setValue(getProfilFromServer.getReligion());
 
     /*
      * Grid für die Eingenschaftsobjekte. Zur besseren Beschreibung eines Profils.
@@ -416,10 +416,9 @@ public class EditProfile extends VerticalPanel {
     setProfil.setNachname(lnameTextBox.getValue());
     setProfil.setGeburtsdatum(sqlDate);
     setProfil.setEmail(loginInfo.getEmailAddress());
-    setProfil.setPasswort(pwTextBox.getValue());
     setProfil.setKoerpergroesse(heightConvert);
-    setProfil.setReligion(religionTextBox.getValue());
-    setProfil.setHaarfarbe(hcolorTextBox.getValue());
+    setProfil.setReligion(religionListBox.getSelectedValue());
+    setProfil.setHaarfarbe(hcolorListBox.getSelectedValue());
 
     /*
      * String-Wert von Raucher wird ausgelesen und durch eine Switch-Anweisung wird der Wert zu
