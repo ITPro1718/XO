@@ -69,19 +69,23 @@ public interface PartnerboerseAdministrationAsync {
 
 	void findBesucheOf(Profil profilowner, AsyncCallback<ArrayList<Besuch>> callback);
 
-	void findEigenschaftsInfosOf(Eigenschaft eigenschaft, AsyncCallback<ArrayList<Info>> callback);
-
 	void findFreitextOf(Info info, AsyncCallback<Freitext> callback);
 
 	void findInfoOf(Profil profilowner, AsyncCallback<ArrayList<Info>> callback);
+
+	void findInfoOfEigenschaft(Eigenschaft eigenschaft, AsyncCallback<Info> callback);
 
 	void findKontaktsperrenOf(Profil profilowner, AsyncCallback<ArrayList<Kontaktsperre>> callback);
 
 	void findMerkzettelnOf(Profil profilowner, AsyncCallback<ArrayList<Merkzettel>> callback);
 
+	void findStringOf(Profil profil, String labString, AsyncCallback<String> callback);
+
 	void findSuchprofileOf(Profil profilowner, AsyncCallback<ArrayList<Suchprofil>> callback);
 
 	void getAllEigenschaften(AsyncCallback<ArrayList<Eigenschaft>> callback);
+
+	void getAllEigenschaftenOf(Profil profil, AsyncCallback<ArrayList<Eigenschaft>> callback);
 
 	void getAllInfos(AsyncCallback<ArrayList<Info>> callback);
 

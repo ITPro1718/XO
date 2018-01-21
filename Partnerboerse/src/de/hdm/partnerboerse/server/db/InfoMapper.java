@@ -143,11 +143,27 @@ public class InfoMapper {
 		return result;
 	}
 
-	public ArrayList<Info> findEigenschaftsInfosOf(Eigenschaft eigenschaft) {
+	public Info findEigenschaftsInfosOf(Eigenschaft eigenschaft) {
 
-		/**
-		 * not sure what this does
-		 */
+		Connection con = DBConnection.getConnection();
+		try {
+
+			Statement stmt = con.createStatement();
+
+			ResultSet rs = stmt.executeQuery("SELECT * FROM info WHERE id = " + eigenschaft.getId());
+
+			while (rs.next()) {
+				Info i = new Info();
+				i.setId(rs.getInt("id"));
+				i.setText(rs.getString("bezeichnung"));
+				i.setIs_a(rs.getString("is_a"));
+				i.setAuswahlID(rs.getInt("auswahlID"));
+				i.setFreitextID(rs.getInt("freitextID"));
+				return i;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
 		return null;
 	}

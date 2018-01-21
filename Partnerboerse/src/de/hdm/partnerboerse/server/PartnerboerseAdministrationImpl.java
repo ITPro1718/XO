@@ -17,6 +17,7 @@ import de.hdm.partnerboerse.server.db.SuchprofilMapper;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
 import de.hdm.partnerboerse.shared.bo.Auswahl;
 import de.hdm.partnerboerse.shared.bo.Besuch;
+import de.hdm.partnerboerse.shared.bo.BusinessObjekt;
 import de.hdm.partnerboerse.shared.bo.Eigenschaft;
 import de.hdm.partnerboerse.shared.bo.Freitext;
 import de.hdm.partnerboerse.shared.bo.Info;
@@ -774,14 +775,9 @@ public ArrayList<Profil> getNotSeenSuchProfilErgebnisse(Suchprofil suchprofil) t
   }
 
   @Override
-  public ArrayList<Info> findEigenschaftsInfosOf(Eigenschaft eigenschaft)
+  public Info findInfoOfEigenschaft(Eigenschaft eigenschaft)
       throws IllegalArgumentException {
-	  
-	 /**
-	  * Diese Methode gibt alle Eigenschaften einer Info zurück
-	  * TODO: Methode im Info Mapper implementieren
-	  */
-	  
+	    
 	  return this.iMapper.findEigenschaftsInfosOf(eigenschaft);
 	  
   }
@@ -791,7 +787,7 @@ public ArrayList<Profil> getNotSeenSuchProfilErgebnisse(Suchprofil suchprofil) t
       throws IllegalArgumentException {
 	  
 	/**
-	 * Gibt den Freitext einer Eigenschaft über den Fremdschlüssel zurück
+	 * Gibt den Freitext einer Info über den Fremdschlüssel zurück
 	 */
 	  
     return this.fMapper.findFreitextOfInfo(info);
@@ -802,7 +798,7 @@ public ArrayList<Profil> getNotSeenSuchProfilErgebnisse(Suchprofil suchprofil) t
       throws IllegalArgumentException {
 
 	  /**
-	   * Gibt eine Auswahl aus einer Eigenschaft zurück
+	   * Gibt eine Auswahl aus einer Info zurück
 	   */
 	  
 	  return this.aMapper.findAuswahlOf(info);
@@ -850,6 +846,41 @@ public Auswahl findAuswahlByTitle(Auswahl auswahl) throws IllegalArgumentExcepti
 
 	return this.aMapper.findAuswahlByTitle(auswahl);
 }
+
+@Override
+public ArrayList<Eigenschaft> getAllEigenschaftenOf(Profil profil) throws IllegalArgumentException {
+
+	return this.eiMapper.getAllEigenschaftenOf(profil);
+}
+
+/**
+ * Gibt einen String zurück, der Entweder der Titel der Auswahl ist, oder die Beschreibung des Freitextes.
+ * Die Methode findet anhand des labStrings der Eigenschaft in der Gui die richtige Eigenschaft
+ */
+@Override
+public String findStringOf(Profil profil, String labString) throws IllegalArgumentException {
+
+	
+	ArrayList<Eigenschaft> eigs = this.getAllEigenschaftenOf(profil);
+	
+	for (Eigenschaft e : eigs){
+		if (e.getErlaeuterung().equals(labString)){
+			Info info = this.findInfoOfEigenschaft(e);
+			
+			if (info.getIs_a() == "auswahl"){
+				Auswahl auswahl = this.findAuswahlOf(info);
+				return auswahl.getTitel();
+			}
+			else if (info.getIs_a().equals("freitext")){
+				Freitext freitext = this.findFreitextOf(info);
+				return freitext.getBeschreibung();
+			}
+		}
+	}
+	return null;
+}
+	
+	
 
 
 

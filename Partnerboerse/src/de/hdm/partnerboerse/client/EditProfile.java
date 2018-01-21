@@ -1,5 +1,7 @@
 package de.hdm.partnerboerse.client;
 
+import java.util.ArrayList;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -174,7 +176,7 @@ public class EditProfile extends VerticalPanel {
 
     descripton.setWidget(0, 0, sdescriptLab);
     descripton.setWidget(0, 1, sdescript);
-    // sdescript.setValue(getProfilFromServer.getVorname());
+    getDescStringFromServer(sdescriptLab);
 
     Grid infoGrid = new Grid(4, 6);
     infoGrid.setStyleName("etable");
@@ -183,13 +185,13 @@ public class EditProfile extends VerticalPanel {
 
     infoGrid.setWidget(0, 1, hobbyLab);
     infoGrid.setWidget(0, 2, hobby);
-    // hobby.setValue(getProfilFromServer.getNachname());
+    getHobbyStringFromServer(hobbyLab);
 
 
     // Spalte 4
     infoGrid.setWidget(1, 1, musicLab);
     infoGrid.setWidget(1, 2, music);
-    // music.setValue(getProfilFromServer.getHaarfarbe());
+    getMusicStringFromServer(musicLab);
 
 
     // Spalte 5
@@ -235,7 +237,7 @@ public class EditProfile extends VerticalPanel {
       public void onClick(ClickEvent event) {
 
         updateProfileOnServer();
-        generateInfosOfUser();
+        updateEigenschaftenOfUser();
       }
 
       private void updateProfileOnServer() {
@@ -271,48 +273,10 @@ public class EditProfile extends VerticalPanel {
         });
       }
 
-      /**
-       * TODO: Hier Update befehle nehmen und nicht die insert
-       * 
-       */
-      private void generateInfosOfUser() {
+     
+      private void updateEigenschaftenOfUser() {
 
-        // TODO: aktuelles Profil nehmen und nicht hässlich hardcoden
-        Profil prof = new Profil();
-        prof.setId(1);
-
-        Freitext f = new Freitext();
-        f.setBeschreibung(sdescript.getValue());
-
-        Info i = new Info();
-        i.setText(sdescriptLab.getText());
-
-        partnerAdmin.createEigenschaftForFreitext(prof, i, f, new AsyncCallback<Void>() {
-
-          @Override
-          public void onFailure(Throwable caught) {}
-
-          @Override
-          public void onSuccess(Void result) {}
-        });
-
-        Freitext f1 = new Freitext();
-        f1.setBeschreibung(hobby.getValue());
-
-        Info i1 = new Info();
-        i.setText(hobbyLab.getText());
-
-        partnerAdmin.createEigenschaftForFreitext(prof, i1, f1, new AsyncCallback<Void>() {
-
-          @Override
-          public void onFailure(Throwable caught) {}
-
-          @Override
-          public void onSuccess(Void result) {}
-
-        });
-
-
+    	  // TODO: Update Eigenschaftseinträge des Users
 
       }
 
@@ -355,11 +319,13 @@ public class EditProfile extends VerticalPanel {
     });
   }
 
-  /**
+
+/**
    * TODO: Datum muss noch aderster gemappt werden es ist falsch! Werte aus den geänderten
    * Formularen wird ausgelesen und in ein Profil gespeichert und zurück gegeben
    */
   private Profil getProfileValuesFromFormular() {
+
 
     Profil setProfil = new Profil();
 
@@ -406,5 +372,63 @@ public class EditProfile extends VerticalPanel {
     return setProfil;
 
   }
+  
+  private void getHobbyStringFromServer(Label label){
+	  
+	  String labString = label.getText();
+	  
+	  partnerAdmin.findStringOf(ClientSideSettings.getProfil(), labString, new AsyncCallback<String>(){
+
+		  		
+				@Override
+				public void onFailure(Throwable caught) {
+				}
+
+				@Override
+				public void onSuccess(String result) {
+					hobby.setValue(result);
+				}
+		  
+	  });
+	  
+  }
+  
+private void getMusicStringFromServer(Label label){
+	  
+	  String labString = label.getText();
+	  
+	  partnerAdmin.findStringOf(ClientSideSettings.getProfil(), labString, new AsyncCallback<String>(){
+
+		  		
+				@Override
+				public void onFailure(Throwable caught) {
+				}
+
+				@Override
+				public void onSuccess(String result) {
+					music.setValue(result);
+				}
+		  
+	  });
+	  
+  }
+  
+  private void getDescStringFromServer(Label label) {
+	  String labString = label.getText();
+	  
+	  partnerAdmin.findStringOf(ClientSideSettings.getProfil(), labString, new AsyncCallback<String>(){
+
+				@Override
+				public void onFailure(Throwable caught) {
+				}
+
+				@Override
+				public void onSuccess(String result) {
+					sdescript.setValue(result);
+				}
+		  
+	  });
+	
+}
 
 }

@@ -433,7 +433,7 @@ public interface PartnerboerseAdministration extends RemoteService {
 	
 	public ArrayList<Info> findInfoOf(Profil profilowner) throws IllegalArgumentException;
 	
-	public ArrayList<Info> findEigenschaftsInfosOf(Eigenschaft eigenschaft) throws IllegalArgumentException;
+	public Info findInfoOfEigenschaft(Eigenschaft eigenschaft) throws IllegalArgumentException;
 	
 	public Freitext findFreitextOf(Info info) throws IllegalArgumentException;
 	
@@ -456,5 +456,9 @@ public interface PartnerboerseAdministration extends RemoteService {
 	public Auswahl findAuswahlByTitle(Auswahl auswahl) throws IllegalArgumentException;
 	
 	public Info createInfoForAuswahl(Info info, Auswahl auswahl) throws IllegalArgumentException;
+	
+	public ArrayList<Eigenschaft> getAllEigenschaftenOf(Profil profil) throws IllegalArgumentException;
+	
+	public String findStringOf(Profil profil, String labString) throws IllegalArgumentException;
 	
 }
