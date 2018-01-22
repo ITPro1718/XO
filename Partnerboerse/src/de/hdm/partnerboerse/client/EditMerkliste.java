@@ -13,70 +13,68 @@ import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
 import de.hdm.partnerboerse.shared.bo.Profil;
 
 public class EditMerkliste extends VerticalPanel {
-  
-  FlexTable merklisteGrid = new FlexTable();
 
-  private final PartnerboerseAdministrationAsync partnerAdmin =
-      GWT.create(PartnerboerseAdministration.class);
-  
-  Profil profil = ClientSideSettings.getProfil();
+	FlexTable merklisteGrid = new FlexTable();
 
-  /**
-   * Aufbau Merkzettelseite mit Editierfunktion
-   */
+	private final PartnerboerseAdministrationAsync partnerAdmin = GWT.create(PartnerboerseAdministration.class);
 
-  @Override
-  public void onLoad() {
-    
-    HTML merkliste = new HTML("<h3>" + "Merkliste" + "</h3>");
-    merkliste.addStyleName("mlwrap");
+	Profil profil = ClientSideSettings.getProfil();
 
-    merklisteGrid.setStyleName("mltable");
-    this.add(merklisteGrid);
+	/**
+	 * Aufbau Merkzettelseite mit Editierfunktion
+	 */
 
-    Button deleteButton = new Button("Profil löschen");
+	@Override
+	public void onLoad() {
 
-    // Zeile 1
-    merklisteGrid.setText(0, 0, "Vorname");
-    merklisteGrid.setText(0, 1, "Nachname");
-    merklisteGrid.setText(0, 2, "E-Mail");
-    merklisteGrid.setWidget(0, 3, deleteButton);
+		HTML merkliste = new HTML("<h3>" + "Merkliste" + "</h3>");
+		merkliste.addStyleName("mlwrap");
 
-    loadMerklisteFromServer();
-  }
+		merklisteGrid.setStyleName("mltable");
+		this.add(merklisteGrid);
 
-  //ToDo: Methode muss geändert 
-  private void loadMerklisteFromServer() {
+		// Zeile 1
+		merklisteGrid.setText(0, 0, "Vorname");
+		merklisteGrid.setText(0, 1, "Nachname");
+		merklisteGrid.setText(0, 2, "E-Mail");
 
-    partnerAdmin.getProfileForMerkzettel(profil, new AsyncCallback<ArrayList<Profil>>() {
+		loadMerklisteFromServer();
+	}
 
-      @Override
-      public void onFailure(Throwable caught) {
-        Window.alert("Merkliste konnte nicht geladen werden");
-        
-      }
+	// ToDo: Methode muss geändert
+	private void loadMerklisteFromServer() {
 
-      @Override
-      public void onSuccess(ArrayList<Profil> result) {
-        loadEditMerklisteView(result);
-        
-      }});
-  }
-  
-  /*
-   * Schleife setzt alle Profile in das Flextable (merklisteGrid)
-   */
-  private void loadEditMerklisteView(ArrayList<Profil> result) {    
-    
-    for (Profil p: result) {
+		partnerAdmin.getProfileForMerkzettel(profil, new AsyncCallback<ArrayList<Profil>>() {
 
-      int row = merklisteGrid.getRowCount();
+			@Override
+			public void onFailure(Throwable caught) {
+				Window.alert("Merkliste konnte nicht geladen werden");
 
+			}
 
-      merklisteGrid.setText(row, 0, p.getVorname());
-      merklisteGrid.setText(row, 1, p.getNachname());
-      merklisteGrid.setText(row, 2, p.getEmail());
+			@Override
+			public void onSuccess(ArrayList<Profil> result) {
+				loadEditMerklisteView(result);
 
-   }
-  }
+			}
+		});
+	}
+
+	/*
+	 * Schleife setzt alle Profile in das Flextable (merklisteGrid)
+	 */
+	private void loadEditMerklisteView(ArrayList<Profil> result) {
+
+		for (Profil p : result) {
+
+			Button deleteButton = new Button("Profil löschen");
+			int row = merklisteGrid.getRowCount();
+
+			merklisteGrid.setText(row, 0, p.getVorname());
+			merklisteGrid.setText(row, 1, p.getNachname());
+			merklisteGrid.setText(row, 2, p.getEmail());
+			merklisteGrid.setWidget(row, 3, deleteButton);
+
+		}
+	}
 }

@@ -14,67 +14,66 @@ import de.hdm.partnerboerse.shared.bo.Profil;
 
 public class EditKontaktsperre extends VerticalPanel {
 
-  private final PartnerboerseAdministrationAsync partnerAdmin =
-      GWT.create(PartnerboerseAdministration.class);
-  Profil profil = ClientSideSettings.getProfil();
-  FlexTable kontaktsperreGrid = new FlexTable();
-
-  /**
-   * Aufbau Kontaktsperrenliste mit Editierfunktion
-   */
-
-  public void onLoad() {
-    HTML kontaktsperre = new HTML("<h3>" + "Kontaktsperrenliste" + "</h3>");
-    kontaktsperre.addStyleName("kswrap");
-
-    kontaktsperreGrid.setStyleName("kstable");
-    this.add(kontaktsperreGrid);
-
-    Button deleteButton = new Button("Profil entsperren");
-
-    // Zeile 1
-    kontaktsperreGrid.setText(0, 0, "Vorname");
-    kontaktsperreGrid.setText(0, 1, "Nachname");
-    kontaktsperreGrid.setText(0, 2, "E-Mail");
-    kontaktsperreGrid.setWidget(0, 3, deleteButton);
-    
-    loadKontaktsperreFromServer();
-
-  }
-
-  private void loadKontaktsperreFromServer() {
-    
-    partnerAdmin.getProfileForKontaktsperre(profil, new AsyncCallback<ArrayList<Profil>>() {
-      
-      @Override
-      public void onSuccess(ArrayList<Profil> result) {
-        loadEditKontaktsperreView(result);
-        
-      }
-
-      @Override
-      public void onFailure(Throwable caught) {
-        Window.alert("Kontaktsperre konnte nicht geladen werden");
-        
-      }
-    });
-    
-  }
-  
-  private void loadEditKontaktsperreView(ArrayList<Profil> result) {
-
-    for (Profil p: result) {
-
-      int row = kontaktsperreGrid.getRowCount();
+	private final PartnerboerseAdministrationAsync partnerAdmin = GWT.create(PartnerboerseAdministration.class);
+	Profil profil = ClientSideSettings.getProfil();
+	FlexTable kontaktsperreGrid = new FlexTable();
 
 
-      kontaktsperreGrid.setText(row, 0, p.getVorname());
-      kontaktsperreGrid.setText(row, 1, p.getNachname());
-      kontaktsperreGrid.setText(row, 2, p.getEmail());
+	
 
-   }
-    
-  }
+	/**
+	 * Aufbau Kontaktsperrenliste mit Editierfunktion
+	 */
 
+	public void onLoad() {
+		HTML kontaktsperre = new HTML("<h3>" + "Kontaktsperrenliste" + "</h3>");
+		kontaktsperre.addStyleName("kswrap");
+
+		kontaktsperreGrid.setStyleName("kstable");
+		this.add(kontaktsperreGrid);
+
+		// Zeile 1
+		kontaktsperreGrid.setText(0, 0, "Vorname");
+		kontaktsperreGrid.setText(0, 1, "Nachname");
+		kontaktsperreGrid.setText(0, 2, "E-Mail");
+
+		loadKontaktsperreFromServer();
+
+	}
+
+	private void loadKontaktsperreFromServer() {
+
+		partnerAdmin.getProfileForKontaktsperre(profil, new AsyncCallback<ArrayList<Profil>>() {
+
+			@Override
+			public void onSuccess(ArrayList<Profil> result) {
+				loadEditKontaktsperreView(result);
+
+			}
+
+			@Override
+			public void onFailure(Throwable caught) {
+				Window.alert("Kontaktsperre konnte nicht geladen werden");
+
+			}
+		});
+
+	}
+
+	private void loadEditKontaktsperreView(ArrayList<Profil> result) {
+
+		for (Profil p : result) {
+
+			Button deleteButton = new Button("Profil entsperren");
+			int row = kontaktsperreGrid.getRowCount();
+
+			kontaktsperreGrid.setText(row, 0, p.getVorname());
+			kontaktsperreGrid.setText(row, 1, p.getNachname());
+			kontaktsperreGrid.setText(row, 2, p.getEmail());
+			kontaktsperreGrid.setWidget(row, 3, deleteButton);
+
+		}
+
+	}
 
 }
