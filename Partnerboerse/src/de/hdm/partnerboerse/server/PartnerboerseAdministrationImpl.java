@@ -886,7 +886,7 @@ public String findStringOf(Profil profil, String labString) throws IllegalArgume
 		if (e.getErlaeuterung().equals(labString)){
 			Info info = this.findInfoOfEigenschaft(e);
 			
-			if (info.getIs_a() == "auswahl"){
+			if (info.getIs_a().equals("auswahl")){
 				Auswahl auswahl = this.findAuswahlOf(info);
 				return auswahl.getTitel();
 			}

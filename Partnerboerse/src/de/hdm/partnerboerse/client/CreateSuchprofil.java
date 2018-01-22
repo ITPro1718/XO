@@ -115,8 +115,7 @@ public class CreateSuchprofil extends VerticalPanel {
 
       private void createSuchprofilCallback() {
 
-        Profil source = new Profil();
-        source.setId(2);
+        Profil source = ClientSideSettings.getProfil();
 
         Suchprofil search = getSuchprofilWerte();
 

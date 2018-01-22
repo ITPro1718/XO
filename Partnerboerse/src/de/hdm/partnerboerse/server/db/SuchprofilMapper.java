@@ -45,8 +45,8 @@ public class SuchprofilMapper {
 
 	    Connection con = DBConnection.getConnection();
 
-		try(PreparedStatement stmt = con.prepareStatement("INSERT INTO suchprofil (titel, haarfarbe, koerpergroesse, raucher, age, epID) "
-		    + "VALUES (?, ?, ?, ?, ?, ?)")) {
+		try(PreparedStatement stmt = con.prepareStatement("INSERT INTO suchprofil (titel, haarfarbe, koerpergroesse, raucher, age, epID, religion) "
+		    + "VALUES (?, ?, ?, ?, ?, ?, ?)")) {
 
 	      stmt.setString(1, suchprofil.getTitle());
 	      stmt.setString(2, suchprofil.getHaarFarbe());
@@ -54,7 +54,7 @@ public class SuchprofilMapper {
 	      stmt.setBoolean(4, suchprofil.isRaucher());
 	      stmt.setInt(5, suchprofil.getAlter());
 	      stmt.setInt(6, suchprofil.getEigenprofilID());
-	      
+	      stmt.setString(7, suchprofil.getReligion());
 	      stmt.executeUpdate();     
 			
 		} catch (SQLException e) {
@@ -187,7 +187,7 @@ public class SuchprofilMapper {
 			Statement stmt = con.createStatement();
 
 			ResultSet rs = stmt
-					.executeQuery("SELECT * FROM suchprofil WHERE epID = " + profilowner.getId() + " ORDER BY id");
+					.executeQuery("SELECT * FROM suchprofil WHERE epID = " + profilowner.getId());
 
 			while (rs.next()) {
 				Suchprofil s = new Suchprofil();

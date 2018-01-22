@@ -88,6 +88,7 @@ public class ListViewSuchProfil extends VerticalPanel {
 			@Override
 			public void onSuccess(ArrayList<Suchprofil> result) {
 				loadListViewSuchProfile(result);
+				// Window.alert(result.toString());
 
 			}
 		});
