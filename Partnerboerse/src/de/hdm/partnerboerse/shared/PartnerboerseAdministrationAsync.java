@@ -133,7 +133,7 @@ public interface PartnerboerseAdministrationAsync {
 
 	void updateEigenschaft(Eigenschaft eigenschaft, AsyncCallback<Void> callback);
 
-	void updateFreitext(Freitext freitext, AsyncCallback<Void> callback);
+	void updateFreitext(Freitext freitext, String labString, AsyncCallback<Void> callback);
 
 	void updateInfo(Info info, AsyncCallback<Void> callback);
 

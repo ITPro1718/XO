@@ -379,9 +379,10 @@ public interface PartnerboerseAdministration extends RemoteService {
 	 * Freitext bearbeiten
 	 * 
 	 * @param freitext zu bearbeitendes Freitext-Objekt
+	 * @param labString TODO
 	 * @throws IllegalArgumentException
 	 */
-	public void updateFreitext(Freitext freitext) throws IllegalArgumentException;
+	public void updateFreitext(Freitext freitext, String labString) throws IllegalArgumentException;
 
 	/**
 	 * Freitext-Objekt loeschen.

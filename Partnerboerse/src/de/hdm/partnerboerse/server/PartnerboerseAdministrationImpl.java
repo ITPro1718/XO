@@ -5,6 +5,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+
+import de.hdm.partnerboerse.client.ClientSideSettings;
 import de.hdm.partnerboerse.server.db.AuswahlMapper;
 import de.hdm.partnerboerse.server.db.BesuchMapper;
 import de.hdm.partnerboerse.server.db.EigenschaftMapper;
@@ -688,8 +690,25 @@ public ArrayList<Profil> getNotSeenSuchProfilErgebnisse(Suchprofil suchprofil) t
 	}
 
 	@Override
-	public void updateFreitext(Freitext freitext) throws IllegalArgumentException {
-		this.fMapper.updateFreitext(freitext);
+	public void updateFreitext(Freitext freitext, String labString) throws IllegalArgumentException {
+		
+		
+		ArrayList<Eigenschaft> eigs = this.getAllEigenschaftenOf(ClientSideSettings.getProfil());
+		
+		for (Eigenschaft e : eigs){
+			// System.out.println(e.getErlaeuterung() + labString);
+			
+			if (e.getErlaeuterung().equals(labString)){
+				
+				Info i = this.getInfoByID(e.getInfoID());
+				freitext.setId(i.getFreitextID());
+				
+				// System.out.println(freitext.toString());
+				this.fMapper.updateFreitext(freitext);
+			}
+		}
+		
+		
 		
 	}
 

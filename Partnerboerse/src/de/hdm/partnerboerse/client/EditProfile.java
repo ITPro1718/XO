@@ -275,8 +275,25 @@ public class EditProfile extends VerticalPanel {
 
      
       private void updateEigenschaftenOfUser() {
+    	  
+    	  Freitext f = new Freitext();
+    	  f.setBeschreibung(hobby.getValue());
 
-    	  // TODO: Update Eigenschaftseinträge des Users
+    	  String labText = hobbyLab.getText();
+    	  
+    	  // TODO: Callback wirft irgend ne komisch Exception und geht immer in onFailure rein
+    	  partnerAdmin.updateFreitext(f, labText, new AsyncCallback<Void>(){
+
+			@Override
+			public void onFailure(Throwable caught) {
+			}
+
+			@Override
+			public void onSuccess(Void result) {
+			}
+    		  
+    	  });
+    	  
 
       }
 
