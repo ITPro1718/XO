@@ -286,7 +286,17 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	@Override
 	public void deleteKontaktsperreEintraege(Kontaktsperre kontaktsperre) throws IllegalArgumentException {
 		
-	  this.kMapper.deleteKontaktsperreEintrag(kontaktsperre);
+		Profil p = new Profil();
+		p.setId(kontaktsperre.getEigenprofilID());
+
+		ArrayList<Kontaktsperre> kon = this.findKontaktsperrenOf(p);
+		
+		for (Kontaktsperre k : kon){
+			if (k.getFremdprofilID() == kontaktsperre.getFremdprofilID()){
+				this.kMapper.deleteKontaktsperreEintrag(k);
+			}
+		}
+		
 		
 	}
 
