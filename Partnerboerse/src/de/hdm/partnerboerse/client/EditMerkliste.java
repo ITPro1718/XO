@@ -2,14 +2,19 @@ package de.hdm.partnerboerse.client;
 
 import java.util.ArrayList;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
+import de.hdm.partnerboerse.shared.bo.Merkzettel;
 import de.hdm.partnerboerse.shared.bo.Profil;
 
 public class EditMerkliste extends VerticalPanel {
@@ -74,7 +79,43 @@ public class EditMerkliste extends VerticalPanel {
 			merklisteGrid.setText(row, 1, p.getNachname());
 			merklisteGrid.setText(row, 2, p.getEmail());
 			merklisteGrid.setWidget(row, 3, deleteButton);
+			
+			final Profil fin = p;
+			deleteButton.addClickHandler(new ClickHandler(){
+
+				@Override
+				public void onClick(ClickEvent event) {
+					Merkzettel m = new Merkzettel();
+					m.setEigenprofilID(ClientSideSettings.getProfil().getId());
+					m.setFremdprofilID(fin.getId());
+					partnerAdmin.deleteMerkzettelEintrag(m, new AsyncCallback<Void>(){
+
+						@Override
+						public void onFailure(Throwable caught) {
+						}
+
+						@Override
+						public void onSuccess(Void result) {
+							reload();
+						}
+						
+					});
+					
+				}
+				
+			});
 
 		}
+	}
+	
+	public void reload(){
+		
+		EditMerkliste em = new EditMerkliste();
+        
+        HTMLPanel emPanel = new HTMLPanel("<h3>" + "Hier können Sie ihre Merkliste editieren" + "</h3>");
+        emPanel.add(em);
+        
+        RootPanel.get("contwrap").clear();
+        RootPanel.get("contwrap").add(emPanel);
 	}
 }

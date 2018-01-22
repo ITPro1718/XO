@@ -243,8 +243,18 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 
 	@Override
 	public void deleteMerkzettelEintrag(Merkzettel merkzettel) throws IllegalArgumentException {
+		
+		Profil p = new Profil();
+		p.setId(merkzettel.getEigenprofilID());
 
-		this.mMapper.deleteMerkzettelEintrag(merkzettel);
+		ArrayList<Merkzettel> merk = this.findMerkzettelnOf(p);
+		
+		for (Merkzettel m : merk){
+			if (m.getFremdprofilID() == merkzettel.getFremdprofilID()){
+				this.mMapper.deleteMerkzettelEintrag(m);
+			}
+		}
+
 		
 		
 	}

@@ -75,7 +75,7 @@ public class MerkzettelMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			stmt.executeUpdate("DELETE FROM merkzettel " + "WHERE id=" + merkzettel.getId());
+			stmt.executeUpdate("DELETE FROM merkzettel WHERE id=" + merkzettel.getId());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
