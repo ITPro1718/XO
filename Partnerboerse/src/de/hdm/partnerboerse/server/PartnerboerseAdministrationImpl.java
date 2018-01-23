@@ -122,10 +122,10 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 		/**
 		 * Hier muss man die ganzen Abhngigkeiten abchecken, bevor man ein
-		 * Profil löscht. z.B. muss man erst alle Merkzettel Einträge löschen,
-		 * in denen das Profil vorkommt. Erst dann kann man ein Profil löschen
+		 * Profil l�scht. z.B. muss man erst alle Merkzettel Eintr�ge l�schen,
+		 * in denen das Profil vorkommt. Erst dann kann man ein Profil l�schen
 		 * 
-		 * Abhängigkeiten von Profil:
+		 * Abh�ngigkeiten von Profil:
 		 * 
 		 * Merkzettel Kontaktsperre Visit Suchprofil Info
 		 * 
