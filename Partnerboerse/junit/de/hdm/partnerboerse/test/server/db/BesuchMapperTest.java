@@ -15,7 +15,7 @@ public class BesuchMapperTest {
 
 	@Test
 	public void testFindByKey() {
-		assertTrue(BesuchMapper.besuchMapper().findByKey(1) != null);
+		assertTrue(BesuchMapper.besuchMapper().findByKey(4) != null);
 	}
 
 	@Test
@@ -38,7 +38,7 @@ public class BesuchMapperTest {
 
 		List<Besuch> allBesuche = mapper.findAll();
 		if (!allBesuche.isEmpty()) {
-			int zuloeschendeId = allBesuche.get(0).getId();
+			int zuloeschendeId = allBesuche.get(allBesuche.size() - 1).getId();
 			besuch.setId(zuloeschendeId);
 			mapper.deleteBesuch(besuch);
 			assertNull(mapper.findByKey(zuloeschendeId));

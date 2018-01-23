@@ -29,7 +29,7 @@ public class MerkzettelMapperTest {
 
 		List<Merkzettel> allMerkzettel = mapper.findAll();
 		if (!allMerkzettel.isEmpty()) {
-			int zuloeschendeId = allMerkzettel.get(0).getId();
+			int zuloeschendeId = allMerkzettel.get(allMerkzettel.size() - 1).getId();
 			merkzettel.setId(zuloeschendeId);
 			mapper.deleteMerkzettelEintrag(merkzettel);
 			assertNull(mapper.findByKey(zuloeschendeId));
@@ -40,7 +40,7 @@ public class MerkzettelMapperTest {
 
 	@Test
 	public void testFindByKey() {
-		assertTrue(MerkzettelMapper.merkzettelMapper().findByKey(1) != null);
+		assertTrue(MerkzettelMapper.merkzettelMapper().findByKey(3) != null);
 
 	}
 
