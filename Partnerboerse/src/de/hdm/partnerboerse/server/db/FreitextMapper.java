@@ -90,7 +90,7 @@ public class FreitextMapper {
 		Connection con = DBConnection.getConnection();
 		try {
 			Statement stmt = con.createStatement();
-			stmt.executeUpdate("UPDATE freitext SET beschreibung=\"" + freitext.getBeschreibung() + "\"" + " WHERE id="
+			stmt.executeUpdate("UPDATE freitext SET beschreibung=\"" + freitext.getBeschreibung() + "\" WHERE id="
 					+ freitext.getId());
 		} catch (SQLException e) {
 			e.printStackTrace();

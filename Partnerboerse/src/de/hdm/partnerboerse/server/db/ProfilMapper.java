@@ -359,8 +359,8 @@ public class ProfilMapper {
     Connection con = DBConnection.getConnection();
 
     try (PreparedStatement stmt = con.prepareStatement(
-        "UPDATE profil set vorname = ?, nachname = ?, geburtstag = ?, "
-            + "haarfarbe = ?, koerpergroesse=  ?, raucher = ?, religion = ? ,email = ?")) {
+        "UPDATE profil SET vorname = ?, nachname = ?, geburtstag = ?, "
+            + "haarfarbe = ?, koerpergroesse=  ?, raucher = ?, religion = ?, email = ? WHERE id = ?")) {
     	
 
       java.util.Date utilDate = p.getGeburtsdatum();
@@ -374,6 +374,7 @@ public class ProfilMapper {
       stmt.setBoolean(6, p.isRaucher());
       stmt.setString(7, p.getReligion());
       stmt.setString(8, p.getEmail());
+      stmt.setInt(9, p.getId());
       
       stmt.executeUpdate();
       

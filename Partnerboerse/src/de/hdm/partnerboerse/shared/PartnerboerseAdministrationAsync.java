@@ -129,11 +129,11 @@ public interface PartnerboerseAdministrationAsync {
 
 	void init(AsyncCallback<Void> callback);
 
-	void updateAuswahl(Auswahl auswahl, AsyncCallback<Void> callback);
+	void updateAuswahl(Auswahl auswahl, String labString, Profil profil, AsyncCallback<Void> callback);
 
 	void updateEigenschaft(Eigenschaft eigenschaft, AsyncCallback<Void> callback);
 
-	void updateFreitext(Freitext freitext, String labString, AsyncCallback<Void> callback);
+	void updateFreitext(Freitext freitext, String labString, Profil profil, AsyncCallback<Void> callback);
 
 	void updateInfo(Info info, AsyncCallback<Void> callback);
 

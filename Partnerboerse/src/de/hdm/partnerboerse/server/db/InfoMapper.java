@@ -1,6 +1,7 @@
 package de.hdm.partnerboerse.server.db;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -202,6 +203,25 @@ public class InfoMapper {
 		}
 		return null;
 
+	}
+
+	public void updateAuswahlInfo(Info i) {
+		Connection con = DBConnection.getConnection();
+
+	    try (PreparedStatement stmt = con.prepareStatement(
+	        "UPDATE info SET auswahlID = ? WHERE id = ?")) {
+	    	
+
+	      stmt.setInt(1, i.getAuswahlID());
+	      stmt.setInt(2, i.getId());	      
+	      
+	      stmt.executeUpdate();
+	      
+
+	    } catch (SQLException e2) {
+	      e2.printStackTrace();
+	    }
+		
 	}
 
 }

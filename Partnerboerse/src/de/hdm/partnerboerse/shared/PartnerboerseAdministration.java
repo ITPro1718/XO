@@ -380,9 +380,10 @@ public interface PartnerboerseAdministration extends RemoteService {
 	 * 
 	 * @param freitext zu bearbeitendes Freitext-Objekt
 	 * @param labString TODO
+	 * @param profil TODO
 	 * @throws IllegalArgumentException
 	 */
-	public void updateFreitext(Freitext freitext, String labString) throws IllegalArgumentException;
+	public void updateFreitext(Freitext freitext, String labString, Profil profil) throws IllegalArgumentException;
 
 	/**
 	 * Freitext-Objekt loeschen.
@@ -414,9 +415,11 @@ public interface PartnerboerseAdministration extends RemoteService {
 	 * Auswahl-Objekt bearbeiten.
 	 * 
 	 * @param auswahl das zu bearbeitende Auswahl-Objekt
+	 * @param labString TODO
+	 * @param profil TODO
 	 * @throws IllegalArgumentException
 	 */
-	public void updateAuswahl(Auswahl auswahl) throws IllegalArgumentException;
+	public void updateAuswahl(Auswahl auswahl, String labString, Profil profil) throws IllegalArgumentException;
 
 	/**
 	 * Auswahl-Objekt loeschen.

@@ -22,6 +22,7 @@ import com.google.gwt.user.datepicker.client.DateBox;
 import com.google.gwt.user.datepicker.client.DateBox.DefaultFormat;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
+import de.hdm.partnerboerse.shared.bo.Auswahl;
 import de.hdm.partnerboerse.shared.bo.Freitext;
 import de.hdm.partnerboerse.shared.bo.Info;
 import de.hdm.partnerboerse.shared.bo.Profil;
@@ -194,15 +195,7 @@ public class EditProfile extends VerticalPanel {
     getMusicStringFromServer(musicLab);
 
 
-    // Spalte 5
-    searchFor.addItem("Beziehung", "beziehung");
-    searchFor.addItem("One-Night-Stand", "ons");
-    searchFor.addItem("Swinger", "swinger");
-
-    sexOrient.addItem("Heterosexuell", "hetero");
-    sexOrient.addItem("Homosexuell", "homo");
-    sexOrient.addItem("Bisexuell", "bi");
-    sexOrient.addItem("Andere", "andere");
+    getItemsOfAuswahl();
 
     infoGrid.setWidget(1, 3, sexOrientLab);
     infoGrid.setWidget(1, 4, sexOrient);
@@ -237,7 +230,11 @@ public class EditProfile extends VerticalPanel {
       public void onClick(ClickEvent event) {
 
         updateProfileOnServer();
-        updateEigenschaftenOfUser();
+        updateEigenschaftenOfUser(hobbyLab, hobby);
+        updateEigenschaftenOfUser(musicLab, music);
+        updateEigenschaftenOfUser(sdescriptLab, sdescript);
+        updateEigenschaftenOfUser(sexOrientLab, sexOrient);
+        updateEigenschaftenOfUser(searchForLab, searchFor);
       }
 
       private void updateProfileOnServer() {
@@ -274,15 +271,55 @@ public class EditProfile extends VerticalPanel {
       }
 
      
-      private void updateEigenschaftenOfUser() {
+      private void updateEigenschaftenOfUser(Label label, TextBox tb) {
     	  
     	  Freitext f = new Freitext();
-    	  f.setBeschreibung(hobby.getValue());
+    	  f.setBeschreibung(tb.getValue());
 
-    	  String labText = hobbyLab.getText();
     	  
-    	  // TODO: Callback wirft irgend ne komisch Exception und geht immer in onFailure rein
-    	  partnerAdmin.updateFreitext(f, labText, new AsyncCallback<Void>(){
+    	  partnerAdmin.updateFreitext(f, label.getText(), ClientSideSettings.getProfil(), new AsyncCallback<Void>(){
+
+			@Override
+			public void onFailure(Throwable caught){
+			}
+
+			@Override
+			public void onSuccess(Void result) {
+			}
+    		  
+    	  });
+    	    	  
+
+      }
+      
+      
+      private void updateEigenschaftenOfUser(Label label, TextArea ta) {
+    	  
+    	  Freitext f = new Freitext();
+    	  f.setBeschreibung(ta.getValue());
+
+    	  
+    	  partnerAdmin.updateFreitext(f, label.getText(), ClientSideSettings.getProfil(), new AsyncCallback<Void>(){
+
+			@Override
+			public void onFailure(Throwable caught){
+			}
+
+			@Override
+			public void onSuccess(Void result) {
+			}
+    		  
+    	  });
+    	    	  
+
+      }
+      
+      private void updateEigenschaftenOfUser(Label label, ListBox lb) {
+    	  
+    	  Auswahl a = new Auswahl();
+    	  a.setTitel(lb.getSelectedValue());
+
+    	  partnerAdmin.updateAuswahl(a, label.getText(), ClientSideSettings.getProfil(), new AsyncCallback<Void>(){
 
 			@Override
 			public void onFailure(Throwable caught) {
@@ -293,7 +330,7 @@ public class EditProfile extends VerticalPanel {
 			}
     		  
     	  });
-    	  
+    	    	  
 
       }
 
@@ -447,5 +484,31 @@ private void getMusicStringFromServer(Label label){
 	  });
 	
 }
+  
+  private void getItemsOfAuswahl(){
+	  
+  	  
+	  partnerAdmin.getAuswahl(new AsyncCallback<ArrayList<Auswahl>>(){
+
+		@Override
+		public void onFailure(Throwable caught) {			
+		}
+
+		@Override
+		public void onSuccess(ArrayList<Auswahl> result) {
+
+			for (Auswahl a : result){
+				if ( a.getAuswahlFor() == "Sexualität"){
+					sexOrient.addItem(a.getTitel(), a.getTitel());					
+				}
+				if (a.getAuswahlFor() == "searchingFor"){
+					searchFor.addItem(a.getTitel(), a.getTitel());
+				}
+			}				
+		}
+				  
+	  });
+	  	  
+  }
 
 }

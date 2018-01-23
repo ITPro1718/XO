@@ -710,20 +710,18 @@ public ArrayList<Profil> getNotSeenSuchProfilErgebnisse(Suchprofil suchprofil) t
 	}
 
 	@Override
-	public void updateFreitext(Freitext freitext, String labString) throws IllegalArgumentException {
+	public void updateFreitext(Freitext freitext, String labString, Profil profil) throws IllegalArgumentException {
 		
-		
-		ArrayList<Eigenschaft> eigs = this.getAllEigenschaftenOf(ClientSideSettings.getProfil());
+				
+		ArrayList<Eigenschaft> eigs = this.getAllEigenschaftenOf(profil);
 		
 		for (Eigenschaft e : eigs){
-			// System.out.println(e.getErlaeuterung() + labString);
-			
+						
 			if (e.getErlaeuterung().equals(labString)){
 				
 				Info i = this.getInfoByID(e.getInfoID());
 				freitext.setId(i.getFreitextID());
 				
-				// System.out.println(freitext.toString());
 				this.fMapper.updateFreitext(freitext);
 			}
 		}
@@ -757,8 +755,21 @@ public ArrayList<Profil> getNotSeenSuchProfilErgebnisse(Suchprofil suchprofil) t
 	}
 
 	@Override
-	public void updateAuswahl(Auswahl auswahl) throws IllegalArgumentException {
-		this.aMapper.updateAuswahl(auswahl);
+	public void updateAuswahl(Auswahl auswahl, String labString, Profil profil) throws IllegalArgumentException {
+		
+		ArrayList<Eigenschaft> eigs = this.getAllEigenschaftenOf(profil);
+		
+		for (Eigenschaft e : eigs){
+						
+			if (e.getErlaeuterung().equals(labString)){
+				
+				Info i = this.getInfoByID(e.getInfoID());
+				Auswahl aus = this.findAuswahlByTitle(auswahl);
+				i.setAuswahlID(aus.getId());
+				
+				this.iMapper.updateAuswahlInfo(i);
+			}
+		}
 		
 	}
 
