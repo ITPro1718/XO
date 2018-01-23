@@ -31,6 +31,8 @@ public class CreateEigenProfil extends VerticalPanel {
 
   // Loginattribute
   private LoginInfo loginInfo = null;
+  
+  
 
   /*
    * Widgets, deren Inhalte variable sind, werden als Attribute angelegt.
@@ -42,40 +44,28 @@ public class CreateEigenProfil extends VerticalPanel {
   Label lnameLabel = new Label("Nachname: ");
   Label bdayLabel = new Label("Geburtstag: ");
   Label hcolorLabel = new Label("Haarfarbe: ");
-  Label heightLabel = new Label("Größe " + "(in cm): ");
+  Label heightLabel = new Label("Größe (in cm): ");
   Label smokerLabel = new Label("Raucher: ");
   Label religionLabel = new Label("Religion: ");
 
-  TextBox mailTextBox = new TextBox();
-  TextBox pwTextBox = new TextBox();
   TextBox vnameTextBox = new TextBox();
   TextBox lnameTextBox = new TextBox();
   TextBox bdayTextBox = new TextBox();
-  TextBox hcolorTextBox = new TextBox();
+  ListBox hcolorListBox = new ListBox();
   TextBox heightTextBox = new TextBox();
-  TextBox religionTextBox = new TextBox();
+  ListBox religionListBox = new ListBox();
 
   ListBox smokerListBox = new ListBox();
   
   Label sdescriptLab = new Label("Beschreibe dich kurz: ");
   Label hobbyLab = new Label("Deine Hobbies: ");
-  Label jobLab = new Label("Dein Beruf: ");
-  Label nationLab = new Label("Deine Nationalität: ");
-  Label eduLab = new Label("Dein Bildungsniveau: ");
   Label musicLab = new Label("Deine lieblings Musik: ");
-
-  Label sexPrefLab = new Label("Deine sexuellen Vorlieben: ");
   Label searchForLab = new Label("Du Bist auf der Suche Nach? ");
   Label sexOrientLab = new Label("Deine sexuelle Ausrichtung: ");
 
   TextBox hobby = new TextBox();
-  TextBox job = new TextBox();
-  TextBox nation = new TextBox();
-  TextBox music = new TextBox();
   TextArea sdescript = new TextArea();
-  TextBox sexPref = new TextBox();
-
-  ListBox edu = new ListBox();
+  TextBox music = new TextBox();
   ListBox sexOrient = new ListBox();
   ListBox searchFor = new ListBox();
 
@@ -110,8 +100,14 @@ public class CreateEigenProfil extends VerticalPanel {
     profilGrid.setWidget(2, 2, bdayTextBox);
 
 
+    hcolorListBox.addItem("schwarz", "schwarz");
+    hcolorListBox.addItem("braun", "braun");
+    hcolorListBox.addItem("blond", "blond");
+    hcolorListBox.addItem("grau", "grau");
+    hcolorListBox.addItem("sonstige", "sonstige");
+    
     profilGrid.setWidget(2, 3, hcolorLabel);
-    profilGrid.setWidget(2, 4, hcolorTextBox);
+    profilGrid.setWidget(2, 4, hcolorListBox);
 
     // Spalte 3
     profilGrid.setWidget(3, 1, heightLabel);
@@ -126,8 +122,14 @@ public class CreateEigenProfil extends VerticalPanel {
     profilGrid.setWidget(3, 4, smokerListBox);
 
     // Spalte 4
+    religionListBox.addItem("christlich", "christlich");
+    religionListBox.addItem("muslimisch", "muslimisch");
+    religionListBox.addItem("jüdisch", "jüdisch");
+    religionListBox.addItem("buddhistisch", "buddhistisch");
+    religionListBox.addItem("atheist", "atheist");
+    
     profilGrid.setWidget(4, 1, religionLabel);
-    profilGrid.setWidget(4, 2, religionTextBox);
+    profilGrid.setWidget(4, 2, religionListBox);
     
     FlexTable descripton = new FlexTable();
     descripton.setStyleName("desctable");
@@ -145,44 +147,18 @@ public class CreateEigenProfil extends VerticalPanel {
     infoGrid.setWidget(0, 2, hobby);
     // hobby.setValue(getProfilFromServer.getNachname());
 
-    // Spalte 2
-    infoGrid.setWidget(0, 3, jobLab);
-    infoGrid.setWidget(0, 4, job);
-    // job.setValue(getProfilFromServer.getGeburtsdatum().toString());
-
-    infoGrid.setWidget(1, 1, nationLab);
-    infoGrid.setWidget(1, 2, nation);
-    // nation.setValue(getProfilFromServer.getEmail());
-
-    // Spalte 3
-    edu.addItem("Universität", "uni");
-    edu.addItem("Abitur", "abi");
-    edu.addItem("Fachhochschulreife", "fh");
-    edu.addItem("Realschulabschluss", "real");
-    edu.addItem("Hauptschulabschluss", "haupt");
-    edu.addItem("Andere", "andere");
-
-    infoGrid.setWidget(1, 3, eduLab);
-    infoGrid.setWidget(1, 4, edu);
-
-    // Spalte 4
-    infoGrid.setWidget(2, 1, musicLab);
-    infoGrid.setWidget(2, 2, music);
-    // music.setValue(getProfilFromServer.getHaarfarbe());
-
-    infoGrid.setWidget(2, 3, sexPrefLab);
-    infoGrid.setWidget(2, 4, sexPref);
-    // heightTextBox.setValue(String.valueOf(getProfilFromServer.getKoerpergroesse()));
 
     // Spalte 5
     getItemsOfAuswahl();
  
+    infoGrid.setWidget(1, 1, musicLab);
+    infoGrid.setWidget(1, 2, music);
+    
+    infoGrid.setWidget(1, 3, sexOrientLab);
+    infoGrid.setWidget(1, 4, sexOrient);
 
-    infoGrid.setWidget(3, 1, sexOrientLab);
-    infoGrid.setWidget(3, 2, sexOrient);
-
-    infoGrid.setWidget(3, 3, searchForLab);
-    infoGrid.setWidget(3, 4, searchFor);
+    infoGrid.setWidget(0, 3, searchForLab);
+    infoGrid.setWidget(0, 4, searchFor);
 
     /**
      * Button zum Speichern des eigenen geänderten Profils
@@ -193,43 +169,37 @@ public class CreateEigenProfil extends VerticalPanel {
       public void onClick(ClickEvent event) {
 
         createProfileOnServer();
-        generateInfosOfUser();
+        
       }
 
       private void createProfileOnServer() {
 
         Profil setProfil = getProfileValuesFromFormular();
-        System.out.println("tes01" + setProfil.toString());
+        // System.out.println("tes01" + setProfil.toString());
 
 
-        partnerAdmin.createProfil(setProfil, new AsyncCallback<Void>() {
+        partnerAdmin.createProfil(setProfil, new AsyncCallback<Profil>() {
 
-          @Override
-          public void onFailure(Throwable caught) {
-            Window.alert("Fehler: Profil konnte nicht erstellt werden!");
+			@Override
+			public void onFailure(Throwable caught) {
+				
+			}
 
-          }
-
-          @Override
-          public void onSuccess(Void result) {
-
-            Editor ed = new Editor();
-            RootPanel.get("contwrap").clear();
-            ed.onModuleLoad();
-
-          }
+			@Override
+			public void onSuccess(Profil result) {
+				 ClientSideSettings.setProfil(result);	
+				 
+				 sexOrientAuswahlCallback();
+				  	
+				 Editor ed = new Editor();
+				 RootPanel.get("contwrap").clear();
+				 ed.onModuleLoad();
+				
+			}          
         });
 
       }
       
-      private void generateInfosOfUser(){
-							
-			freitextTextAreaCallback(sdescript, sdescriptLab);
-			auswahlCallback(searchFor, searchForLab);
-			freitextCallback(hobby, hobbyLab);
-				auswahlCallback(sexOrient, sexOrientLab);
-			
-      }
     });
 
   }
@@ -255,11 +225,9 @@ public class CreateEigenProfil extends VerticalPanel {
     setProfil.setNachname(lnameTextBox.getValue());
     setProfil.setGeburtsdatum(bDayConvert);
     setProfil.setKoerpergroesse(heightConvert);
-    setProfil.setReligion(religionTextBox.getValue());
-    setProfil.setHaarfarbe(hcolorTextBox.getValue());
+    setProfil.setReligion(religionListBox.getSelectedValue());
+    setProfil.setHaarfarbe(hcolorListBox.getSelectedValue());
     setProfil.setEmail(loginInfo.getEmailAddress());
-    // TODO: Wichtig Passwort muss raus, sobald das Datenmodell geändert wurde
-    setProfil.setPasswort("sdfghfdghhjfhgdhggm");
     String raucherSelectedValue = smokerListBox.getSelectedValue();
 
     /*
@@ -274,7 +242,7 @@ public class CreateEigenProfil extends VerticalPanel {
         setProfil.setRaucher(false);
         break;
     }
-
+       
     return setProfil;
 
   }
@@ -305,24 +273,16 @@ public class CreateEigenProfil extends VerticalPanel {
 	  	  
   }
 
-  public LoginInfo getLoginInfo() {
-    return loginInfo;
-  }
-
-  public void setLoginInfo(LoginInfo loginInfo) {
-    this.loginInfo = loginInfo;
-  }
   
-  private Boolean freitextTextAreaCallback(TextArea textArea, Label label){
-	  	
-	  	Profil prof = new Profil();
-		prof.setId(1);
+  private void freitextTextAreaCallback(){
 	  
+	  	Profil profil = ClientSideSettings.getProfil();
+	  		  
 		Freitext f = new Freitext();
-		f.setBeschreibung(textArea.getValue());
+		f.setBeschreibung(sdescript.getValue());
 		Info i = new Info();
-		i.setText(label.getText());
-		partnerAdmin.createEigenschaftForFreitext(prof, i, f, new AsyncCallback<Void>(){
+		i.setText(sdescriptLab.getText());
+		partnerAdmin.createEigenschaftForFreitext(profil, i, f, new AsyncCallback<Void>(){
 
 			@Override
 			public void onFailure(Throwable caught) {
@@ -330,24 +290,20 @@ public class CreateEigenProfil extends VerticalPanel {
 
 			@Override
 			public void onSuccess(Void result) {
-				
+				musicFreitextCallback();
 			}
-			
 		});
-		return true;
-	  
   }
   
-  private void freitextCallback(TextBox textbox, Label label){
-	  	
-	  	Profil prof = new Profil();
-		prof.setId(1);
+  private void hobbyFreitextCallback(){
 	  
+	  Profil profil = ClientSideSettings.getProfil();
+	  		  
 		Freitext f = new Freitext();
-		f.setBeschreibung(textbox.getValue());
+		f.setBeschreibung(hobby.getValue());
 		Info i = new Info();
-		i.setText(label.getText());
-		partnerAdmin.createEigenschaftForFreitext(prof, i, f, new AsyncCallback<Void>(){
+		i.setText(hobbyLab.getText());
+		partnerAdmin.createEigenschaftForFreitext(profil, i, f, new AsyncCallback<Void>(){
 
 			@Override
 			public void onFailure(Throwable caught) {
@@ -355,24 +311,64 @@ public class CreateEigenProfil extends VerticalPanel {
 
 			@Override
 			public void onSuccess(Void result) {
-				
+				auswahlCallback();
 			}
 			
 		});
 	  
 }
   
-  private Boolean auswahlCallback(ListBox listBox, Label label){
+  private void auswahlCallback(){
 	  
-	  // TODO: eingeloggtes Profil verwenden
-	  	Profil prof = new Profil();
-		prof.setId(1);
-	  
+	  	Profil profil = ClientSideSettings.getProfil();
+	  	  
 	  	Auswahl a = new Auswahl();
-		a.setTitel(listBox.getSelectedValue());
+		a.setTitel(searchFor.getSelectedValue());
 		Info i = new Info();
-		i.setText(label.getText());
-		partnerAdmin.createEigenschaftForAuswahl(prof, i, a, new AsyncCallback<Void>(){
+		i.setText(searchForLab.getText());
+		partnerAdmin.createEigenschaftForAuswahl(profil, i, a, new AsyncCallback<Void>(){
+
+			@Override
+			public void onFailure(Throwable caught) {
+			}
+
+			@Override
+			public void onSuccess(Void result) {
+				freitextTextAreaCallback();
+			}
+		});
+  }
+  
+  private void sexOrientAuswahlCallback(){
+	  
+	  Profil profil = ClientSideSettings.getProfil();
+  	  
+	  	Auswahl a = new Auswahl();
+		a.setTitel(sexOrient.getSelectedValue());
+		Info i = new Info();
+		i.setText(sexOrientLab.getText());
+		partnerAdmin.createEigenschaftForAuswahl(profil, i, a, new AsyncCallback<Void>(){
+
+			@Override
+			public void onFailure(Throwable caught) {
+			}
+
+			@Override
+			public void onSuccess(Void result) {
+				hobbyFreitextCallback();
+			}
+		});
+  }
+  
+private void musicFreitextCallback(){
+	  
+	  Profil profil = ClientSideSettings.getProfil();
+	  		  
+		Freitext f = new Freitext();
+		f.setBeschreibung(music.getValue());
+		Info i = new Info();
+		i.setText(musicLab.getText());
+		partnerAdmin.createEigenschaftForFreitext(profil, i, f, new AsyncCallback<Void>(){
 
 			@Override
 			public void onFailure(Throwable caught) {
@@ -381,7 +377,17 @@ public class CreateEigenProfil extends VerticalPanel {
 			@Override
 			public void onSuccess(Void result) {
 			}
+			
 		});
-		return true;
-  }
+	  
 }
+
+  public LoginInfo getLoginInfo() {
+	    return loginInfo;
+	  }
+
+	  public void setLoginInfo(LoginInfo loginInfo) {
+	    this.loginInfo = loginInfo;
+	  }
+}
+

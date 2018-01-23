@@ -5,6 +5,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+
+import de.hdm.partnerboerse.client.ClientSideSettings;
 import de.hdm.partnerboerse.server.db.AuswahlMapper;
 import de.hdm.partnerboerse.server.db.BesuchMapper;
 import de.hdm.partnerboerse.server.db.EigenschaftMapper;
@@ -17,6 +19,7 @@ import de.hdm.partnerboerse.server.db.SuchprofilMapper;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
 import de.hdm.partnerboerse.shared.bo.Auswahl;
 import de.hdm.partnerboerse.shared.bo.Besuch;
+import de.hdm.partnerboerse.shared.bo.BusinessObjekt;
 import de.hdm.partnerboerse.shared.bo.Eigenschaft;
 import de.hdm.partnerboerse.shared.bo.Freitext;
 import de.hdm.partnerboerse.shared.bo.Info;
@@ -49,6 +52,20 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	private SuchprofilMapper sMapper = null;
 	
 	private BesuchMapper bMapper = null;
+	private int gewichtungHaarfarbe; 
+	private int gewichtungReligion; 
+	private int gewichtungKoerpergroesse; 
+	private int gewichtungAlter; 
+	private int gewichtungRaucher; 
+	
+	public void setGewichtungen (int gwHaarfarbe, int gwReligion, int gwKoerpergroesse, int gwAlter, int gwRaucher) {
+
+		this.gewichtungHaarfarbe = gwHaarfarbe;
+		this.gewichtungReligion = gwReligion;
+		this.gewichtungKoerpergroesse = gwKoerpergroesse;
+		this.gewichtungAlter = gwKoerpergroesse;
+		this.gewichtungRaucher = gwRaucher;
+		}
 	
 	public PartnerboerseAdministrationImpl() throws IllegalArgumentException {
 		
@@ -94,9 +111,9 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 		
 
 	@Override
-	public void createProfil(Profil p) throws IllegalArgumentException {
-		System.out.println("test02"+p.toString());
-		this.pMapper.insert(p);
+	public Profil createProfil(Profil p) throws IllegalArgumentException {
+		//System.out.println("test02"+p.toString());
+		return this.pMapper.insert(p);
 	}
 
 	@Override
@@ -226,8 +243,18 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 
 	@Override
 	public void deleteMerkzettelEintrag(Merkzettel merkzettel) throws IllegalArgumentException {
+		
+		Profil p = new Profil();
+		p.setId(merkzettel.getEigenprofilID());
 
-		this.mMapper.deleteMerkzettelEintrag(merkzettel);
+		ArrayList<Merkzettel> merk = this.findMerkzettelnOf(p);
+		
+		for (Merkzettel m : merk){
+			if (m.getFremdprofilID() == merkzettel.getFremdprofilID()){
+				this.mMapper.deleteMerkzettelEintrag(m);
+			}
+		}
+
 		
 		
 	}
@@ -259,7 +286,17 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	@Override
 	public void deleteKontaktsperreEintraege(Kontaktsperre kontaktsperre) throws IllegalArgumentException {
 		
-	  this.kMapper.deleteKontaktsperreEintrag(kontaktsperre);
+		Profil p = new Profil();
+		p.setId(kontaktsperre.getEigenprofilID());
+
+		ArrayList<Kontaktsperre> kon = this.findKontaktsperrenOf(p);
+		
+		for (Kontaktsperre k : kon){
+			if (k.getFremdprofilID() == kontaktsperre.getFremdprofilID()){
+				this.kMapper.deleteKontaktsperreEintrag(k);
+			}
+		}
+		
 		
 	}
 
@@ -311,12 +348,91 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 		
 		this.sMapper.deleteSuchprofil(suchprofil);	
 	}
+	
+	public ArrayList<Integer> findAllAuswahlIDsOfProfil(Profil profil){
+		
+		ArrayList<Integer>allAuswahlIDsOfProfil = new ArrayList<>();
+		
+		for(Info i: findInfoOf(profil)){
+			if(i.getIs_a() == "auswahl"){
+			
+			allAuswahlIDsOfProfil.add(findAuswahlOf(i).getId());
+			}
+		}
+		return allAuswahlIDsOfProfil;
+	}
+	
+	public ArrayList<String> findAllFreitexteOfProfil(Profil profil){
+		
+		ArrayList<String>allFreitexteOfProfil = new ArrayList<>();
+		
+		for(Info i: findInfoOf(profil)){
+			if(i.getIs_a() == "freitext"){
+		
+			allFreitexteOfProfil.add(findFreitextOf(i).getBeschreibung());
+			}
+		}
+		return allFreitexteOfProfil;
+	}
 
 	@Override
 	public ArrayList<Profil> berechneAehnlichkeitsmass(Profil source, Suchprofil suchprofil)
 			throws IllegalArgumentException {
-		// TODO Methode implementieren wenn wir den ganzen Eigenschaft/Info shit haben
-		// findAllInfoOf(Profil p) implementieren! danach kann man die hier machen
+		
+		// Alle AuswahlIDs und Freitexte des Sourceprofils die wir abgleichen müssen
+		
+		ArrayList<Integer>allAuswahlIDsOfSourceProfil = findAllAuswahlIDsOfProfil(source);
+		ArrayList<String>allFreitexteOfSourceProfil = findAllFreitexteOfProfil(source);
+		
+		// Die Schleife geht alle Suchprofilergebnisse durch (Profile) und vergleicht Profileigenschaften  mit den eigenen Profileigenschaften ab.
+		// Die Gewichtungen können durch die oben implementierte MEthode "setGEwichtungen" belieb gesetzt werden und werden am Ende der schleife wieder prozentual umgerechnet 
+		//(alle Gewichtungen zusammen ergeben 100% egal welche Zahl man gesetzt hat)
+		// Bsp. Haarfarbegewichtung 10, Religiongewichtung 20, Koerpergroessegewichtung 0 , Altergewichtung 30, Rauchergewichtung 50,
+		// Summe = 110, 
+		//Ähnlichkeit in Prozent = 10*(100/110))+(20*(100/110))+(0*(100/110))+(30*(100/110))+(50*(100/110)
+		// =9.090909% + 18.181818% + 0% + 27.272728% + 45.454548% = 100%
+		// Somit kann man wenn man die Gewichtung 0 setzt, trotzdem 100% erreichen weil das Attribut nicht mit einberechnet wird.
+		
+		ArrayList<Float> ähnlichkeitInProzent = new ArrayList<>();
+		float o1 = this.gewichtungHaarfarbe;
+		float o2 = this.gewichtungReligion;
+		float o3 = this.gewichtungAlter;
+		float o4 = this.gewichtungKoerpergroesse;
+		float o5 = this.gewichtungRaucher;
+		float summe = o1+o2+o3+o4+o5;
+		float x = (float) 100/summe;
+		
+		for (Profil p : getSuchProfilErgebnisse(suchprofil)){
+			float p1=0;
+			float p2=0;
+			float p3=0;
+			float p4=0;
+			float p5=0;
+			if(p.getHaarfarbe() == source.getHaarfarbe()){
+				p1=o1;
+			}
+			else if(p.getReligion() == source.getReligion()){
+				p2=o2;
+			}
+			else if(getAge(p.getGeburtsdatum())== getAge(source.getGeburtsdatum())){
+				p3=o3;
+			
+			}
+			else if (p.getKoerpergroesse()== source.getKoerpergroesse()){
+				p4=o4;
+			}
+			else if (p.isRaucher()== source.isRaucher()){
+				p5=o5;
+			}
+			ähnlichkeitInProzent.add((p1*x)+(p2*x)+(p3*x)+(p4*x)+(p5*x));
+			}
+			
+	
+		//TODO: Alle Infos von allen Suchprofilergebnissen finden zum Abgleich.
+		//TODO: Abgleich AuswahlIDs und Freitexte vom eigenen Profil mit Suchprofilergebnissen. 
+	   //Hinweis: sexuelle Orientierung muss ein Pflichtattribut beim Profilerstellen sein, sonst kann man nicht rausfiltern ob Männer oder Frauen angezeigt werden sollen
+		
+		
 		
 		return null;
 	}
@@ -508,13 +624,13 @@ public ArrayList<Profil> getNotSeenSuchProfilErgebnisse(Suchprofil suchprofil) t
 	public void createEigenschaftForAuswahl(Profil p, Info i, Auswahl a) throws IllegalArgumentException {
 		
 		Eigenschaft eig = new Eigenschaft();
-		eig.setEpID(p.getId());
-					
+		
 		Info inf = this.createInfoForAuswahl(i, a);
 		eig.setInfoID(inf.getId());
 		eig.setErlaeuterung(inf.getText());
 		
-		
+		eig.setEpID(p.getId());
+	
 		this.eiMapper.insertEigenschaft(eig);
 		
 	}
@@ -594,8 +710,23 @@ public ArrayList<Profil> getNotSeenSuchProfilErgebnisse(Suchprofil suchprofil) t
 	}
 
 	@Override
-	public void updateFreitext(Freitext freitext) throws IllegalArgumentException {
-		this.fMapper.updateFreitext(freitext);
+	public void updateFreitext(Freitext freitext, String labString, Profil profil) throws IllegalArgumentException {
+		
+				
+		ArrayList<Eigenschaft> eigs = this.getAllEigenschaftenOf(profil);
+		
+		for (Eigenschaft e : eigs){
+						
+			if (e.getErlaeuterung().equals(labString)){
+				
+				Info i = this.getInfoByID(e.getInfoID());
+				freitext.setId(i.getFreitextID());
+				
+				this.fMapper.updateFreitext(freitext);
+			}
+		}
+		
+		
 		
 	}
 
@@ -624,8 +755,21 @@ public ArrayList<Profil> getNotSeenSuchProfilErgebnisse(Suchprofil suchprofil) t
 	}
 
 	@Override
-	public void updateAuswahl(Auswahl auswahl) throws IllegalArgumentException {
-		this.aMapper.updateAuswahl(auswahl);
+	public void updateAuswahl(Auswahl auswahl, String labString, Profil profil) throws IllegalArgumentException {
+		
+		ArrayList<Eigenschaft> eigs = this.getAllEigenschaftenOf(profil);
+		
+		for (Eigenschaft e : eigs){
+						
+			if (e.getErlaeuterung().equals(labString)){
+				
+				Info i = this.getInfoByID(e.getInfoID());
+				Auswahl aus = this.findAuswahlByTitle(auswahl);
+				i.setAuswahlID(aus.getId());
+				
+				this.iMapper.updateAuswahlInfo(i);
+			}
+		}
 		
 	}
 
@@ -681,14 +825,9 @@ public ArrayList<Profil> getNotSeenSuchProfilErgebnisse(Suchprofil suchprofil) t
   }
 
   @Override
-  public ArrayList<Info> findEigenschaftsInfosOf(Eigenschaft eigenschaft)
+  public Info findInfoOfEigenschaft(Eigenschaft eigenschaft)
       throws IllegalArgumentException {
-	  
-	 /**
-	  * Diese Methode gibt alle Eigenschaften einer Info zurück
-	  * TODO: Methode im Info Mapper implementieren
-	  */
-	  
+	    
 	  return this.iMapper.findEigenschaftsInfosOf(eigenschaft);
 	  
   }
@@ -698,7 +837,7 @@ public ArrayList<Profil> getNotSeenSuchProfilErgebnisse(Suchprofil suchprofil) t
       throws IllegalArgumentException {
 	  
 	/**
-	 * Gibt den Freitext einer Eigenschaft über den Fremdschlüssel zurück
+	 * Gibt den Freitext einer Info über den Fremdschlüssel zurück
 	 */
 	  
     return this.fMapper.findFreitextOfInfo(info);
@@ -709,7 +848,7 @@ public ArrayList<Profil> getNotSeenSuchProfilErgebnisse(Suchprofil suchprofil) t
       throws IllegalArgumentException {
 
 	  /**
-	   * Gibt eine Auswahl aus einer Eigenschaft zurück
+	   * Gibt eine Auswahl aus einer Info zurück
 	   */
 	  
 	  return this.aMapper.findAuswahlOf(info);
@@ -757,6 +896,41 @@ public Auswahl findAuswahlByTitle(Auswahl auswahl) throws IllegalArgumentExcepti
 
 	return this.aMapper.findAuswahlByTitle(auswahl);
 }
+
+@Override
+public ArrayList<Eigenschaft> getAllEigenschaftenOf(Profil profil) throws IllegalArgumentException {
+
+	return this.eiMapper.getAllEigenschaftenOf(profil);
+}
+
+/**
+ * Gibt einen String zurück, der Entweder der Titel der Auswahl ist, oder die Beschreibung des Freitextes.
+ * Die Methode findet anhand des labStrings der Eigenschaft in der Gui die richtige Eigenschaft
+ */
+@Override
+public String findStringOf(Profil profil, String labString) throws IllegalArgumentException {
+
+	
+	ArrayList<Eigenschaft> eigs = this.getAllEigenschaftenOf(profil);
+	
+	for (Eigenschaft e : eigs){
+		if (e.getErlaeuterung().equals(labString)){
+			Info info = this.findInfoOfEigenschaft(e);
+			
+			if (info.getIs_a().equals("auswahl")){
+				Auswahl auswahl = this.findAuswahlOf(info);
+				return auswahl.getTitel();
+			}
+			else if (info.getIs_a().equals("freitext")){
+				Freitext freitext = this.findFreitextOf(info);
+				return freitext.getBeschreibung();
+			}
+		}
+	}
+	return null;
+}
+	
+	
 
 
 

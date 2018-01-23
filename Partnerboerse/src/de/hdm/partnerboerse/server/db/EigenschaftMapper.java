@@ -7,6 +7,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import de.hdm.partnerboerse.shared.bo.Eigenschaft;
+import de.hdm.partnerboerse.shared.bo.Profil;
 
 /**
  * Diese Mapper Klasse dient zur Abbildung von {@link Eigenschaft} Objekten auf
@@ -55,7 +56,7 @@ public class EigenschaftMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid " + "FROM eigenschaft");
+			ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid FROM eigenschaft");
 
 			if (rs.next()) {
 
@@ -126,7 +127,7 @@ public class EigenschaftMapper {
 			if (rs.next()) {
 				Eigenschaft e = new Eigenschaft();
 				e.setId(rs.getInt("id"));
-				e.setErlaeuterung(rs.getString("erlaeuterung"));
+				e.setErlaeuterung(rs.getString("erlaueterung"));
 				e.setEpID(rs.getInt("epID"));
 				e.setInfoID(rs.getInt("infoID"));
 				return e;
@@ -156,7 +157,7 @@ public class EigenschaftMapper {
 			while (rs.next()) {
 				Eigenschaft e = new Eigenschaft();
 				e.setId(rs.getInt("id"));
-				e.setErlaeuterung(rs.getString("erlaeuterung"));
+				e.setErlaeuterung(rs.getString("erlaueterung"));
 				e.setEpID(rs.getInt("epID"));
 				e.setInfoID(rs.getInt("infoID"));
 
@@ -169,6 +170,32 @@ public class EigenschaftMapper {
 
 		return result;
 
+	}
+
+	public ArrayList<Eigenschaft> getAllEigenschaftenOf(Profil profil) {
+		Connection con = DBConnection.getConnection();
+
+		ArrayList<Eigenschaft> result = new ArrayList<Eigenschaft>();
+
+		try {
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT * FROM eigenschaft WHERE epID = " + profil.getId());
+
+			while (rs.next()) {
+				Eigenschaft e = new Eigenschaft();
+				e.setId(rs.getInt("id"));
+				e.setErlaeuterung(rs.getString("erlaueterung"));
+				e.setEpID(rs.getInt("epID"));
+				e.setInfoID(rs.getInt("infoID"));
+
+				result.add(e);
+
+			}
+		} catch (SQLException e2) {
+			e2.printStackTrace();
+		}
+
+		return result;
 	}
 
 }

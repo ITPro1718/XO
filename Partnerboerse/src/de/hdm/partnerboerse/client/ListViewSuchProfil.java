@@ -1,8 +1,12 @@
 package de.hdm.partnerboerse.client;
 
+import java.util.ArrayList;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
@@ -12,45 +16,34 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
+import de.hdm.partnerboerse.shared.bo.Profil;
+import de.hdm.partnerboerse.shared.bo.Suchprofil;
 
 public class ListViewSuchProfil extends VerticalPanel {
-
+	
 	private final PartnerboerseAdministrationAsync partnerAdmin = GWT.create(PartnerboerseAdministration.class);
 
-	Button createButton = new Button("Suchprofil erstellen");
-	Button deleteButton = new Button("Suchprofil löschen");
-	Button editButton = new Button("Suchprofil bearbeiten");
-	Button searchButton = new Button("suchen, aufgehts!");
+	Profil profil = ClientSideSettings.getProfil();
 
+	Button createButton = new Button("erstellen");
+	FlexTable splistGrid = new FlexTable();
+	
 	/**
-	 * Aufbau Suchprofilliste mit Bearbeiten, Löschen und Suchenfunktion
+	 * Aufbau Suchprofilliste der Anzeige des Suchprofils
 	 */
 
 	@Override
 	public void onLoad() {
 		HTML splist = new HTML("<h3>" + "Suchprofilliste" + "</h3>");
-		/**
-		 * TODO in CSS einbinden
-		 */
 		splist.addStyleName("spwrap");
 
-		FlexTable splistGrid = new FlexTable();
-		
-		/**
-		 * TODO in CSS einbinden
-		 */
 		splistGrid.setStyleName("sptable");
 		this.add(splistGrid);
 
-		// Zeile 1
-
 		splistGrid.setWidget(0, 0, createButton);
-
-		// Zeile 2
 		splistGrid.setText(1, 0, "Name des Suchprofils");
-		splistGrid.setWidget(1, 1, editButton);
-		splistGrid.setWidget(1, 2, deleteButton);
-		splistGrid.setWidget(1, 3, searchButton);
+
+		loadSuchprofileFromServer();
 
 		/**
 		 * Button zum Erstellen eines Suchprofils
@@ -78,57 +71,60 @@ public class ListViewSuchProfil extends VerticalPanel {
 			}
 		});
 
-		/**
-		 * TODO Button zum löschen der Suchprofile
-		 */
-		deleteButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-
-				loadCreateSuchprofilView();
-
-			}
-
-			private void loadCreateSuchprofilView() {
-
-				CreateSuchprofil spl = new CreateSuchprofil();
-
-				HTMLPanel createsuchprofilViewPanel = new HTMLPanel(
-						"<h3>" + "Hier können sie ein Suchprofil erstellen!" + "</h3>");
-				createsuchprofilViewPanel.add(spl);
-
-				RootPanel.get("contwrap").clear();
-				RootPanel.get("contwrap").add(createsuchprofilViewPanel);
-
-			}
-		});
-		
-		/**
-		 * TODO Button zum Suchen nach den Fremdprofilen
-		 */
-		searchButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-
-				loadCreateSuchprofilView();
-
-			}
-
-			private void loadCreateSuchprofilView() {
-
-				CreateSuchprofil spl = new CreateSuchprofil();
-
-				HTMLPanel createsuchprofilViewPanel = new HTMLPanel(
-						"<h3>" + "Hier können sie ein Suchprofil erstellen!" + "</h3>");
-				createsuchprofilViewPanel.add(spl);
-
-				RootPanel.get("contwrap").clear();
-				RootPanel.get("contwrap").add(createsuchprofilViewPanel);
-
-			}
-		});
-
 	}
+
+	// ToDo: Methode muss geändert
+	private void loadSuchprofileFromServer() {
+
+		partnerAdmin.findSuchprofileOf(profil, new AsyncCallback<ArrayList<Suchprofil>>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				Window.alert("Suchprofile konnten nicht geladen werden");
+
+			}
+
+			@Override
+			public void onSuccess(ArrayList<Suchprofil> result) {
+				loadListViewSuchProfile(result);
+				// Window.alert(result.toString());
+
+			}
+		});
+	}
+
+	private void loadListViewSuchProfile(ArrayList<Suchprofil> result) {
+
+		for (Suchprofil sp : result) {
+
+			Button showButton = new Button("anzeigen");
+			int row = splistGrid.getRowCount();
+
+			splistGrid.setText(row, 0, sp.getTitle());
+			splistGrid.setWidget(row, 1, showButton);
+			
+			final Suchprofil search = sp;
+			
+			showButton.addClickHandler(new ClickHandler(){
+				
+				@Override
+				public void onClick(ClickEvent event) {
+
+					SuchprofilView spv = new SuchprofilView();
+			        
+			        HTMLPanel spvPanel = new HTMLPanel("<h3>" + "Das ist ihr Suchprofil" + "</h3>");
+			        spvPanel.add(spv);
+			        spv.setNewSuchprofil(search);
+			        RootPanel.get("contwrap").clear();
+			        RootPanel.get("contwrap").add(spvPanel);
+					
+				}
+			});
+
+			
+		}
+		
+	}
+	
+
 }

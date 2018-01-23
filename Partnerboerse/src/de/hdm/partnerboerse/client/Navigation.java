@@ -2,6 +2,8 @@ package de.hdm.partnerboerse.client;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLPanel;
@@ -25,6 +27,7 @@ public class Navigation extends VerticalPanel {
 	final Button meineSuchprofilReports = new Button("Suchprofil Report");
 	final Button meinePartnervorschlaege = new Button("Partnervorschläge");
 
+	final Anchor logoutUser = new Anchor("Abmelden");
 	@Override
 	public void onLoad() {
 
@@ -45,6 +48,8 @@ public class Navigation extends VerticalPanel {
 		meineSuchprofile.addStyleName("button");
 		meineSuchprofile.setTitle("Partnervorschläge");
 		meineSuchprofile.addStyleName("button");
+		logoutUser.setTitle("Abmelden");
+		logoutUser.addStyleName("offbutton");
 
 		VerticalPanel navi = new VerticalPanel();
 		this.add(navi);
@@ -56,6 +61,7 @@ public class Navigation extends VerticalPanel {
 		navi.add(reports);
 		navi.add(meineSuchprofilReports);
 		navi.add(meinePartnervorschlaege);
+		navi.add(logoutUser);
 		
 		/*
 		 * Methode lädt die View des eigenen Profils
@@ -142,7 +148,35 @@ public class Navigation extends VerticalPanel {
           }
         });
 		
+		logoutUser.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+					  
+				//logoutUser.setHref(loginInfo.getLogoutUrl());
+				ClientSideSettings.getLoginInfo();
+				logoutUser.setHref(ClientSideSettings.getLoginInfo().getLogoutUrl());
+				
+			}
+		});
 		
+		meineSuchprofilReports.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				Window.Location.assign("PartnerboerseReport.html");
+				
+			}
+		});
+		
+		meinePartnervorschlaege.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				Window.Location.assign("PartnerboerseReport.html");
+				
+			}
+		});
 
 	}
 

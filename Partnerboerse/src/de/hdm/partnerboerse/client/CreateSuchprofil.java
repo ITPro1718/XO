@@ -3,6 +3,7 @@ package de.hdm.partnerboerse.client;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -22,47 +23,54 @@ public class CreateSuchprofil extends VerticalPanel {
   private final PartnerboerseAdministrationAsync partnerAdmin =
       GWT.create(PartnerboerseAdministration.class);
 
-  Button deleteButton = new Button("Suchprofil löschen");
-  Button safeButton = new Button("Suchprofil speichern");
-  VerticalPanel panel = new VerticalPanel();
-  ListBox bdayListBox = new ListBox();
-  ListBox hcolorListBox = new ListBox();
-  ListBox heightListBox = new ListBox();
-  ListBox religionListBox = new ListBox();
-  ListBox smokerListBox = new ListBox();
-  TextBox title = new TextBox();
+  	Button safeButton = new Button("speichern");
+  
+	// Attribute für SuchprofilGrid
+
+	Label bdayLabel = new Label("Alter: ");
+	Label hcolorLabel = new Label("Haarfarbe: ");
+	Label heightLabel = new Label("Größe (im cm)");
+	Label smokerLabel = new Label("Raucher: ");
+	Label religionLabel = new Label("Religion: ");
+	Label titleLabel = new Label("Name des Suchprofils:");
+
+	
+	TextBox bdayTextBox = new TextBox();
+	ListBox hcolorListBox = new ListBox();
+	TextBox heightTextBox = new TextBox();
+	ListBox smokerListBox = new ListBox();
+	ListBox religionListBox = new ListBox();
+	TextBox titleTextBox = new TextBox();
+
+
+	/**
+	 * TODO wenn EigenschaftsModell steht
+	 * // Eigenschaften für InfoGrid 
+	 * Label sdescriptLab = new Label("Beschreibe dich kurz: "); 
+	 * Label hobbyLab = new Label("Deine Hobbies: "); 
+	 * Label musicLab = new Label("Deine lieblings Musik: "); 
+	 * Label searchForLab = newLabel("Du Bist auf der Suche Nach? "); 
+	 * Label sexOrientLab = new Label("Deine sexuelle Ausrichtung: ");
+	 * 
+	 * TextBox hobby = new TextBox(); 
+	 * TextBox music = new TextBox(); 
+	 * TextArea sdescript = new TextArea(); 
+	 * ListBox sexOrient = new ListBox(); ListBox
+	 * searchFor = new ListBox();
+	 **/
 
   @Override
   public void onLoad() {
 
-    Label bdayLabel = new Label("Alter: ");
-    Label hcolorLabel = new Label("Haarfarbe: ");
-    Label heightLabel = new Label("Größe: ");
-    Label smokerLabel = new Label("Raucher: ");
-    Label religionLabel = new Label("Religion: ");
-    Label titleLabel = new Label("title des Suchprofils");
-
     /**
      * DropDown in Profil genauso wie bei Suchprofil
      */
-    bdayListBox.addItem("20", "20");
-    bdayListBox.addItem("30", "30");
-    bdayListBox.addItem("40", "40");
-    bdayListBox.addItem("50", "50");
-    bdayListBox.addItem("60", "60");
 
     hcolorListBox.addItem("braun", "braun");
     hcolorListBox.addItem("blond", "blond");
     hcolorListBox.addItem("schwarz", "schwarz");
     hcolorListBox.addItem("rot", "rot");
     hcolorListBox.addItem("andere", "andere");
-
-    heightListBox.addItem("1.50", "1.50");
-    heightListBox.addItem("1.60", "1.60");
-    heightListBox.addItem("1.70", "1.70");
-    heightListBox.addItem("1.80", "1.80");
-    heightListBox.addItem("1.90", "1.90");
-    heightListBox.addItem("2.00", "2.00");
 
     religionListBox.addItem("katholisch", "katholisch");
     religionListBox.addItem("evangelisch", "evangelisch");
@@ -83,14 +91,14 @@ public class CreateSuchprofil extends VerticalPanel {
 
     // Spalte 2
     SprofilGrid.setWidget(0, 0, bdayLabel);
-    SprofilGrid.setWidget(0, 1, bdayListBox);
+    SprofilGrid.setWidget(0, 1, bdayTextBox);
 
     // Spalte 4
     SprofilGrid.setWidget(1, 0, hcolorLabel);
     SprofilGrid.setWidget(1, 1, hcolorListBox);
 
     SprofilGrid.setWidget(2, 0, heightLabel);
-    SprofilGrid.setWidget(2, 1, heightListBox);
+    SprofilGrid.setWidget(2, 1, heightTextBox);
 
     // Spalte 5
     SprofilGrid.setWidget(0, 2, smokerLabel);
@@ -102,7 +110,7 @@ public class CreateSuchprofil extends VerticalPanel {
 
     // Spalte 7
     SprofilGrid.setWidget(2, 2, titleLabel);
-    SprofilGrid.setWidget(2, 3, title);
+    SprofilGrid.setWidget(2, 3, titleTextBox);
 
     this.add(safeButton);
 
@@ -115,8 +123,7 @@ public class CreateSuchprofil extends VerticalPanel {
 
       private void createSuchprofilCallback() {
 
-        Profil source = new Profil();
-        source.setId(2);
+        Profil source = ClientSideSettings.getProfil();
 
         Suchprofil search = getSuchprofilWerte();
 
@@ -126,6 +133,7 @@ public class CreateSuchprofil extends VerticalPanel {
 
               @Override
               public void onFailure(Throwable caught) {
+            	  Window.alert("Suchprofil wurde nicht gespeichert.");
 
             }
 
@@ -153,10 +161,10 @@ public class CreateSuchprofil extends VerticalPanel {
 
     Suchprofil s = new Suchprofil();
     s.setId(1);
-    int alter = Integer.parseInt(bdayListBox.getSelectedValue());
+    int alter = Integer.parseInt(bdayTextBox.getValue());
     s.setAlter(alter);
     s.setHaarFarbe(hcolorListBox.getSelectedValue());
-    float kgr = Float.parseFloat(heightListBox.getSelectedValue());
+    float kgr = Float.parseFloat(heightTextBox.getValue());
     s.setKoerpergroesse(kgr);
 
     String raucherSelectedValue = smokerListBox.getSelectedValue();
@@ -172,7 +180,7 @@ public class CreateSuchprofil extends VerticalPanel {
     }
 
     s.setReligion(religionListBox.getSelectedValue());
-    s.setTitle(title.getValue());
+    s.setTitle(titleTextBox.getValue());
 
     return s;
   }

@@ -37,9 +37,6 @@ public class Editor implements EntryPoint {
       new Label("Melde dich mit deinem Google-Konto an, dann kann es schon losgehen!");
   private Anchor signInLink = new Anchor("anmelden");
 
-  // Logoutattribute
-  private Anchor signOutLink = new Anchor("abmelden");
-
   // Unnötige Attribute?! Muss angepasst werden
   private VerticalPanel mainPanel = new VerticalPanel();
   private FlexTable profilFlexTable = new FlexTable();
@@ -52,7 +49,6 @@ public class Editor implements EntryPoint {
   EigenProfilView epv = new EigenProfilView();
   EditProfile ep = new EditProfile();
   EditSuchprofil sp = new EditSuchprofil();
-  
 
   @Override
   public void onModuleLoad() {
@@ -78,9 +74,6 @@ public class Editor implements EntryPoint {
   public void loadXO() {
     
     getProfilesFromServer();
-
-    // Set up sign out hyperlink.
-    signOutLink.setHref(loginInfo.getLogoutUrl());
 
     // Navigation Area
     RootPanel.get("navwrap").add(nav);
@@ -116,8 +109,6 @@ public class Editor implements EntryPoint {
     addPanel.add(newSymbolTextBox);
     addPanel.add(addProfilButton);
 
-    // Assemble Main panel 4 logout
-    mainPanel.add(signOutLink);
     // Assemble Main panel.
     mainPanel.add(profilFlexTable);
     mainPanel.add(addPanel);
@@ -128,7 +119,9 @@ public class Editor implements EntryPoint {
     // Associate the Main panel with the HTML host page.
     RootPanel.get("contwrap").add(mainPanel);
     
-    
+    // Associate the Main panel with the HTML host page.
+    RootPanel.get("contwrap").add(epv);
+        
 
     // Move cursor focus to the input box.
     newSymbolTextBox.setFocus(true);
@@ -181,7 +174,6 @@ public class Editor implements EntryPoint {
         profilFlexTable.setText(row, 4, "" + p.isRaucher());
         profilFlexTable.setText(row, 5, p.getReligion());
         profilFlexTable.setText(row, 6, "" + p.getGeburtsdatum());
-        profilFlexTable.setText(row, 7, p.getPasswort());
         profilFlexTable.setText(row, 8, p.getEmail());
 
         // profilFlexTable.setWidget(row, 2, new Label());

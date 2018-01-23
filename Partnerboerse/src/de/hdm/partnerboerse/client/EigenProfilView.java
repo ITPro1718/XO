@@ -9,6 +9,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
@@ -32,13 +33,23 @@ public class EigenProfilView extends VerticalPanel {
   String lnameLabel = new String("Nachname: ");
   String bdayLabel = new String("Geburtstag: ");
   String hcolorLabel = new String("Haarfarbe: ");
-  String heightLabel = new String("GrÃ¶ÃŸe (in cm): ");
+  String heightLabel = new String("Größe (in cm): ");
   String smokerLabel = new String("Raucher: ");
   String religionLabel = new String("Religion: ");
+  
+  Label sdescriptLab = new Label("Beschreibe dich kurz: ");
+  Label hobbyLab = new Label("Deine Hobbies: ");
+  Label musicLab = new Label("Deine Lieblings Musik: ");
+  Label searchForLab = new Label("Du bist auf der Suche nach? ");
+  Label sexOrientLab = new Label("Deine sexuelle Ausrichtung: ");
+  
+  FlexTable descripton = new FlexTable();
+  FlexTable infoGrid = new FlexTable();
 
   public void onLoad() {
 
     updateProfilTable(ClientSideSettings.getProfil());
+    loadInfoTable(ClientSideSettings.getProfil());
 
     editButton.addClickHandler(new ClickHandler() {
 
@@ -90,8 +101,99 @@ public class EigenProfilView extends VerticalPanel {
     profilGrid.setText(4, 2, meinProfil.getReligion());
 
   }
+  
+  
+  private void loadInfoTable(Profil profil){
+	  // TODO: Get all Infos of User Callback, dann Infos in Grid einfügen
+	  
+	  
+	  descripton.setStyleName("desctable");
+	  this.add(descripton);
+	  
+	  infoGrid.setWidget(0, 1, sdescriptLab);
+	  // descripton.setWidget(0, 1, );
+	  partnerAdmin.findStringOf(ClientSideSettings.getProfil(), sdescriptLab.getText(), new AsyncCallback<String>(){
 
-  // ToDo: Ãœberlegen wie man den Parameter fÃ¼r die neue View Ã¼bertragen kann
+			@Override
+			public void onFailure(Throwable caught) {
+			}
+
+			@Override
+			public void onSuccess(String result) {
+				infoGrid.setText(0, 2, result);
+			}
+	  
+	  });
+
+	  
+	  infoGrid.setStyleName("etable");
+	  this.add(infoGrid);
+	  
+	  infoGrid.setWidget(1, 1, hobbyLab);
+	  // infoGrid.setWidget(0, 2, hobby);
+	  partnerAdmin.findStringOf(ClientSideSettings.getProfil(), hobbyLab.getText(), new AsyncCallback<String>(){
+
+			@Override
+			public void onFailure(Throwable caught) {
+			}
+
+			@Override
+			public void onSuccess(String result) {
+				infoGrid.setText(1, 2, result);
+			}
+	  
+	  });
+
+	  // Spalte 4
+	  infoGrid.setWidget(2, 1, musicLab);
+	  partnerAdmin.findStringOf(ClientSideSettings.getProfil(), musicLab.getText(), new AsyncCallback<String>(){
+
+			@Override
+			public void onFailure(Throwable caught) {
+			}
+
+			@Override
+			public void onSuccess(String result) {
+				infoGrid.setText(2, 2, result);
+			}
+	  
+	  });
+
+	  
+	  infoGrid.setWidget(2, 3, sexOrientLab);
+	  // infoGrid.setWidget(1, 4, sexOrient);
+	  partnerAdmin.findStringOf(ClientSideSettings.getProfil(), sexOrientLab.getText(), new AsyncCallback<String>(){
+
+			@Override
+			public void onFailure(Throwable caught) {
+			}
+
+			@Override
+			public void onSuccess(String result) {
+				infoGrid.setText(2, 4, result);
+			}
+	  
+	  });
+
+	  infoGrid.setWidget(1, 3, searchForLab);
+	  // infoGrid.setWidget(0, 4, searchFor);
+	  partnerAdmin.findStringOf(ClientSideSettings.getProfil(), searchForLab.getText(), new AsyncCallback<String>(){
+
+			@Override
+			public void onFailure(Throwable caught) {
+			}
+
+			@Override
+			public void onSuccess(String result) {
+				infoGrid.setText(1, 4, result);
+			}
+	  
+	  });
+
+  }
+   
+
+  // ToDo: Überlegen wie man den Parameter für die neue View übertragen kann
   private void loadEditProfilView(Profil result) {
 
     EditProfile ep = new EditProfile();
@@ -99,9 +201,9 @@ public class EigenProfilView extends VerticalPanel {
     // ToDo: Sollte man umÃ¤ndern, wirkt ziemlich unsicher
     ep.getProfilFromServer = result;
 
-    // Profile Edit - Panel wird erzeugt und eingefÃ¼gt.
+    // Profile Edit - Panel wird erzeugt und eingefügt.
     HTMLPanel editProfilePanel =
-        new HTMLPanel("<h3>" + "Hier kÃ¶nnen Sie ihre Profilinformationen bearbeiten." + "</h3>");
+        new HTMLPanel("<h3>" + "Hier können Sie ihre Profilinformationen bearbeiten." + "</h3>");
 
     editProfilePanel.add(ep);
 

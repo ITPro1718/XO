@@ -47,10 +47,11 @@ public interface PartnerboerseAdministration extends RemoteService {
 	 *            Passwort
 	 * @param email
 	 *            Email
+	 * @return TODO
 	 * 
 	 * @throws IllegalArgumentException
 	 */
-	public void createProfil(Profil p) throws IllegalArgumentException;
+	public Profil createProfil(Profil p) throws IllegalArgumentException;
 
 	void updateProfil(Profil p);
 
@@ -378,9 +379,11 @@ public interface PartnerboerseAdministration extends RemoteService {
 	 * Freitext bearbeiten
 	 * 
 	 * @param freitext zu bearbeitendes Freitext-Objekt
+	 * @param labString TODO
+	 * @param profil TODO
 	 * @throws IllegalArgumentException
 	 */
-	public void updateFreitext(Freitext freitext) throws IllegalArgumentException;
+	public void updateFreitext(Freitext freitext, String labString, Profil profil) throws IllegalArgumentException;
 
 	/**
 	 * Freitext-Objekt loeschen.
@@ -412,9 +415,11 @@ public interface PartnerboerseAdministration extends RemoteService {
 	 * Auswahl-Objekt bearbeiten.
 	 * 
 	 * @param auswahl das zu bearbeitende Auswahl-Objekt
+	 * @param labString TODO
+	 * @param profil TODO
 	 * @throws IllegalArgumentException
 	 */
-	public void updateAuswahl(Auswahl auswahl) throws IllegalArgumentException;
+	public void updateAuswahl(Auswahl auswahl, String labString, Profil profil) throws IllegalArgumentException;
 
 	/**
 	 * Auswahl-Objekt loeschen.
@@ -432,7 +437,7 @@ public interface PartnerboerseAdministration extends RemoteService {
 	
 	public ArrayList<Info> findInfoOf(Profil profilowner) throws IllegalArgumentException;
 	
-	public ArrayList<Info> findEigenschaftsInfosOf(Eigenschaft eigenschaft) throws IllegalArgumentException;
+	public Info findInfoOfEigenschaft(Eigenschaft eigenschaft) throws IllegalArgumentException;
 	
 	public Freitext findFreitextOf(Info info) throws IllegalArgumentException;
 	
@@ -455,5 +460,9 @@ public interface PartnerboerseAdministration extends RemoteService {
 	public Auswahl findAuswahlByTitle(Auswahl auswahl) throws IllegalArgumentException;
 	
 	public Info createInfoForAuswahl(Info info, Auswahl auswahl) throws IllegalArgumentException;
+	
+	public ArrayList<Eigenschaft> getAllEigenschaftenOf(Profil profil) throws IllegalArgumentException;
+	
+	public String findStringOf(Profil profil, String labString) throws IllegalArgumentException;
 	
 }

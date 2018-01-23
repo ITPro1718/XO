@@ -1,6 +1,7 @@
 package de.hdm.partnerboerse.server.db;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -143,11 +144,27 @@ public class InfoMapper {
 		return result;
 	}
 
-	public ArrayList<Info> findEigenschaftsInfosOf(Eigenschaft eigenschaft) {
+	public Info findEigenschaftsInfosOf(Eigenschaft eigenschaft) {
 
-		/**
-		 * not sure what this does
-		 */
+		Connection con = DBConnection.getConnection();
+		try {
+
+			Statement stmt = con.createStatement();
+
+			ResultSet rs = stmt.executeQuery("SELECT * FROM info WHERE id = " + eigenschaft.getId());
+
+			while (rs.next()) {
+				Info i = new Info();
+				i.setId(rs.getInt("id"));
+				i.setText(rs.getString("bezeichnung"));
+				i.setIs_a(rs.getString("is_a"));
+				i.setAuswahlID(rs.getInt("auswahlID"));
+				i.setFreitextID(rs.getInt("freitextID"));
+				return i;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
 		return null;
 	}
@@ -186,6 +203,25 @@ public class InfoMapper {
 		}
 		return null;
 
+	}
+
+	public void updateAuswahlInfo(Info i) {
+		Connection con = DBConnection.getConnection();
+
+	    try (PreparedStatement stmt = con.prepareStatement(
+	        "UPDATE info SET auswahlID = ? WHERE id = ?")) {
+	    	
+
+	      stmt.setInt(1, i.getAuswahlID());
+	      stmt.setInt(2, i.getId());	      
+	      
+	      stmt.executeUpdate();
+	      
+
+	    } catch (SQLException e2) {
+	      e2.printStackTrace();
+	    }
+		
 	}
 
 }

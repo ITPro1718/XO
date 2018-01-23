@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 import de.hdm.partnerboerse.server.ServerSideSettings;
@@ -76,7 +77,6 @@ public class ProfilMapper {
         p.setVorname(rs.getString("vorname"));
         p.setNachname(rs.getString("nachname"));
         p.setEmail(rs.getString("email"));
-        p.setPasswort(rs.getString("passwort"));
         // TODO: Datum von java.sql.date in java.util date umwandeln
         p.setGeburtsdatum(rs.getDate("geburtstag"));
         p.setRaucher(rs.getBoolean("raucher"));
@@ -145,7 +145,6 @@ public class ProfilMapper {
         p.setVorname(rs.getString("vorname"));
         p.setNachname(rs.getString("nachname"));
         p.setEmail(rs.getString("email"));
-        p.setPasswort(rs.getString("passwort"));
         p.setGeburtsdatum(rs.getDate("geburtstag"));
         p.setRaucher(rs.getBoolean("raucher"));
         p.setHaarfarbe(rs.getString("haarfarbe"));
@@ -182,7 +181,6 @@ public class ProfilMapper {
           p.setVorname(rs.getString("vorname"));
           p.setNachname(rs.getString("nachname"));
           p.setEmail(rs.getString("email"));
-          p.setPasswort(rs.getString("passwort"));
           p.setGeburtsdatum(rs.getDate("geburtstag"));
           p.setRaucher(rs.getBoolean("raucher"));
           p.setHaarfarbe(rs.getString("haarfarbe"));
@@ -264,7 +262,6 @@ public class ProfilMapper {
         p.setVorname(rs.getString("vorname"));
         p.setNachname(rs.getString("nachname"));
         p.setEmail(rs.getString("email"));
-        p.setPasswort(rs.getString("passwort"));
         p.setGeburtsdatum(rs.getDate("geburtstag"));
         p.setRaucher(rs.getBoolean("raucher"));
         p.setHaarfarbe(rs.getString("haarfarbe"));
@@ -296,7 +293,6 @@ public class ProfilMapper {
         p.setVorname(rs.getString("vorname"));
         p.setNachname(rs.getString("nachname"));
         p.setEmail(rs.getString("email"));
-        p.setPasswort(rs.getString("passwort"));
         p.setGeburtsdatum(rs.getDate("geburtstag"));
         p.setRaucher(rs.getBoolean("raucher"));
         p.setHaarfarbe(rs.getString("haarfarbe"));
@@ -318,33 +314,39 @@ public class ProfilMapper {
    * @param p das zu speichernde Profil-Objekt
    * 
    */
-  public void insert(Profil p) {
+  public Profil insert(Profil p) {
     
     Connection con = DBConnection.getConnection();
 
-    try (PreparedStatement stmt = con.prepareStatement("INSERT INTO profil "
-        + "(email, passwort, vorname, nachname, geburtstag, haarfarbe, koerpergroesse, raucher, religion) "
-        + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
+    try (PreparedStatement stmt = con.prepareStatement("INSERT INTO profil (email, vorname, nachname, geburtstag, "
+    	+ "haarfarbe, koerpergroesse, raucher, religion) VALUES (?, ?, ?, ?, ?, ?, ?, ?)")) {
+    	
+    	Statement stmt1 = con.createStatement();
+		ResultSet rs = stmt1.executeQuery("SELECT MAX(id) AS maxid FROM profil");
+		if (rs.next()){
+			p.setId(rs.getInt("maxid") + 1);
+		}
 
       java.util.Date utilDate = p.getGeburtsdatum();
       java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
 
       stmt.setString(1, p.getEmail());
-      stmt.setString(2, p.getPasswort());
-      stmt.setString(3, p.getVorname());
-      stmt.setString(4, p.getNachname());
-      stmt.setDate(5, sqlDate);
-      stmt.setString(6, p.getHaarfarbe());
-      stmt.setInt(7, (int) p.getKoerpergroesse());
-      stmt.setBoolean(8, p.isRaucher());
-      stmt.setString(9, p.getReligion());
+      stmt.setString(2, p.getVorname());
+      stmt.setString(3, p.getNachname());
+      stmt.setDate(4, sqlDate);
+      stmt.setString(5, p.getHaarfarbe());
+      stmt.setInt(6, (int) p.getKoerpergroesse());
+      stmt.setBoolean(7, p.isRaucher());
+      stmt.setString(8, p.getReligion());
 
       stmt.executeUpdate();
+
 
     } catch (SQLException e) {
       e.printStackTrace();
       logger.severe("ProfilMapper.insert konnte Daten nicht in die DB gespeichert werden: " + e.getMessage() + e.getCause());
     }
+    return p;
 
   }
 
@@ -353,12 +355,13 @@ public class ProfilMapper {
    * 
    * @param p das Profil-Objekt, das in die DB geschrieben werden soll
    */
-  public void update(Profil p) {
+  public Profil update(Profil p) {
     Connection con = DBConnection.getConnection();
 
     try (PreparedStatement stmt = con.prepareStatement(
-        "UPDATE profil set vorname = ?, nachname = ?, geburtstag = ?, "
-            + "haarfarbe = ?, koerpergroesse=  ?, raucher = ?, religion = ? WHERE email = ?")) {
+        "UPDATE profil SET vorname = ?, nachname = ?, geburtstag = ?, "
+            + "haarfarbe = ?, koerpergroesse=  ?, raucher = ?, religion = ?, email = ? WHERE id = ?")) {
+    	
 
       java.util.Date utilDate = p.getGeburtsdatum();
       java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
@@ -371,12 +374,17 @@ public class ProfilMapper {
       stmt.setBoolean(6, p.isRaucher());
       stmt.setString(7, p.getReligion());
       stmt.setString(8, p.getEmail());
-
+      stmt.setInt(9, p.getId());
+      
       stmt.executeUpdate();
+      
 
     } catch (SQLException e2) {
       e2.printStackTrace();
     }
+    
+    
+    return p;
   }
 
   /**
