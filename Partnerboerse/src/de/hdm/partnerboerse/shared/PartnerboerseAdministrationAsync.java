@@ -109,7 +109,7 @@ public interface PartnerboerseAdministrationAsync {
 
 	void getMerkzettelEintraegeByID(int ID, AsyncCallback<Merkzettel> callback);
 
-	void getNotSeenSuchProfilErgebnisse(Suchprofil suchprofil, AsyncCallback<ArrayList<Profil>> callback);
+	void getNotSeenPartnervorschläge(Profil profil, AsyncCallback<ArrayList<Profil>> callback);
 
 	void getProfilByEmail(String email, AsyncCallback<Profil> callback);
 

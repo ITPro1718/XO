@@ -54,17 +54,18 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 	private BesuchMapper bMapper = null;
 	private int gewichtungHaarfarbe; 
 	private int gewichtungReligion; 
-	private int gewichtungKoerpergroesse; 
+	
 	private int gewichtungAlter; 
 	private int gewichtungRaucher; 
+	private int gewichtungAuswahl;
 	
-	public void setGewichtungen (int gwHaarfarbe, int gwReligion, int gwKoerpergroesse, int gwAlter, int gwRaucher) {
+	public void setGewichtungen (int gwHaarfarbe, int gwReligion, int gwAlter, int gwRaucher, int gwAuswahl) {
 
 		this.gewichtungHaarfarbe = gwHaarfarbe;
 		this.gewichtungReligion = gwReligion;
-		this.gewichtungKoerpergroesse = gwKoerpergroesse;
-		this.gewichtungAlter = gwKoerpergroesse;
+	
 		this.gewichtungRaucher = gwRaucher;
+		this.gewichtungAuswahl = gwAuswahl;
 		}
 	
 	public PartnerboerseAdministrationImpl() throws IllegalArgumentException {
@@ -397,8 +398,10 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 		float o1 = this.gewichtungHaarfarbe;
 		float o2 = this.gewichtungReligion;
 		float o3 = this.gewichtungAlter;
-		float o4 = this.gewichtungKoerpergroesse;
-		float o5 = this.gewichtungRaucher;
+		
+		float o4 = this.gewichtungRaucher;
+		float o5 = this.gewichtungAuswahl;
+		
 		float summe = o1+o2+o3+o4+o5;
 		float x = (float) 100/summe;
 		
@@ -408,6 +411,8 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 			float p3=0;
 			float p4=0;
 			float p5=0;
+			
+			
 			if(p.getHaarfarbe() == source.getHaarfarbe()){
 				p1=o1;
 			}
@@ -418,12 +423,16 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 				p3=o3;
 			
 			}
-			else if (p.getKoerpergroesse()== source.getKoerpergroesse()){
+			
+			
+			else if (p.isRaucher()== source.isRaucher()){
 				p4=o4;
 			}
-			else if (p.isRaucher()== source.isRaucher()){
+			else if (compareAuswahlen(source,p) == true){
 				p5=o5;
 			}
+			
+			
 			ähnlichkeitInProzent.add((p1*x)+(p2*x)+(p3*x)+(p4*x)+(p5*x));
 			}
 			
@@ -485,6 +494,9 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 			else if (compare(suchprofil, p) == false){
 				profile.remove(p);
 			}
+			else if (compareSexuelleOrientierung(suchprofilowner,p) == false){
+				profile.remove(p);
+			}
 		}			
 		return profile;
 }
@@ -505,36 +517,95 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet
 		  (suchprofill.getAlter() == getAge(profil.getGeburtsdatum())) &&
 			
 		  (suchprofill.getReligion() == profil.getReligion())) 
-			// eine Auswahl ID im Suchprpfil eingeben oder mehrere? Bei mehreren, würden wir Ablgeichen wenn mindestens 1 Hobby (AuswahlID) mit gesuchtem Profil übereinstimmt.
-		// ( If( ArrayList<Int> ProfilAuswahlIDsOfInfoObjekte.contains(SuchProfilAuswahlID) ) return true;
+			// TODO: welche asuwahlen sind in eine mSuchprofil vergleichbar? Welche Freitexte?
 		  {
 			  return true;
 		}
 		else return false;
 		
 	}
+	
+	public boolean compareEigenprofil(Profil profil, Profil fremdprofil){
+		if((profil.getHaarfarbe()== fremdprofil.getHaarfarbe())&&
+			(profil.isRaucher()== fremdprofil.isRaucher()) && 
+			(getAge(profil.getGeburtsdatum()) == getAge(fremdprofil.getGeburtsdatum())) &&
+			 (profil.getReligion() == fremdprofil.getReligion())) 
+		{ 
+			return true;
 
+
+	}
+		else return false;	
+	}
+	
+	
+	public boolean compareSexuelleOrientierung(Profil profil, Profil fremdprofil){
+	if(((isMale(profil)&& isHetero(profil)) && (isFemale(fremdprofil)&& isHetero(fremdprofil)))
+		|| ((isMale(profil)&& isHomo(profil)) && (isMale(fremdprofil)&& isHomo(fremdprofil)))
+		|| ((isFemale(profil)&& isHetero(profil)) && (isMale(fremdprofil)&& isHetero(fremdprofil)))
+		|| ((isFemale(profil)&& isHomo(profil)) && (isFemale(fremdprofil)&& isHomo(fremdprofil))))
+		{
+		return true;
+		}
+	else return false;
+			}
+	//TODO: ismale,isfemale,ishetero,ishomo implementieren
+	public boolean isMale(Profil profil){
+		return true;
+	}
+	public boolean isFemale(Profil profil){
+		return true;
+	}
+	public boolean isHetero(Profil profil){
+		return true;
+	}
+	public boolean isHomo(Profil profil){
+		return true;
+	}
+	
+	
 	@Override
-public ArrayList<Profil> getNotSeenSuchProfilErgebnisse(Suchprofil suchprofil) throws IllegalArgumentException {
+public ArrayList<Profil> getNotSeenPartnervorschläge(Profil profil) throws IllegalArgumentException {
 		
-		ArrayList<Profil> suchProfilErgebnisse = getSuchProfilErgebnisse(suchprofil);
-		Profil suchprofilowner = getProfilByID(suchprofil.getEigenprofilID());
-		ArrayList<Besuch> visitsOfSuchProfilowner= findBesucheOf(suchprofilowner);
+	    ArrayList<Profil> profile = getAllProfils();
+		
+		ArrayList<Besuch> visitsOfProfilowner= findBesucheOf(profil);
         ArrayList<Integer> visitedProfilids = new ArrayList<>();
         
-		for (Besuch b : visitsOfSuchProfilowner){
+		for (Besuch b : visitsOfProfilowner){
 			int visitid = b.getFremdprofilID();
 			visitedProfilids.add(visitid);
 		}
-		for (Profil p : suchProfilErgebnisse){
+		for (Profil p : profile){
 			int id = p.getId();
 				
 			if(visitedProfilids.contains(id)){
-				suchProfilErgebnisse.remove(p);
+				profile.remove(p);
 			}		
+			else if (compareEigenprofil(profil, p) == false){
+				profile.remove(p);
 		}
-		return suchProfilErgebnisse;	
+			else if (compareSexuelleOrientierung(profil,p) == false){
+				profile.remove(p);
+			}
+			else if (compareAuswahlen(profil,p)==false){
+				profile.remove(p);
+			}
 	}
+		return profile;
+	}
+
+	public boolean compareAuswahlen(Profil profil, Profil fremdprofil){
+		
+	for(Integer z : findAllAuswahlIDsOfProfil(profil)){
+	if(findAllAuswahlIDsOfProfil(fremdprofil).contains(z)){
+		return true;
+	}
+	else return false;
+	}
+	return false;
+	}
+
 
 
 	@Override
