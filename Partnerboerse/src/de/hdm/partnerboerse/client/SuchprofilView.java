@@ -7,7 +7,9 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
@@ -17,21 +19,19 @@ import de.hdm.partnerboerse.shared.bo.Suchprofil;
 
 public class SuchprofilView extends VerticalPanel {
 	
-	Suchprofil newsuchprofil = new Suchprofil();
-	
-	
-
 	private final PartnerboerseAdministrationAsync partnerAdmin = GWT.create(PartnerboerseAdministration.class);
 
 	Profil profil = ClientSideSettings.getProfil();
 
 	Button editButton = new Button("bearbeiten");
 	Button deleteButton = new Button("löschen");
-	String alterLabel = new String("Alter: ");
-	String hcolorLabel = new String("Haarfarbe: ");
-	String heightLabel = new String("Größe (in cm): ");
-	String smokerLabel = new String("Raucher: ");
-	String religionLabel = new String("Religion: ");
+	Label alterLabel = new Label("Alter: ");
+	Label hcolorLabel = new Label("Haarfarbe: ");
+	Label heightLabel = new Label("Größe (in cm): ");
+	Label smokerLabel = new Label("Raucher: ");
+	Label religionLabel = new Label("Religion: ");
+	
+	Suchprofil newsuchprofil = new Suchprofil();
 
 	/**
 	 * TODO Wenn EigenschaftsModell steht
@@ -45,8 +45,7 @@ public class SuchprofilView extends VerticalPanel {
 	 **/
 	
 	public void onLoad() {
-		HTML spview = new HTML("<h3>" + "Suchprofil" + "</h3>");
-		Suchprofil sp = new Suchprofil();
+		new HTML("<h3>" + "Suchprofil" + "</h3>");
 		updateSpTable(newsuchprofil);
 
 		editButton.addClickHandler(new ClickHandler() {
@@ -54,7 +53,7 @@ public class SuchprofilView extends VerticalPanel {
 			@Override
 			public void onClick(ClickEvent event) {
 
-				// loadEditSuchprofilView(ClientSideSettings.getProfil());
+				loadEditSuchprofilView(newsuchprofil);
 
 			}
 		});
@@ -77,22 +76,22 @@ public class SuchprofilView extends VerticalPanel {
 		 * Attribute von Suchprofil
 		 */
 		// Spalte 1
-		sProfilGrid.setText(1, 1, alterLabel);
+		sProfilGrid.setWidget(1, 1, alterLabel);
 
 		sProfilGrid.setText(1, 2, Integer.toString(suchProfil.getAlter()));
 
-		sProfilGrid.setText(1, 3, hcolorLabel);
+		sProfilGrid.setWidget(1, 3, hcolorLabel);
 		sProfilGrid.setText(1, 4, suchProfil.getHaarFarbe());
 
 		// Spalte 2
-		sProfilGrid.setText(2, 1, heightLabel);
+		sProfilGrid.setWidget(2, 1, heightLabel);
 		sProfilGrid.setText(2, 2, String.valueOf(suchProfil.getKoerpergroesse()));
 
-		sProfilGrid.setText(2, 3, smokerLabel);
+		sProfilGrid.setWidget(2, 3, smokerLabel);
 		sProfilGrid.setText(2, 4, String.valueOf(suchProfil.isRaucher()));
 
 		// Spalte 3
-		sProfilGrid.setText(3, 1, religionLabel);
+		sProfilGrid.setWidget(3, 1, religionLabel);
 		sProfilGrid.setText(3, 2, suchProfil.getReligion());
 
 	}
@@ -104,5 +103,20 @@ public class SuchprofilView extends VerticalPanel {
 	public void setNewSuchprofil(Suchprofil newsuchprofil) {
 		this.newsuchprofil = newsuchprofil;
 	}
+
+	private void loadEditSuchprofilView(Suchprofil result) {
+
+	    EditSuchprofil editsp = new EditSuchprofil();
+
+	    // Profile Edit - Panel wird erzeugt und eingefügt.
+	    HTMLPanel editSuchprofilPanel =
+	        new HTMLPanel("<h3>" + "Hier können Sie ihre Profilinformationen bearbeiten." + "</h3>");
+
+	    editSuchprofilPanel.add(editsp);
+
+	    RootPanel.get("contwrap").clear();
+	    RootPanel.get("contwrap").add(editSuchprofilPanel);
+
+	  }
 
 }

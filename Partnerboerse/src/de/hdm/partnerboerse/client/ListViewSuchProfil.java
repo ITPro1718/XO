@@ -41,6 +41,9 @@ public class ListViewSuchProfil extends VerticalPanel {
 		this.add(splistGrid);
 
 		splistGrid.setWidget(0, 0, createButton);
+		/**
+		 * TODO CSS einbinden
+		 */
 		splistGrid.setText(1, 0, "Name des Suchprofils");
 
 		loadSuchprofileFromServer();
