@@ -39,12 +39,12 @@ public class EigenProfilView extends VerticalPanel {
   
   Label sdescriptLab = new Label("Beschreibe dich kurz: ");
   Label hobbyLab = new Label("Deine Hobbies: ");
-  Label musicLab = new Label("Deine lieblings Musik: ");
-  Label searchForLab = new Label("Du Bist auf der Suche Nach? ");
+  Label musicLab = new Label("Deine Lieblings Musik: ");
+  Label searchForLab = new Label("Du bist auf der Suche nach? ");
   Label sexOrientLab = new Label("Deine sexuelle Ausrichtung: ");
   
   FlexTable descripton = new FlexTable();
-  Grid infoGrid = new Grid(4, 6);
+  FlexTable infoGrid = new FlexTable();
 
   public void onLoad() {
 
@@ -193,7 +193,7 @@ public class EigenProfilView extends VerticalPanel {
   }
    
 
-  // ToDo: Ãœberlegen wie man den Parameter fÃ¼r die neue View Ã¼bertragen kann
+  // ToDo: Überlegen wie man den Parameter für die neue View übertragen kann
   private void loadEditProfilView(Profil result) {
 
     EditProfile ep = new EditProfile();
@@ -201,7 +201,7 @@ public class EigenProfilView extends VerticalPanel {
     // ToDo: Sollte man umÃ¤ndern, wirkt ziemlich unsicher
     ep.getProfilFromServer = result;
 
-    // Profile Edit - Panel wird erzeugt und eingefÃ¼gt.
+    // Profile Edit - Panel wird erzeugt und eingefügt.
     HTMLPanel editProfilePanel =
         new HTMLPanel("<h3>" + "Hier können Sie ihre Profilinformationen bearbeiten." + "</h3>");
 

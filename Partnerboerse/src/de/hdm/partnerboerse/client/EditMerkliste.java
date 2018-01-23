@@ -92,6 +92,7 @@ public class EditMerkliste extends VerticalPanel {
 
 						@Override
 						public void onFailure(Throwable caught) {
+							  Window.alert("Merkliste wurde nicht gespeichert.");
 						}
 
 						@Override
