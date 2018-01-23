@@ -18,7 +18,7 @@ import de.hdm.partnerboerse.shared.bo.Profil;
 import de.hdm.partnerboerse.shared.bo.Suchprofil;
 
 public class SuchprofilView extends VerticalPanel {
-	
+
 	private final PartnerboerseAdministrationAsync partnerAdmin = GWT.create(PartnerboerseAdministration.class);
 
 	Profil profil = ClientSideSettings.getProfil();
@@ -30,20 +30,20 @@ public class SuchprofilView extends VerticalPanel {
 	Label heightLabel = new Label("Größe (in cm): ");
 	Label smokerLabel = new Label("Raucher: ");
 	Label religionLabel = new Label("Religion: ");
-	
+
 	Suchprofil newsuchprofil = new Suchprofil();
 
 	/**
-	 * TODO Wenn EigenschaftsModell steht
-	 * Eigenschaften vom Suchprofil
+	 * TODO Wenn EigenschaftsModell steht Eigenschaften vom Suchprofil
 	 * 
-	 * Label sdescriptLab = new Label("Beschreibe dich kurz: "); 
-	 * Label hobbyLab = new Label("Deine Hobbies: "); 
-	 * Label musicLab = new Label("Deine Lieblings Musik: "); 
-	 * Label searchForLab = new Label("Du bist auf der Suche nach? "); 
-	 * Label sexOrientLab = new Label("Deine sexuelle Ausrichtung: ");
+	 * Label sdescriptLab = new Label("Beschreibe dich kurz: "); Label hobbyLab
+	 * = new Label("Deine Hobbies: "); Label musicLab = new Label("Deine
+	 * Lieblings Musik: "); Label searchForLab = new Label("Du bist auf der
+	 * Suche nach? "); Label sexOrientLab = new Label("Deine sexuelle
+	 * Ausrichtung: ");
 	 **/
-	
+
+	@Override
 	public void onLoad() {
 		new HTML("<h3>" + "Suchprofil" + "</h3>");
 		updateSpTable(newsuchprofil);
@@ -88,7 +88,7 @@ public class SuchprofilView extends VerticalPanel {
 		sProfilGrid.setText(2, 2, String.valueOf(suchProfil.getKoerpergroesse()));
 
 		sProfilGrid.setWidget(2, 3, smokerLabel);
-		sProfilGrid.setText(2, 4, String.valueOf(suchProfil.isRaucher()));
+		sProfilGrid.setText(2, 4, GuiUtils.getJaNein(suchProfil.isRaucher()));
 
 		// Spalte 3
 		sProfilGrid.setWidget(3, 1, religionLabel);
@@ -106,17 +106,17 @@ public class SuchprofilView extends VerticalPanel {
 
 	private void loadEditSuchprofilView(Suchprofil result) {
 
-	    EditSuchprofil editsp = new EditSuchprofil();
+		EditSuchprofil editsp = new EditSuchprofil();
 
-	    // Profile Edit - Panel wird erzeugt und eingefügt.
-	    HTMLPanel editSuchprofilPanel =
-	        new HTMLPanel("<h3>" + "Hier können Sie ihre Profilinformationen bearbeiten." + "</h3>");
+		// Profile Edit - Panel wird erzeugt und eingefügt.
+		HTMLPanel editSuchprofilPanel = new HTMLPanel(
+				"<h3>" + "Hier können Sie ihre Profilinformationen bearbeiten." + "</h3>");
 
-	    editSuchprofilPanel.add(editsp);
+		editSuchprofilPanel.add(editsp);
 
-	    RootPanel.get("contwrap").clear();
-	    RootPanel.get("contwrap").add(editSuchprofilPanel);
+		RootPanel.get("contwrap").clear();
+		RootPanel.get("contwrap").add(editSuchprofilPanel);
 
-	  }
+	}
 
 }

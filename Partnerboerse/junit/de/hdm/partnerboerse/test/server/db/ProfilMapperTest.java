@@ -77,7 +77,7 @@ public class ProfilMapperTest {
 
 		profil.setId(1);
 		profil.setEmail("hello@horst.de");
-		profil.setPasswort("passwort123");
+		// profil.setPasswort("passwort123");
 		profil.setNachname("Horst");
 		profil.setVorname("Willie");
 		profil.setHaarfarbe("gelb");
