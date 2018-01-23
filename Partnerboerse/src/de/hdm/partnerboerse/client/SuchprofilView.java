@@ -7,7 +7,6 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
@@ -16,10 +15,8 @@ import de.hdm.partnerboerse.shared.bo.Profil;
 import de.hdm.partnerboerse.shared.bo.Suchprofil;
 
 public class SuchprofilView extends VerticalPanel {
-	
+
 	Suchprofil newsuchprofil = new Suchprofil();
-	
-	
 
 	private final PartnerboerseAdministrationAsync partnerAdmin = GWT.create(PartnerboerseAdministration.class);
 
@@ -34,16 +31,16 @@ public class SuchprofilView extends VerticalPanel {
 	String religionLabel = new String("Religion: ");
 
 	/**
-	 * TODO Wenn EigenschaftsModell steht
-	 * Eigenschaften vom Suchprofil
+	 * TODO Wenn EigenschaftsModell steht Eigenschaften vom Suchprofil
 	 * 
-	 * Label sdescriptLab = new Label("Beschreibe dich kurz: "); 
-	 * Label hobbyLab = new Label("Deine Hobbies: "); 
-	 * Label musicLab = new Label("Deine Lieblings Musik: "); 
-	 * Label searchForLab = new Label("Du bist auf der Suche nach? "); 
-	 * Label sexOrientLab = new Label("Deine sexuelle Ausrichtung: ");
+	 * Label sdescriptLab = new Label("Beschreibe dich kurz: "); Label hobbyLab
+	 * = new Label("Deine Hobbies: "); Label musicLab = new Label("Deine
+	 * Lieblings Musik: "); Label searchForLab = new Label("Du bist auf der
+	 * Suche nach? "); Label sexOrientLab = new Label("Deine sexuelle
+	 * Ausrichtung: ");
 	 **/
-	
+
+	@Override
 	public void onLoad() {
 		HTML spview = new HTML("<h3>" + "Suchprofil" + "</h3>");
 		Suchprofil sp = new Suchprofil();
@@ -89,7 +86,7 @@ public class SuchprofilView extends VerticalPanel {
 		sProfilGrid.setText(2, 2, String.valueOf(suchProfil.getKoerpergroesse()));
 
 		sProfilGrid.setText(2, 3, smokerLabel);
-		sProfilGrid.setText(2, 4, String.valueOf(suchProfil.isRaucher()));
+		sProfilGrid.setText(2, 4, GuiUtils.getJaNein(suchProfil.isRaucher()));
 
 		// Spalte 3
 		sProfilGrid.setText(3, 1, religionLabel);

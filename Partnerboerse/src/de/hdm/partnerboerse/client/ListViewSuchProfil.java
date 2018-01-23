@@ -20,14 +20,14 @@ import de.hdm.partnerboerse.shared.bo.Profil;
 import de.hdm.partnerboerse.shared.bo.Suchprofil;
 
 public class ListViewSuchProfil extends VerticalPanel {
-	
+
 	private final PartnerboerseAdministrationAsync partnerAdmin = GWT.create(PartnerboerseAdministration.class);
 
 	Profil profil = ClientSideSettings.getProfil();
 
 	Button createButton = new Button("erstellen");
 	FlexTable splistGrid = new FlexTable();
-	
+
 	/**
 	 * Aufbau Suchprofilliste der Anzeige des Suchprofils
 	 */
@@ -102,29 +102,27 @@ public class ListViewSuchProfil extends VerticalPanel {
 
 			splistGrid.setText(row, 0, sp.getTitle());
 			splistGrid.setWidget(row, 1, showButton);
-			
+
 			final Suchprofil search = sp;
-			
-			showButton.addClickHandler(new ClickHandler(){
-				
+
+			showButton.addClickHandler(new ClickHandler() {
+
 				@Override
 				public void onClick(ClickEvent event) {
 
 					SuchprofilView spv = new SuchprofilView();
-			        
-			        HTMLPanel spvPanel = new HTMLPanel("<h3>" + "Das ist ihr Suchprofil" + "</h3>");
-			        spvPanel.add(spv);
-			        spv.setNewSuchprofil(search);
-			        RootPanel.get("contwrap").clear();
-			        RootPanel.get("contwrap").add(spvPanel);
-					
+
+					HTMLPanel spvPanel = new HTMLPanel("<h3>" + "Das ist ihr Suchprofil" + "</h3>");
+					spvPanel.add(spv);
+					spv.setNewSuchprofil(search);
+					RootPanel.get("contwrap").clear();
+					RootPanel.get("contwrap").add(spvPanel);
+
 				}
 			});
 
-			
 		}
-		
+
 	}
-	
 
 }
