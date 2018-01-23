@@ -115,8 +115,26 @@ button {
     border-radius: initial !important;
 }
 
-button:hover {background: lightgreen;}
+button:hover {background: lightgreen !important;}
 
+.offbutton {
+    background: #f18487 !important;
+    margin-top: 3.5em !important;
+    color: #fff;
+    transition: all 1s linear;
+    width: 95%;
+    height: auto;
+    display: block;
+    padding: 10px 5px;
+    text-align: center;
+    font-size: 1.2em;
+}
+
+.offbutton:hover {
+    background: #f18487 !important;
+    text-decoration: none;
+    color: #000 !important;
+}
 /*Profile Pic Area*/
 
 .ppic img {

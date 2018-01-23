@@ -19,7 +19,7 @@
 
   <!-- Other module inherits                                      -->
 	<!-- Die folgende Zeile wird benötigt, da wir auch Client-seitig Logging
-		unterstützen wollen. PT, 24.05.2012 -->
+		unterstützen wollen. -->
 	<inherits name="com.google.gwt.logging.Logging" />
 
   <!-- Specify the app entry point class.                         -->
