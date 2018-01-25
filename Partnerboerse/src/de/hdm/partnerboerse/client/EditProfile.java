@@ -271,7 +271,7 @@ public class EditProfile extends VerticalPanel {
 
   }
   
-  Grid infoGrid = new Grid(10,4);
+  Grid infoGrid = new Grid(10,5);
   int row = 1;
   int column = 2;
   
@@ -310,14 +310,44 @@ public class EditProfile extends VerticalPanel {
                             if (i.getEigenschaftId() == e.getId()){
                               
                               final TextBox textbox = new TextBox();
+                              final Button button = new Button("Speichern");
+                              
                               textbox.setValue(i.getText());
-                              column++;
-                              infoGrid.setWidget(row, column, textbox);
-                              column--;
+                              
+                              infoGrid.setWidget(row, column+1, textbox);
+                              infoGrid.setWidget(row, column+2, button);    
+                              
+                              saveInfo(button, i);
+                              
                             }
                         }
                         row++;
                     }
+                }
+
+                private void saveInfo(Button button, final Info i) {
+                  button.addClickHandler(new ClickHandler() {
+                    
+                    @Override
+                    public void onClick(ClickEvent event) {
+                      
+                      partnerAdmin.updateInfo(i, new AsyncCallback<Void>() {
+
+                        @Override
+                        public void onFailure(Throwable caught) {
+                          // TODO Auto-generated method stub
+                          
+                        }
+
+                        @Override
+                        public void onSuccess(Void result) {
+                          Window.alert("Hat geklappt!");
+                          
+                        }});
+                      
+                    }
+                  });
+                  
                 }   
             });
         }
