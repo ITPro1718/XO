@@ -24,6 +24,7 @@ import de.hdm.partnerboerse.shared.bo.Auswahl;
 import de.hdm.partnerboerse.shared.bo.Freitext;
 import de.hdm.partnerboerse.shared.bo.Info;
 import de.hdm.partnerboerse.shared.bo.Profil;
+import de.hdm.partnerboerse.client.CreateWidget;
 
 public class CreateEigenProfil extends VerticalPanel {
 
@@ -37,8 +38,10 @@ public class CreateEigenProfil extends VerticalPanel {
 	 */
 
 	Button createButton = new Button("Profil erstellen");
+	
+	CreateWidget cw = new CreateWidget();
 
-	Label vnameLabel = new Label("Vorname: ");
+	/**Label vnameLabel = new Label("Vorname: ");
 	Label lnameLabel = new Label("Nachname: ");
 	Label bdayLabel = new Label("Geburtstag: ");
 	Label hcolorLabel = new Label("Haarfarbe: ");
@@ -51,10 +54,10 @@ public class CreateEigenProfil extends VerticalPanel {
 	TextBox bdayTextBox = new TextBox();
 	ListBox hcolorListBox = new ListBox();
 	TextBox heightTextBox = new TextBox();
-	ListBox religionListBox = new ReligionListBox();
+	ListBox religionListBox = new CreateWidget();
 
 
-	ListBox smokerListBox = new ListBox();
+	ListBox smokerListBox = new ListBox();**/
 
 
 
@@ -66,6 +69,7 @@ public class CreateEigenProfil extends VerticalPanel {
 	@Override
 	public void onLoad() {
 
+		
 		Grid profilIntGrid = new Grid(2, 3);
 		profilIntGrid.setStyleName("itable");
 		this.add(profilIntGrid);
@@ -77,37 +81,37 @@ public class CreateEigenProfil extends VerticalPanel {
 		this.add(profilGrid);
 
 		// Spalte 1
-		profilGrid.setWidget(1, 1, vnameLabel);
-		profilGrid.setWidget(1, 2, vnameTextBox);
+		profilGrid.setWidget(1, 1, cw.getVnameLabel());
+		profilGrid.setWidget(1, 2, cw.getVnameTextBox());
 
-		profilGrid.setWidget(1, 3, lnameLabel);
-		profilGrid.setWidget(1, 4, lnameTextBox);
+		profilGrid.setWidget(1, 3, cw.getLnameLabel());
+		profilGrid.setWidget(1, 4, cw.getLnameTextBox());
 
 		// Spalte 2
-		profilGrid.setWidget(2, 1, bdayLabel);
-		profilGrid.setWidget(2, 2, bdayTextBox);
+		profilGrid.setWidget(2, 1, cw.getBdayLabel());
+		profilGrid.setWidget(2, 2, cw.getBdayTextBox());
 
-		hcolorListBox.addItem("schwarz", "schwarz");
+/*		hcolorListBox.addItem("schwarz", "schwarz");
 		hcolorListBox.addItem("braun", "braun");
 		hcolorListBox.addItem("blond", "blond");
 		hcolorListBox.addItem("grau", "grau");
-		hcolorListBox.addItem("sonstige", "sonstige");
+		hcolorListBox.addItem("sonstige", "sonstige");*/
 
-		profilGrid.setWidget(2, 3, hcolorLabel);
-		profilGrid.setWidget(2, 4, hcolorListBox);
+		profilGrid.setWidget(2, 3, cw.getHcolorLabel());
+		profilGrid.setWidget(2, 4, cw.getHcolorListBox());
 
 		// Spalte 3
-		profilGrid.setWidget(3, 1, heightLabel);
-		profilGrid.setWidget(3, 2, heightTextBox);
+		profilGrid.setWidget(3, 1, cw.getHeightLabel());
+		profilGrid.setWidget(3, 2, cw.getHeightTextBox());
 
-		smokerListBox.addItem("Ja", "YSmoker");
+/*		smokerListBox.addItem("Ja", "YSmoker");
 		smokerListBox.addItem("Nein", "NSmoker");
+*/
+		profilGrid.setWidget(3, 3, cw.getSmokerLabel());
+		profilGrid.setWidget(3, 4, cw.getSmokerListBox());
 
-		profilGrid.setWidget(3, 3, smokerLabel);
-		profilGrid.setWidget(3, 4, smokerListBox);
-
-		profilGrid.setWidget(4, 1, religionLabel);
-		profilGrid.setWidget(4, 2, religionListBox);
+		profilGrid.setWidget(4, 1, cw.getReligionLabel());
+		profilGrid.setWidget(4, 2, cw.getReligionListBox());
 
 		FlexTable descripton = new FlexTable();
 		descripton.setStyleName("desctable");
@@ -168,8 +172,8 @@ public class CreateEigenProfil extends VerticalPanel {
 	}
 
 	/*
-	 * Werte aus den geÃ¤nderten Formularen wird ausgelesen und in ein Profil
-	 * gespeichert und zurÃ¼ck gegeben
+	 * Werte aus den geänderten Formularen wird ausgelesen und in ein Profil
+	 * gespeichert und zurück gegeben
 	 */
 	private Profil getProfileValuesFromFormular() {
 
@@ -178,20 +182,20 @@ public class CreateEigenProfil extends VerticalPanel {
 		/*
 		 * DateTimerFromat wandelt den Wert von bdayTextBox in Date um
 		 */
-		Date bDayConvert = DateTimeFormat.getFormat("yyyy-MM-dd").parse(bdayTextBox.getValue());
+		Date bDayConvert = DateTimeFormat.getFormat("yyyy-MM-dd").parse(cw.getBdayTextBox().getValue());
 		/*
 		 * Integer.parseInt wandelt String in int um
 		 */
-		int heightConvert = Integer.parseInt(heightTextBox.getValue());
+		int heightConvert = Integer.parseInt(cw.getHeightTextBox().getValue());
 
-		setProfil.setVorname(vnameTextBox.getValue());
-		setProfil.setNachname(lnameTextBox.getValue());
+		setProfil.setVorname(cw.getVnameTextBox().getValue());
+		setProfil.setNachname(cw.getLnameTextBox().getValue());
 		setProfil.setGeburtsdatum(bDayConvert);
 		setProfil.setKoerpergroesse(heightConvert);
-		setProfil.setReligion(religionListBox.getSelectedValue());
-		setProfil.setHaarfarbe(hcolorListBox.getSelectedValue());
+		setProfil.setReligion(cw.getReligionListBox().getSelectedValue());
+		setProfil.setHaarfarbe(cw.getHcolorListBox().getSelectedValue());
 		setProfil.setEmail(loginInfo.getEmailAddress());
-		String raucherSelectedValue = smokerListBox.getSelectedValue();
+		String raucherSelectedValue = cw.getSmokerListBox().getSelectedValue();
 
 		/*
 		 * String-Wert von Raucher wird ausgelesen und durch eine
