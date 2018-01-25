@@ -1,5 +1,7 @@
 package de.hdm.partnerboerse.client;
 
+import java.util.ArrayList;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -7,6 +9,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -16,6 +19,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
+import de.hdm.partnerboerse.shared.bo.Auswahl;
+import de.hdm.partnerboerse.shared.bo.Eigenschaft;
 import de.hdm.partnerboerse.shared.bo.Profil;
 import de.hdm.partnerboerse.shared.bo.Suchprofil;
 import de.hdm.partnerboerse.client.CreateWidget;
@@ -73,6 +78,8 @@ public class CreateSuchprofil extends VerticalPanel {
 		SprofilGrid.setWidget(2, 3, cw.getTitleTextBox());
 
 		this.add(safeButton);
+		
+		loadEigenschaften();
 
 		safeButton.addClickHandler(new ClickHandler() {
 
@@ -143,5 +150,70 @@ public class CreateSuchprofil extends VerticalPanel {
 		s.setTitle(cw.getTitleTextBox().getValue());
 
 		return s;
+	}
+	
+	Grid infoGrid = new Grid(10,4);
+	int row = 1;
+	int column = 2;
+	
+private void loadEigenschaften(){
+		
+		this.add(infoGrid);
+		
+		partnerAdmin.getAllEigenschaften(new AsyncCallback<ArrayList<Eigenschaft>>(){
+
+			@Override
+			public void onFailure(Throwable caught) {
+				
+			}
+
+			@Override
+			public void onSuccess(ArrayList<Eigenschaft> result) {
+				
+				for (Eigenschaft e : result){
+					
+					final Eigenschaft eg = e;
+					
+					if (eg.getIs_a().equals("freitext")){
+						infoGrid.setText(row, column, eg.getErlaeuterung());
+						infoGrid.setWidget(row, column + 1, new TextBox());
+						row++;
+					}
+					
+					if (eg.getIs_a().equals("auswahl")){
+						
+						final ListBox lb = new ListBox();
+						
+						infoGrid.setText(row, column, eg.getErlaeuterung());
+						infoGrid.setWidget(row, column + 1, lb);
+						
+						partnerAdmin.getAuswahl(new AsyncCallback<ArrayList<Auswahl>>(){
+							
+
+							@Override
+							public void onFailure(Throwable caught) {
+								
+							}
+
+							@Override
+							public void onSuccess(ArrayList<Auswahl> result) {
+								for (Auswahl a : result){
+									if (a.getEigenschaftId() == eg.getId()){
+										lb.addItem(a.getTitel());										
+									}
+								}
+							}
+							
+						});
+						
+						row++;
+						
+					}
+				}
+			}
+			
+		});
+		
+		
 	}
 }

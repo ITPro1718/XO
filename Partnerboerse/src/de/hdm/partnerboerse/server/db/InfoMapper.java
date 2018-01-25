@@ -55,8 +55,8 @@ public class InfoMapper {
 			if (rs.next()) {
 				Info i = new Info();
 				i.setId(id);
-				i.setText(rs.getString("bezeichnung"));
-				i.setEigenschaftId(rs.getInt("eigenschaftID"));
+				i.setText(rs.getString("text"));
+				i.setEigenschaftId(rs.getInt("eigenschaftsID"));
 				i.setepId(rs.getInt("epId"));
 				i.setSuchprofilId(rs.getInt("suchprofilID"));
 				return i;
@@ -87,8 +87,8 @@ public class InfoMapper {
 				Info i = new Info();
 
 				i.setId(rs.getInt("id"));
-				i.setText(rs.getString("bezeichnung"));
-				i.setEigenschaftId(rs.getInt("eigenschaftID"));
+				i.setText(rs.getString("text"));
+				i.setEigenschaftId(rs.getInt("eigenschaftsID"));
 				i.setepId(rs.getInt("epId"));
 				i.setSuchprofilId(rs.getInt("suchprofilID"));
 
@@ -128,8 +128,8 @@ public class InfoMapper {
 			while (rs.next()) {
 				Info i = new Info();
 				i.setId(rs.getInt("id"));
-				i.setText(rs.getString("bezeichnung"));
-				i.setEigenschaftId(rs.getInt("eigenschaftID"));
+				i.setText(rs.getString("text"));
+				i.setEigenschaftId(rs.getInt("eigenschaftsID"));
 				i.setepId(rs.getInt("epId"));
 				i.setSuchprofilId(rs.getInt("suchprofilID"));
 
@@ -154,7 +154,7 @@ public class InfoMapper {
 			while (rs.next()) {
 				Info i = new Info();
 				i.setId(rs.getInt("id"));
-				i.setText(rs.getString("bezeichnung"));
+				i.setText(rs.getString("text"));
 				i.setEigenschaftId(rs.getInt("eigenschaftsID"));
 				i.setepId(rs.getInt("epId"));
 				i.setSuchprofilId(rs.getInt("suchprofilID"));
@@ -176,7 +176,7 @@ public class InfoMapper {
 
 			// Es wird der momentan höchste Wert des Primearschluessels
 			// ausgelesen
-			ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid " + "FROM info");
+			ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid FROM info");
 
 			if (rs.next()) {
 				// a bekommt den neuen höchsten Primaerschluesselwert
@@ -184,21 +184,14 @@ public class InfoMapper {
 				stmt = con.createStatement();
 
 				if (i.getepId() == 0) {
-					stmt.executeUpdate("INSERT INTO info (id, bezeichnung, epID, ) VALUES (" + i.getId() + ",'"
-							+ i.getText() + "'," + i.getepId() + "," + null + ")");
+					stmt.executeUpdate("INSERT INTO info (id, text, eigenschaftsID, suchprofilID ) VALUES (" + i.getId() + ",'"
+							+ i.getText() + "'," + i.getEigenschaftId() + "," + i.getSuchprofilId() + ")");
+				}
+				if (i.getSuchprofilId() == 0){
+					stmt.executeUpdate("INSERT INTO info (id, text, eigenschaftsID, epID ) VALUES (" + i.getId() + ",'"
+							+ i.getText() + "'," + i.getEigenschaftId() + "," + i.getepId() + ")");
 				}
 
-				if (i.getEigenschaftId() == 0) {
-					stmt.executeUpdate("INSERT INTO info (id, bezeichnung, epID, eigenschaftID, suchprofilID) VALUES ("
-							+ i.getId() + ",'" + i.getText() + "','" + i.getepId() + "'," + i.getEigenschaftId()
-							+ i.getSuchprofilId() + "," + null + ")");
-				}
-
-				if (i.getSuchprofilId() == 0) {
-					stmt.executeUpdate("INSERT INTO info (id, bezeichnung, epID, eigenschaftId, suchprofilID) VALUES ("
-							+ i.getId() + ",'" + i.getText() + "','" + i.getepId() + "'," + null + ","
-							+ i.getEigenschaftId() + i.getSuchprofilId() + ")");
-				}
 
 				return i;
 

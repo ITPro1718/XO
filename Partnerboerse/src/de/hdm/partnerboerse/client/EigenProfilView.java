@@ -35,8 +35,10 @@ public class EigenProfilView extends VerticalPanel {
 	 */
 
 	Button editButton = new Button("Profil bearbeiten");
+
 	
 	CreateWidget cw = new CreateWidget();
+
   
 
 	@Override
@@ -97,46 +99,9 @@ public class EigenProfilView extends VerticalPanel {
 
 	}
 
-	Grid infoGrid = new Grid(10,3);
+	Grid infoGrid = new Grid(10,4);
 	int row = 1;
-	int column = 1;
-	
-	private void loadInfoTable(Profil profil) {
-		
-		this.add(infoGrid);
-		
-		partnerAdmin.findInfoOf(profil, new AsyncCallback<ArrayList<Info>>(){
-
-			@Override
-			public void onFailure(Throwable caught) {
-			}
-
-			@Override
-			public void onSuccess(ArrayList<Info> result) {
-				
-				for (Info i : result){
-					partnerAdmin.getEigenschaftByID(i.getEigenschaftId(), new AsyncCallback<Eigenschaft>(){
-
-						@Override
-						public void onFailure(Throwable caught) {	
-						}
-
-						@Override
-						public void onSuccess(Eigenschaft result) {
-							infoGrid.setText(row, column, result.getErlaeuterung());
-							}
-						
-					});
-					
-					infoGrid.setText(row, column+1, i.getText());
-					row++;
-				}
-				
-			}
-			
-		});
-		
-	}
+	int column = 2;
 		
 
 	// ToDo: Überlegen wie man den Parameter für die neue View übertragen kann
@@ -160,39 +125,46 @@ public class EigenProfilView extends VerticalPanel {
 	
 	private void loadEigenschaften(){
 		
+		FlexTable infoTable = new FlexTable();
+		infoTable.setStyleName("itable");
+		this.add(infoTable);
+		
 		this.add(infoGrid);
 		
-		partnerAdmin.findInfoOf(ClientSideSettings.getProfil(), new AsyncCallback<ArrayList<Info>>(){
+		partnerAdmin.getAllEigenschaften(new AsyncCallback<ArrayList<Eigenschaft>>(){
 
 			@Override
 			public void onFailure(Throwable caught) {
 			}
 
 			@Override
-			public void onSuccess(ArrayList<Info> result) {
-				Window.alert(result.toString());
-				for (Info i : result){
-					partnerAdmin.getEigenschaftByID(i.getId(), new AsyncCallback<Eigenschaft>(){
 
-						@Override
-						public void onFailure(Throwable caught) {
-						}
+			public void onSuccess(ArrayList<Eigenschaft> result) {
+				
+				final ArrayList<Eigenschaft> eig = result;
+				
+				partnerAdmin.findInfoOf(ClientSideSettings.getProfil(), new AsyncCallback<ArrayList<Info>>(){
 
-						@Override
-						public void onSuccess(Eigenschaft result) {
-							infoGrid.setText(row, column, result.getErlaeuterung());
-						}
+					@Override
+					public void onFailure(Throwable caught) {
+					}
+
+					@Override
+					public void onSuccess(ArrayList<Info> result) {
 						
-					});
-					
-					infoGrid.setText(row, column + 1, i.getText());
-					row++;
-				}
+						for (Eigenschaft e : eig){
+							infoGrid.setText(row, column, e.getErlaeuterung());
+							
+							for (Info i : result){
+								if (i.getEigenschaftId() == e.getId()){
+									infoGrid.setText(row, column + 1, i.getText());
+								}
+							}
+							row++;
+						}
+					}	
+				});
 			}
-			
-		});
-		
-		
+		});	
 	}
-
 }
