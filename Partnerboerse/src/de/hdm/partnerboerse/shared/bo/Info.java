@@ -2,94 +2,89 @@ package de.hdm.partnerboerse.shared.bo;
 
 public class Info extends BusinessObjekt {
 
-  /**
-   * 
-   */
-  private static final long serialVersionUID = 1L;
-  
-  private String text;
-  
-  private String is_a;
-  
-  private int freitextID;
-  
-  private int auswahlID;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
-public String getText() {
-	return text;
-}
+	private String text;
 
-public void setText(String text) {
-	this.text = text;
-}
+	private int eigenschaftId;
 
-public String getIs_a() {
-	return is_a;
-}
+	private int epId;
 
-public void setIs_a(String is_a) {
-	this.is_a = is_a;
-}
+	private int suchprofilId;
 
-public int getFreitextID() {
-	return freitextID;
-}
+	public String getText() {
+		return text;
+	}
 
-public void setFreitextID(int freitextID) {
-	this.freitextID = freitextID;
-}
+	public void setText(String text) {
+		this.text = text;
+	}
 
-public int getAuswahlID() {
-	return auswahlID;
-}
+	public int getSuchprofilId() {
+		return suchprofilId;
+	}
 
-public void setAuswahlID(int auswahlID) {
-	this.auswahlID = auswahlID;
-}
+	public void setSuchprofilId(int suchprofilId) {
+		this.suchprofilId = suchprofilId;
+	}
 
-@Override
-public int hashCode() {
-	final int prime = 31;
-	int result = super.hashCode();
-	result = prime * result + auswahlID;
-	result = prime * result + freitextID;
-	result = prime * result + ((is_a == null) ? 0 : is_a.hashCode());
-	result = prime * result + ((text == null) ? 0 : text.hashCode());
-	return result;
-}
+	public int geteigenschaftId() {
+		return eigenschaftId;
+	}
 
-@Override
-public boolean equals(Object obj) {
-	if (this == obj)
+	public void seteigenschaftId(int eigenschaftId) {
+		this.eigenschaftId = eigenschaftId;
+	}
+
+	public int getepId() {
+		return epId;
+	}
+
+	public void setepId(int epId) {
+		this.epId = epId;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + epId;
+		result = prime * result + eigenschaftId;
+		result = prime * result + suchprofilId;
+		result = prime * result + ((text == null) ? 0 : text.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Info other = (Info) obj;
+		if (epId != other.epId)
+			return false;
+		if (eigenschaftId != other.eigenschaftId)
+			return false;
+		if (suchprofilId != other.suchprofilId)
+			return false;
+		if (text == null) {
+			if (other.text != null)
+				return false;
+		} else if (!text.equals(other.text))
+			return false;
 		return true;
-	if (!super.equals(obj))
-		return false;
-	if (getClass() != obj.getClass())
-		return false;
-	Info other = (Info) obj;
-	if (auswahlID != other.auswahlID)
-		return false;
-	if (freitextID != other.freitextID)
-		return false;
-	if (is_a == null) {
-		if (other.is_a != null)
-			return false;
-	} else if (!is_a.equals(other.is_a))
-		return false;
-	if (text == null) {
-		if (other.text != null)
-			return false;
-	} else if (!text.equals(other.text))
-		return false;
-	return true;
-}
+	}
 
-@Override
-public String toString() {
-	return "Info [text=" + text + ", is_a=" + is_a + ", freitextID=" + freitextID + ", auswahlID=" + auswahlID + "]";
-}
-  
-  
+	@Override
+	public String toString() {
+		return "Info [text=" + text + ", suchprofilId=" + suchprofilId + ", eigenschaftId=" + eigenschaftId + ", epId="
+				+ epId + "]";
+	}
 
 }
-

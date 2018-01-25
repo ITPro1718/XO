@@ -11,8 +11,8 @@ public class Auswahl extends BusinessObjekt {
 	private static final long serialVersionUID = 1L;
 
 	private String titel;
-	
-	private String auswahlFor;
+
+	private int eigenschaftId;
 
 	/**
 	 * Liefert den Titel der Auswahl.
@@ -72,12 +72,12 @@ public class Auswahl extends BusinessObjekt {
 		return "Auswahl [titel=" + titel + "]";
 	}
 
-	public String getAuswahlFor() {
-		return auswahlFor;
+	public int getEigenschaftId() {
+		return eigenschaftId;
 	}
 
-	public void setAuswahlFor(String auswahlFor) {
-		this.auswahlFor = auswahlFor;
+	public void setEigenschaftId(int eigenschaftId) {
+		this.eigenschaftId = eigenschaftId;
 	}
 
 }
