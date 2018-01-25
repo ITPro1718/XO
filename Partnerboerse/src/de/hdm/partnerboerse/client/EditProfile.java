@@ -23,6 +23,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
 import de.hdm.partnerboerse.shared.bo.Auswahl;
+import de.hdm.partnerboerse.shared.bo.Eigenschaft;
 import de.hdm.partnerboerse.shared.bo.Freitext;
 import de.hdm.partnerboerse.shared.bo.Info;
 import de.hdm.partnerboerse.shared.bo.Profil;
@@ -139,29 +140,8 @@ public class EditProfile extends VerticalPanel {
     Grid infoGrid = new Grid(4, 6);
     infoGrid.setStyleName("etable");
     this.add(infoGrid);
-
-
-//    infoGrid.setWidget(0, 1, hobbyLab);
-//    infoGrid.setWidget(0, 2, hobby);
-//    getHobbyStringFromServer(hobbyLab);
-
-
     
-    /*
-     * deleteButton.addClickHandler(new DeleteClickHandler()); deleteButton.setEnabled(false);
-     * profilGrid.setWidget(0, 1, deleteButton);
-     * 
-     * newButton.addClickHandler(new NewClickHandler()); newButton.setEnabled(false);
-     * profilGrid.setWidget(1, 1, newButton);
-     * 
-     * HorizontalPanel profilButtonsPanel = new HorizontalPanel(); profilGrid.setWidget(4, 1,
-     * profilButtonsPanel);
-     * 
-     * Button changeButton = new Button("Name ändern"); changeButton.addClickHandler(new
-     * ChangeClickHandler()); profilButtonsPanel.add(changeButton);
-     * 
-     * Button searchButton = new Button("Suchen"); profilButtonsPanel.add(searchButton);
-     */
+    loadEigenschaften();
 
     /*
      * Button zum Speichern des eigenen geändertem Profils
@@ -298,5 +278,58 @@ public class EditProfile extends VerticalPanel {
     return setProfil;
 
   }
+  
+  Grid infoGrid = new Grid(10,4);
+  int row = 1;
+  int column = 2;
+  
+  private void loadEigenschaften(){
+    
+    FlexTable infoTable = new FlexTable();
+    infoTable.setStyleName("itable");
+    this.add(infoTable);
+    
+    this.add(infoGrid);
+    
+    partnerAdmin.getAllEigenschaften(new AsyncCallback<ArrayList<Eigenschaft>>(){
+
+        @Override
+        public void onFailure(Throwable caught) {
+        }
+
+        @Override
+        public void onSuccess(ArrayList<Eigenschaft> result) {
+            
+            final ArrayList<Eigenschaft> eig = result;
+            
+            partnerAdmin.findInfoOf(ClientSideSettings.getProfil(), new AsyncCallback<ArrayList<Info>>(){
+
+                @Override
+                public void onFailure(Throwable caught) {
+                }
+
+                @Override
+                public void onSuccess(ArrayList<Info> result) {
+                    
+                    for (Eigenschaft e : eig){
+                        infoGrid.setText(row, column, e.getErlaeuterung());
+                        
+                        for (Info i : result){
+                            if (i.getEigenschaftId() == e.getId()){
+                              
+                              final TextBox textbox = new TextBox();
+                              textbox.setValue(i.getText());
+                              column++;
+                              infoGrid.setWidget(row, column, textbox);
+                              column--;
+                            }
+                        }
+                        row++;
+                    }
+                }   
+            });
+        }
+    }); 
+}
 
 }
