@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.hdm.partnerboerse.shared.bo.Auswahl;
-import de.hdm.partnerboerse.shared.bo.Eigenschaft;
 import de.hdm.partnerboerse.shared.bo.Info;
 
 /**
@@ -72,7 +71,7 @@ public class AuswahlMapper {
 
 				// Das ist die eigentliche Einfüg-Funktion
 				stmt.executeUpdate("INSERT INTO auswahl(id, titel, auswahlFor) VALUES (" + auswahl.getId() + ", '"
-						+ auswahl.getTitel() + "','" + auswahl.getAuswahlFor() +"')");
+						+ auswahl.getTitel() + "','" + auswahl.getEigenschaftId() + "')");
 				return auswahl;
 			}
 		} catch (SQLException e2) {
@@ -135,7 +134,7 @@ public class AuswahlMapper {
 				Auswahl a = new Auswahl();
 				a.setId(rs.getInt("id"));
 				a.setTitel(rs.getString("titel"));
-				a.setAuswahlFor(rs.getString("auswahlFor"));
+				a.setEigenschaftId(rs.getInt("eigenschaftId"));
 				return a;
 			}
 		} catch (SQLException e2) {
@@ -163,7 +162,7 @@ public class AuswahlMapper {
 				Auswahl a = new Auswahl();
 				a.setId(rs.getInt("id"));
 				a.setTitel(rs.getString("titel"));
-				a.setAuswahlFor(rs.getString("auswahlFor"));
+				a.setEigenschaftId(rs.getInt("eigenschaftId"));
 
 				result.add(a);
 			}
@@ -172,7 +171,7 @@ public class AuswahlMapper {
 		}
 		return result;
 	}
-	
+
 	/**
 	 * Gibt eine Auswahl aus einer Eigenschaft aus
 	 * 
@@ -191,7 +190,7 @@ public class AuswahlMapper {
 				Auswahl a = new Auswahl();
 				a.setId(rs.getInt("id"));
 				a.setTitel(rs.getString("titel"));
-				a.setAuswahlFor(rs.getString("auswahlFor"));
+				a.setEigenschaftId(rs.getInt("eigenschaftId"));
 				return a;
 			}
 		} catch (SQLException e2) {
@@ -213,7 +212,7 @@ public class AuswahlMapper {
 				Auswahl a = new Auswahl();
 				a.setId(rs.getInt("id"));
 				a.setTitel(rs.getString("titel"));
-				a.setAuswahlFor(rs.getString("auswahlFor"));
+				a.setEigenschaftId(rs.getInt("eigenschaftId"));
 				return a;
 			}
 		} catch (SQLException e2) {
@@ -222,7 +221,5 @@ public class AuswahlMapper {
 
 		return null;
 	}
-	
-	
 
 }
