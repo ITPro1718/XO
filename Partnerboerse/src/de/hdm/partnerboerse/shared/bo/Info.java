@@ -31,11 +31,11 @@ public class Info extends BusinessObjekt {
 		this.suchprofilId = suchprofilId;
 	}
 
-	public int geteigenschaftId() {
+	public int getEigenschaftId() {
 		return eigenschaftId;
 	}
 
-	public void seteigenschaftId(int eigenschaftId) {
+	public void setEigenschaftId(int eigenschaftId) {
 		this.eigenschaftId = eigenschaftId;
 	}
 
