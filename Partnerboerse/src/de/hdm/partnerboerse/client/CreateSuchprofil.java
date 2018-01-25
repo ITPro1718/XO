@@ -83,7 +83,6 @@ public class CreateSuchprofil extends VerticalPanel {
 		
 		loadEigenschaften();
 		
-		this.add(safeButton);
 
 		safeButton.addClickHandler(new ClickHandler() {
 
@@ -201,7 +200,7 @@ public class CreateSuchprofil extends VerticalPanel {
 				}
 			}
 		});	
-	} // End load eigenschaften
+	} 
 	
 	private void addSaveButton(final ListBox lb, final Eigenschaft eg){
 		Button safe = new Button("Safe");
@@ -260,7 +259,7 @@ public class CreateSuchprofil extends VerticalPanel {
 			public void onSuccess(ArrayList<Auswahl> result) {
 				for (Auswahl a : result){
 					if (a.getEigenschaftId() == eg.getId()){
-						lb.addItem(a.getTitel());										
+						lb.addItem(a.getTitel());								
 					}
 				}
 			}

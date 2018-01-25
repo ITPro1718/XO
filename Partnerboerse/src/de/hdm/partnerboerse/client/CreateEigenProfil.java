@@ -131,9 +131,7 @@ public class CreateEigenProfil extends VerticalPanel {
 
 					}
 				});
-
 			}
-
 		});
 
 	}
@@ -238,14 +236,10 @@ public class CreateEigenProfil extends VerticalPanel {
 						});
 						
 						row++;
-						
 					}
 				}
 			}
-			
 		});
-		
-		
 	}
  	
 	public LoginInfo getLoginInfo() {
