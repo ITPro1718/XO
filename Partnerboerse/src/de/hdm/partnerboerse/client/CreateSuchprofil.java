@@ -128,10 +128,10 @@ public class CreateSuchprofil extends VerticalPanel {
 
 		Suchprofil s = new Suchprofil();
 		s.setId(1);
-		int alter = Integer.parseInt(cw.getAlterTextBox().getValue());
+		int alter = Integer.parseInt(cw.getAlterListBox().getSelectedValue());
 		s.setAlter(alter);
 		s.setHaarFarbe(cw.getHcolorListBox().getSelectedValue());
-		float kgr = Float.parseFloat(cw.getHeightTextBox().getValue());
+		float kgr = Float.parseFloat(cw.getHeightListBox().getSelectedValue());
 		s.setKoerpergroesse(kgr);
 
 		String raucherSelectedValue = cw.getSmokerListBox().getSelectedValue();
