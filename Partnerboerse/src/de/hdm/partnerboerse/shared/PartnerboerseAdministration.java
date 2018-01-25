@@ -271,12 +271,15 @@ public interface PartnerboerseAdministration extends RemoteService {
 	/**
 	 * Info-Objekt Methoden
 	 * Neues Info-Objekt erstellen.
-	 * @param info TODO
-	 * @param freitext TODO
+	 * @param profil TODO
+	 * @param text TODO
+	 * @param eigenschaft TODO
 	 * @return TODO
 	 * @throws IllegalArgumentException
 	 */
-	public Info createInfoForFreitext(Info info, Freitext freitext) throws IllegalArgumentException;
+	public Info createInfo(Profil profil, String text, Eigenschaft eigenschaft) throws IllegalArgumentException;
+	
+	public Info createInfo(Suchprofil suchprofil, String text, Eigenschaft eigenschaft) throws IllegalArgumentException;
 
 	/**
 	 * Alle Info-Objekte anzeigen.

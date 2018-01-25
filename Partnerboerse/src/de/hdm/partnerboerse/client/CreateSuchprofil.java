@@ -21,6 +21,7 @@ import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
 import de.hdm.partnerboerse.shared.bo.Auswahl;
 import de.hdm.partnerboerse.shared.bo.Eigenschaft;
+import de.hdm.partnerboerse.shared.bo.Info;
 import de.hdm.partnerboerse.shared.bo.Profil;
 import de.hdm.partnerboerse.shared.bo.Suchprofil;
 import de.hdm.partnerboerse.client.CreateWidget;
@@ -155,11 +156,11 @@ public class CreateSuchprofil extends VerticalPanel {
 		return s;
 	}
 	
-	Grid infoGrid = new Grid(10,4);
+	Grid infoGrid = new Grid(10,5);
 	int row = 1;
 	int column = 2;
 	
-private void loadEigenschaften(){
+	private void loadEigenschaften(){
 		
 		this.add(infoGrid);
 		
@@ -178,8 +179,29 @@ private void loadEigenschaften(){
 					final Eigenschaft eg = e;
 					
 					if (eg.getIs_a().equals("freitext")){
+						final TextBox tb = new TextBox();
 						infoGrid.setText(row, column, eg.getErlaeuterung());
-						infoGrid.setWidget(row, column + 1, new TextBox());
+						infoGrid.setWidget(row, column + 1, tb);
+						Button safe = new Button("Safe");
+						infoGrid.setWidget(row, column + 2, safe);
+						safe.addClickHandler(new ClickHandler(){
+
+							@Override
+							public void onClick(ClickEvent event) {
+								partnerAdmin.createInfo(ClientSideSettings.getProfil(), tb.getText(), eg, new AsyncCallback<Info>(){
+
+									@Override
+									public void onFailure(Throwable caught) {
+									}
+
+									@Override
+									public void onSuccess(Info result) {
+									}
+									
+								});
+							}
+							
+						});
 						row++;
 					}
 					
@@ -205,12 +227,31 @@ private void loadEigenschaften(){
 								}
 							}
 						});
+						
+						Button safe = new Button("Safe");
+						infoGrid.setWidget(row, column + 2, safe);
+						safe.addClickHandler(new ClickHandler(){
+
+							@Override
+							public void onClick(ClickEvent event) {
+								partnerAdmin.createInfo(ClientSideSettings.getProfil(), lb.getSelectedValue(), eg, new AsyncCallback<Info>(){
+
+									@Override
+									public void onFailure(Throwable caught) {
+									}
+
+									@Override
+									public void onSuccess(Info result) {
+									}
+									
+								});
+							}
+							
+						});
 						row++;
 					}
 				}
 			}
 		});	
 	} // End load eigenschaften
-
-
 }
