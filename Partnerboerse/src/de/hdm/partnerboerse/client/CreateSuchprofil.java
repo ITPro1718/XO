@@ -182,26 +182,8 @@ public class CreateSuchprofil extends VerticalPanel {
 						final TextBox tb = new TextBox();
 						infoGrid.setText(row, column, eg.getErlaeuterung());
 						infoGrid.setWidget(row, column + 1, tb);
-						Button safe = new Button("Safe");
-						infoGrid.setWidget(row, column + 2, safe);
-						safe.addClickHandler(new ClickHandler(){
-
-							@Override
-							public void onClick(ClickEvent event) {
-								partnerAdmin.createInfo(ClientSideSettings.getProfil(), tb.getText(), eg, new AsyncCallback<Info>(){
-
-									@Override
-									public void onFailure(Throwable caught) {
-									}
-
-									@Override
-									public void onSuccess(Info result) {
-									}
-									
-								});
-							}
-							
-						});
+						
+						addSaveButton(tb, eg);
 						row++;
 					}
 					
@@ -212,46 +194,76 @@ public class CreateSuchprofil extends VerticalPanel {
 						infoGrid.setText(row, column, eg.getErlaeuterung());
 						infoGrid.setWidget(row, column + 1, lb);
 						
-						partnerAdmin.getAuswahl(new AsyncCallback<ArrayList<Auswahl>>(){
-
-							@Override
-							public void onFailure(Throwable caught) {
-							}
-
-							@Override
-							public void onSuccess(ArrayList<Auswahl> result) {
-								for (Auswahl a : result){
-									if (a.getEigenschaftId() == eg.getId()){
-										lb.addItem(a.getTitel());										
-									}
-								}
-							}
-						});
-						
-						Button safe = new Button("Safe");
-						infoGrid.setWidget(row, column + 2, safe);
-						safe.addClickHandler(new ClickHandler(){
-
-							@Override
-							public void onClick(ClickEvent event) {
-								partnerAdmin.createInfo(ClientSideSettings.getProfil(), lb.getSelectedValue(), eg, new AsyncCallback<Info>(){
-
-									@Override
-									public void onFailure(Throwable caught) {
-									}
-
-									@Override
-									public void onSuccess(Info result) {
-									}
-									
-								});
-							}
-							
-						});
+						getAuswahlen(lb, eg);
+						addSaveButton(lb, eg);
 						row++;
 					}
 				}
 			}
 		});	
 	} // End load eigenschaften
+	
+	private void addSaveButton(final ListBox lb, final Eigenschaft eg){
+		Button safe = new Button("Safe");
+		infoGrid.setWidget(row, column + 2, safe);
+		safe.addClickHandler(new ClickHandler(){
+
+			@Override
+			public void onClick(ClickEvent event) {
+				partnerAdmin.createInfo(ClientSideSettings.getProfil(), lb.getSelectedValue(), eg, new AsyncCallback<Info>(){
+
+					@Override
+					public void onFailure(Throwable caught) {
+					}
+
+					@Override
+					public void onSuccess(Info result) {
+					}
+					
+				});
+			}
+			
+		});
+	}
+	
+	private void addSaveButton(final TextBox tb, final Eigenschaft eg){
+		Button safe = new Button("Safe");
+		infoGrid.setWidget(row, column + 2, safe);
+		safe.addClickHandler(new ClickHandler(){
+
+			@Override
+			public void onClick(ClickEvent event) {
+				partnerAdmin.createInfo(ClientSideSettings.getProfil(), tb.getText(), eg, new AsyncCallback<Info>(){
+
+					@Override
+					public void onFailure(Throwable caught) {
+					}
+
+					@Override
+					public void onSuccess(Info result) {
+					}
+					
+				});
+			}
+			
+		});
+	}
+	
+	private void getAuswahlen(final ListBox lb, final Eigenschaft eg){
+		partnerAdmin.getAuswahl(new AsyncCallback<ArrayList<Auswahl>>(){
+
+			@Override
+			public void onFailure(Throwable caught) {
+			}
+
+			@Override
+			public void onSuccess(ArrayList<Auswahl> result) {
+				for (Auswahl a : result){
+					if (a.getEigenschaftId() == eg.getId()){
+						lb.addItem(a.getTitel());										
+					}
+				}
+			}
+		});
+	}
 }
