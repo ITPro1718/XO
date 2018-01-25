@@ -60,18 +60,7 @@ public class EditProfile extends VerticalPanel {
   ListBox religionListBox = new ListBox();
   ListBox smokerListBox = new ListBox();
 
-  // Label, Textboxen und ListBoxen für das InfoGrid
-  Label sdescriptLab = new Label("Beschreibe dich kurz: ");
-  Label hobbyLab = new Label("Deine Hobbies: ");
-  Label musicLab = new Label("Deine lieblings Musik: ");
-  Label searchForLab = new Label("Du Bist auf der Suche Nach? ");
-  Label sexOrientLab = new Label("Deine sexuelle Ausrichtung: ");
-
-  TextBox hobby = new TextBox();
-  TextBox music = new TextBox();
-  TextArea sdescript = new TextArea();
-  ListBox sexOrient = new ListBox();
-  ListBox searchFor = new ListBox();
+  
 
   DateTimeFormat dateFormat = DateTimeFormat.getFormat("yyyy-mm-dd");
 
@@ -168,43 +157,23 @@ public class EditProfile extends VerticalPanel {
      * Grid für die Eingenschaftsobjekte. Zur besseren Beschreibung eines Profils.
      * 
      */
-    sdescript.setHeight("200");
-    sdescript.setWidth("400");
-
+    
     FlexTable descripton = new FlexTable();
     descripton.setStyleName("desctable");
     this.add(descripton);
 
-    descripton.setWidget(0, 0, sdescriptLab);
-    descripton.setWidget(0, 1, sdescript);
-    getDescStringFromServer(sdescriptLab);
-
+    
     Grid infoGrid = new Grid(4, 6);
     infoGrid.setStyleName("etable");
     this.add(infoGrid);
 
 
-    infoGrid.setWidget(0, 1, hobbyLab);
-    infoGrid.setWidget(0, 2, hobby);
-    getHobbyStringFromServer(hobbyLab);
+//    infoGrid.setWidget(0, 1, hobbyLab);
+//    infoGrid.setWidget(0, 2, hobby);
+//    getHobbyStringFromServer(hobbyLab);
 
 
-    // Spalte 4
-    infoGrid.setWidget(1, 1, musicLab);
-    infoGrid.setWidget(1, 2, music);
-    getMusicStringFromServer(musicLab);
-
-
-    getItemsOfAuswahl();
-
-    infoGrid.setWidget(1, 3, sexOrientLab);
-    infoGrid.setWidget(1, 4, sexOrient);
-
-    infoGrid.setWidget(0, 3, searchForLab);
-    infoGrid.setWidget(0, 4, searchFor);
-
-
-
+    
     /*
      * deleteButton.addClickHandler(new DeleteClickHandler()); deleteButton.setEnabled(false);
      * profilGrid.setWidget(0, 1, deleteButton);
@@ -230,11 +199,7 @@ public class EditProfile extends VerticalPanel {
       public void onClick(ClickEvent event) {
 
         updateProfileOnServer();
-        updateEigenschaftenOfUser(hobbyLab, hobby);
-        updateEigenschaftenOfUser(musicLab, music);
-        updateEigenschaftenOfUser(sdescriptLab, sdescript);
-        updateEigenschaftenOfUser(sexOrientLab, sexOrient);
-        updateEigenschaftenOfUser(searchForLab, searchFor);
+       
       }
 
       private void updateProfileOnServer() {
@@ -271,73 +236,12 @@ public class EditProfile extends VerticalPanel {
       }
 
      
-      private void updateEigenschaftenOfUser(Label label, TextBox tb) {
-    	  
-    	  Freitext f = new Freitext();
-    	  f.setBeschreibung(tb.getValue());
-
-    	  
-    	  partnerAdmin.updateFreitext(f, label.getText(), ClientSideSettings.getProfil(), new AsyncCallback<Void>(){
-
-			@Override
-			public void onFailure(Throwable caught){
-			}
-
-			@Override
-			public void onSuccess(Void result) {
-			}
-    		  
-    	  });
-    	    	  
-
-      }
-      
-      
-      private void updateEigenschaftenOfUser(Label label, TextArea ta) {
-    	  
-    	  Freitext f = new Freitext();
-    	  f.setBeschreibung(ta.getValue());
-
-    	  
-    	  partnerAdmin.updateFreitext(f, label.getText(), ClientSideSettings.getProfil(), new AsyncCallback<Void>(){
-
-			@Override
-			public void onFailure(Throwable caught){
-			}
-
-			@Override
-			public void onSuccess(Void result) {
-			}
-    		  
-    	  });
-    	    	  
-
-      }
-      
-      private void updateEigenschaftenOfUser(Label label, ListBox lb) {
-    	  
-    	  Auswahl a = new Auswahl();
-    	  a.setTitel(lb.getSelectedValue());
-
-    	  partnerAdmin.updateAuswahl(a, label.getText(), ClientSideSettings.getProfil(), new AsyncCallback<Void>(){
-
-			@Override
-			public void onFailure(Throwable caught) {
-			}
-
-			@Override
-			public void onSuccess(Void result) {
-			}
-    		  
-    	  });
-    	    	  
-
-      }
+  
 
     });
 
     deleteButton.addClickHandler(new ClickHandler() {
-
+    	
       @Override
       public void onClick(ClickEvent event) {
         deleteProfilOnServer();
@@ -346,7 +250,7 @@ public class EditProfile extends VerticalPanel {
 
       private void deleteProfilOnServer() {
 
-        Profil profileToDelete = getProfileValuesFromFormular();
+        Profil profileToDelete = ClientSideSettings.getProfil();
 
         partnerAdmin.deleteProfil(profileToDelete, new AsyncCallback<Void>() {
 
@@ -425,90 +329,6 @@ public class EditProfile extends VerticalPanel {
 
     return setProfil;
 
-  }
-  
-  private void getHobbyStringFromServer(Label label){
-	  
-	  String labString = label.getText();
-	  
-	  partnerAdmin.findStringOf(ClientSideSettings.getProfil(), labString, new AsyncCallback<String>(){
-
-		  		
-				@Override
-				public void onFailure(Throwable caught) {
-				}
-
-				@Override
-				public void onSuccess(String result) {
-					hobby.setValue(result);
-				}
-		  
-	  });
-	  
-  }
-  
-private void getMusicStringFromServer(Label label){
-	  
-	  String labString = label.getText();
-	  
-	  partnerAdmin.findStringOf(ClientSideSettings.getProfil(), labString, new AsyncCallback<String>(){
-
-		  		
-				@Override
-				public void onFailure(Throwable caught) {
-				}
-
-				@Override
-				public void onSuccess(String result) {
-					music.setValue(result);
-				}
-		  
-	  });
-	  
-  }
-  
-  private void getDescStringFromServer(Label label) {
-	  String labString = label.getText();
-	  
-	  partnerAdmin.findStringOf(ClientSideSettings.getProfil(), labString, new AsyncCallback<String>(){
-
-				@Override
-				public void onFailure(Throwable caught) {
-				}
-
-				@Override
-				public void onSuccess(String result) {
-					sdescript.setValue(result);
-				}
-		  
-	  });
-	
-}
-  
-  private void getItemsOfAuswahl(){
-	  
-  	  
-	  partnerAdmin.getAuswahl(new AsyncCallback<ArrayList<Auswahl>>(){
-
-		@Override
-		public void onFailure(Throwable caught) {			
-		}
-
-		@Override
-		public void onSuccess(ArrayList<Auswahl> result) {
-
-			for (Auswahl a : result){
-				if ( a.getAuswahlFor() == "Sexualität"){
-					sexOrient.addItem(a.getTitel(), a.getTitel());					
-				}
-				if (a.getAuswahlFor() == "searchingFor"){
-					searchFor.addItem(a.getTitel(), a.getTitel());
-				}
-			}				
-		}
-				  
-	  });
-	  	  
   }
 
 }

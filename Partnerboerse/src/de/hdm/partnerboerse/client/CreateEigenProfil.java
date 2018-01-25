@@ -57,17 +57,7 @@ public class CreateEigenProfil extends VerticalPanel {
 
   ListBox smokerListBox = new ListBox();
   
-  Label sdescriptLab = new Label("Beschreibe dich kurz: ");
-  Label hobbyLab = new Label("Deine Hobbies: ");
-  Label musicLab = new Label("Deine lieblings Musik: ");
-  Label searchForLab = new Label("Du Bist auf der Suche Nach? ");
-  Label sexOrientLab = new Label("Deine sexuelle Ausrichtung: ");
-
-  TextBox hobby = new TextBox();
-  TextArea sdescript = new TextArea();
-  TextBox music = new TextBox();
-  ListBox sexOrient = new ListBox();
-  ListBox searchFor = new ListBox();
+  
 
 
 
@@ -135,30 +125,18 @@ public class CreateEigenProfil extends VerticalPanel {
     descripton.setStyleName("desctable");
     this.add(descripton);
 
-    descripton.setWidget(0, 0, sdescriptLab);
-    descripton.setWidget(0, 1, sdescript);
-    // sdescript.setValue(getProfilFromServer.getVorname());
+    
 
     Grid infoGrid = new Grid(4, 6);
     infoGrid.setStyleName("etable");
     this.add(infoGrid);
 
-    infoGrid.setWidget(0, 1, hobbyLab);
-    infoGrid.setWidget(0, 2, hobby);
+    // infoGrid.setWidget(0, 1, hobbyLab);
+    // infoGrid.setWidget(0, 2, hobby);
     // hobby.setValue(getProfilFromServer.getNachname());
 
 
-    // Spalte 5
-    getItemsOfAuswahl();
  
-    infoGrid.setWidget(1, 1, musicLab);
-    infoGrid.setWidget(1, 2, music);
-    
-    infoGrid.setWidget(1, 3, sexOrientLab);
-    infoGrid.setWidget(1, 4, sexOrient);
-
-    infoGrid.setWidget(0, 3, searchForLab);
-    infoGrid.setWidget(0, 4, searchFor);
 
     /**
      * Button zum Speichern des eigenen geänderten Profils
@@ -188,9 +166,7 @@ public class CreateEigenProfil extends VerticalPanel {
 			@Override
 			public void onSuccess(Profil result) {
 				 ClientSideSettings.setProfil(result);	
-				 
-				 sexOrientAuswahlCallback();
-				  	
+				 				  	
 				 Editor ed = new Editor();
 				 RootPanel.get("contwrap").clear();
 				 ed.onModuleLoad();
@@ -247,140 +223,7 @@ public class CreateEigenProfil extends VerticalPanel {
 
   }
   
-  private void getItemsOfAuswahl(){
-	  
-	  	  
-	  partnerAdmin.getAuswahl(new AsyncCallback<ArrayList<Auswahl>>(){
-
-		@Override
-		public void onFailure(Throwable caught) {			
-		}
-
-		@Override
-		public void onSuccess(ArrayList<Auswahl> result) {
-
-			for (Auswahl a : result){
-				if ( a.getAuswahlFor() == "Sexualität"){
-					sexOrient.addItem(a.getTitel(), a.getTitel());					
-				}
-				if (a.getAuswahlFor() == "searchingFor"){
-					searchFor.addItem(a.getTitel(), a.getTitel());
-				}
-			}				
-		}
-				  
-	  });
-	  	  
-  }
-
-  
-  private void freitextTextAreaCallback(){
-	  
-	  	Profil profil = ClientSideSettings.getProfil();
-	  		  
-		Freitext f = new Freitext();
-		f.setBeschreibung(sdescript.getValue());
-		Info i = new Info();
-		i.setText(sdescriptLab.getText());
-		partnerAdmin.createEigenschaftForFreitext(profil, i, f, new AsyncCallback<Void>(){
-
-			@Override
-			public void onFailure(Throwable caught) {
-			}
-
-			@Override
-			public void onSuccess(Void result) {
-				musicFreitextCallback();
-			}
-		});
-  }
-  
-  private void hobbyFreitextCallback(){
-	  
-	  Profil profil = ClientSideSettings.getProfil();
-	  		  
-		Freitext f = new Freitext();
-		f.setBeschreibung(hobby.getValue());
-		Info i = new Info();
-		i.setText(hobbyLab.getText());
-		partnerAdmin.createEigenschaftForFreitext(profil, i, f, new AsyncCallback<Void>(){
-
-			@Override
-			public void onFailure(Throwable caught) {
-			}
-
-			@Override
-			public void onSuccess(Void result) {
-				auswahlCallback();
-			}
-			
-		});
-	  
-}
-  
-  private void auswahlCallback(){
-	  
-	  	Profil profil = ClientSideSettings.getProfil();
-	  	  
-	  	Auswahl a = new Auswahl();
-		a.setTitel(searchFor.getSelectedValue());
-		Info i = new Info();
-		i.setText(searchForLab.getText());
-		partnerAdmin.createEigenschaftForAuswahl(profil, i, a, new AsyncCallback<Void>(){
-
-			@Override
-			public void onFailure(Throwable caught) {
-			}
-
-			@Override
-			public void onSuccess(Void result) {
-				freitextTextAreaCallback();
-			}
-		});
-  }
-  
-  private void sexOrientAuswahlCallback(){
-	  
-	  Profil profil = ClientSideSettings.getProfil();
-  	  
-	  	Auswahl a = new Auswahl();
-		a.setTitel(sexOrient.getSelectedValue());
-		Info i = new Info();
-		i.setText(sexOrientLab.getText());
-		partnerAdmin.createEigenschaftForAuswahl(profil, i, a, new AsyncCallback<Void>(){
-
-			@Override
-			public void onFailure(Throwable caught) {
-			}
-
-			@Override
-			public void onSuccess(Void result) {
-				hobbyFreitextCallback();
-			}
-		});
-  }
-  
-private void musicFreitextCallback(){
-	  
-	  Profil profil = ClientSideSettings.getProfil();
-	  		  
-		Freitext f = new Freitext();
-		f.setBeschreibung(music.getValue());
-		Info i = new Info();
-		i.setText(musicLab.getText());
-		partnerAdmin.createEigenschaftForFreitext(profil, i, f, new AsyncCallback<Void>(){
-
-			@Override
-			public void onFailure(Throwable caught) {
-			}
-
-			@Override
-			public void onSuccess(Void result) {
-			}
-			
-		});
-	  
-}
+ 
 
   public LoginInfo getLoginInfo() {
 	    return loginInfo;
