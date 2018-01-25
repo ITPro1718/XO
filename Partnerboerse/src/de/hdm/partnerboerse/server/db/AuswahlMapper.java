@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.hdm.partnerboerse.shared.bo.Auswahl;
-import de.hdm.partnerboerse.shared.bo.Info;
+import de.hdm.partnerboerse.shared.bo.Eigenschaft;;
 
 /**
  * Diese Mapper Klasse dient zur Abbildung von {@link Auswahl} Objekten auf eine
@@ -178,13 +178,13 @@ public class AuswahlMapper {
 	 * @param eigenschaft
 	 * @return
 	 */
-	public Auswahl findAuswahlOf(Info info) {
+	public Auswahl findAuswahlOf(Eigenschaft eigenschaft) {
 		Connection con = DBConnection.getConnection();
 
 		try {
 			Statement stmt = con.createStatement();
 
-			ResultSet rs = stmt.executeQuery("SELECT * FROM auswahl WHERE id=" + info.getAuswahlID());
+			ResultSet rs = stmt.executeQuery("SELECT * FROM auswahl WHERE eigenschaftID=" + eigenschaft.getId());
 
 			if (rs.next()) {
 				Auswahl a = new Auswahl();
