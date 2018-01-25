@@ -16,14 +16,17 @@ import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
 import de.hdm.partnerboerse.shared.bo.Merkzettel;
 import de.hdm.partnerboerse.shared.bo.Profil;
+import de.hdm.partnerboerse.client.CreateWidget;
 
 public class EditMerkliste extends VerticalPanel {
-
-	FlexTable merklisteGrid = new FlexTable();
 
 	private final PartnerboerseAdministrationAsync partnerAdmin = GWT.create(PartnerboerseAdministration.class);
 
 	Profil profil = ClientSideSettings.getProfil();
+
+	FlexTable merklisteGrid = new FlexTable();
+	
+	CreateWidget cw = new CreateWidget();
 
 	/**
 	 * Aufbau Merkzettelseite mit Editierfunktion
@@ -39,9 +42,9 @@ public class EditMerkliste extends VerticalPanel {
 		this.add(merklisteGrid);
 
 		// Zeile 1
-		merklisteGrid.setText(0, 0, "Vorname");
-		merklisteGrid.setText(0, 1, "Nachname");
-		merklisteGrid.setText(0, 2, "E-Mail");
+		merklisteGrid.setWidget(0, 0, cw.getVnameLabel());
+		merklisteGrid.setWidget(0, 1, cw.getLnameLabel());
+		merklisteGrid.setWidget(0, 2, cw.getEmailLabel());
 
 		loadMerklisteFromServer();
 	}
@@ -72,7 +75,7 @@ public class EditMerkliste extends VerticalPanel {
 
 		for (Profil p : result) {
 
-			Button deleteButton = new Button("Profil löschen");
+			Button deleteButton = new Button("löschen");
 			int row = merklisteGrid.getRowCount();
 
 			merklisteGrid.setText(row, 0, p.getVorname());
