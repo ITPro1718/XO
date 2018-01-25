@@ -10,7 +10,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import de.hdm.partnerboerse.server.db.AuswahlMapper;
 import de.hdm.partnerboerse.server.db.BesuchMapper;
 import de.hdm.partnerboerse.server.db.EigenschaftMapper;
-import de.hdm.partnerboerse.server.db.FreitextMapper;
+// import de.hdm.partnerboerse.server.db.FreitextMapper;
 import de.hdm.partnerboerse.server.db.InfoMapper;
 import de.hdm.partnerboerse.server.db.KontaktsperreMapper;
 import de.hdm.partnerboerse.server.db.MerkzettelMapper;
@@ -37,7 +37,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	private EigenschaftMapper eiMapper = null;
 
-	private FreitextMapper fMapper = null;
+	// private FreitextMapper fMapper = null;
 
 	private InfoMapper iMapper = null;
 
@@ -75,7 +75,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 		this.aMapper = AuswahlMapper.auswahlMapper();
 		this.eiMapper = EigenschaftMapper.eigenschaftMapper();
-		this.fMapper = FreitextMapper.freitextMapper();
+		// this.fMapper = FreitextMapper.freitextMapper();
 		this.iMapper = InfoMapper.infoMapper();
 		this.kMapper = KontaktsperreMapper.kontaktsperreMapper();
 		this.mMapper = MerkzettelMapper.merkzettelMapper();
@@ -715,8 +715,9 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	@Override
 	public Freitext createFreitext(Freitext freitext) throws IllegalArgumentException {
-
-		return this.fMapper.insertFreitext(freitext);
+		return freitext;
+		
+		// return this.fMapper.insertFreitext(freitext);
 
 	}
 
@@ -725,8 +726,9 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	 */
 	@Override
 	public Freitext getFreitext(Eigenschaft eigenschaft) throws IllegalArgumentException {
+		return null;
 
-		return this.fMapper.findFreitextOfInfo(null);
+		// return this.fMapper.findFreitextOfInfo(null);
 	}
 
 	@Override
@@ -738,7 +740,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	@Override
 	public void deleteFreitext(Freitext freitext) throws IllegalArgumentException {
-		this.fMapper.deleteFreitext(freitext);
+		// this.fMapper.deleteFreitext(freitext);
 
 	}
 
@@ -818,22 +820,24 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	@Override
 	public Freitext findFreitextOf(Info info) throws IllegalArgumentException {
+		return null;
 
 		/**
 		 * Gibt den Freitext einer Info über den Fremdschlüssel zurück
 		 */
 
-		return this.fMapper.findFreitextOfInfo(info);
+		// return this.fMapper.findFreitextOfInfo(info);
 	}
 
 	@Override
 	public Auswahl findAuswahlOf(Info info) throws IllegalArgumentException {
+		return null;
 
 		/**
 		 * Gibt eine Auswahl aus einer Info zurück
 		 */
 
-		return this.aMapper.findAuswahlOf(info);
+		//return this.aMapper.findAuswahlOf(info);
 	}
 
 	@Override

@@ -162,7 +162,7 @@ public class AuswahlMapper {
 				Auswahl a = new Auswahl();
 				a.setId(rs.getInt("id"));
 				a.setTitel(rs.getString("titel"));
-				a.setEigenschaftId(rs.getInt("eigenschaftId"));
+				a.setEigenschaftId(rs.getInt("eigenschaftsID"));
 
 				result.add(a);
 			}

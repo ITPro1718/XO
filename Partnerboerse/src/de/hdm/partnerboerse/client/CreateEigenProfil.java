@@ -205,9 +205,10 @@ public class CreateEigenProfil extends VerticalPanel {
 	}
 
 	  
-	Grid infoGrid = new Grid(4, 6);
+	Grid infoGrid = new Grid(10, 3);
 	int row = 1;
 	int column = 1;
+	
 	
 	private void loadEigenschaften(){
 		
@@ -225,19 +226,23 @@ public class CreateEigenProfil extends VerticalPanel {
 				
 				for (Eigenschaft e : result){
 					
-					if (e.getIs_a().equals("freitext")){
-						infoGrid.setText(row, column, e.getErlaeuterung());
+					final Eigenschaft eg = e;
+					
+					if (eg.getIs_a().equals("freitext")){
+						infoGrid.setText(row, column, eg.getErlaeuterung());
 						infoGrid.setWidget(row, column + 1, new TextBox());
 						row++;
 					}
 					
-					if (e.getIs_a().equals("auswahl")){
+					if (eg.getIs_a().equals("auswahl")){
 						
-						ListBox lb = new ListBox();
-						infoGrid.setText(row, column, e.getErlaeuterung());
+						final ListBox lb = new ListBox();
+						
+						infoGrid.setText(row, column, eg.getErlaeuterung());
 						infoGrid.setWidget(row, column + 1, lb);
 						
 						partnerAdmin.getAuswahl(new AsyncCallback<ArrayList<Auswahl>>(){
+							
 
 							@Override
 							public void onFailure(Throwable caught) {
@@ -247,7 +252,7 @@ public class CreateEigenProfil extends VerticalPanel {
 							@Override
 							public void onSuccess(ArrayList<Auswahl> result) {
 								for (Auswahl a : result){
-									if (a.getEigenschaftId() == e.getId()){
+									if (a.getEigenschaftId() == eg.getId()){
 										lb.addItem(a.getTitel());										
 									}
 								}
