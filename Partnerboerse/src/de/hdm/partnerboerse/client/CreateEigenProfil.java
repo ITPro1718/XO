@@ -205,9 +205,12 @@ public class CreateEigenProfil extends VerticalPanel {
 	}
 
 	  
+	Grid infoGrid = new Grid(4, 6);
+	int row = 1;
+	int column = 1;
+	
 	private void loadEigenschaften(){
-		Grid infoGrid = new Grid(4, 6);
-		infoGrid.setStyleName("etable");
+		
 		this.add(infoGrid);
 		
 		partnerAdmin.getAllEigenschaften(new AsyncCallback<ArrayList<Eigenschaft>>(){
@@ -222,6 +225,39 @@ public class CreateEigenProfil extends VerticalPanel {
 				
 				for (Eigenschaft e : result){
 					
+					if (e.getIs_a().equals("freitext")){
+						infoGrid.setText(row, column, e.getErlaeuterung());
+						infoGrid.setWidget(row, column + 1, new TextBox());
+						row++;
+					}
+					
+					if (e.getIs_a().equals("auswahl")){
+						
+						ListBox lb = new ListBox();
+						infoGrid.setText(row, column, e.getErlaeuterung());
+						infoGrid.setWidget(row, column + 1, lb);
+						
+						partnerAdmin.getAuswahl(new AsyncCallback<ArrayList<Auswahl>>(){
+
+							@Override
+							public void onFailure(Throwable caught) {
+								
+							}
+
+							@Override
+							public void onSuccess(ArrayList<Auswahl> result) {
+								for (Auswahl a : result){
+									if (a.getEigenschaftId() == e.getId()){
+										lb.addItem(a.getTitel());										
+									}
+								}
+							}
+							
+						});
+						
+						row++;
+						
+					}
 				}
 			}
 			

@@ -338,28 +338,12 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	public ArrayList<Integer> findAllAuswahlIDsOfProfil(Profil profil) {
 
-		ArrayList<Integer> allAuswahlIDsOfProfil = new ArrayList<>();
-
-		for (Info i : findInfoOf(profil)) {
-			if (i.getIs_a() == "auswahl") {
-
-				allAuswahlIDsOfProfil.add(findAuswahlOf(i).getId());
-			}
-		}
-		return allAuswahlIDsOfProfil;
+		return null;
 	}
 
 	public ArrayList<String> findAllFreitexteOfProfil(Profil profil) {
 
-		ArrayList<String> allFreitexteOfProfil = new ArrayList<>();
-
-		for (Info i : findInfoOf(profil)) {
-			if (i.getIs_a() == "freitext") {
-
-				allFreitexteOfProfil.add(findFreitextOf(i).getBeschreibung());
-			}
-		}
-		return allFreitexteOfProfil;
+		return null;
 	}
 
 	@Override
@@ -602,20 +586,14 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	@Override
 	public Info createInfoForFreitext(Info info, Freitext freitext) throws IllegalArgumentException {
 
-		Freitext f = this.createFreitext(freitext);
-		info.setIs_a("freitext");
-		info.setFreitextID(f.getId());
-
-		return this.iMapper.insertInfo(info);
+		return null;
 
 	}
 
 	@Override
 	public Info createInfoForAuswahl(Info info, Auswahl auswahl) throws IllegalArgumentException {
 
-		info.setIs_a("auswahl");
-		Auswahl aus = this.findAuswahlByTitle(auswahl);
-		info.setAuswahlID(aus.getId());
+		
 
 		return this.iMapper.insertInfo(info);
 	}
@@ -679,15 +657,9 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	@Override
 	public void createEigenschaftForAuswahl(Profil p, Info i, Auswahl a) throws IllegalArgumentException {
 
-		Eigenschaft eig = new Eigenschaft();
+		
 
-		Info inf = this.createInfoForAuswahl(i, a);
-		eig.setInfoID(inf.getId());
-		eig.setErlaeuterung(inf.getText());
 
-		eig.setEpID(p.getId());
-
-		this.eiMapper.insertEigenschaft(eig);
 
 	}
 
@@ -695,14 +667,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	public void createEigenschaftForFreitext(Profil profil, Info info, Freitext freitext)
 			throws IllegalArgumentException {
 
-		Eigenschaft eig = new Eigenschaft();
-
-		eig.setEpID(profil.getId());
-		Info inf = this.createInfoForFreitext(info, freitext);
-		eig.setInfoID(inf.getId());
-		eig.setErlaeuterung(inf.getText());
-
-		this.eiMapper.insertEigenschaft(eig);
+		
 	}
 
 	@Override
@@ -765,20 +730,9 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	}
 
 	@Override
-	public void updateFreitext(Freitext freitext, String labString, Profil profil) throws IllegalArgumentException {
+	public void updateFreitext(Profil profil, Info info) throws IllegalArgumentException {
 
-		ArrayList<Eigenschaft> eigs = this.getAllEigenschaftenOf(profil);
-
-		for (Eigenschaft e : eigs) {
-
-			if (e.getErlaeuterung().equals(labString)) {
-
-				Info i = this.getInfoByID(e.getInfoID());
-				freitext.setId(i.getFreitextID());
-
-				this.fMapper.updateFreitext(freitext);
-			}
-		}
+		
 
 	}
 
@@ -806,21 +760,9 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	}
 
 	@Override
-	public void updateAuswahl(Auswahl auswahl, String labString, Profil profil) throws IllegalArgumentException {
+	public void updateAuswahl(Profil profil, Info info) throws IllegalArgumentException {
 
-		ArrayList<Eigenschaft> eigs = this.getAllEigenschaftenOf(profil);
-
-		for (Eigenschaft e : eigs) {
-
-			if (e.getErlaeuterung().equals(labString)) {
-
-				Info i = this.getInfoByID(e.getInfoID());
-				Auswahl aus = this.findAuswahlByTitle(auswahl);
-				i.setAuswahlID(aus.getId());
-
-				this.iMapper.updateAuswahlInfo(i);
-			}
-		}
+		
 
 	}
 

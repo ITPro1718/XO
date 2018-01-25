@@ -102,6 +102,10 @@ public class EigenProfilView extends VerticalPanel {
 
 	}
 
+	Grid infoGrid = new Grid(10,3);
+	int row = 1;
+	int column = 1;
+	
 	private void loadInfoTable(Profil profil) {
 		
 		partnerAdmin.findInfoOf(profil, new AsyncCallback<ArrayList<Info>>(){
@@ -113,12 +117,9 @@ public class EigenProfilView extends VerticalPanel {
 			@Override
 			public void onSuccess(ArrayList<Info> result) {
 				
-				Grid infoGrid = new Grid(10,3);
-				int row = 1;
-				int column = 1;
 				
 				for (Info i : result){
-					partnerAdmin.getEigenschaftByID(i.getEigenschaftsID(), new AsyncCallback<Eigenschaft>(){
+					partnerAdmin.getEigenschaftByID(i.geteigenschaftId(), new AsyncCallback<Eigenschaft>(){
 
 						@Override
 						public void onFailure(Throwable caught) {	
@@ -127,13 +128,11 @@ public class EigenProfilView extends VerticalPanel {
 						@Override
 						public void onSuccess(Eigenschaft result) {
 							infoGrid.setText(row, column, result.getErlaeuterung());
-							column++;
-						}
-						
+							}
 						
 					});
 					
-					infoGrid.setText(row, column, i.getText());
+					infoGrid.setText(row, column+1, i.getText());
 					row++;
 				}
 				

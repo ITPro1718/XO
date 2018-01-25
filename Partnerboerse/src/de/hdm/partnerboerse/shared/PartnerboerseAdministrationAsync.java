@@ -79,8 +79,6 @@ public interface PartnerboerseAdministrationAsync {
 
 	void findMerkzettelnOf(Profil profilowner, AsyncCallback<ArrayList<Merkzettel>> callback);
 
-	void findStringOf(Profil profil, String labString, AsyncCallback<String> callback);
-
 	void findSuchprofileOf(Profil profilowner, AsyncCallback<ArrayList<Suchprofil>> callback);
 
 	void getAllEigenschaften(AsyncCallback<ArrayList<Eigenschaft>> callback);
@@ -129,11 +127,11 @@ public interface PartnerboerseAdministrationAsync {
 
 	void init(AsyncCallback<Void> callback);
 
-	void updateAuswahl(Auswahl auswahl, String labString, Profil profil, AsyncCallback<Void> callback);
+	void updateAuswahl(Profil profil, Info info, AsyncCallback<Void> callback);
 
 	void updateEigenschaft(Eigenschaft eigenschaft, AsyncCallback<Void> callback);
 
-	void updateFreitext(Freitext freitext, String labString, Profil profil, AsyncCallback<Void> callback);
+	void updateFreitext(Profil profil, Info info, AsyncCallback<Void> callback);
 
 	void updateInfo(Info info, AsyncCallback<Void> callback);
 
