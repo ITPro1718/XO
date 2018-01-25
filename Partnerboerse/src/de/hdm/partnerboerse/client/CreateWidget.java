@@ -263,10 +263,11 @@ public class CreateWidget extends VerticalPanel {
 
 
 	public ListBox setAlterListBox() {
-		alterListBox.addItem("20+", "20");
-		alterListBox.addItem("30+", "30");
-		alterListBox.addItem("40+", "40");
-		alterListBox.addItem("50+", "50");
+
+		alterListBox.addItem("20", "20");
+		alterListBox.addItem("30", "30");
+		alterListBox.addItem("40", "40");
+		alterListBox.addItem("50", "50");
 		return alterListBox;
 	}
 
@@ -277,12 +278,14 @@ public class CreateWidget extends VerticalPanel {
 
 
 	public ListBox setHeightListBox() {
-		heightListBox.addItem("150+", "150");
-		heightListBox.addItem("160+", "160");
-		heightListBox.addItem("170+", "170");
-		heightListBox.addItem("180+", "180");
-		heightListBox.addItem("190+", "190");
-		heightListBox.addItem("200+", "200");
+
+		heightListBox.addItem("150", "150");
+		heightListBox.addItem("160", "160");
+		heightListBox.addItem("170", "170");
+		heightListBox.addItem("180", "180");
+		heightListBox.addItem("190", "190");
+		heightListBox.addItem("200", "200");
+
 		return heightListBox;
 	}
 	

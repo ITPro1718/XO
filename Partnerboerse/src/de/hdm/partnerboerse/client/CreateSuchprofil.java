@@ -82,7 +82,7 @@ public class CreateSuchprofil extends VerticalPanel {
 
 		
 		loadEigenschaften();
-		
+
 
 		safeButton.addClickHandler(new ClickHandler() {
 
@@ -117,6 +117,7 @@ public class CreateSuchprofil extends VerticalPanel {
 
 								RootPanel.get("contwrap").clear();
 								RootPanel.get("contwrap").add(splistViewPanel);
+								getSuchprofilWerte();
 							}
 
 						});
@@ -131,10 +132,10 @@ public class CreateSuchprofil extends VerticalPanel {
 
 		Suchprofil s = new Suchprofil();
 		s.setId(1);
-		int alter = Integer.parseInt(cw.getAlterTextBox().getValue());
+		int alter = Integer.parseInt(cw.getAlterListBox().getSelectedValue());
 		s.setAlter(alter);
 		s.setHaarFarbe(cw.getHcolorListBox().getSelectedValue());
-		float kgr = Float.parseFloat(cw.getHeightTextBox().getValue());
+		float kgr = Float.parseFloat(cw.getHeightListBox().getSelectedValue());
 		s.setKoerpergroesse(kgr);
 
 		String raucherSelectedValue = cw.getSmokerListBox().getSelectedValue();
@@ -178,7 +179,7 @@ public class CreateSuchprofil extends VerticalPanel {
 					final Eigenschaft eg = e;
 					
 					if (eg.getIs_a().equals("freitext")){
-						final TextBox tb = new TextBox();
+						TextBox tb = new TextBox();
 						infoGrid.setText(row, column, eg.getErlaeuterung());
 						infoGrid.setWidget(row, column + 1, tb);
 						
@@ -203,12 +204,14 @@ public class CreateSuchprofil extends VerticalPanel {
 	} 
 	
 	private void addSaveButton(final ListBox lb, final Eigenschaft eg){
-		Button safe = new Button("Safe");
+		Button safe = new Button("save");
 		infoGrid.setWidget(row, column + 2, safe);
 		safe.addClickHandler(new ClickHandler(){
 
 			@Override
 			public void onClick(ClickEvent event) {
+				
+				// TODO: Suchprofil ID nehmen, und nicht das gespeicherte Profil
 				partnerAdmin.createInfo(ClientSideSettings.getProfil(), lb.getSelectedValue(), eg, new AsyncCallback<Info>(){
 
 					@Override
@@ -226,20 +229,23 @@ public class CreateSuchprofil extends VerticalPanel {
 	}
 	
 	private void addSaveButton(final TextBox tb, final Eigenschaft eg){
-		Button safe = new Button("Safe");
+		Button safe = new Button("save");
 		infoGrid.setWidget(row, column + 2, safe);
 		safe.addClickHandler(new ClickHandler(){
 
 			@Override
 			public void onClick(ClickEvent event) {
+								
 				partnerAdmin.createInfo(ClientSideSettings.getProfil(), tb.getText(), eg, new AsyncCallback<Info>(){
 
 					@Override
 					public void onFailure(Throwable caught) {
+						Window.alert("Hier ist der fail " + ClientSideSettings.getProfil().toString() + tb.getText() + eg.toString());
 					}
 
 					@Override
 					public void onSuccess(Info result) {
+						Window.alert("Success");
 					}
 					
 				});

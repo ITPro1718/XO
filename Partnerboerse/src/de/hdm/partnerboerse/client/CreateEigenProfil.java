@@ -7,6 +7,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -41,6 +42,7 @@ public class CreateEigenProfil extends VerticalPanel {
 	Button createButton = new Button("Profil erstellen");
 	
 	CreateWidget cw = new CreateWidget();
+	LoadEigenschaften loadEig = new LoadEigenschaften();
 
 	/*
 	 * Beim Anzeigen werden die anderen Widgets erzeugt. Alle werden in einem
@@ -86,9 +88,9 @@ public class CreateEigenProfil extends VerticalPanel {
 
 		profilGrid.setWidget(4, 1, cw.getReligionLabel());
 		profilGrid.setWidget(4, 2, cw.setReligionListBox());
-
 		
-		loadEigenschaften();
+		Grid infoGrid = loadEig.loadEigen();
+		this.add(infoGrid);
 
 
 
@@ -185,62 +187,6 @@ public class CreateEigenProfil extends VerticalPanel {
 	int column = 1;
 	
 	
-	private void loadEigenschaften(){
-		
-		this.add(infoGrid);
-		
-		partnerAdmin.getAllEigenschaften(new AsyncCallback<ArrayList<Eigenschaft>>(){
-
-			@Override
-			public void onFailure(Throwable caught) {
-				
-			}
-
-			@Override
-			public void onSuccess(ArrayList<Eigenschaft> result) {
-				
-				for (Eigenschaft e : result){
-					
-					final Eigenschaft eg = e;
-					
-					if (eg.getIs_a().equals("freitext")){
-						infoGrid.setText(row, column, eg.getErlaeuterung());
-						infoGrid.setWidget(row, column + 1, new TextBox());
-						row++;
-					}
-					
-					if (eg.getIs_a().equals("auswahl")){
-						
-						final ListBox lb = new ListBox();
-						
-						infoGrid.setText(row, column, eg.getErlaeuterung());
-						infoGrid.setWidget(row, column + 1, lb);
-						
-						partnerAdmin.getAuswahl(new AsyncCallback<ArrayList<Auswahl>>(){
-							
-
-							@Override
-							public void onFailure(Throwable caught) {
-								
-							}
-
-							@Override
-							public void onSuccess(ArrayList<Auswahl> result) {
-								for (Auswahl a : result){
-									if (a.getEigenschaftId() == eg.getId()){
-										lb.addItem(a.getTitel());										
-									}
-								}
-							}
-							
-						});
-						
-						row++;
-					}
-				}
-			}
-		});
-	}
  	
 	public LoginInfo getLoginInfo() {
 		return loginInfo;

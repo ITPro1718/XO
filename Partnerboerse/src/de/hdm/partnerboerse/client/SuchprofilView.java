@@ -26,6 +26,7 @@ public class SuchprofilView extends VerticalPanel {
 
 	Button editButton = new Button("bearbeiten");
 	Button deleteButton = new Button("löschen");
+	Button searchButton = new Button("suchen");
 	
 	CreateWidget cw = new CreateWidget();
 
@@ -65,11 +66,13 @@ public class SuchprofilView extends VerticalPanel {
 		this.add(sProfilIntGrid);
 
 		sProfilIntGrid.setWidget(1, 0, editButton);
+		sProfilIntGrid.setWidget(1, 1, deleteButton);
 
 		Grid sProfilGrid = new Grid(7, 6);
 		sProfilGrid.setStyleName("etable");
 		this.add(sProfilGrid);
 
+		
 		/**
 		 * Attribute von Suchprofil
 		 */
@@ -91,6 +94,11 @@ public class SuchprofilView extends VerticalPanel {
 		// Spalte 3
 		sProfilGrid.setWidget(3, 1, cw.getReligionLabel());
 		sProfilGrid.setText(3, 2, suchProfil.getReligion());
+		
+		FlexTable sProfilIntGrid2 = new FlexTable();
+		sProfilIntGrid2.setStyleName("itable");
+		this.add(sProfilIntGrid2);
+		sProfilIntGrid2.setWidget(0, 0, searchButton);
 
 	}
 

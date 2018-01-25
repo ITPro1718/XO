@@ -24,56 +24,10 @@ public class EditSuchprofil extends VerticalPanel {
 
 	Button deleteButton = new Button("Suchprofil löschen");
 	Button safeButton = new Button("Suchprofil speichern");
-	VerticalPanel panel = new VerticalPanel();
-	ListBox bdayListBox = new ListBox();
-	ListBox hcolorListBox = new ListBox();
-	ListBox heightListBox = new ListBox();
-	ListBox religionListBox = new ListBox();
-	ListBox smokerListBox = new ListBox();
-	TextBox title = new TextBox();
-
+	CreateWidget cw = new CreateWidget();
+	
 	@Override
 	public void onLoad() {
-
-		/**
-		 * DropDown in Profil genauso wie bei Suchprofil
-		 */
-		Label bdayLabel = new Label("Alter: ");
-		Label hcolorLabel = new Label("Haarfarbe: ");
-		Label heightLabel = new Label("Größe: ");
-		Label smokerLabel = new Label("Raucher: ");
-		Label religionLabel = new Label("Religion: ");
-		Label titleLabel = new Label("title des Suchprofils");
-
-		bdayListBox.addItem("20", "20");
-		bdayListBox.addItem("30", "30");
-		bdayListBox.addItem("40", "40");
-		bdayListBox.addItem("50", "50");
-		bdayListBox.addItem("60", "60");
-
-		hcolorListBox.addItem("braun", "braun");
-		hcolorListBox.addItem("blond", "blond");
-		hcolorListBox.addItem("schwarz", "schwarz");
-		hcolorListBox.addItem("rot", "rot");
-		hcolorListBox.addItem("andere", "andere");
-
-		heightListBox.addItem("1.50", "1.50");
-		heightListBox.addItem("1.60", "1.60");
-		heightListBox.addItem("1.70", "1.70");
-		heightListBox.addItem("1.80", "1.80");
-		heightListBox.addItem("1.90", "1.90");
-		heightListBox.addItem("2.00", "2.00");
-
-		religionListBox.addItem("katholisch", "katholisch");
-		religionListBox.addItem("evangelisch", "evangelisch");
-		religionListBox.addItem("moslem", "moslem");
-		religionListBox.addItem("buddhist", "buddhist");
-		religionListBox.addItem("hindu", "hindu");
-		religionListBox.addItem("atheist", "atheist");
-		religionListBox.addItem("andere", "andereRel+");
-
-		smokerListBox.addItem("Ja", "YSmoker");
-		smokerListBox.addItem("Nein", "NSmoker");
 
 		// Grid erstellen zur besseren Darstellung
 
@@ -82,28 +36,30 @@ public class EditSuchprofil extends VerticalPanel {
 		this.add(SprofilGrid);
 
 		// Spalte 2
-		SprofilGrid.setWidget(0, 0, bdayLabel);
-		SprofilGrid.setWidget(0, 1, bdayListBox);
+		SprofilGrid.setWidget(0, 0, cw.getAlterLabel());
+		SprofilGrid.setWidget(0, 1, cw.setAlterListBox());
 
 		// Spalte 4
-		SprofilGrid.setWidget(1, 0, hcolorLabel);
-		SprofilGrid.setWidget(1, 1, hcolorListBox);
+		SprofilGrid.setWidget(1, 0, cw.getHcolorListBox());
+		SprofilGrid.setWidget(1, 1, cw.setHcolorListBox());
 
-		SprofilGrid.setWidget(2, 0, heightLabel);
-		SprofilGrid.setWidget(2, 1, heightListBox);
+		SprofilGrid.setWidget(2, 0, cw.getHeightLabel());
+		SprofilGrid.setWidget(2, 1, cw.setHeightListBox());
 
 		// Spalte 5
-		SprofilGrid.setWidget(0, 2, smokerLabel);
-		SprofilGrid.setWidget(0, 3, smokerListBox);
+		SprofilGrid.setWidget(0, 2, cw.getSmokerLabel());
+		SprofilGrid.setWidget(0, 3, cw.setSmokerListBox());
 
 		// Spalte 6
-		SprofilGrid.setWidget(1, 2, religionLabel);
-		SprofilGrid.setWidget(1, 3, religionListBox);
+		SprofilGrid.setWidget(1, 2, cw.getReligionLabel());
+		SprofilGrid.setWidget(1, 3, cw.setReligionListBox());
 
 		// Spalte 7
-		SprofilGrid.setWidget(2, 2, titleLabel);
-		SprofilGrid.setWidget(2, 3, title);
-
+		SprofilGrid.setWidget(2, 2, cw.getTitleLabel());
+		SprofilGrid.setWidget(2, 3, cw.getTitleTextBox());
+/**
+ * Eventuell nicht nur Speichern sondern auch gleichzeitig suche? falls möglich
+ */
 		this.add(safeButton);
 
 		safeButton.addClickHandler(new ClickHandler() {
@@ -153,13 +109,13 @@ public class EditSuchprofil extends VerticalPanel {
 
 		Suchprofil s = new Suchprofil();
 		s.setId(1);
-		int alter = Integer.parseInt(bdayListBox.getSelectedValue());
+		int alter = Integer.parseInt(cw.getAlterListBox().getSelectedValue());
 		s.setAlter(alter);
-		s.setHaarFarbe(hcolorListBox.getSelectedValue());
-		float kgr = Float.parseFloat(heightListBox.getSelectedValue());
+		s.setHaarFarbe(cw.getHcolorListBox().getSelectedValue());
+		float kgr = Float.parseFloat(cw.getHeightListBox().getSelectedValue());
 		s.setKoerpergroesse(kgr);
 
-		String raucherSelectedValue = smokerListBox.getSelectedValue();
+		String raucherSelectedValue = cw.getSmokerListBox().getSelectedValue();
 		switch (raucherSelectedValue) {
 		case "YSmoker":
 			s.setRaucher(true);
@@ -169,8 +125,8 @@ public class EditSuchprofil extends VerticalPanel {
 			break;
 		}
 
-		s.setReligion(religionListBox.getSelectedValue());
-		s.setTitle(title.getValue());
+		s.setReligion(cw.getReligionListBox().getSelectedValue());
+		s.setTitle(cw.getTitleTextBox().getValue());
 
 		return s;
 	}
