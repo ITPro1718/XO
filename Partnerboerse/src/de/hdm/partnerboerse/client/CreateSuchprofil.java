@@ -82,8 +82,7 @@ public class CreateSuchprofil extends VerticalPanel {
 
 		
 		loadEigenschaften();
-		
-		this.add(safeButton);
+	
 
 		safeButton.addClickHandler(new ClickHandler() {
 
@@ -118,6 +117,7 @@ public class CreateSuchprofil extends VerticalPanel {
 
 								RootPanel.get("contwrap").clear();
 								RootPanel.get("contwrap").add(splistViewPanel);
+								getSuchprofilWerte();
 							}
 
 						});

@@ -57,7 +57,9 @@ public class EditSuchprofil extends VerticalPanel {
 		// Spalte 7
 		SprofilGrid.setWidget(2, 2, cw.getTitleLabel());
 		SprofilGrid.setWidget(2, 3, cw.getTitleTextBox());
-
+/**
+ * Eventuell nicht nur Speichern sondern auch gleichzeitig suche? falls möglich
+ */
 		this.add(safeButton);
 
 		safeButton.addClickHandler(new ClickHandler() {

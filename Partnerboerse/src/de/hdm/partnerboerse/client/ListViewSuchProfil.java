@@ -101,10 +101,12 @@ public class ListViewSuchProfil extends VerticalPanel {
 		for (Suchprofil sp : result) {
 
 			Button showButton = new Button("anzeigen");
+			Button searchButton = new Button("suchen");
 			int row = splistGrid.getRowCount();
 
 			splistGrid.setText(row, 0, sp.getTitle());
 			splistGrid.setWidget(row, 1, showButton);
+			splistGrid.setWidget(row, 2, searchButton);
 
 			final Suchprofil search = sp;
 
