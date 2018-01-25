@@ -21,6 +21,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
 import de.hdm.partnerboerse.shared.bo.Auswahl;
+import de.hdm.partnerboerse.shared.bo.Eigenschaft;
 import de.hdm.partnerboerse.shared.bo.Freitext;
 import de.hdm.partnerboerse.shared.bo.Info;
 import de.hdm.partnerboerse.shared.bo.Profil;
@@ -113,15 +114,8 @@ public class CreateEigenProfil extends VerticalPanel {
 		profilGrid.setWidget(4, 1, cw.getReligionLabel());
 		profilGrid.setWidget(4, 2, cw.getReligionListBox());
 
-		FlexTable descripton = new FlexTable();
-		descripton.setStyleName("desctable");
-		this.add(descripton);
-
-
-
-		Grid infoGrid = new Grid(4, 6);
-		infoGrid.setStyleName("etable");
-		this.add(infoGrid);
+		
+		loadEigenschaften();
 
 
 
@@ -215,7 +209,71 @@ public class CreateEigenProfil extends VerticalPanel {
 	}
 
 	  
+	Grid infoGrid = new Grid(10, 3);
+	int row = 1;
+	int column = 1;
+	
+	
+	private void loadEigenschaften(){
+		
+		this.add(infoGrid);
+		
+		partnerAdmin.getAllEigenschaften(new AsyncCallback<ArrayList<Eigenschaft>>(){
 
+			@Override
+			public void onFailure(Throwable caught) {
+				
+			}
+
+			@Override
+			public void onSuccess(ArrayList<Eigenschaft> result) {
+				
+				for (Eigenschaft e : result){
+					
+					final Eigenschaft eg = e;
+					
+					if (eg.getIs_a().equals("freitext")){
+						infoGrid.setText(row, column, eg.getErlaeuterung());
+						infoGrid.setWidget(row, column + 1, new TextBox());
+						row++;
+					}
+					
+					if (eg.getIs_a().equals("auswahl")){
+						
+						final ListBox lb = new ListBox();
+						
+						infoGrid.setText(row, column, eg.getErlaeuterung());
+						infoGrid.setWidget(row, column + 1, lb);
+						
+						partnerAdmin.getAuswahl(new AsyncCallback<ArrayList<Auswahl>>(){
+							
+
+							@Override
+							public void onFailure(Throwable caught) {
+								
+							}
+
+							@Override
+							public void onSuccess(ArrayList<Auswahl> result) {
+								for (Auswahl a : result){
+									if (a.getEigenschaftId() == eg.getId()){
+										lb.addItem(a.getTitel());										
+									}
+								}
+							}
+							
+						});
+						
+						row++;
+						
+					}
+				}
+			}
+			
+		});
+		
+		
+	}
  	
 	public LoginInfo getLoginInfo() {
 		return loginInfo;

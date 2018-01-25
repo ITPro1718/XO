@@ -10,7 +10,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import de.hdm.partnerboerse.server.db.AuswahlMapper;
 import de.hdm.partnerboerse.server.db.BesuchMapper;
 import de.hdm.partnerboerse.server.db.EigenschaftMapper;
-import de.hdm.partnerboerse.server.db.FreitextMapper;
+// import de.hdm.partnerboerse.server.db.FreitextMapper;
 import de.hdm.partnerboerse.server.db.InfoMapper;
 import de.hdm.partnerboerse.server.db.KontaktsperreMapper;
 import de.hdm.partnerboerse.server.db.MerkzettelMapper;
@@ -37,7 +37,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	private EigenschaftMapper eiMapper = null;
 
-	private FreitextMapper fMapper = null;
+	// private FreitextMapper fMapper = null;
 
 	private InfoMapper iMapper = null;
 
@@ -75,7 +75,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 		this.aMapper = AuswahlMapper.auswahlMapper();
 		this.eiMapper = EigenschaftMapper.eigenschaftMapper();
-		this.fMapper = FreitextMapper.freitextMapper();
+		// this.fMapper = FreitextMapper.freitextMapper();
 		this.iMapper = InfoMapper.infoMapper();
 		this.kMapper = KontaktsperreMapper.kontaktsperreMapper();
 		this.mMapper = MerkzettelMapper.merkzettelMapper();
@@ -338,28 +338,12 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	public ArrayList<Integer> findAllAuswahlIDsOfProfil(Profil profil) {
 
-		ArrayList<Integer> allAuswahlIDsOfProfil = new ArrayList<>();
-
-		for (Info i : findInfoOf(profil)) {
-			if (i.getIs_a() == "auswahl") {
-
-				allAuswahlIDsOfProfil.add(findAuswahlOf(i).getId());
-			}
-		}
-		return allAuswahlIDsOfProfil;
+		return null;
 	}
 
 	public ArrayList<String> findAllFreitexteOfProfil(Profil profil) {
 
-		ArrayList<String> allFreitexteOfProfil = new ArrayList<>();
-
-		for (Info i : findInfoOf(profil)) {
-			if (i.getIs_a() == "freitext") {
-
-				allFreitexteOfProfil.add(findFreitextOf(i).getBeschreibung());
-			}
-		}
-		return allFreitexteOfProfil;
+		return null;
 	}
 
 	@Override
@@ -602,20 +586,14 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	@Override
 	public Info createInfoForFreitext(Info info, Freitext freitext) throws IllegalArgumentException {
 
-		Freitext f = this.createFreitext(freitext);
-		info.setIs_a("freitext");
-		info.setFreitextID(f.getId());
-
-		return this.iMapper.insertInfo(info);
+		return null;
 
 	}
 
 	@Override
 	public Info createInfoForAuswahl(Info info, Auswahl auswahl) throws IllegalArgumentException {
 
-		info.setIs_a("auswahl");
-		Auswahl aus = this.findAuswahlByTitle(auswahl);
-		info.setAuswahlID(aus.getId());
+		
 
 		return this.iMapper.insertInfo(info);
 	}
@@ -679,15 +657,9 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	@Override
 	public void createEigenschaftForAuswahl(Profil p, Info i, Auswahl a) throws IllegalArgumentException {
 
-		Eigenschaft eig = new Eigenschaft();
+		
 
-		Info inf = this.createInfoForAuswahl(i, a);
-		eig.setInfoID(inf.getId());
-		eig.setErlaeuterung(inf.getText());
 
-		eig.setEpID(p.getId());
-
-		this.eiMapper.insertEigenschaft(eig);
 
 	}
 
@@ -695,14 +667,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	public void createEigenschaftForFreitext(Profil profil, Info info, Freitext freitext)
 			throws IllegalArgumentException {
 
-		Eigenschaft eig = new Eigenschaft();
-
-		eig.setEpID(profil.getId());
-		Info inf = this.createInfoForFreitext(info, freitext);
-		eig.setInfoID(inf.getId());
-		eig.setErlaeuterung(inf.getText());
-
-		this.eiMapper.insertEigenschaft(eig);
+		
 	}
 
 	@Override
@@ -750,8 +715,9 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	@Override
 	public Freitext createFreitext(Freitext freitext) throws IllegalArgumentException {
-
-		return this.fMapper.insertFreitext(freitext);
+		return freitext;
+		
+		// return this.fMapper.insertFreitext(freitext);
 
 	}
 
@@ -760,31 +726,21 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	 */
 	@Override
 	public Freitext getFreitext(Eigenschaft eigenschaft) throws IllegalArgumentException {
+		return null;
 
-		return this.fMapper.findFreitextOfInfo(null);
+		// return this.fMapper.findFreitextOfInfo(null);
 	}
 
 	@Override
-	public void updateFreitext(Freitext freitext, String labString, Profil profil) throws IllegalArgumentException {
+	public void updateFreitext(Profil profil, Info info) throws IllegalArgumentException {
 
-		ArrayList<Eigenschaft> eigs = this.getAllEigenschaftenOf(profil);
-
-		for (Eigenschaft e : eigs) {
-
-			if (e.getErlaeuterung().equals(labString)) {
-
-				Info i = this.getInfoByID(e.getInfoID());
-				freitext.setId(i.getFreitextID());
-
-				this.fMapper.updateFreitext(freitext);
-			}
-		}
+		
 
 	}
 
 	@Override
 	public void deleteFreitext(Freitext freitext) throws IllegalArgumentException {
-		this.fMapper.deleteFreitext(freitext);
+		// this.fMapper.deleteFreitext(freitext);
 
 	}
 
@@ -806,21 +762,9 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	}
 
 	@Override
-	public void updateAuswahl(Auswahl auswahl, String labString, Profil profil) throws IllegalArgumentException {
+	public void updateAuswahl(Profil profil, Info info) throws IllegalArgumentException {
 
-		ArrayList<Eigenschaft> eigs = this.getAllEigenschaftenOf(profil);
-
-		for (Eigenschaft e : eigs) {
-
-			if (e.getErlaeuterung().equals(labString)) {
-
-				Info i = this.getInfoByID(e.getInfoID());
-				Auswahl aus = this.findAuswahlByTitle(auswahl);
-				i.setAuswahlID(aus.getId());
-
-				this.iMapper.updateAuswahlInfo(i);
-			}
-		}
+		
 
 	}
 
@@ -876,22 +820,24 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	@Override
 	public Freitext findFreitextOf(Info info) throws IllegalArgumentException {
+		return null;
 
 		/**
 		 * Gibt den Freitext einer Info über den Fremdschlüssel zurück
 		 */
 
-		return this.fMapper.findFreitextOfInfo(info);
+		// return this.fMapper.findFreitextOfInfo(info);
 	}
 
 	@Override
 	public Auswahl findAuswahlOf(Info info) throws IllegalArgumentException {
+		return null;
 
 		/**
 		 * Gibt eine Auswahl aus einer Info zurück
 		 */
 
-		return this.aMapper.findAuswahlOf(info);
+		//return this.aMapper.findAuswahlOf(info);
 	}
 
 	@Override
@@ -941,30 +887,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		return this.eiMapper.getAllEigenschaftenOf(profil);
 	}
 
-	/**
-	 * Gibt einen String zurück, der Entweder der Titel der Auswahl ist, oder
-	 * die Beschreibung des Freitextes. Die Methode findet anhand des labStrings
-	 * der Eigenschaft in der Gui die richtige Eigenschaft
-	 */
-	@Override
-	public String findStringOf(Profil profil, String labString) throws IllegalArgumentException {
-
-		ArrayList<Eigenschaft> eigs = this.getAllEigenschaftenOf(profil);
-
-		for (Eigenschaft e : eigs) {
-			if (e.getErlaeuterung().equals(labString)) {
-				Info info = this.findInfoOfEigenschaft(e);
-
-				if (info.getIs_a().equals("auswahl")) {
-					Auswahl auswahl = this.findAuswahlOf(info);
-					return auswahl.getTitel();
-				} else if (info.getIs_a().equals("freitext")) {
-					Freitext freitext = this.findFreitextOf(info);
-					return freitext.getBeschreibung();
-				}
-			}
-		}
-		return null;
-	}
+	
 
 }

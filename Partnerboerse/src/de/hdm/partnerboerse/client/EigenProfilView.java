@@ -1,5 +1,7 @@
 package de.hdm.partnerboerse.client;
 
+import java.util.ArrayList;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -9,11 +11,16 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
+import de.hdm.partnerboerse.shared.bo.Auswahl;
+import de.hdm.partnerboerse.shared.bo.Eigenschaft;
+import de.hdm.partnerboerse.shared.bo.Info;
 import de.hdm.partnerboerse.shared.bo.Profil;
 
 public class EigenProfilView extends VerticalPanel {
@@ -39,16 +46,12 @@ public class EigenProfilView extends VerticalPanel {
   
   
   
-  FlexTable descripton = new FlexTable();
-  Grid infoGrid = new Grid(4, 6);
-
-
 
 	@Override
 	public void onLoad() {
 
 		updateProfilTable(ClientSideSettings.getProfil());
-		loadInfoTable(ClientSideSettings.getProfil());
+		loadEigenschaften();
 
 		editButton.addClickHandler(new ClickHandler() {
 
@@ -102,20 +105,46 @@ public class EigenProfilView extends VerticalPanel {
 
 	}
 
-	private void loadInfoTable(Profil profil) {
-		// TODO: Get all Infos of User Callback, dann Infos in Grid einfügen
-
-		descripton.setStyleName("desctable");
-		this.add(descripton);
-
+	Grid infoGrid = new Grid(10,3);
+	int row = 1;
+	int column = 1;
 	
+	private void loadInfoTable(Profil profil) {
 		
-
-		infoGrid.setStyleName("etable");
 		this.add(infoGrid);
-	}
-
 		
+		partnerAdmin.findInfoOf(profil, new AsyncCallback<ArrayList<Info>>(){
+
+			@Override
+			public void onFailure(Throwable caught) {
+			}
+
+			@Override
+			public void onSuccess(ArrayList<Info> result) {
+				
+				for (Info i : result){
+					partnerAdmin.getEigenschaftByID(i.geteigenschaftId(), new AsyncCallback<Eigenschaft>(){
+
+						@Override
+						public void onFailure(Throwable caught) {	
+						}
+
+						@Override
+						public void onSuccess(Eigenschaft result) {
+							infoGrid.setText(row, column, result.getErlaeuterung());
+							}
+						
+					});
+					
+					infoGrid.setText(row, column+1, i.getText());
+					row++;
+				}
+				
+			}
+			
+		});
+		
+	}
 		
 
 	// ToDo: Überlegen wie man den Parameter für die neue View übertragen kann
@@ -135,6 +164,38 @@ public class EigenProfilView extends VerticalPanel {
 		RootPanel.get("contwrap").clear();
 		RootPanel.get("contwrap").add(editProfilePanel);
 
+	}
+	
+	private void loadEigenschaften(){
+		
+		this.add(infoGrid);
+		
+		partnerAdmin.findInfoOf(ClientSideSettings.getProfil(), new AsyncCallback<ArrayList<Info>>(){
+
+			@Override
+			public void onFailure(Throwable caught) {
+			}
+
+			@Override
+			public void onSuccess(ArrayList<Info> result) {
+				for (Info i : result){
+//					partnerAdmin.getEigenschaftByID(i.getId(), new AsyncCallback<Info>(){
+//
+//						@Override
+//						public void onFailure(Throwable caught) {
+//						}
+//
+//						@Override
+//						public void onSuccess(Info result) {
+//						}
+//						
+//					});
+				}
+			}
+			
+		});
+		
+		
 	}
 
 }

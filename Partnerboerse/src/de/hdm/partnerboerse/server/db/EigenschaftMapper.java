@@ -63,9 +63,8 @@ public class EigenschaftMapper {
 				eigenschaft.setId(rs.getInt("maxid") + 1);
 				stmt = con.createStatement();
 
-				stmt.executeUpdate("INSERT INTO eigenschaft (id, erlaeuterung, infoID, epID) VALUES ("
-						+ eigenschaft.getId() + ",'" + eigenschaft.getErlaeuterung() + "', " + eigenschaft.getInfoID()
-						+ ", " + eigenschaft.getEpID() + ")");
+				stmt.executeUpdate("INSERT INTO eigenschaft (id, erlaeuterung, is_a) VALUES ("
+						+ eigenschaft.getId() + ",'" + eigenschaft.getErlaeuterung() + "', '" + eigenschaft.getIs_a()+ "')");
 
 			}
 		} catch (SQLException e2) {
@@ -128,8 +127,7 @@ public class EigenschaftMapper {
 				Eigenschaft e = new Eigenschaft();
 				e.setId(rs.getInt("id"));
 				e.setErlaeuterung(rs.getString("erlaueterung"));
-				e.setEpID(rs.getInt("epID"));
-				e.setInfoID(rs.getInt("infoID"));
+				e.setIs_a(rs.getString("is_a"));
 				return e;
 			}
 		} catch (SQLException e2) {
@@ -158,8 +156,7 @@ public class EigenschaftMapper {
 				Eigenschaft e = new Eigenschaft();
 				e.setId(rs.getInt("id"));
 				e.setErlaeuterung(rs.getString("erlaueterung"));
-				e.setEpID(rs.getInt("epID"));
-				e.setInfoID(rs.getInt("infoID"));
+				e.setIs_a(rs.getString("is_a"));
 
 				result.add(e);
 
@@ -185,8 +182,7 @@ public class EigenschaftMapper {
 				Eigenschaft e = new Eigenschaft();
 				e.setId(rs.getInt("id"));
 				e.setErlaeuterung(rs.getString("erlaueterung"));
-				e.setEpID(rs.getInt("epID"));
-				e.setInfoID(rs.getInt("infoID"));
+				e.setIs_a(rs.getString("is_a"));
 
 				result.add(e);
 
