@@ -1,7 +1,6 @@
 package de.hdm.partnerboerse.server.db;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -57,10 +56,9 @@ public class InfoMapper {
 				Info i = new Info();
 				i.setId(id);
 				i.setText(rs.getString("bezeichnung"));
-				i.setIs_a(rs.getString("is_a"));
-				i.setAuswahlID(rs.getInt("auswahlID"));
-				i.setFreitextID(rs.getInt("freitextID"));
-				
+				i.setEigenschaftId(rs.getInt("eigenschaftID"));
+				i.setepId(rs.getInt("epId"));
+				i.setSuchprofilId(rs.getInt("suchprofilID"));
 				return i;
 			}
 		} catch (SQLException e2) {
@@ -71,7 +69,7 @@ public class InfoMapper {
 	}
 
 	/**
-	 * Gibt alle Info-Eintr�ge zur�ck
+	 * Gibt alle Info-Einträge zurück
 	 * 
 	 * @return
 	 */
@@ -90,9 +88,9 @@ public class InfoMapper {
 
 				i.setId(rs.getInt("id"));
 				i.setText(rs.getString("bezeichnung"));
-				i.setIs_a(rs.getString("is_a"));
-				i.setAuswahlID(rs.getInt("auswahlID"));
-				i.setFreitextID(rs.getInt("freitextID"));
+				i.setEigenschaftId(rs.getInt("eigenschaftID"));
+				i.setepId(rs.getInt("epId"));
+				i.setSuchprofilId(rs.getInt("suchprofilID"));
 
 				result.add(i);
 			}
@@ -131,9 +129,9 @@ public class InfoMapper {
 				Info i = new Info();
 				i.setId(rs.getInt("id"));
 				i.setText(rs.getString("bezeichnung"));
-				i.setIs_a(rs.getString("is_a"));
-				i.setAuswahlID(rs.getInt("auswahlID"));
-				i.setFreitextID(rs.getInt("freitextID"));
+				i.setEigenschaftId(rs.getInt("eigenschaftID"));
+				i.setepId(rs.getInt("epId"));
+				i.setSuchprofilId(rs.getInt("suchprofilID"));
 
 				result.add(i);
 			}
@@ -157,9 +155,9 @@ public class InfoMapper {
 				Info i = new Info();
 				i.setId(rs.getInt("id"));
 				i.setText(rs.getString("bezeichnung"));
-				i.setIs_a(rs.getString("is_a"));
-				i.setAuswahlID(rs.getInt("auswahlID"));
-				i.setFreitextID(rs.getInt("freitextID"));
+				i.setEigenschaftId(rs.getInt("eigenschaftsID"));
+				i.setepId(rs.getInt("epId"));
+				i.setSuchprofilId(rs.getInt("suchprofilID"));
 				return i;
 			}
 		} catch (SQLException e) {
@@ -184,15 +182,22 @@ public class InfoMapper {
 				// a bekommt den neuen höchsten Primaerschluesselwert
 				i.setId(rs.getInt("maxid") + 1);
 				stmt = con.createStatement();
-				
-				if (i.getAuswahlID() == 0){
-					stmt.executeUpdate("INSERT INTO info (id, bezeichnung, is_a, freitextID, auswahlID) VALUES (" + i.getId()
-					+ ",'" + i.getText() + "','" + i.getIs_a() + "'," + i.getFreitextID() + "," + null + ")");
+
+				if (i.getepId() == 0) {
+					stmt.executeUpdate("INSERT INTO info (id, bezeichnung, epID, ) VALUES (" + i.getId() + ",'"
+							+ i.getText() + "'," + i.getepId() + "," + null + ")");
 				}
-				
-				if (i.getFreitextID() == 0){
-					stmt.executeUpdate("INSERT INTO info (id, bezeichnung, is_a, freitextID, auswahlID) VALUES (" + i.getId()
-					+ ",'" + i.getText() + "','" + i.getIs_a() + "'," + null + "," + i.getAuswahlID() + ")");
+
+				if (i.getEigenschaftId() == 0) {
+					stmt.executeUpdate("INSERT INTO info (id, bezeichnung, epID, eigenschaftID, suchprofilID) VALUES ("
+							+ i.getId() + ",'" + i.getText() + "','" + i.getepId() + "'," + i.getEigenschaftId()
+							+ i.getSuchprofilId() + "," + null + ")");
+				}
+
+				if (i.getSuchprofilId() == 0) {
+					stmt.executeUpdate("INSERT INTO info (id, bezeichnung, epID, eigenschaftId, suchprofilID) VALUES ("
+							+ i.getId() + ",'" + i.getText() + "','" + i.getepId() + "'," + null + ","
+							+ i.getEigenschaftId() + i.getSuchprofilId() + ")");
 				}
 
 				return i;
@@ -203,25 +208,6 @@ public class InfoMapper {
 		}
 		return null;
 
-	}
-
-	public void updateAuswahlInfo(Info i) {
-		Connection con = DBConnection.getConnection();
-
-	    try (PreparedStatement stmt = con.prepareStatement(
-	        "UPDATE info SET auswahlID = ? WHERE id = ?")) {
-	    	
-
-	      stmt.setInt(1, i.getAuswahlID());
-	      stmt.setInt(2, i.getId());	      
-	      
-	      stmt.executeUpdate();
-	      
-
-	    } catch (SQLException e2) {
-	      e2.printStackTrace();
-	    }
-		
 	}
 
 }
