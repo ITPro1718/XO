@@ -16,6 +16,7 @@ import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
 import de.hdm.partnerboerse.shared.bo.Profil;
 import de.hdm.partnerboerse.shared.bo.Suchprofil;
+import de.hdm.partnerboerse.client.CreateWidget;
 
 public class SuchprofilView extends VerticalPanel {
 
@@ -25,11 +26,8 @@ public class SuchprofilView extends VerticalPanel {
 
 	Button editButton = new Button("bearbeiten");
 	Button deleteButton = new Button("löschen");
-	Label alterLabel = new Label("Alter: ");
-	Label hcolorLabel = new Label("Haarfarbe: ");
-	Label heightLabel = new Label("Größe (in cm): ");
-	Label smokerLabel = new Label("Raucher: ");
-	Label religionLabel = new Label("Religion: ");
+	
+	CreateWidget cw = new CreateWidget();
 
 	Suchprofil newsuchprofil = new Suchprofil();
 
@@ -76,22 +74,22 @@ public class SuchprofilView extends VerticalPanel {
 		 * Attribute von Suchprofil
 		 */
 		// Spalte 1
-		sProfilGrid.setWidget(1, 1, alterLabel);
+		sProfilGrid.setWidget(1, 1, cw.getAlterLabel());
 
 		sProfilGrid.setText(1, 2, Integer.toString(suchProfil.getAlter()));
 
-		sProfilGrid.setWidget(1, 3, hcolorLabel);
+		sProfilGrid.setWidget(1, 3, cw.getHcolorLabel());
 		sProfilGrid.setText(1, 4, suchProfil.getHaarFarbe());
 
 		// Spalte 2
-		sProfilGrid.setWidget(2, 1, heightLabel);
+		sProfilGrid.setWidget(2, 1, cw.getHeightLabel());
 		sProfilGrid.setText(2, 2, String.valueOf(suchProfil.getKoerpergroesse()));
 
-		sProfilGrid.setWidget(2, 3, smokerLabel);
+		sProfilGrid.setWidget(2, 3, cw.getSmokerLabel());
 		sProfilGrid.setText(2, 4, GuiUtils.getJaNein(suchProfil.isRaucher()));
 
 		// Spalte 3
-		sProfilGrid.setWidget(3, 1, religionLabel);
+		sProfilGrid.setWidget(3, 1, cw.getReligionLabel());
 		sProfilGrid.setText(3, 2, suchProfil.getReligion());
 
 	}

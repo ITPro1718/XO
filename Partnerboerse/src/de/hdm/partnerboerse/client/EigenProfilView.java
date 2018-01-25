@@ -138,6 +138,7 @@ public class EigenProfilView extends VerticalPanel {
 			}
 
 			@Override
+
 			public void onSuccess(ArrayList<Eigenschaft> result) {
 				
 				final ArrayList<Eigenschaft> eig = result;

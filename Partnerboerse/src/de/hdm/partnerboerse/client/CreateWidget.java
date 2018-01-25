@@ -13,30 +13,42 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  *
  */
 public class CreateWidget extends VerticalPanel {
-
+ /**
+  * Labels für die Attribute
+  */
 	private Label vnameLabel = new Label("Vorname: ");
 	private	Label lnameLabel = new Label("Nachname: ");
 	private	Label bdayLabel = new Label("Geburtstag: ");
-	private Label alterLabel = new Label("Alter: ");
+	private Label alterLabel = new Label("Alter ab: ");
 	private	Label hcolorLabel = new Label("Haarfarbe: ");
-	private	Label heightLabel = new Label("Größe (in cm): ");
+	private	Label heightLabel = new Label("Größe (in cm) ab: ");
 	private	Label smokerLabel = new Label("Raucher: ");
 	private	Label religionLabel = new Label("Religion: ");
 	private Label titleLabel = new Label("Name des Suchprofils:");
 	private Label emailLabel = new Label("E-Mail: ");
+	
+	/**
+	 * TextBoxes für die Attribute
+	 */
 
 	private	TextBox vnameTextBox = new TextBox();
 	private	TextBox lnameTextBox = new TextBox();
 	private	TextBox bdayTextBox = new TextBox();
 	private TextBox alterTextBox = new TextBox();
-	private	ListBox hcolorListBox = new ListBox();
 	private	TextBox heightTextBox = new TextBox();
-	private	ListBox religionListBox = new ListBox();
 	private TextBox titleTextBox = new TextBox();
 
-
+	
+	/**
+	 * ListBoxes für die Attribute
+	 */
+	private	ListBox hcolorListBox = new ListBox();
+	private	ListBox religionListBox = new ListBox();
 	private	ListBox smokerListBox = new ListBox();
-
+	private ListBox alterListBox = new ListBox();
+	private ListBox heightListBox = new ListBox();
+	
+	
 
 	public Label getVnameLabel() {
 		return vnameLabel;
@@ -242,6 +254,36 @@ public class CreateWidget extends VerticalPanel {
 
 	public void setEmailLabel(Label emailLabel) {
 		this.emailLabel = emailLabel;
+	}
+
+
+	public ListBox getAlterListBox() {
+		return alterListBox;
+	}
+
+
+	public ListBox setAlterListBox() {
+		alterListBox.addItem("20+", "20+");
+		alterListBox.addItem("30+", "30+");
+		alterListBox.addItem("40+", "40+");
+		alterListBox.addItem("50+", "50+");
+		return alterListBox;
+	}
+
+
+	public ListBox getHeightListBox() {
+		return heightListBox;
+	}
+
+
+	public ListBox setHeightListBox() {
+		heightListBox.addItem("150+", "150+");
+		heightListBox.addItem("160+", "160+");
+		heightListBox.addItem("170+", "170+");
+		heightListBox.addItem("180+", "180+");
+		heightListBox.addItem("190+", "190+");
+		heightListBox.addItem("200+", "200+");
+		return heightListBox;
 	}
 	
 
