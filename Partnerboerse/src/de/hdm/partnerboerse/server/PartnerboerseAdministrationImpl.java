@@ -50,20 +50,34 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	private SuchprofilMapper sMapper = null;
 
 	private BesuchMapper bMapper = null;
+	
 	private int gewichtungHaarfarbe;
 	private int gewichtungReligion;
-
 	private int gewichtungAlter;
 	private int gewichtungRaucher;
-	private int gewichtungAuswahl;
+	private int gewichtung1Infoobjekt;
+	private int gewichtung2Infoobjekt;
+	private int gewichtung3Infoobjekt;
+	private int gewichtung4Infoobjekt;
+	private int gewichtung5Infoobjekt;
 
-	public void setGewichtungen(int gwHaarfarbe, int gwReligion, int gwAlter, int gwRaucher, int gwAuswahl) {
+	public void setGewichtungenProfeig(int gwHaarfarbe, int gwReligion, int gwAlter, int gwRaucher) {
 
 		this.gewichtungHaarfarbe = gwHaarfarbe;
 		this.gewichtungReligion = gwReligion;
-
+		this.gewichtungAlter = gwAlter;
 		this.gewichtungRaucher = gwRaucher;
-		this.gewichtungAuswahl = gwAuswahl;
+		
+	}
+	public void setGewichtungenInfos(int gwInfo1, int gwInfo2, int gwInfo3, int gwInfo4, int gwInfo5) {
+
+		this.gewichtung1Infoobjekt = gwInfo1;
+		this.gewichtung2Infoobjekt = gwInfo2;
+		this.gewichtung3Infoobjekt = gwInfo3;
+		this.gewichtung4Infoobjekt = gwInfo4;
+		this.gewichtung5Infoobjekt = gwInfo5;
+
+		
 	}
 
 	public PartnerboerseAdministrationImpl() throws IllegalArgumentException {
@@ -335,26 +349,23 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 		this.sMapper.deleteSuchprofil(suchprofil);
 	}
-
-	public ArrayList<Integer> findAllAuswahlIDsOfProfil(Profil profil) {
-
-		return null;
+	public ArrayList<Info> getInfoOfSuchprofil(int suchprofilid){
+		return this.iMapper.findInfoOfSuchprofil(suchprofilid);
 	}
 
-	public ArrayList<String> findAllFreitexteOfProfil(Profil profil) {
+	public ArrayList<Info> findAllInfosOfProfil(Profil profil) {
 
-		return null;
+	return this.iMapper.findInfoOf(profil);
 	}
+
+
 
 	@Override
 	public ArrayList<Profil> berechneAehnlichkeitsmass(Profil source, Suchprofil suchprofil)
 			throws IllegalArgumentException {
 
-		// Alle AuswahlIDs und Freitexte des Sourceprofils die wir abgleichen
-		// müssen
-
-		ArrayList<Integer> allAuswahlIDsOfSourceProfil = findAllAuswahlIDsOfProfil(source);
-		ArrayList<String> allFreitexteOfSourceProfil = findAllFreitexteOfProfil(source);
+		
+		
 
 		// Die Schleife geht alle Suchprofilergebnisse durch (Profile) und
 		// vergleicht Profileigenschaften mit den eigenen Profileigenschaften
@@ -378,12 +389,15 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		float o1 = this.gewichtungHaarfarbe;
 		float o2 = this.gewichtungReligion;
 		float o3 = this.gewichtungAlter;
-
 		float o4 = this.gewichtungRaucher;
-		float o5 = this.gewichtungAuswahl;
+		float o5 = this.gewichtung1Infoobjekt;
+		float o6 = this.gewichtung2Infoobjekt;
+		float o7 = this.gewichtung3Infoobjekt;
+		float o8 = this.gewichtung4Infoobjekt;
+		float o9 = this.gewichtung5Infoobjekt;
 
-		float summe = o1 + o2 + o3 + o4 + o5;
-		float x = 100 / summe;
+		float summe = o1 + o2 + o3 + o4 + o5 + o6 + o7 + o8 + o9;
+		float x = (float)100 / summe;
 
 		for (Profil p : getSuchProfilErgebnisse(suchprofil)) {
 			float p1 = 0;
@@ -391,6 +405,11 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 			float p3 = 0;
 			float p4 = 0;
 			float p5 = 0;
+			float p6 = 0;
+			float p7 = 0;
+			float p8 = 0;
+			float p9 = 0;
+			
 
 			if (p.getHaarfarbe() == source.getHaarfarbe()) {
 				p1 = o1;
@@ -398,28 +417,122 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 				p2 = o2;
 			} else if (getAge(p.getGeburtsdatum()) == getAge(source.getGeburtsdatum())) {
 				p3 = o3;
-
 			}
 
 			else if (p.isRaucher() == source.isRaucher()) {
 				p4 = o4;
-			} else if (compareAuswahlen(source, p) == true) {
+			} else if (compareInfos(source, p)==1) {
 				p5 = o5;
 			}
+			else if (compareInfos(source, p)==2) {
+				p6 = o6;
+			}
+			else if (compareInfos(source, p)==3) {
+				p7 = o7;
+			}
+			else if (compareInfos(source, p)==4) {
+				p8 = o8;
+			}
+			else if (compareInfos(source, p)==5) {
+				p9 = o9;
+			}
 
-			ähnlichkeitInProzent.add((p1 * x) + (p2 * x) + (p3 * x) + (p4 * x) + (p5 * x));
+			ähnlichkeitInProzent.add((p1 * x) + (p2 * x) + (p3 * x) + (p4 * x) + (p5 * x) + (p6 * x) + (p7 * x) + (p8 * x) + (p9 * x));
 		}
 
-		// TODO: Alle Infos von allen Suchprofilergebnissen finden zum Abgleich.
-		// TODO: Abgleich AuswahlIDs und Freitexte vom eigenen Profil mit
-		// Suchprofilergebnissen.
+		//TODO: Suchprofilerbenisse(ArrayList) ordnen nach ähnlichkeitInProzent(ArrayList).
 		// Hinweis: sexuelle Orientierung muss ein Pflichtattribut beim
 		// Profilerstellen sein, sonst kann man nicht rausfiltern ob Männer oder
 		// Frauen angezeigt werden sollen
 
 		return null;
 	}
+	public ArrayList<Profil> berechneAehnlichkeitsmassForPartnervorschlaege(Profil profil)
+			throws IllegalArgumentException {
 
+		
+		
+
+		// Die Schleife geht alle Suchprofilergebnisse durch (Profile) und
+		// vergleicht Profileigenschaften mit den eigenen Profileigenschaften
+		// ab.
+		// Die Gewichtungen können durch die oben implementierte MEthode
+		// "setGEwichtungen" belieb gesetzt werden und werden am Ende der
+		// schleife wieder prozentual umgerechnet
+		// (alle Gewichtungen zusammen ergeben 100% egal welche Zahl man gesetzt
+		// hat)
+		// Bsp. Haarfarbegewichtung 10, Religiongewichtung 20,
+		// Koerpergroessegewichtung 0 , Altergewichtung 30, Rauchergewichtung
+		// 50,
+		// Summe = 110,
+		// Ähnlichkeit in Prozent =
+		// 10*(100/110))+(20*(100/110))+(0*(100/110))+(30*(100/110))+(50*(100/110)
+		// =9.090909% + 18.181818% + 0% + 27.272728% + 45.454548% = 100%
+		// Somit kann man wenn man die Gewichtung 0 setzt, trotzdem 100%
+		// erreichen weil das Attribut nicht mit einberechnet wird.
+
+		ArrayList<Float> ähnlichkeitInProzent = new ArrayList<>();
+		float o1 = this.gewichtungHaarfarbe;
+		float o2 = this.gewichtungReligion;
+		float o3 = this.gewichtungAlter;
+		float o4 = this.gewichtungRaucher;
+		float o5 = this.gewichtung1Infoobjekt;
+		float o6 = this.gewichtung2Infoobjekt;
+		float o7 = this.gewichtung3Infoobjekt;
+		float o8 = this.gewichtung4Infoobjekt;
+		float o9 = this.gewichtung5Infoobjekt;
+
+		float summe = o1 + o2 + o3 + o4 + o5 + o6 + o7 + o8 + o9;
+		float x = (float)100 / summe;
+
+		for (Profil p : getNotSeenPartnervorschläge(profil)) {
+			float p1 = 0;
+			float p2 = 0;
+			float p3 = 0;
+			float p4 = 0;
+			float p5 = 0;
+			float p6 = 0;
+			float p7 = 0;
+			float p8 = 0;
+			float p9 = 0;
+			
+
+			if (p.getHaarfarbe() == profil.getHaarfarbe()) {
+				p1 = o1;
+			} else if (p.getReligion() == profil.getReligion()) {
+				p2 = o2;
+			} else if (getAge(p.getGeburtsdatum()) == getAge(profil.getGeburtsdatum())) {
+				p3 = o3;
+			}
+
+			else if (p.isRaucher() == profil.isRaucher()) {
+				p4 = o4;
+			} else if (compareInfos(profil, p)==1) {
+				p5 = o5;
+			}
+			else if (compareInfos(profil, p)==2) {
+				p6 = o6;
+			}
+			else if (compareInfos(profil, p)==3) {
+				p7 = o7;
+			}
+			else if (compareInfos(profil, p)==4) {
+				p8 = o8;
+			}
+			else if (compareInfos(profil, p)==5) {
+				p9 = o9;
+			}
+
+			ähnlichkeitInProzent.add((p1 * x) + (p2 * x) + (p3 * x) + (p4 * x) + (p5 * x) + (p6 * x) + (p7 * x) + (p8 * x) + (p9 * x));
+		}
+
+		//TODO: Partnervorschläge(ArrayList) ordnen nach ähnlichkeitInProzent(Arraylist).
+		// Hinweis: sexuelle Orientierung muss ein Pflichtattribut beim
+		// Profilerstellen sein, sonst kann man nicht rausfiltern ob Männer oder
+		// Frauen angezeigt werden sollen
+
+		return null;
+	}
 	@Override
 	public ArrayList<Profil> getSuchProfilErgebnisse(Suchprofil suchprofil) throws IllegalArgumentException {
 
@@ -480,7 +593,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	}
 
 	/**
-	 * Gibt TRUE zurück, wenn ein Profil GENAU mit einem Suchprofil
+	 * Gibt TRUE zurück, wenn ein Profil mit einem Suchprofil
 	 * übereinstimmt
 	 * 
 	 * @param suchprofill
@@ -497,15 +610,54 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 				(suchprofill.getAlter() == getAge(profil.getGeburtsdatum())) &&
 
-				(suchprofill.getReligion() == profil.getReligion()))
-		// TODO: welche asuwahlen sind in eine mSuchprofil vergleichbar? Welche
-		// Freitexte?
+				(suchprofill.getReligion() == profil.getReligion()) &&
+				
+				(compareProfilAuswahlInfosWith(suchprofill, profil)))
 		{
 			return true;
 		} else
 			return false;
-
 	}
+	
+	
+		public boolean compareProfilAuswahlInfosWith(Suchprofil suchprofil, Profil profil){
+		for(Info i : suchprofilInfoHasAuswahl(suchprofil)){
+			if(profilInfoHasAuswahl(profil).contains(i)){
+				return true;
+			}
+			else return false;
+	}
+		return false;
+	}
+
+		public ArrayList<Info> suchprofilInfoHasAuswahl(Suchprofil suchprofil){
+		
+				ArrayList<Info> auswahlInfos = new ArrayList<>();
+					for(Info i : getInfoOfSuchprofil(suchprofil.getId())){
+						int eigID = i.getEigenschaftId();
+						Eigenschaft eigenschaft = getEigenschaftByID(eigID);
+						if(eigenschaft.getIs_a()=="auswahl"){
+							auswahlInfos.add(i);
+						}
+					
+					}
+					return auswahlInfos;
+		}
+		public ArrayList<Info> profilInfoHasAuswahl(Profil profil){
+			
+			ArrayList<Info> auswahlInfos = new ArrayList<>();
+				for(Info i : findAllInfosOfProfil(profil)){
+					int eigID = i.getEigenschaftId();
+					Eigenschaft eigenschaft = getEigenschaftByID(eigID);
+					if(eigenschaft.getIs_a()=="auswahl"){
+						auswahlInfos.add(i);
+					}
+				
+				}
+				return auswahlInfos;
+	}
+
+	
 
 	public boolean compareEigenprofil(Profil profil, Profil fremdprofil) {
 		if ((profil.getHaarfarbe() == fremdprofil.getHaarfarbe()) && (profil.isRaucher() == fremdprofil.isRaucher())
@@ -565,22 +717,37 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 				profile.remove(p);
 			} else if (compareSexuelleOrientierung(profil, p) == false) {
 				profile.remove(p);
-			} else if (compareAuswahlen(profil, p) == false) {
+			} else if (compareInfos(profil, p) < 1) {
 				profile.remove(p);
 			}
 		}
 		return profile;
 	}
-
-	public boolean compareAuswahlen(Profil profil, Profil fremdprofil) {
-
-		for (Integer z : findAllAuswahlIDsOfProfil(profil)) {
-			if (findAllAuswahlIDsOfProfil(fremdprofil).contains(z)) {
-				return true;
-			} else
-				return false;
+	public ArrayList<String> findAllTexts(Profil profil){
+		ArrayList<String> textsOfInfos = new ArrayList<String>();
+		for(Info i : findAllInfosOfProfil(profil)){
+			
+			textsOfInfos.add(i.getText());
 		}
-		return false;
+		return textsOfInfos;
+	}
+
+	
+	
+	public int compareInfos(Profil profil, Profil fremdprofil){
+		int counter = 0;
+		for(Info i: findAllInfosOfProfil(profil)){
+			for(Info o: findAllInfosOfProfil(fremdprofil)){
+				
+			
+			if((i.getEigenschaftId() == o.getEigenschaftId())  && (i.getText() == o.getText())){
+				counter++;
+				
+			}
+			
+			}
+		}
+		return counter;
 	}
 
 	@Override

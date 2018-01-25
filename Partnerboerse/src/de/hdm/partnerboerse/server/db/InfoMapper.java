@@ -141,6 +141,32 @@ public class InfoMapper {
 
 		return result;
 	}
+	public ArrayList<Info> findInfoOfSuchprofil(int suchprofilid) {
+		ArrayList<Info> result = new ArrayList<>();
+
+		Connection con = DBConnection.getConnection();
+		try {
+
+			Statement stmt = con.createStatement();
+
+			ResultSet rs = stmt.executeQuery("SELECT * FROM info WHERE suchprofilID = " + suchprofilid + " ORDER BY id");
+
+			while (rs.next()) {
+				Info i = new Info();
+				i.setId(rs.getInt("id"));
+				i.setText(rs.getString("bezeichnung"));
+				i.setEigenschaftId(rs.getInt("eigenschaftID"));
+				i.setepId(rs.getInt("epId"));
+				i.setSuchprofilId(rs.getInt("suchprofilID"));
+
+				result.add(i);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return result;
+	}
 
 	public Info findEigenschaftsInfosOf(Eigenschaft eigenschaft) {
 
