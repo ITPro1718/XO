@@ -23,6 +23,7 @@ import de.hdm.partnerboerse.shared.bo.Auswahl;
 import de.hdm.partnerboerse.shared.bo.Eigenschaft;
 import de.hdm.partnerboerse.shared.bo.Profil;
 import de.hdm.partnerboerse.shared.bo.Suchprofil;
+import de.hdm.partnerboerse.client.CreateWidget;
 
 public class CreateSuchprofil extends VerticalPanel {
 
@@ -30,21 +31,7 @@ public class CreateSuchprofil extends VerticalPanel {
 
 	Button safeButton = new Button("speichern");
 
-	// Attribute für SuchprofilGrid
-
-	Label bdayLabel = new Label("Alter: ");
-	Label hcolorLabel = new Label("Haarfarbe: ");
-	Label heightLabel = new Label("Größe (im cm)");
-	Label smokerLabel = new Label("Raucher: ");
-	Label religionLabel = new Label("Religion: ");
-	Label titleLabel = new Label("Name des Suchprofils:");
-
-	TextBox bdayTextBox = new TextBox();
-	ListBox hcolorListBox = new ListBox();
-	TextBox heightTextBox = new TextBox();
-	ListBox smokerListBox = new ListBox();
-	ListBox religionListBox = new ReligionListBox();
-	TextBox titleTextBox = new TextBox();
+	CreateWidget cw = new CreateWidget();
 
 	/**
 	 * TODO wenn EigenschaftsModell steht // Eigenschaften für InfoGrid Label
@@ -61,19 +48,6 @@ public class CreateSuchprofil extends VerticalPanel {
 	@Override
 	public void onLoad() {
 
-		/**
-		 * DropDown in Profil genauso wie bei Suchprofil
-		 */
-
-		hcolorListBox.addItem("braun", "braun");
-		hcolorListBox.addItem("blond", "blond");
-		hcolorListBox.addItem("schwarz", "schwarz");
-		hcolorListBox.addItem("rot", "rot");
-		hcolorListBox.addItem("andere", "andere");
-
-		smokerListBox.addItem("Ja", "YSmoker");
-		smokerListBox.addItem("Nein", "NSmoker");
-
 		// Grid erstellen zur besseren Darstellung
 
 		FlexTable SprofilGrid = new FlexTable();
@@ -81,27 +55,30 @@ public class CreateSuchprofil extends VerticalPanel {
 		this.add(SprofilGrid);
 
 		// Spalte 2
-		SprofilGrid.setWidget(0, 0, bdayLabel);
-		SprofilGrid.setWidget(0, 1, bdayTextBox);
+		SprofilGrid.setWidget(0, 0, cw.getAlterLabel());
+		SprofilGrid.setWidget(0, 1, cw.getAlterTextBox());
 
 		// Spalte 4
-		SprofilGrid.setWidget(1, 0, hcolorLabel);
-		SprofilGrid.setWidget(1, 1, hcolorListBox);
+		SprofilGrid.setWidget(1, 0, cw.getHcolorLabel());
+		SprofilGrid.setWidget(1, 1, cw.setHcolorListBox());
 
-		SprofilGrid.setWidget(2, 0, heightLabel);
-		SprofilGrid.setWidget(2, 1, heightTextBox);
+		SprofilGrid.setWidget(2, 0, cw.getHeightLabel());
+		SprofilGrid.setWidget(2, 1, cw.getHeightTextBox());
 
 		// Spalte 5
-		SprofilGrid.setWidget(0, 2, smokerLabel);
-		SprofilGrid.setWidget(0, 3, smokerListBox);
+		SprofilGrid.setWidget(0, 2, cw.getSmokerLabel());
+		SprofilGrid.setWidget(0, 3, cw.setSmokerListBox());
 
 		// Spalte 6
-		SprofilGrid.setWidget(1, 2, religionLabel);
-		SprofilGrid.setWidget(1, 3, religionListBox);
+		SprofilGrid.setWidget(1, 2, cw.getReligionLabel());
+		SprofilGrid.setWidget(1, 3, cw.setReligionListBox());
 
 		// Spalte 7
-		SprofilGrid.setWidget(2, 2, titleLabel);
-		SprofilGrid.setWidget(2, 3, titleTextBox);
+		SprofilGrid.setWidget(2, 2, cw.getTitleLabel());
+		SprofilGrid.setWidget(2, 3, cw.getTitleTextBox());
+
+		this.add(safeButton);
+
 		
 		loadEigenschaften();
 		
@@ -154,13 +131,13 @@ public class CreateSuchprofil extends VerticalPanel {
 
 		Suchprofil s = new Suchprofil();
 		s.setId(1);
-		int alter = Integer.parseInt(bdayTextBox.getValue());
+		int alter = Integer.parseInt(cw.getAlterTextBox().getValue());
 		s.setAlter(alter);
-		s.setHaarFarbe(hcolorListBox.getSelectedValue());
-		float kgr = Float.parseFloat(heightTextBox.getValue());
+		s.setHaarFarbe(cw.getHcolorListBox().getSelectedValue());
+		float kgr = Float.parseFloat(cw.getHeightTextBox().getValue());
 		s.setKoerpergroesse(kgr);
 
-		String raucherSelectedValue = smokerListBox.getSelectedValue();
+		String raucherSelectedValue = cw.getSmokerListBox().getSelectedValue();
 		switch (raucherSelectedValue) {
 		case "YSmoker":
 			s.setRaucher(true);
@@ -172,8 +149,8 @@ public class CreateSuchprofil extends VerticalPanel {
 			break;
 		}
 
-		s.setReligion(religionListBox.getSelectedValue());
-		s.setTitle(titleTextBox.getValue());
+		s.setReligion(cw.getReligionListBox().getSelectedValue());
+		s.setTitle(cw.getTitleTextBox().getValue());
 
 		return s;
 	}

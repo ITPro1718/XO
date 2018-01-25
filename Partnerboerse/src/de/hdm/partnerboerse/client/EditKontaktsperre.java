@@ -15,8 +15,9 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
 import de.hdm.partnerboerse.shared.bo.Kontaktsperre;
-import de.hdm.partnerboerse.shared.bo.Merkzettel;
 import de.hdm.partnerboerse.shared.bo.Profil;
+import de.hdm.partnerboerse.client.CreateWidget;
+
 
 public class EditKontaktsperre extends VerticalPanel {
 
@@ -24,7 +25,7 @@ public class EditKontaktsperre extends VerticalPanel {
 	Profil profil = ClientSideSettings.getProfil();
 	FlexTable kontaktsperreGrid = new FlexTable();
 
-
+	CreateWidget cw = new CreateWidget();
 	
 
 	/**
@@ -39,9 +40,9 @@ public class EditKontaktsperre extends VerticalPanel {
 		this.add(kontaktsperreGrid);
 
 		// Zeile 1
-		kontaktsperreGrid.setText(0, 0, "Vorname");
-		kontaktsperreGrid.setText(0, 1, "Nachname");
-		kontaktsperreGrid.setText(0, 2, "E-Mail");
+		kontaktsperreGrid.setWidget(0, 0, cw.getVnameLabel());
+		kontaktsperreGrid.setWidget(0, 1, cw.getLnameLabel());
+		kontaktsperreGrid.setWidget(0, 2, cw.getEmailLabel());
 
 		loadKontaktsperreFromServer();
 
@@ -70,7 +71,7 @@ public class EditKontaktsperre extends VerticalPanel {
 
 		for (Profil p : result) {
 
-			Button deleteButton = new Button("Profil entsperren");
+			Button deleteButton = new Button("entsperren");
 			int row = kontaktsperreGrid.getRowCount();
 
 			kontaktsperreGrid.setText(row, 0, p.getVorname());
