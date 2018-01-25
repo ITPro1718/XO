@@ -51,14 +51,14 @@ public class CreateSuchprofil extends VerticalPanel {
 
 		// Spalte 2
 		SprofilGrid.setWidget(0, 0, cw.getAlterLabel());
-		SprofilGrid.setWidget(0, 1, cw.getAlterTextBox());
+		SprofilGrid.setWidget(0, 1, cw.setAlterListBox());
 
 		// Spalte 4
 		SprofilGrid.setWidget(1, 0, cw.getHcolorLabel());
 		SprofilGrid.setWidget(1, 1, cw.setHcolorListBox());
 
 		SprofilGrid.setWidget(2, 0, cw.getHeightLabel());
-		SprofilGrid.setWidget(2, 1, cw.getHeightTextBox());
+		SprofilGrid.setWidget(2, 1, cw.setHeightListBox());
 
 		// Spalte 5
 		SprofilGrid.setWidget(0, 2, cw.getSmokerLabel());

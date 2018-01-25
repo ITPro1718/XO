@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -15,7 +16,6 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
-
 import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
 import de.hdm.partnerboerse.shared.bo.Auswahl;
@@ -170,18 +170,23 @@ public class EigenProfilView extends VerticalPanel {
 
 			@Override
 			public void onSuccess(ArrayList<Info> result) {
+				Window.alert(result.toString());
 				for (Info i : result){
-//					partnerAdmin.getEigenschaftByID(i.getId(), new AsyncCallback<Info>(){
-//
-//						@Override
-//						public void onFailure(Throwable caught) {
-//						}
-//
-//						@Override
-//						public void onSuccess(Info result) {
-//						}
-//						
-//					});
+					partnerAdmin.getEigenschaftByID(i.getId(), new AsyncCallback<Eigenschaft>(){
+
+						@Override
+						public void onFailure(Throwable caught) {
+						}
+
+						@Override
+						public void onSuccess(Eigenschaft result) {
+							infoGrid.setText(row, column, result.getErlaeuterung());
+						}
+						
+					});
+					
+					infoGrid.setText(row, column + 1, i.getText());
+					row++;
 				}
 			}
 			
