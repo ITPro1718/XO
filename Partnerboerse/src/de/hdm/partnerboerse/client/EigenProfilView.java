@@ -22,6 +22,7 @@ import de.hdm.partnerboerse.shared.bo.Auswahl;
 import de.hdm.partnerboerse.shared.bo.Eigenschaft;
 import de.hdm.partnerboerse.shared.bo.Info;
 import de.hdm.partnerboerse.shared.bo.Profil;
+import de.hdm.partnerboerse.client.CreateWidget;
 
 public class EigenProfilView extends VerticalPanel {
 
@@ -34,17 +35,8 @@ public class EigenProfilView extends VerticalPanel {
 	 */
 
 	Button editButton = new Button("Profil bearbeiten");
-
-
-  String vnameLabel = new String("Vorname: ");
-  String lnameLabel = new String("Nachname: ");
-  String bdayLabel = new String("Geburtstag: ");
-  String hcolorLabel = new String("Haarfarbe: ");
-  String heightLabel = new String("Größe (in cm): ");
-  String smokerLabel = new String("Raucher: ");
-  String religionLabel = new String("Religion: ");
-  
-  
+	
+	CreateWidget cw = new CreateWidget();
   
 
 	@Override
@@ -78,29 +70,29 @@ public class EigenProfilView extends VerticalPanel {
 		this.add(profilGrid);
 
 		// Spalte 1
-		profilGrid.setText(1, 1, vnameLabel);
+		profilGrid.setWidget(1, 1, cw.getVnameLabel());
 		profilGrid.setText(1, 2, meinProfil.getVorname());
 
-		profilGrid.setText(1, 3, lnameLabel);
+		profilGrid.setWidget(1, 3, cw.getLnameLabel());
 		profilGrid.setText(1, 4, meinProfil.getNachname());
 
 		// Spalte 2
-		profilGrid.setText(2, 1, bdayLabel);
+		profilGrid.setWidget(2, 1, cw.getBdayLabel());
 		profilGrid.setText(2, 2, meinProfil.getGeburtsdatum().toString());
 
-		profilGrid.setText(2, 3, hcolorLabel);
+		profilGrid.setWidget(2, 3, cw.getHcolorLabel());
 		profilGrid.setText(2, 4, meinProfil.getHaarfarbe());
 
 		// Spalte 3
-		profilGrid.setText(3, 1, heightLabel);
+		profilGrid.setWidget(3, 1, cw.getHeightLabel());
 		profilGrid.setText(3, 2, String.valueOf(meinProfil.getKoerpergroesse()));
 
 
-		profilGrid.setText(3, 3, smokerLabel);
+		profilGrid.setWidget(3, 3, cw.getSmokerLabel());
 		profilGrid.setText(3, 4, GuiUtils.getJaNein(meinProfil.isRaucher()));
 
 		// Spalte 4
-		profilGrid.setText(4, 1, religionLabel);
+		profilGrid.setWidget(4, 1, cw.getReligionLabel());
 		profilGrid.setText(4, 2, meinProfil.getReligion());
 
 	}
@@ -123,7 +115,7 @@ public class EigenProfilView extends VerticalPanel {
 			public void onSuccess(ArrayList<Info> result) {
 				
 				for (Info i : result){
-					partnerAdmin.getEigenschaftByID(i.geteigenschaftId(), new AsyncCallback<Eigenschaft>(){
+					partnerAdmin.getEigenschaftByID(i.getEigenschaftId(), new AsyncCallback<Eigenschaft>(){
 
 						@Override
 						public void onFailure(Throwable caught) {	

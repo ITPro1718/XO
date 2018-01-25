@@ -17,15 +17,18 @@ public class CreateWidget extends VerticalPanel {
 	private Label vnameLabel = new Label("Vorname: ");
 	private	Label lnameLabel = new Label("Nachname: ");
 	private	Label bdayLabel = new Label("Geburtstag: ");
+	private Label alterLabel = new Label("Alter: ");
 	private	Label hcolorLabel = new Label("Haarfarbe: ");
 	private	Label heightLabel = new Label("Größe (in cm): ");
 	private	Label smokerLabel = new Label("Raucher: ");
 	private	Label religionLabel = new Label("Religion: ");
 	private Label titleLabel = new Label("Name des Suchprofils:");
+	private Label emailLabel = new Label("E-Mail: ");
 
 	private	TextBox vnameTextBox = new TextBox();
 	private	TextBox lnameTextBox = new TextBox();
 	private	TextBox bdayTextBox = new TextBox();
+	private TextBox alterTextBox = new TextBox();
 	private	ListBox hcolorListBox = new ListBox();
 	private	TextBox heightTextBox = new TextBox();
 	private	ListBox religionListBox = new ListBox();
@@ -140,13 +143,13 @@ public class CreateWidget extends VerticalPanel {
 	}
 
 
-	public void setHcolorListBox(ListBox hcolorListBox) {
-		this.hcolorListBox = hcolorListBox;
+	public ListBox setHcolorListBox() {
 		hcolorListBox.addItem("schwarz", "schwarz");
 		hcolorListBox.addItem("braun", "braun");
 		hcolorListBox.addItem("blond", "blond");
 		hcolorListBox.addItem("grau", "grau");
 		hcolorListBox.addItem("sonstige", "sonstige");
+		return hcolorListBox;
 	}
 
 
@@ -165,8 +168,8 @@ public class CreateWidget extends VerticalPanel {
 	}
 
 
-	public void setReligionListBox(ListBox religionListBox) {
-		this.religionListBox = religionListBox;
+	public ListBox setReligionListBox() {
+
 		religionListBox.addItem("katholisch", "katholisch");
 		religionListBox.addItem("evangelisch", "evangelisch");
 		religionListBox.addItem("moslem", "moslem");
@@ -174,19 +177,21 @@ public class CreateWidget extends VerticalPanel {
 		religionListBox.addItem("hindu", "hindu");
 		religionListBox.addItem("atheist", "atheist");
 		religionListBox.addItem("andere", "andereRel+");
+		return religionListBox;
 	}
 
 
 	public ListBox getSmokerListBox() {
 		return smokerListBox;
+
 	}
 
 
-	public void setSmokerListBox(ListBox smokerListBox) {
-		this.smokerListBox = smokerListBox;
+	public ListBox setSmokerListBox() {
+
 		smokerListBox.addItem("Ja", "YSmoker");
 		smokerListBox.addItem("Nein", "NSmoker");
-
+		return smokerListBox;
 	}
 
 
@@ -207,6 +212,36 @@ public class CreateWidget extends VerticalPanel {
 
 	public void setTitleTextBox(TextBox titleTextBox) {
 		this.titleTextBox = titleTextBox;
+	}
+
+
+	public Label getAlterLabel() {
+		return alterLabel;
+	}
+
+
+	public void setAlterLabel(Label alterLabel) {
+		this.alterLabel = alterLabel;
+	}
+
+
+	public TextBox getAlterTextBox() {
+		return alterTextBox;
+	}
+
+
+	public void setAlterTextBox(TextBox alterTextBox) {
+		this.alterTextBox = alterTextBox;
+	}
+
+
+	public Label getEmailLabel() {
+		return emailLabel;
+	}
+
+
+	public void setEmailLabel(Label emailLabel) {
+		this.emailLabel = emailLabel;
 	}
 	
 

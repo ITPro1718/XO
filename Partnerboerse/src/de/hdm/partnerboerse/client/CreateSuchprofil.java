@@ -27,22 +27,6 @@ public class CreateSuchprofil extends VerticalPanel {
 	Button safeButton = new Button("speichern");
 
 	CreateWidget cw = new CreateWidget();
-	
-/*	// Attribute für SuchprofilGrid
-
-	Label bdayLabel = new Label("Alter: ");
-	Label hcolorLabel = new Label("Haarfarbe: ");
-	Label heightLabel = new Label("Größe (im cm)");
-	Label smokerLabel = new Label("Raucher: ");
-	Label religionLabel = new Label("Religion: ");
-	Label titleLabel = new Label("Name des Suchprofils:");
-
-	TextBox bdayTextBox = new TextBox();
-	ListBox hcolorListBox = new ListBox();
-	TextBox heightTextBox = new TextBox();
-	ListBox smokerListBox = new ListBox();
-	ListBox religionListBox = new CreateWidget();
-	TextBox titleTextBox = new TextBox();*/
 
 	/**
 	 * TODO wenn EigenschaftsModell steht // Eigenschaften für InfoGrid Label
@@ -58,19 +42,6 @@ public class CreateSuchprofil extends VerticalPanel {
 
 	@Override
 	public void onLoad() {
-/*
-		*//**
-		 * DropDown in Profil genauso wie bei Suchprofil
-		 *//*
-
-		hcolorListBox.addItem("braun", "braun");
-		hcolorListBox.addItem("blond", "blond");
-		hcolorListBox.addItem("schwarz", "schwarz");
-		hcolorListBox.addItem("rot", "rot");
-		hcolorListBox.addItem("andere", "andere");
-
-		smokerListBox.addItem("Ja", "YSmoker");
-		smokerListBox.addItem("Nein", "NSmoker");*/
 
 		// Grid erstellen zur besseren Darstellung
 
@@ -79,23 +50,23 @@ public class CreateSuchprofil extends VerticalPanel {
 		this.add(SprofilGrid);
 
 		// Spalte 2
-		SprofilGrid.setWidget(0, 0, cw.getBdayLabel());
-		SprofilGrid.setWidget(0, 1, cw.getBdayTextBox());
+		SprofilGrid.setWidget(0, 0, cw.getAlterLabel());
+		SprofilGrid.setWidget(0, 1, cw.getAlterTextBox());
 
 		// Spalte 4
 		SprofilGrid.setWidget(1, 0, cw.getHcolorLabel());
-		SprofilGrid.setWidget(1, 1, cw.getHcolorListBox());
+		SprofilGrid.setWidget(1, 1, cw.setHcolorListBox());
 
 		SprofilGrid.setWidget(2, 0, cw.getHeightLabel());
 		SprofilGrid.setWidget(2, 1, cw.getHeightTextBox());
 
 		// Spalte 5
 		SprofilGrid.setWidget(0, 2, cw.getSmokerLabel());
-		SprofilGrid.setWidget(0, 3, cw.getSmokerListBox());
+		SprofilGrid.setWidget(0, 3, cw.setSmokerListBox());
 
 		// Spalte 6
 		SprofilGrid.setWidget(1, 2, cw.getReligionLabel());
-		SprofilGrid.setWidget(1, 3, cw.getReligionListBox());
+		SprofilGrid.setWidget(1, 3, cw.setReligionListBox());
 
 		// Spalte 7
 		SprofilGrid.setWidget(2, 2, cw.getTitleLabel());
@@ -150,7 +121,7 @@ public class CreateSuchprofil extends VerticalPanel {
 
 		Suchprofil s = new Suchprofil();
 		s.setId(1);
-		int alter = Integer.parseInt(cw.getBdayTextBox().getValue());
+		int alter = Integer.parseInt(cw.getAlterTextBox().getValue());
 		s.setAlter(alter);
 		s.setHaarFarbe(cw.getHcolorListBox().getSelectedValue());
 		float kgr = Float.parseFloat(cw.getHeightTextBox().getValue());

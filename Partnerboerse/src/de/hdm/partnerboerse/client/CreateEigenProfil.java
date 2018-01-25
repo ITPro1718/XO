@@ -42,26 +42,6 @@ public class CreateEigenProfil extends VerticalPanel {
 	
 	CreateWidget cw = new CreateWidget();
 
-	/**Label vnameLabel = new Label("Vorname: ");
-	Label lnameLabel = new Label("Nachname: ");
-	Label bdayLabel = new Label("Geburtstag: ");
-	Label hcolorLabel = new Label("Haarfarbe: ");
-	Label heightLabel = new Label("Größe (in cm): ");
-	Label smokerLabel = new Label("Raucher: ");
-	Label religionLabel = new Label("Religion: ");
-
-	TextBox vnameTextBox = new TextBox();
-	TextBox lnameTextBox = new TextBox();
-	TextBox bdayTextBox = new TextBox();
-	ListBox hcolorListBox = new ListBox();
-	TextBox heightTextBox = new TextBox();
-	ListBox religionListBox = new CreateWidget();
-
-
-	ListBox smokerListBox = new ListBox();**/
-
-
-
 	/*
 	 * Beim Anzeigen werden die anderen Widgets erzeugt. Alle werden in einem
 	 * Raster angeordnet, dessen Größe sich aus dem Platzbedarf der enthaltenen
@@ -92,27 +72,20 @@ public class CreateEigenProfil extends VerticalPanel {
 		profilGrid.setWidget(2, 1, cw.getBdayLabel());
 		profilGrid.setWidget(2, 2, cw.getBdayTextBox());
 
-/*		hcolorListBox.addItem("schwarz", "schwarz");
-		hcolorListBox.addItem("braun", "braun");
-		hcolorListBox.addItem("blond", "blond");
-		hcolorListBox.addItem("grau", "grau");
-		hcolorListBox.addItem("sonstige", "sonstige");*/
-
 		profilGrid.setWidget(2, 3, cw.getHcolorLabel());
-		profilGrid.setWidget(2, 4, cw.getHcolorListBox());
+		profilGrid.setWidget(2, 4, cw.setHcolorListBox());
 
 		// Spalte 3
 		profilGrid.setWidget(3, 1, cw.getHeightLabel());
 		profilGrid.setWidget(3, 2, cw.getHeightTextBox());
 
-/*		smokerListBox.addItem("Ja", "YSmoker");
-		smokerListBox.addItem("Nein", "NSmoker");
-*/
 		profilGrid.setWidget(3, 3, cw.getSmokerLabel());
-		profilGrid.setWidget(3, 4, cw.getSmokerListBox());
+		profilGrid.setWidget(3, 4, cw.setSmokerListBox());
+		
+		// Spalte 4
 
 		profilGrid.setWidget(4, 1, cw.getReligionLabel());
-		profilGrid.setWidget(4, 2, cw.getReligionListBox());
+		profilGrid.setWidget(4, 2, cw.setReligionListBox());
 
 		
 		loadEigenschaften();
