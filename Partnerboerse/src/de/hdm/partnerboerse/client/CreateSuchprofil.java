@@ -102,10 +102,10 @@ public class CreateSuchprofil extends VerticalPanel {
 		// Spalte 7
 		SprofilGrid.setWidget(2, 2, titleLabel);
 		SprofilGrid.setWidget(2, 3, titleTextBox);
-
-		this.add(safeButton);
 		
 		loadEigenschaften();
+		
+		this.add(safeButton);
 
 		safeButton.addClickHandler(new ClickHandler() {
 
@@ -214,11 +214,9 @@ private void loadEigenschaften(){
 						infoGrid.setWidget(row, column + 1, lb);
 						
 						partnerAdmin.getAuswahl(new AsyncCallback<ArrayList<Auswahl>>(){
-							
 
 							@Override
 							public void onFailure(Throwable caught) {
-								
 							}
 
 							@Override
@@ -229,17 +227,13 @@ private void loadEigenschaften(){
 									}
 								}
 							}
-							
 						});
-						
 						row++;
-						
 					}
 				}
 			}
-			
-		});
-		
-		
-	}
+		});	
+	} // End load eigenschaften
+
+
 }
