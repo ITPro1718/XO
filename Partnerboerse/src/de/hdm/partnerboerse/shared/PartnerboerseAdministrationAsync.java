@@ -28,9 +28,11 @@ public interface PartnerboerseAdministrationAsync {
 
 	void createFreitext(Freitext freitext, AsyncCallback<Freitext> callback);
 
-	void createInfoForAuswahl(Info info, Auswahl auswahl, AsyncCallback<Info> callback);
+	void createInfo(Profil profil, String text, Eigenschaft eigenschaft, AsyncCallback<Info> callback);
 
-	void createInfoForFreitext(Info info, Freitext freitext, AsyncCallback<Info> callback);
+	void createInfo(Suchprofil suchprofil, String text, Eigenschaft eigenschaft, AsyncCallback<Info> callback);
+
+	void createInfoForAuswahl(Info info, Auswahl auswahl, AsyncCallback<Info> callback);
 
 	void createKontaksperreEintrag(Profil source, Profil target, AsyncCallback<Void> callback);
 

@@ -584,10 +584,36 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	}
 
 	@Override
-	public Info createInfoForFreitext(Info info, Freitext freitext) throws IllegalArgumentException {
+	public Info createInfo(Profil profil, String text, Eigenschaft eigenschaft) throws IllegalArgumentException {
+		
+		ArrayList<Info> infos = this.findInfoOf(profil);
+		
+		Info info = new Info();
+		info.setepId(profil.getId());
+		info.setText(text);
+		info.setEigenschaftId(eigenschaft.getId());
+		
+		for (Info i : infos){
+			if (i.getEigenschaftId() == info.getEigenschaftId()){
+				info.setId(i.getId());
+				this.iMapper.update(info);
+			}
+			else {
+				infos.remove(i);
+			}
+		}
+		if (infos.isEmpty()){
+			this.iMapper.insertInfo(info);
+		}
+		
+		return info;
 
+
+	}
+	
+	public Info createInfo(Suchprofil suchprofil, String text, Eigenschaft eigenschaft) throws IllegalArgumentException {
 		return null;
-
+		
 	}
 
 	@Override
