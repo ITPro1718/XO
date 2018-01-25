@@ -941,30 +941,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		return this.eiMapper.getAllEigenschaftenOf(profil);
 	}
 
-	/**
-	 * Gibt einen String zurück, der Entweder der Titel der Auswahl ist, oder
-	 * die Beschreibung des Freitextes. Die Methode findet anhand des labStrings
-	 * der Eigenschaft in der Gui die richtige Eigenschaft
-	 */
-	@Override
-	public String findStringOf(Profil profil, String labString) throws IllegalArgumentException {
-
-		ArrayList<Eigenschaft> eigs = this.getAllEigenschaftenOf(profil);
-
-		for (Eigenschaft e : eigs) {
-			if (e.getErlaeuterung().equals(labString)) {
-				Info info = this.findInfoOfEigenschaft(e);
-
-				if (info.getIs_a().equals("auswahl")) {
-					Auswahl auswahl = this.findAuswahlOf(info);
-					return auswahl.getTitel();
-				} else if (info.getIs_a().equals("freitext")) {
-					Freitext freitext = this.findFreitextOf(info);
-					return freitext.getBeschreibung();
-				}
-			}
-		}
-		return null;
-	}
+	
 
 }

@@ -21,6 +21,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
 import de.hdm.partnerboerse.shared.bo.Auswahl;
+import de.hdm.partnerboerse.shared.bo.Eigenschaft;
 import de.hdm.partnerboerse.shared.bo.Freitext;
 import de.hdm.partnerboerse.shared.bo.Info;
 import de.hdm.partnerboerse.shared.bo.Profil;
@@ -109,15 +110,8 @@ public class CreateEigenProfil extends VerticalPanel {
 		profilGrid.setWidget(4, 1, religionLabel);
 		profilGrid.setWidget(4, 2, religionListBox);
 
-		FlexTable descripton = new FlexTable();
-		descripton.setStyleName("desctable");
-		this.add(descripton);
-
-
-
-		Grid infoGrid = new Grid(4, 6);
-		infoGrid.setStyleName("etable");
-		this.add(infoGrid);
+		
+		loadEigenschaften();
 
 
 
@@ -211,7 +205,30 @@ public class CreateEigenProfil extends VerticalPanel {
 	}
 
 	  
+	private void loadEigenschaften(){
+		Grid infoGrid = new Grid(4, 6);
+		infoGrid.setStyleName("etable");
+		this.add(infoGrid);
+		
+		partnerAdmin.getAllEigenschaften(new AsyncCallback<ArrayList<Eigenschaft>>(){
 
+			@Override
+			public void onFailure(Throwable caught) {
+				
+			}
+
+			@Override
+			public void onSuccess(ArrayList<Eigenschaft> result) {
+				
+				for (Eigenschaft e : result){
+					
+				}
+			}
+			
+		});
+		
+		
+	}
  	
 	public LoginInfo getLoginInfo() {
 		return loginInfo;

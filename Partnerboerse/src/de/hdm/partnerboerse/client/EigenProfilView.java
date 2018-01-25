@@ -1,5 +1,7 @@
 package de.hdm.partnerboerse.client;
 
+import java.util.ArrayList;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -14,6 +16,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
+import de.hdm.partnerboerse.shared.bo.Eigenschaft;
+import de.hdm.partnerboerse.shared.bo.Info;
 import de.hdm.partnerboerse.shared.bo.Profil;
 
 public class EigenProfilView extends VerticalPanel {
@@ -39,10 +43,6 @@ public class EigenProfilView extends VerticalPanel {
   
   
   
-  FlexTable descripton = new FlexTable();
-  Grid infoGrid = new Grid(4, 6);
-
-
 
 	@Override
 	public void onLoad() {
@@ -64,11 +64,11 @@ public class EigenProfilView extends VerticalPanel {
 	private void updateProfilTable(Profil result) {
 		Profil meinProfil = result;
 
-		FlexTable profilIntGrid = new FlexTable();
-		profilIntGrid.setStyleName("itable");
-		this.add(profilIntGrid);
-
-		profilIntGrid.setWidget(1, 0, editButton);
+//		FlexTable profilIntGrid = new FlexTable();
+//		profilIntGrid.setStyleName("itable");
+//		this.add(profilIntGrid);
+//
+//		profilIntGrid.setWidget(1, 0, editButton);
 
 		Grid profilGrid = new Grid(7, 6);
 		profilGrid.setStyleName("etable");
@@ -103,16 +103,46 @@ public class EigenProfilView extends VerticalPanel {
 	}
 
 	private void loadInfoTable(Profil profil) {
-		// TODO: Get all Infos of User Callback, dann Infos in Grid einfügen
-
-		descripton.setStyleName("desctable");
-		this.add(descripton);
-
-	
 		
+		partnerAdmin.findInfoOf(profil, new AsyncCallback<ArrayList<Info>>(){
 
-		infoGrid.setStyleName("etable");
-		this.add(infoGrid);
+			@Override
+			public void onFailure(Throwable caught) {
+			}
+
+			@Override
+			public void onSuccess(ArrayList<Info> result) {
+				
+				Grid infoGrid = new Grid(10,3);
+				int row = 1;
+				int column = 1;
+				
+				for (Info i : result){
+					partnerAdmin.getEigenschaftByID(i.getEigenschaftsID(), new AsyncCallback<Eigenschaft>(){
+
+						@Override
+						public void onFailure(Throwable caught) {	
+						}
+
+						@Override
+						public void onSuccess(Eigenschaft result) {
+							infoGrid.setText(row, column, result.getErlaeuterung());
+							column++;
+						}
+						
+						
+					});
+					
+					infoGrid.setText(row, column, i.getText());
+					row++;
+				}
+				
+				
+			}
+			
+		});
+			
+	
 	}
 
 		

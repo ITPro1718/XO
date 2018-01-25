@@ -463,6 +463,4 @@ public interface PartnerboerseAdministration extends RemoteService {
 	
 	public ArrayList<Eigenschaft> getAllEigenschaftenOf(Profil profil) throws IllegalArgumentException;
 	
-	public String findStringOf(Profil profil, String labString) throws IllegalArgumentException;
-	
 }
