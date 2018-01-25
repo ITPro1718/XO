@@ -21,16 +21,15 @@ import de.hdm.partnerboerse.shared.bo.Suchprofil;
 
 public class ListViewSuchProfil extends VerticalPanel {
 
-	FlexTable splistGrid = new FlexTable();
-	
 	private final PartnerboerseAdministrationAsync partnerAdmin = GWT.create(PartnerboerseAdministration.class);
 
 	Profil profil = ClientSideSettings.getProfil();
 
 	Button createButton = new Button("erstellen");
+	FlexTable splistGrid = new FlexTable();
 
 	/**
-	 * Aufbau Suchprofilliste mit Bearbeiten, Löschen und Suchenfunktion
+	 * Aufbau Suchprofilliste der Anzeige des Suchprofils
 	 */
 
 	@Override
@@ -42,6 +41,9 @@ public class ListViewSuchProfil extends VerticalPanel {
 		this.add(splistGrid);
 
 		splistGrid.setWidget(0, 0, createButton);
+		/**
+		 * TODO CSS einbinden
+		 */
 		splistGrid.setText(1, 0, "Name des Suchprofils");
 
 		loadSuchprofileFromServer();
@@ -98,17 +100,32 @@ public class ListViewSuchProfil extends VerticalPanel {
 
 		for (Suchprofil sp : result) {
 
-			Button deleteButton = new Button("löschen");
-			Button editButton = new Button("bearbeiten");
-			Button searchButton = new Button("suchen");
+			Button showButton = new Button("anzeigen");
 			int row = splistGrid.getRowCount();
 
 			splistGrid.setText(row, 0, sp.getTitle());
-			splistGrid.setWidget(row, 1, editButton);
-			splistGrid.setWidget(row, 2, searchButton);
-			splistGrid.setWidget(row, 3, deleteButton);
+			splistGrid.setWidget(row, 1, showButton);
+
+			final Suchprofil search = sp;
+
+			showButton.addClickHandler(new ClickHandler() {
+
+				@Override
+				public void onClick(ClickEvent event) {
+
+					SuchprofilView spv = new SuchprofilView();
+
+					HTMLPanel spvPanel = new HTMLPanel("<h3>" + "Das ist ihr Suchprofil" + "</h3>");
+					spvPanel.add(spv);
+					spv.setNewSuchprofil(search);
+					RootPanel.get("contwrap").clear();
+					RootPanel.get("contwrap").add(spvPanel);
+
+				}
+			});
 
 		}
+
 	}
 
 }

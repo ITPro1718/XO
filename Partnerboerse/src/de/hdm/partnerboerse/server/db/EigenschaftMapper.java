@@ -63,9 +63,9 @@ public class EigenschaftMapper {
 				eigenschaft.setId(rs.getInt("maxid") + 1);
 				stmt = con.createStatement();
 
-				stmt.executeUpdate("INSERT INTO eigenschaft (id, erlaueterung, infoID, epID) VALUES (" + eigenschaft.getId() 
-				+ ",'" + eigenschaft.getErlaeuterung() + "', " + eigenschaft.getInfoID() + ", " + eigenschaft.getEpID() 
-				+ ")");
+				stmt.executeUpdate("INSERT INTO eigenschaft (id, erlaeuterung, infoID, epID) VALUES ("
+						+ eigenschaft.getId() + ",'" + eigenschaft.getErlaeuterung() + "', " + eigenschaft.getInfoID()
+						+ ", " + eigenschaft.getEpID() + ")");
 
 			}
 		} catch (SQLException e2) {

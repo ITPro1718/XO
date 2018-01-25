@@ -4,6 +4,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Date;
 import java.util.List;
 
 import org.junit.Test;
@@ -62,11 +63,10 @@ public class ProfilMapperTest {
 
 		List<Profil> allProfil = mapper.findAllProfiles();
 		if (!allProfil.isEmpty()) {
-			int zuloeschendeId = allProfil.get(0).getId();
+			int zuloeschendeId = allProfil.get(allProfil.size() - 1).getId();
 			mapper.delete(profil);
 			assertNull(mapper.findProfilByKey(zuloeschendeId));
 
-			mapper.insert(profil);
 		}
 	}
 
@@ -75,12 +75,13 @@ public class ProfilMapperTest {
 
 		// SimpleDateFormat date = new SimpleDateFormat("yyyy-mm-dd");
 
-		profil.setId(1);
+		profil.setId(100);
 		profil.setEmail("hello@horst.de");
-		profil.setPasswort("passwort123");
+		// profil.setPasswort("passwort123");
 		profil.setNachname("Horst");
 		profil.setVorname("Willie");
 		profil.setHaarfarbe("gelb");
+		profil.setGeburtsdatum(new Date());
 		// profil.setGeburtsdatum(2000-06-11);
 		profil.setKoerpergroesse(156);
 		profil.setRaucher(false);

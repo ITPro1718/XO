@@ -54,6 +54,7 @@ public class EditProfile extends VerticalPanel {
 
   TextBox vnameTextBox = new TextBox();
   TextBox lnameTextBox = new TextBox();
+  //Datepicker evtl abändern
   DateBox bdayTextBox = new DateBox();
   ListBox hcolorListBox = new ListBox();
   TextBox heightTextBox = new TextBox();
