@@ -217,7 +217,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	@Override
 	public ArrayList<Profil> getAllProfils() throws IllegalArgumentException {
-
+		
 		return this.pMapper.findAllProfiles();
 
 	}

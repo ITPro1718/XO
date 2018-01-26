@@ -7,6 +7,7 @@ import de.hdm.partnerboerse.shared.bo.Profil;
 import de.hdm.partnerboerse.shared.bo.Suchprofil;
 import de.hdm.partnerboerse.shared.report.AllNotSeenProfilesReport;
 import de.hdm.partnerboerse.shared.report.AllProfilesBySuchprofil;
+import de.hdm.partnerboerse.shared.report.SingleProfilReport;
 
 
 @RemoteServiceRelativePath("reportgenerator")
@@ -45,6 +46,6 @@ public interface ReportGeneratorService extends RemoteService {
 	   */
 	  public abstract AllProfilesBySuchprofil createSuchprofilReport(Suchprofil suchprofil)
 	      throws IllegalArgumentException;
-	
+
 
 }
