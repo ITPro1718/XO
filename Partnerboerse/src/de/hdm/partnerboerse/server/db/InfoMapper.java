@@ -210,10 +210,11 @@ public class InfoMapper {
 				i.setId(rs.getInt("maxid") + 1);
 				stmt = con.createStatement();
 
-				if (i.getepId() == 0) {
+				if (i.getepId() == 0 ) {
 					stmt.executeUpdate("INSERT INTO info (id, text, eigenschaftsID, suchprofilID ) VALUES (" + i.getId() + ",'"
 							+ i.getText() + "'," + i.getEigenschaftId() + "," + i.getSuchprofilId() + ")");
 				}
+				
 				if (i.getSuchprofilId() == 0){
 					stmt.executeUpdate("INSERT INTO info (id, text, eigenschaftsID, epID ) VALUES (" + i.getId() + ",'"
 							+ i.getText() + "'," + i.getEigenschaftId() + "," + i.getepId() + ")");

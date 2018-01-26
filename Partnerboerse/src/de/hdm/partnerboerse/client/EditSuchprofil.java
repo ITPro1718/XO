@@ -6,13 +6,10 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
-
 import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
 import de.hdm.partnerboerse.shared.bo.Profil;
@@ -21,6 +18,8 @@ import de.hdm.partnerboerse.shared.bo.Suchprofil;
 public class EditSuchprofil extends VerticalPanel {
 
 	private final PartnerboerseAdministrationAsync partnerAdmin = GWT.create(PartnerboerseAdministration.class);
+	private LoadEigenschaften loadEigenschaften = new LoadEigenschaften();
+    Suchprofil suchprofil = ClientSideSettings.getSuchprofil();
 
 	Button deleteButton = new Button("Suchprofil löschen");
 	Button safeButton = new Button("Suchprofil speichern");
@@ -72,7 +71,7 @@ public class EditSuchprofil extends VerticalPanel {
 			private void createSuchprofilCallback() {
 
 				Profil source = new Profil();
-				source.setId(2);
+				source.setId(ClientSideSettings.getProfil().getId());
 
 				Suchprofil search = getSuchprofilWerte();
 
@@ -103,31 +102,34 @@ public class EditSuchprofil extends VerticalPanel {
 
 		});
 
+		Grid infoGrid = loadEigenschaften.loadEigen(suchprofil);
+		this.add(infoGrid);
+		
 	}
 
 	private Suchprofil getSuchprofilWerte() {
 
-		Suchprofil s = new Suchprofil();
-		s.setId(1);
+	    // TODO noch unvollständig da die Daten noch nocht aus der DB geladen werden 
+		suchprofil.setId(ClientSideSettings.getSuchprofil().getId());
 		int alter = Integer.parseInt(cw.getAlterListBox().getSelectedValue());
-		s.setAlter(alter);
-		s.setHaarFarbe(cw.getHcolorListBox().getSelectedValue());
+		suchprofil.setAlter(alter);
+		suchprofil.setHaarFarbe(cw.getHcolorListBox().getSelectedValue());
 		float kgr = Float.parseFloat(cw.getHeightListBox().getSelectedValue());
-		s.setKoerpergroesse(kgr);
+		suchprofil.setKoerpergroesse(kgr);
 
 		String raucherSelectedValue = cw.getSmokerListBox().getSelectedValue();
 		switch (raucherSelectedValue) {
 		case "YSmoker":
-			s.setRaucher(true);
+			suchprofil.setRaucher(true);
 			break;
 		case "NSmoker":
-			s.setRaucher(false);
+			suchprofil.setRaucher(false);
 			break;
 		}
 
-		s.setReligion(cw.getReligionListBox().getSelectedValue());
-		s.setTitle(cw.getTitleTextBox().getValue());
+		suchprofil.setReligion(cw.getReligionListBox().getSelectedValue());
+		suchprofil.setTitle(cw.getTitleTextBox().getValue());
 
-		return s;
+		return suchprofil;
 	}
 }

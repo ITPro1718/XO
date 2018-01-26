@@ -774,7 +774,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		
 		// Erstellt ein Info Objekt, welches in die Datenbank geschrieben wird
 		Info info = new Info();
-		info.setepId(suchprofil.getEigenprofilID());
+		info.setSuchprofilId(suchprofil.getId());
 		info.setText(text);
 		info.setEigenschaftId(eigenschaft.getId());
 		

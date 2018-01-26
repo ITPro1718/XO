@@ -160,7 +160,7 @@ public class Suchprofil extends BusinessObjekt {
 
 	@Override
 	public String toString() {
-		return "Suchprofil [title=" + title + ", haarFarbe=" + haarFarbe + ", koerpergroesse=" + koerpergroesse
+		return "Suchprofil [ id=" + this.getId() + ", title=" + title  + ", haarFarbe=" + haarFarbe + ", koerpergroesse=" + koerpergroesse
 				+ ", raucher=" + raucher + ", alter=" + alter + ", eigenprofilID=" + eigenprofilID + "]";
 	}
 

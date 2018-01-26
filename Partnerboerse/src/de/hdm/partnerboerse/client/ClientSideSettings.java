@@ -9,6 +9,7 @@ import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
 import de.hdm.partnerboerse.shared.ReportGeneratorServiceAsync;
 import de.hdm.partnerboerse.shared.bo.Profil;
+import de.hdm.partnerboerse.shared.bo.Suchprofil;
 
 public class ClientSideSettings extends CommonSettings {
 
@@ -28,6 +29,8 @@ public class ClientSideSettings extends CommonSettings {
 	private static LoginInfo loginInfo = null;
 	
 	private static Profil profil = null;
+	
+	private static Suchprofil suchprofil = null;
 
 	/**
 	 * Name des Client-seitigen Loggers.
@@ -124,6 +127,20 @@ public class ClientSideSettings extends CommonSettings {
    */
   public static void setProfil(Profil profil) {
     ClientSideSettings.profil = profil;
+  }
+
+  /**
+   * @return the suchprofil
+   */
+  public static Suchprofil getSuchprofil() {
+    return suchprofil;
+  }
+
+  /**
+   * @param suchprofil the suchprofil to set
+   */
+  public static void setSuchprofil(Suchprofil suchprofil) {
+    ClientSideSettings.suchprofil = suchprofil;
   }
 
 }

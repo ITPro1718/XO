@@ -81,10 +81,15 @@ public class Info extends BusinessObjekt {
 		return true;
 	}
 
-	@Override
-	public String toString() {
-		return "Info [text=" + text + ", suchprofilId=" + suchprofilId + ", eigenschaftId=" + eigenschaftId + ", epId="
-				+ epId + "]";
-	}
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    return "Info [text=" + text + ", eigenschaftId=" + eigenschaftId + ", epId=" + epId
+        + ", suchprofilId=" + suchprofilId + "]";
+  }
+
+
 
 }
