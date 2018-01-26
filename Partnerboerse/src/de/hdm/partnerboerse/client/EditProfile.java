@@ -303,21 +303,20 @@ public class EditProfile extends VerticalPanel {
                 @Override
                 public void onSuccess(ArrayList<Info> result) {
                     
-                    for (Eigenschaft e : eig){
+                    for (final Eigenschaft e : eig){
+
                         infoGrid.setText(row, column, e.getErlaeuterung());
                         
-                        for (Info i : result){
+                        for (final Info i : result){
                             if (i.getEigenschaftId() == e.getId()){
                               
                               final TextBox textbox = new TextBox();
-                              final Button button = new Button("Speichern");
                               
                               textbox.setValue(i.getText());
                               
-                              infoGrid.setWidget(row, column+1, textbox);
-                              infoGrid.setWidget(row, column+2, button);    
+                              infoGrid.setWidget(row, column+1, textbox);  
                               
-                              saveInfo(button, i);
+                              saveInfo (i, e, textbox);
                               
                             }
                         }
@@ -325,13 +324,18 @@ public class EditProfile extends VerticalPanel {
                     }
                 }
 
-                private void saveInfo(Button button, final Info i) {
+                private void saveInfo(final Info i, final Eigenschaft e, final TextBox textbox) {
+                  
+                  Window.alert(e.toString());
+                  final Button button = new Button("Speichern");
+                  infoGrid.setWidget(row, column+2, button);  
+
                   button.addClickHandler(new ClickHandler() {
                     
                     @Override
                     public void onClick(ClickEvent event) {
-                      
-                      partnerAdmin.updateInfo(i, new AsyncCallback<Void>() {
+                    
+                      partnerAdmin.createInfo(ClientSideSettings.getProfil(), textbox.getText(), e, new AsyncCallback<Info>() {
 
                         @Override
                         public void onFailure(Throwable caught) {
@@ -340,11 +344,10 @@ public class EditProfile extends VerticalPanel {
                         }
 
                         @Override
-                        public void onSuccess(Void result) {
+                        public void onSuccess(Info result) {
                           Window.alert("Hat geklappt!");
                           
-                        }});
-                      
+                        }});                      
                     }
                   });
                   
