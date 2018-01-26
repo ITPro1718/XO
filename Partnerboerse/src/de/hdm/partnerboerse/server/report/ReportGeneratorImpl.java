@@ -8,7 +8,7 @@ import de.hdm.partnerboerse.shared.ReportGeneratorService;
 import de.hdm.partnerboerse.shared.bo.Profil;
 import de.hdm.partnerboerse.shared.bo.Suchprofil;
 import de.hdm.partnerboerse.shared.report.AllNotSeenProfilesReport;
-import de.hdm.partnerboerse.shared.report.SuchprofilReport;
+import de.hdm.partnerboerse.shared.report.AllProfilesBySuchprofil;
 
 /**
  * The server-side implementation of the RPC service.
@@ -16,7 +16,7 @@ import de.hdm.partnerboerse.shared.report.SuchprofilReport;
 
 public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportGeneratorService {
 
-	private static final long serialVersionUID = -13760090660194618L;
+	private static final long serialVersionUID = 1L;
 
 	private PartnerboerseAdministration administration = null;
 
@@ -56,7 +56,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	}
 
 	@Override
-	public SuchprofilReport createSuchprofilReport(Suchprofil suchprofil) throws IllegalArgumentException {
+	public AllProfilesBySuchprofil createSuchprofilReport(Suchprofil suchprofil) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		return null;
 	}

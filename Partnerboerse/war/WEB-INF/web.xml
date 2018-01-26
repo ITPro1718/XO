@@ -32,6 +32,13 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
     <url-pattern>/Partnerboerse/partnerboerseadministration</url-pattern>
   </servlet-mapping>
   
+  <servlet-mapping>
+  	<servlet-name>partnerboerseServlet</servlet-name>
+  	<url-pattern>/ReportGenerator/partnerboerseadministration</url-pattern>
+  </servlet-mapping>
+  
+  
+  
   <servlet>
     <servlet-name>reportGeneratorServlet</servlet-name>
     <servlet-class>de.hdm.partnerboerse.server.report.ReportGeneratorImpl</servlet-class>
@@ -39,8 +46,14 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
   
   <servlet-mapping>
     <servlet-name>reportGeneratorServlet</servlet-name>
-    <url-pattern>/xo-partnerboerse/reportgenerator</url-pattern>
+    <url-pattern>/ReportGenerator/reportgenerator</url-pattern>
   </servlet-mapping>
+  
+  <servlet-mapping>
+    <servlet-name>reportGeneratorServlet</servlet-name>
+    <url-pattern>/ReportGenerator/partnerboerseadministration</url-pattern>
+  </servlet-mapping>
+  
 
 
 </web-app>
