@@ -303,7 +303,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	}
 
 	@Override
-	public void createSuchprofil(Profil source, String titel, String haarfarbe, float kgr, boolean raucher,
+	public Suchprofil createSuchprofil(Profil source, String titel, String haarfarbe, float kgr, boolean raucher,
 			String religion, int alter) throws IllegalArgumentException {
 		Suchprofil s = new Suchprofil();
 		s.setEigenprofilID(source.getId());
@@ -315,7 +315,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		s.setAlter(alter);
 		s.setEigenprofilID(source.getId());
 
-		this.sMapper.insertSuchprofil(s);
+		return this.sMapper.insertSuchprofil(s);
 
 	}
 
@@ -891,25 +891,24 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	}
 
 	@Override
-	public void deleteEigenschaft(Eigenschaft eigenschaft) throws IllegalArgumentException {
-		/**
-		 * Abhängigkeiten: Freitext, Auswahl und Element (Element werden
-		 * gelöscht bevor die Auswahl gelöscht werden kann löschen bevor
-		 * Eigenschaft gelöscht werden kann
-		 */
+	public void deleteInfoOfEigenschaft(Eigenschaft eigenschaft, Profil p) throws IllegalArgumentException {
+		
 
-		Auswahl auswahl = this.findAuswahlOf(null);
-		Freitext freitext = this.findFreitextOf(null);
-
-		if (auswahl != null) {
-			this.deleteAuswahl(auswahl);
+		ArrayList<Info> userInfos = this.findInfoOf(p);
+		
+		for (Info i : userInfos){
+			if (i.getEigenschaftId() == eigenschaft.getId()){
+				this.iMapper.deleteInfo(i);
+			}
 		}
 
-		if (freitext != null) {
-			this.deleteFreitext(freitext);
-		}
+	}
+	
+	@Override
+	public void deleteInfoOfEigenschaft(Eigenschaft eigenschaft, Suchprofil sp) throws IllegalArgumentException {
+		
 
-		this.deleteEigenschaft(eigenschaft);
+		this.deleteInfoOfEigenschaft(eigenschaft, sp);
 
 	}
 

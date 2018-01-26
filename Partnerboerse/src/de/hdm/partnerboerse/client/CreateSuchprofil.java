@@ -81,7 +81,7 @@ public class CreateSuchprofil extends VerticalPanel {
 		this.add(safeButton);
 
 		
-		loadEigenschaften();
+		// loadEigenschaften();
 
 
 		safeButton.addClickHandler(new ClickHandler() {
@@ -99,7 +99,7 @@ public class CreateSuchprofil extends VerticalPanel {
 
 				partnerAdmin.createSuchprofil(source, search.getTitle(), search.getHaarFarbe(),
 						(float) search.getKoerpergroesse(), search.isRaucher(), search.getReligion(), search.getAlter(),
-						new AsyncCallback<Void>() {
+						new AsyncCallback<Suchprofil>() {
 
 							@Override
 							public void onFailure(Throwable caught) {
@@ -108,16 +108,17 @@ public class CreateSuchprofil extends VerticalPanel {
 							}
 
 							@Override
-							public void onSuccess(Void result) {
-								ListViewSuchProfil lvsp = new ListViewSuchProfil();
+							public void onSuccess(Suchprofil result) {
+								
+								EigenschaftsView ev = new EigenschaftsView();
+								ev.egFor(result);
 
-								HTMLPanel splistViewPanel = new HTMLPanel(
-										"<h3>" + "Hier können sie ein Suchprofil erstellen!" + "</h3>");
-								splistViewPanel.add(lvsp);
+								HTMLPanel evPanel = new HTMLPanel(
+										"<h3>" + "Hier können sie ein relevante Infos angeben!" + "</h3>");
+								evPanel.add(ev);
 
 								RootPanel.get("contwrap").clear();
-								RootPanel.get("contwrap").add(splistViewPanel);
-								getSuchprofilWerte();
+								RootPanel.get("contwrap").add(evPanel);
 							}
 
 						});

@@ -78,7 +78,7 @@ public class EditSuchprofil extends VerticalPanel {
 
 				partnerAdmin.createSuchprofil(source, search.getTitle(), search.getHaarFarbe(),
 						(float) search.getKoerpergroesse(), search.isRaucher(), search.getReligion(), search.getAlter(),
-						new AsyncCallback<Void>() {
+						new AsyncCallback<Suchprofil>() {
 
 							@Override
 							public void onFailure(Throwable caught) {
@@ -86,7 +86,7 @@ public class EditSuchprofil extends VerticalPanel {
 							}
 
 							@Override
-							public void onSuccess(Void result) {
+							public void onSuccess(Suchprofil result) {
 								ListViewSuchProfil lvsp = new ListViewSuchProfil();
 
 								HTMLPanel splistViewPanel = new HTMLPanel(

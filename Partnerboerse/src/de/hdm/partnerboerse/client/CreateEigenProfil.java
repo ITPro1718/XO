@@ -12,6 +12,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -89,8 +90,7 @@ public class CreateEigenProfil extends VerticalPanel {
 		profilGrid.setWidget(4, 1, cw.getReligionLabel());
 		profilGrid.setWidget(4, 2, cw.setReligionListBox());
 		
-		Grid infoGrid = loadEig.loadEigen();
-		this.add(infoGrid);
+		
 
 
 
@@ -119,17 +119,22 @@ public class CreateEigenProfil extends VerticalPanel {
 
 					@Override
 					public void onFailure(Throwable caught) {
-
+						Window.alert("fehler");
 					}
 
 					@Override
 					public void onSuccess(Profil result) {
 						ClientSideSettings.setProfil(result);
+						
+						EigenschaftsView ev = new EigenschaftsView();
+						ev.egFor(result);
 
+						HTMLPanel evPanel = new HTMLPanel(
+								"<h3>" + "Hier können sie ein relevante Infos angeben!" + "</h3>");
+						evPanel.add(ev);
 
-						Editor ed = new Editor();
 						RootPanel.get("contwrap").clear();
-						ed.onModuleLoad();
+						RootPanel.get("contwrap").add(evPanel);
 
 					}
 				});

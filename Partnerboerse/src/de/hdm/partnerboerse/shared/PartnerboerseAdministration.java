@@ -189,9 +189,10 @@ public interface PartnerboerseAdministration extends RemoteService {
 	 * @param raucher
 	 * @param religion
 	 * @param alter
+	 * @return TODO
 	 * @throws IllegalArgumentException
 	 */
-	public void createSuchprofil(Profil source, String titel, String haarfarbe, float kgr, boolean raucher, String religion,
+	public Suchprofil createSuchprofil(Profil source, String titel, String haarfarbe, float kgr, boolean raucher, String religion,
 			int alter) throws IllegalArgumentException;
 	
 	/**
@@ -356,9 +357,12 @@ public interface PartnerboerseAdministration extends RemoteService {
 	 * Eigenschaft loeschen.
 	 * 
 	 * @param eigenschaft zu loeschendes Eigenschafts-Objekt
+	 * @param p TODO
 	 * @throws IllegalArgumentException
 	 */
-	public void deleteEigenschaft(Eigenschaft eigenschaft) throws IllegalArgumentException;
+	public void deleteInfoOfEigenschaft(Eigenschaft eigenschaft, Profil p) throws IllegalArgumentException;
+	
+	public void deleteInfoOfEigenschaft(Eigenschaft eigenschaft, Suchprofil sp) throws IllegalArgumentException;
 
 	/**
 	 * Freitext Methoden

@@ -134,7 +134,7 @@ public class EditProfile extends VerticalPanel {
 //    this.add(infoGrid);
     
     LoadEigenschaften le = new LoadEigenschaften();
-    Grid info = le.loadEigen();
+    Grid info = le.loadEigen(ClientSideSettings.getProfil());
     this.add(info);
     
     
