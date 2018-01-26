@@ -3,6 +3,7 @@ package de.hdm.partnerboerse.shared.report;
 import java.util.Vector;
 
 
+
 public class HTMLReportWriter {
 	
 	/**
@@ -86,18 +87,21 @@ public class HTMLReportWriter {
 	   * 
 	   * @param r der zu prozessierende Report
 	   */
+	  public void process(SingleProfilReport r){
+		  
+		  this.resetReportText();
+	  }
+	  
+	  
 	  public void process(AllNotSeenProfilesReport r) {
-	    // ZunÃ¤chst lÃ¶schen wir das Ergebnis vorhergehender Prozessierungen.
+		  
 	    this.resetReportText();
 
-	    /*
-	     * In diesen Buffer schreiben wir wÃ¤hrend der Prozessierung sukzessive
-	     * unsere Ergebnisse.
-	     */
+
 	    StringBuffer result = new StringBuffer();
 
 	    /*
-	     * Nun werden Schritt fÃ¼r Schritt die einzelnen Bestandteile des Reports
+	     * Nun werden Schritt für Schritt die einzelnen Bestandteile des Reports
 	     * ausgelesen und in HTML-Form Ã¼bersetzt.
 	     */
 	    result.append("<H1>" + r.getTitle() + "</H1>");
@@ -150,17 +154,13 @@ public class HTMLReportWriter {
 	   * @param r der zu prozessierende Report
 	   */
 	  public void process(AllProfilesBySuchprofil r) {
-	    // ZunÃ¤chst lÃ¶schen wir das Ergebnis vorhergehender Prozessierungen.
+	    
 	    this.resetReportText();
 
-	    /*
-	     * In diesen Buffer schreiben wir wÃ¤hrend der Prozessierung sukzessive
-	     * unsere Ergebnisse.
-	     */
 	    StringBuffer result = new StringBuffer();
 
 	    /*
-	     * Nun werden Schritt fÃ¼r Schritt die einzelnen Bestandteile des Reports
+	     * Nun werden Schritt für Schritt die einzelnen Bestandteile des Reports
 	     * ausgelesen und in HTML-Form Ã¼bersetzt.
 	     */
 	    result.append("<H1>" + r.getTitle() + "</H1>");
@@ -174,20 +174,16 @@ public class HTMLReportWriter {
 	    result.append("</tr><tr><td></td><td>" + r.getCreated().toString()
 	        + "</td></tr></table>");
 
-	    /*
-	     * Da AllAccountsOfAllCustomersReport ein CompositeReport ist, enthÃ¤lt r
-	     * eine Menge von Teil-Reports des Typs AllAccountsOfCustomerReport. FÃ¼r
-	     * jeden dieser Teil-Reports rufen wir processAllAccountsOfCustomerReport
-	     * auf. Das Ergebnis des jew. Aufrufs fÃ¼gen wir dem Buffer hinzu.
-	     */
+	    
+	    
 	    for (int i = 0; i < r.getNumSubReports(); i++) {
 	      /*
 	       * AllAccountsOfCustomerReport wird als Typ der SubReports vorausgesetzt.
 	       * Sollte dies in einer erweiterten Form des Projekts nicht mehr gelten,
 	       * so mÃ¼sste hier eine detailliertere Implementierung erfolgen.
 	       */
-	      AllProfilesBySuchprofil subReport = (AllProfilesBySuchprofil) r.getSubReportAt(i);
-
+	      AllNotSeenProfilesReport subReport = (AllNotSeenProfilesReport) r.getSubReportAt(i);
+	      
 	      this.process(subReport);
 
 	      result.append(this.reportText + "\n");
