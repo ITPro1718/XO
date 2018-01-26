@@ -1,6 +1,5 @@
 package de.hdm.partnerboerse.client;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
@@ -8,19 +7,12 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-
-import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
-import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
 import de.hdm.partnerboerse.shared.bo.Profil;
 import de.hdm.partnerboerse.shared.bo.Suchprofil;
-import de.hdm.partnerboerse.client.CreateWidget;
 
 public class SuchprofilView extends VerticalPanel {
-
-	private final PartnerboerseAdministrationAsync partnerAdmin = GWT.create(PartnerboerseAdministration.class);
 
 	Profil profil = ClientSideSettings.getProfil();
 
@@ -31,6 +23,9 @@ public class SuchprofilView extends VerticalPanel {
 	CreateWidget cw = new CreateWidget();
 
 	Suchprofil newsuchprofil = new Suchprofil();
+	
+    LoadEigenschaften loadEigenschaften = new LoadEigenschaften();
+
 
 	/**
 	 * TODO Wenn EigenschaftsModell steht Eigenschaften vom Suchprofil
@@ -56,6 +51,13 @@ public class SuchprofilView extends VerticalPanel {
 
 			}
 		});
+		
+		/**
+		 * Lädt das Alle Eigenschaften mit den zugehörigen Infos
+		 * zu einem Suchprofil.
+		 */
+	    Grid info = loadEigenschaften.loadEigenRead(newsuchprofil);
+		this.add(info);
 	}
 
 	private void updateSpTable(Suchprofil result) {

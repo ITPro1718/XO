@@ -1,35 +1,23 @@
 package de.hdm.partnerboerse.client;
 
-import java.util.ArrayList;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
-import de.hdm.partnerboerse.shared.bo.Auswahl;
-import de.hdm.partnerboerse.shared.bo.Eigenschaft;
-import de.hdm.partnerboerse.shared.bo.Info;
 import de.hdm.partnerboerse.shared.bo.Profil;
-import de.hdm.partnerboerse.client.CreateWidget;
 
 public class EigenProfilView extends VerticalPanel {
 
-	private final PartnerboerseAdministrationAsync partnerAdmin = GWT.create(PartnerboerseAdministration.class);
-
 	LoginInfo loginInfo = ClientSideSettings.getLoginInfo();
-
+	LoadEigenschaften loadEigenschaften = new LoadEigenschaften();
+	
 	/*
 	 * Widgets, deren Inhalte variable sind, werden als Attribute angelegt.
 	 */
@@ -47,7 +35,9 @@ public class EigenProfilView extends VerticalPanel {
 
 		updateProfilTable(ClientSideSettings.getProfil());
 
-		loadInfos();
+		Grid info = loadEigenschaften.loadEigenRead(ClientSideSettings.getProfil());
+		this.add(info);
+		
 
 		editButton.addClickHandler(new ClickHandler() {
 
@@ -123,51 +113,6 @@ public class EigenProfilView extends VerticalPanel {
 		RootPanel.get("contwrap").clear();
 		RootPanel.get("contwrap").add(editProfilePanel);
 
-	}
-	
-	private void loadInfos(){
-		
-		FlexTable infoTable = new FlexTable();
-		infoTable.setStyleName("itable");
-		this.add(infoTable);
-		
-		this.add(infoGrid);
-		
-		partnerAdmin.getAllEigenschaften(new AsyncCallback<ArrayList<Eigenschaft>>(){
-
-			@Override
-			public void onFailure(Throwable caught) {
-			}
-
-			@Override
-
-			public void onSuccess(ArrayList<Eigenschaft> result) {
-				
-				final ArrayList<Eigenschaft> eig = result;
-				
-				partnerAdmin.findInfoOf(ClientSideSettings.getProfil(), new AsyncCallback<ArrayList<Info>>(){
-
-					@Override
-					public void onFailure(Throwable caught) {
-					}
-
-					@Override
-					public void onSuccess(ArrayList<Info> result) {
-						
-						for (Eigenschaft e : eig){
-							infoGrid.setText(row, column, e.getErlaeuterung());
-							
-							for (Info i : result){
-								if (i.getEigenschaftId() == e.getId()){
-									infoGrid.setText(row, column + 1, i.getText());
-								}
-							}
-							row++;
-						}
-					}	
-				});
-			}
-		});	
 	}
 	
 }

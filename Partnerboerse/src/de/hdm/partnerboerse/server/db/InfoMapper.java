@@ -155,8 +155,8 @@ public class InfoMapper {
 			while (rs.next()) {
 				Info i = new Info();
 				i.setId(rs.getInt("id"));
-				i.setText(rs.getString("bezeichnung"));
-				i.setEigenschaftId(rs.getInt("eigenschaftID"));
+				i.setText(rs.getString("text"));
+				i.setEigenschaftId(rs.getInt("eigenschaftsID"));
 				i.setepId(rs.getInt("epId"));
 				i.setSuchprofilId(rs.getInt("suchprofilID"));
 
