@@ -145,4 +145,6 @@ public interface PartnerboerseAdministrationAsync {
 
 	void updateSuchprofil(Suchprofil suchprofil, AsyncCallback<Void> callback);
 
+    void findInfoOf(Suchprofil suchprofil, AsyncCallback<ArrayList<Info>> callback);
+
 }

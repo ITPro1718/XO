@@ -470,5 +470,7 @@ public interface PartnerboerseAdministration extends RemoteService {
 	public Info createInfoForAuswahl(Info info, Auswahl auswahl) throws IllegalArgumentException;
 	
 	public ArrayList<Eigenschaft> getAllEigenschaftenOf(Profil profil) throws IllegalArgumentException;
+
+    public ArrayList<Info> findInfoOf(Suchprofil suchprofil) throws IllegalArgumentException;
 	
 }

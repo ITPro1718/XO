@@ -1018,6 +1018,13 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		return this.iMapper.findInfoOf(profilowner);
 
 	}
+	
+	@Override
+	public ArrayList<Info> findInfoOf(Suchprofil suchprofil) throws IllegalArgumentException {
+	  
+	  return this.iMapper.findInfoOfSuchprofil(suchprofil.getId());
+	  
+	}
 
 	@Override
 	public Info findInfoOfEigenschaft(Eigenschaft eigenschaft) throws IllegalArgumentException {
