@@ -6,7 +6,7 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 import de.hdm.partnerboerse.shared.bo.Profil;
 import de.hdm.partnerboerse.shared.bo.Suchprofil;
 import de.hdm.partnerboerse.shared.report.AllNotSeenProfilesReport;
-import de.hdm.partnerboerse.shared.report.SuchprofilReport;
+import de.hdm.partnerboerse.shared.report.AllProfilesBySuchprofil;
 
 
 @RemoteServiceRelativePath("reportgenerator")
@@ -43,7 +43,7 @@ public interface ReportGeneratorService extends RemoteService {
 	   * @throws IllegalArgumentException
 	   * @see AllAccountsOfAllCustomersReport
 	   */
-	  public abstract SuchprofilReport createSuchprofilReport(Suchprofil suchprofil)
+	  public abstract AllProfilesBySuchprofil createSuchprofilReport(Suchprofil suchprofil)
 	      throws IllegalArgumentException;
 	
 
