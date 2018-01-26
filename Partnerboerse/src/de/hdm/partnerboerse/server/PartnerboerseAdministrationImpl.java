@@ -359,7 +359,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 
 	@Override
-	public ArrayList<Profil> berechneAehnlichkeitsmass(Profil source, Suchprofil suchprofil)
+	public ArrayList<Profil> berechneAehnlichkeitsmassForSuchprofilergebnisse(Profil source, Suchprofil suchprofil)
 			throws IllegalArgumentException {
 
 		
@@ -383,7 +383,8 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		// Somit kann man wenn man die Gewichtung 0 setzt, trotzdem 100%
 		// erreichen weil das Attribut nicht mit einberechnet wird.
 
-		ArrayList<Float> ähnlichkeitInProzent = new ArrayList<>();
+		
+		ArrayList<Profil> comparedProfiles = new ArrayList<>();
 		float o1 = this.gewichtungHaarfarbe;
 		float o2 = this.gewichtungReligion;
 		float o3 = this.gewichtungAlter;
@@ -434,42 +435,22 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 			else if (compareInfos(source, p)==5) {
 				p9 = o9;
 			}
-
-			ähnlichkeitInProzent.add((p1 * x) + (p2 * x) + (p3 * x) + (p4 * x) + (p5 * x) + (p6 * x) + (p7 * x) + (p8 * x) + (p9 * x));
+			p.setÄhnlichkeit((p1 * x) + (p2 * x) + (p3 * x) + (p4 * x) + (p5 * x) + (p6 * x) + (p7 * x) + (p8 * x) + (p9 * x));
+			comparedProfiles.add(p);
 		}
 
-		//TODO: Suchprofilerbenisse(ArrayList) ordnen nach ähnlichkeitInProzent(ArrayList).
+		
 		// Hinweis: sexuelle Orientierung muss ein Pflichtattribut beim
 		// Profilerstellen sein, sonst kann man nicht rausfiltern ob Männer oder
 		// Frauen angezeigt werden sollen
 
-		return null;
+		return comparedProfiles;
 	}
+	
 	public ArrayList<Profil> berechneAehnlichkeitsmassForPartnervorschlaege(Profil profil)
 			throws IllegalArgumentException {
 
-		
-		
-
-		// Die Schleife geht alle Suchprofilergebnisse durch (Profile) und
-		// vergleicht Profileigenschaften mit den eigenen Profileigenschaften
-		// ab.
-		// Die Gewichtungen können durch die oben implementierte MEthode
-		// "setGEwichtungen" belieb gesetzt werden und werden am Ende der
-		// schleife wieder prozentual umgerechnet
-		// (alle Gewichtungen zusammen ergeben 100% egal welche Zahl man gesetzt
-		// hat)
-		// Bsp. Haarfarbegewichtung 10, Religiongewichtung 20,
-		// Koerpergroessegewichtung 0 , Altergewichtung 30, Rauchergewichtung
-		// 50,
-		// Summe = 110,
-		// Ähnlichkeit in Prozent =
-		// 10*(100/110))+(20*(100/110))+(0*(100/110))+(30*(100/110))+(50*(100/110)
-		// =9.090909% + 18.181818% + 0% + 27.272728% + 45.454548% = 100%
-		// Somit kann man wenn man die Gewichtung 0 setzt, trotzdem 100%
-		// erreichen weil das Attribut nicht mit einberechnet wird.
-
-		ArrayList<Float> ähnlichkeitInProzent = new ArrayList<>();
+		ArrayList<Profil> comparedProfiles = new ArrayList<>();
 		float o1 = this.gewichtungHaarfarbe;
 		float o2 = this.gewichtungReligion;
 		float o3 = this.gewichtungAlter;
@@ -521,16 +502,19 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 				p9 = o9;
 			}
 
-			ähnlichkeitInProzent.add((p1 * x) + (p2 * x) + (p3 * x) + (p4 * x) + (p5 * x) + (p6 * x) + (p7 * x) + (p8 * x) + (p9 * x));
+			p.setÄhnlichkeit((p1 * x) + (p2 * x) + (p3 * x) + (p4 * x) + (p5 * x) + (p6 * x) + (p7 * x) + (p8 * x) + (p9 * x));
+			comparedProfiles.add(p);
 		}
 
-		//TODO: Partnervorschläge(ArrayList) ordnen nach ähnlichkeitInProzent(Arraylist).
+		
+		
 		// Hinweis: sexuelle Orientierung muss ein Pflichtattribut beim
 		// Profilerstellen sein, sonst kann man nicht rausfiltern ob Männer oder
 		// Frauen angezeigt werden sollen
 
-		return null;
+		return comparedProfiles;
 	}
+	
 	@Override
 	public ArrayList<Profil> getSuchProfilErgebnisse(Suchprofil suchprofil) throws IllegalArgumentException {
 

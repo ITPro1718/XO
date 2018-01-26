@@ -248,7 +248,10 @@ public interface PartnerboerseAdministration extends RemoteService {
 	 * @return Aehnlichkeitsmass-Objekt
 	 * @throws IllegalArgumentException
 	 */
-	public ArrayList<Profil> berechneAehnlichkeitsmass(Profil source, Suchprofil suchprofil)
+	public ArrayList<Profil> berechneAehnlichkeitsmassForSuchprofilergebnisse(Profil source, Suchprofil suchprofil)
+			throws IllegalArgumentException;
+	
+	public ArrayList<Profil> berechneAehnlichkeitsmassForPartnervorschlaege(Profil profil)
 			throws IllegalArgumentException;
 
 	/**
