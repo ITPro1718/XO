@@ -41,25 +41,35 @@ public class SuchprofilMapper {
 		return suchprofilMapper;
 	}
 
-	public void insertSuchprofil(Suchprofil suchprofil) {
+	public Suchprofil insertSuchprofil(Suchprofil suchprofil) {
 
 	    Connection con = DBConnection.getConnection();
 
-		try(PreparedStatement stmt = con.prepareStatement("INSERT INTO suchprofil (titel, haarfarbe, koerpergroesse, raucher, age, epID, religion) "
-		    + "VALUES (?, ?, ?, ?, ?, ?, ?)")) {
+		try {
+			Statement getid = con.createStatement();
+			ResultSet rs = getid.executeQuery("SELECT MAX(id) as maxid FROM suchprofil");
+			if (rs.next()){
+				suchprofil.setId(rs.getInt("maxid") +1 );
+			}
+			
+			PreparedStatement stmt = con.prepareStatement("INSERT INTO suchprofil (id, titel, haarfarbe, koerpergroesse, raucher, age, epID, religion) "
+				    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
 
-	      stmt.setString(1, suchprofil.getTitle());
-	      stmt.setString(2, suchprofil.getHaarFarbe());
-	      stmt.setDouble(3, suchprofil.getKoerpergroesse());
-	      stmt.setBoolean(4, suchprofil.isRaucher());
-	      stmt.setInt(5, suchprofil.getAlter());
-	      stmt.setInt(6, suchprofil.getEigenprofilID());
-	      stmt.setString(7, suchprofil.getReligion());
-	      stmt.executeUpdate();     
+		  stmt.setInt(1, suchprofil.getId());
+	      stmt.setString(2, suchprofil.getTitle());
+	      stmt.setString(3, suchprofil.getHaarFarbe());
+	      stmt.setDouble(4, suchprofil.getKoerpergroesse());
+	      stmt.setBoolean(5, suchprofil.isRaucher());
+	      stmt.setInt(6, suchprofil.getAlter());
+	      stmt.setInt(7, suchprofil.getEigenprofilID());
+	      stmt.setString(8, suchprofil.getReligion());
+	      stmt.executeUpdate();
+	      return suchprofil;
 			
 		} catch (SQLException e) {
 			logger.severe("SuchProfilMapper.insert konnte Daten nicht in die DB gespeichert werden: " + e.getMessage() + e.getCause());
 		}
+		return suchprofil;
 	}
 
 	public void updateSuchprofil(Suchprofil suchprofil) {

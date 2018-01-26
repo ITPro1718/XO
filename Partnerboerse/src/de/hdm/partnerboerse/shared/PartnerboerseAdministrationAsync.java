@@ -41,17 +41,19 @@ public interface PartnerboerseAdministrationAsync {
 	void createProfil(Profil p, AsyncCallback<Profil> callback);
 
 	void createSuchprofil(Profil source, String titel, String haarfarbe, float kgr, boolean raucher, String religion,
-			int alter, AsyncCallback<Void> callback);
+			int alter, AsyncCallback<Suchprofil> callback);
 
 	void deleteAuswahl(Auswahl auswahl, AsyncCallback<Void> callback);
 
 	void deleteBesuch(Besuch besuch, AsyncCallback<Void> callback);
 
-	void deleteEigenschaft(Eigenschaft eigenschaft, AsyncCallback<Void> callback);
-
 	void deleteFreitext(Freitext freitext, AsyncCallback<Void> callback);
 
 	void deleteInfo(Info info, AsyncCallback<Void> callback);
+
+	void deleteInfoOfEigenschaft(Eigenschaft eigenschaft, Profil p, AsyncCallback<Void> callback);
+
+	void deleteInfoOfEigenschaft(Eigenschaft eigenschaft, Suchprofil sp, AsyncCallback<Void> callback);
 
 	void deleteKontaktsperreEintraege(Kontaktsperre kontaktsperre, AsyncCallback<Void> callback);
 

@@ -128,12 +128,16 @@ public class EditProfile extends VerticalPanel {
     descripton.setStyleName("desctable");
     this.add(descripton);
 
+//    loadEigenschaften();
+//    Grid infoGrid = new Grid(4, 6);
+//    infoGrid.setStyleName("etable");
+//    this.add(infoGrid);
     
-    Grid infoGrid = new Grid(4, 6);
-    infoGrid.setStyleName("etable");
-    this.add(infoGrid);
+    LoadEigenschaften le = new LoadEigenschaften();
+    Grid info = le.loadEigen(ClientSideSettings.getProfil());
+    this.add(info);
     
-    loadEigenschaften();
+    
 
     /*
      * Button zum Speichern des eigenen geändertem Profils

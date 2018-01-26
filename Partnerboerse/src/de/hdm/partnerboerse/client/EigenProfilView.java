@@ -38,6 +38,7 @@ public class EigenProfilView extends VerticalPanel {
 
 	
 	CreateWidget cw = new CreateWidget();
+	LoadEigenschaften l = new LoadEigenschaften();
 
   
 
@@ -45,7 +46,8 @@ public class EigenProfilView extends VerticalPanel {
 	public void onLoad() {
 
 		updateProfilTable(ClientSideSettings.getProfil());
-		loadEigenschaften();
+
+		loadInfos();
 
 		editButton.addClickHandler(new ClickHandler() {
 
@@ -123,7 +125,7 @@ public class EigenProfilView extends VerticalPanel {
 
 	}
 	
-	private void loadEigenschaften(){
+	private void loadInfos(){
 		
 		FlexTable infoTable = new FlexTable();
 		infoTable.setStyleName("itable");
@@ -167,4 +169,5 @@ public class EigenProfilView extends VerticalPanel {
 			}
 		});	
 	}
+	
 }
