@@ -69,7 +69,7 @@ public class LoadEigenschaften extends VerticalPanel {
 					TextBox tb = new TextBox();
 					infoGrid.setText(row, column, eg.getErlaeuterung());
 					infoGrid.setWidget(row, column + 1, tb);
-					if (profil.equals(null)){
+					if (suchprofil != null){
 						addDeleteButtonforSuchprofil(eg);
 						addSaveButtonForSuchprofil(tb, eg);
 					}
@@ -89,7 +89,7 @@ public class LoadEigenschaften extends VerticalPanel {
 					infoGrid.setWidget(row, column + 1, lb);
 					
 					getAuswahlen(lb, eg);
-					if (profil.equals(null)){
+					if (suchprofil != null){
 						Window.alert(suchprofil.toString());
 						addDeleteButtonforSuchprofil(eg);
 						addSaveButtonForSuchprofil(lb, eg);
@@ -191,15 +191,16 @@ public class LoadEigenschaften extends VerticalPanel {
 			@Override
 			public void onClick(ClickEvent event) {
 				
-				// TODO: Suchprofil ID nehmen, und nicht das gespeicherte Profil
 				partnerAdmin.createInfo(suchprofil, lb.getSelectedValue(), eg, new AsyncCallback<Info>(){
 
 					@Override
 					public void onFailure(Throwable caught) {
+						Window.alert("hat nicht geklappt");
 					}
 
 					@Override
 					public void onSuccess(Info result) {
+						Window.alert("hat geklappt");
 					}
 					
 				});

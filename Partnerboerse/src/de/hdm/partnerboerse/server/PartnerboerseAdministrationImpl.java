@@ -37,8 +37,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	private EigenschaftMapper eiMapper = null;
 
-	// private FreitextMapper fMapper = null;
-
 	private InfoMapper iMapper = null;
 
 	private KontaktsperreMapper kMapper = null;
@@ -786,6 +784,8 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	}
 	
 	public Info createInfo(Suchprofil suchprofil, String text, Eigenschaft eigenschaft) throws IllegalArgumentException {
+		// TODO: @siam methode implementieren für suchprofil, analog zu profil (eins drüber)
+		// braucht findInfoOf(Suchprofil suchprofil)
 		return null;
 		
 	}
