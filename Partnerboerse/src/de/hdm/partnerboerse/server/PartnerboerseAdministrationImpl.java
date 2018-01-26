@@ -784,10 +784,35 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	}
 	
 	public Info createInfo(Suchprofil suchprofil, String text, Eigenschaft eigenschaft) throws IllegalArgumentException {
-		// TODO: @siam methode implementieren für suchprofil, analog zu profil (eins drüber)
-		// braucht findInfoOf(Suchprofil suchprofil)
-		return null;
 		
+		ArrayList<Info> infos = getInfoOfSuchprofil(suchprofil.getId());
+		ArrayList<Info> del = new ArrayList<Info>();
+		
+		// Erstellt ein Info Objekt, welches in die Datenbank geschrieben wird
+		Info info = new Info();
+		info.setepId(suchprofil.getEigenprofilID());
+		info.setText(text);
+		info.setEigenschaftId(eigenschaft.getId());
+		
+		// Prüft, ob für diese Eigenschaft bereits ein Info-Objekt für diesen User angelegt wurde
+		for (Info i : infos){
+			// Wenn bereits eine Info für diese Eigenschaft besteht, wird sie geupdated.
+			if (i.getEigenschaftId() == info.getEigenschaftId()){
+				info.setId(i.getId());
+				this.iMapper.update(info);
+			}
+			else {
+				del.add(i);
+			}
+		}
+		// Removed alle bereits vorhandenen objekte, wenn die Liste leer ist, sprich noch kein Eintrag vorhanden,
+		// wird eine neue Info angelegt
+		infos.removeAll(del);		
+		if (infos.isEmpty()){
+			this.iMapper.insertInfo(info);
+		}
+		
+		return info;
 	}
 
 	@Override
