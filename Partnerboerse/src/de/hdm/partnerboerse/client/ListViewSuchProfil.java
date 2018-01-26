@@ -98,7 +98,7 @@ public class ListViewSuchProfil extends VerticalPanel {
 
 	private void loadListViewSuchProfile(ArrayList<Suchprofil> result) {
 
-		for (Suchprofil sp : result) {
+		for (final Suchprofil sp : result) {
 
 			Button showButton = new Button("anzeigen");
 			Button searchButton = new Button("suchen");
@@ -115,6 +115,7 @@ public class ListViewSuchProfil extends VerticalPanel {
 				@Override
 				public void onClick(ClickEvent event) {
 
+				  ClientSideSettings.setSuchprofil(sp);
 					SuchprofilView spv = new SuchprofilView();
 
 					HTMLPanel spvPanel = new HTMLPanel("<h3>" + "Das ist ihr Suchprofil" + "</h3>");
