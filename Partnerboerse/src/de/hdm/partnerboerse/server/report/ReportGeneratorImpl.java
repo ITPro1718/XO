@@ -127,7 +127,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		    result.setCreated(new Date());
 
 		    // TODO: Das muss man updaten!
-		    ArrayList<Profil> allProfile = this.administration.getAllProfils();
+		    ArrayList<Profil> allProfile = this.administration.getNotSeenPartnervorschläge(p);
 		    
 
 		    for (Profil pr : allProfile) {
