@@ -72,8 +72,6 @@ public class Editor implements EntryPoint {
   }
 
   public void loadXO() {
-    
-    getProfilesFromServer();
 
     // Navigation Area
     RootPanel.get("navwrap").add(nav);
@@ -201,7 +199,7 @@ public class Editor implements EntryPoint {
       public void onSuccess(Profil result) {
         
         ClientSideSettings.setProfil(result);
-        
+        loadXO();
       }});
     }
 
@@ -227,7 +225,7 @@ public class Editor implements EntryPoint {
       @Override
       public void onSuccess(Boolean isResult) {
         if (isResult) {
-          loadXO();
+          getProfilesFromServer();
         } else {
           loadCreateEigenProfil(loginInfo);
         }
