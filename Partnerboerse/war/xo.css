@@ -151,6 +151,7 @@ button:hover {background: lightgreen !important;}
     width: 82%;
     background: #fff !important;
     padding: 10px;
+    margin-bottom: 100px !important;
 }
 #contwrap table {
     width: 100%;
