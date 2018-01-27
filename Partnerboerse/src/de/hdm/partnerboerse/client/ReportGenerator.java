@@ -197,7 +197,6 @@ public class ReportGenerator implements EntryPoint {
 		RootPanel.get("contwrap").clear();
 		HTMLReportWriter writer = new HTMLReportWriter();
         writer.process(report);
-        Window.alert("hello" + writer.getReportText());
         HTML htmlreport = new HTML(writer.getReportText());
         RootPanel.get("contwrap").add(htmlreport);
 	}

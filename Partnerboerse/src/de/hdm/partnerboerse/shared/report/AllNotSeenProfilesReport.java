@@ -2,7 +2,7 @@ package de.hdm.partnerboerse.shared.report;
 
 
 
-public class AllNotSeenProfilesReport extends SimpleReport {
+public class AllNotSeenProfilesReport extends CompositeReport {
 
 	/**
 	 * 

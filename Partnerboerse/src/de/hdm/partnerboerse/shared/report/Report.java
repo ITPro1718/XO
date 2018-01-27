@@ -21,6 +21,10 @@ public class Report implements Serializable {
 	   * Kopfdaten des Berichts.
 	   */
 	  private Paragraph headerData = null;
+	  
+	  private Paragraph profilData = null;
+	  
+	  private Paragraph profilInhalt = null;
 
 	  /**
 	   * Jeder Bericht kann einen individuellen Titel besitzen.
@@ -67,6 +71,14 @@ public class Report implements Serializable {
 	  public void setHeaderData(Paragraph headerData) {
 	    this.headerData = headerData;
 	  }
+	  
+	  public void setProfilData(Paragraph profilData){
+		  this.profilData = profilData;
+	  }
+	  
+	  public Paragraph getProfilData(){
+		  return this.profilData;
+	  }
 
 	  /**
 	   * Auslesen des Berichtstitels.
@@ -105,5 +117,13 @@ public class Report implements Serializable {
 	  public void setCreated(Date created) {
 	    this.created = created;
 	  }
+
+	public Paragraph getProfilInhalt() {
+		return profilInhalt;
+	}
+
+	public void setProfilInhalt(Paragraph profilInhalt) {
+		this.profilInhalt = profilInhalt;
+	}
 
 }

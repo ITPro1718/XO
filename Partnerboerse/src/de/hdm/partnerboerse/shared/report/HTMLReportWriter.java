@@ -90,61 +90,102 @@ public class HTMLReportWriter {
 	  public void process(SingleProfilReport r){
 		  
 		  this.resetReportText();
+		  
+		  StringBuffer result = new StringBuffer();
+		  
+		  result.append("<H2>" + r.getTitle() + "</H2>");
+		  
+		  result.append("<table style=\"width:400px;border:1px solid silver\"><tr>");
+		  result.append("<td valign=\"top\"><b>" + paragraph2HTML(r.getProfilData()) + "</b></td>");
+		  result.append("<td valign=\"top\">" + paragraph2HTML(r.getProfilInhalt()) + "</td>");
+		  result.append("</tr></table>");
+		  
+		  Vector<Row> rows = r.getRows();
+		  result.append("<table style=\"width:400px\">");
+
+		  for (int i = 0; i < rows.size(); i++) {
+		    Row row = rows.elementAt(i);
+		    result.append("<tr>");
+		    for (int k = 0; k < row.getNumColumns(); k++) {
+		      if (i == 0) {
+		        result.append("<td style=\"background:silver;font-weight:bold\">" + row.getColumnAt(k)
+		            + "</td>");
+		      }
+		      else {
+		        if (i > 1) {
+		          result.append("<td style=\"border-top:1px solid silver\">"
+		              + row.getColumnAt(k) + "</td>");
+		        }
+		        else {
+		          result.append("<td valign=\"top\">" + row.getColumnAt(k) + "</td>");
+		        }
+		      }
+		    }
+		    result.append("</tr>");
+		  }
+
+		  result.append("</table>");
+
+		    /*
+		     * Zum Schluss wird unser Arbeits-Buffer in einen String umgewandelt und der
+		     * reportText-Variable zugewiesen. Dadurch wird es mÃ¶glich, anschlieÃŸend das
+		     * Ergebnis mittels getReportText() auszulesen.
+		     */
+		  this.reportText = result.toString();
+		  
+		  
 	  }
 	  
 	  
 	  public void process(AllNotSeenProfilesReport r) {
 		  
-	    this.resetReportText();
+		  this.resetReportText();
 
+		    StringBuffer result = new StringBuffer();
 
-	    StringBuffer result = new StringBuffer();
+		    /*
+		     * Nun werden Schritt für Schritt die einzelnen Bestandteile des Reports
+		     * ausgelesen und in HTML-Form Ã¼bersetzt.
+		     */
+		    result.append("<H1>" + r.getTitle() + "</H1>");
+		    result.append("<table><tr>");
 
-	    /*
-	     * Nun werden Schritt für Schritt die einzelnen Bestandteile des Reports
-	     * ausgelesen und in HTML-Form Ã¼bersetzt.
-	     */
-	    result.append("<H1>" + r.getTitle() + "</H1>");
-	    result.append("<table style=\"width:400px;border:1px solid silver\"><tr>");
-	    result.append("<td valign=\"top\"><b>" + paragraph2HTML(r.getHeaderData())
-	        + "</b></td>");
-	    result.append("<td valign=\"top\">" + paragraph2HTML(r.getImprint())
-	        + "</td>");
-	    result.append("</tr><tr><td></td><td>" + r.getCreated().toString()
-	        + "</td></tr></table>");
+		    if (r.getHeaderData() != null) {
+		      result.append("<td>" + paragraph2HTML(r.getHeaderData()) + "</td>");
+		    }
 
-	    Vector<Row> rows = r.getRows();
-	    result.append("<table style=\"width:400px\">");
+		    result.append("<td>" + paragraph2HTML(r.getImprint()) + "</td>");
+		    result.append("</tr><tr><td></td><td>" + r.getCreated().toString()
+		        + "</td></tr></table>");
 
-	    for (int i = 0; i < rows.size(); i++) {
-	      Row row = rows.elementAt(i);
-	      result.append("<tr>");
-	      for (int k = 0; k < row.getNumColumns(); k++) {
-	        if (i == 0) {
-	          result.append("<td style=\"background:silver;font-weight:bold\">" + row.getColumnAt(k)
-	              + "</td>");
-	        }
-	        else {
-	          if (i > 1) {
-	            result.append("<td style=\"border-top:1px solid silver\">"
-	                + row.getColumnAt(k) + "</td>");
-	          }
-	          else {
-	            result.append("<td valign=\"top\">" + row.getColumnAt(k) + "</td>");
-	          }
-	        }
-	      }
-	      result.append("</tr>");
-	    }
+		    
+		    
+		    for (int i = 0; i < r.getNumSubReports(); i++) {
+		      /*
+		       * AllAccountsOfCustomerReport wird als Typ der SubReports vorausgesetzt.
+		       * Sollte dies in einer erweiterten Form des Projekts nicht mehr gelten,
+		       * so mÃ¼sste hier eine detailliertere Implementierung erfolgen.
+		       */
+		      SingleProfilReport subReport = (SingleProfilReport) r.getSubReportAt(i);
+		      
+		      this.process(subReport);
 
-	    result.append("</table>");
+		      result.append(this.reportText + "\n");
 
-	    /*
-	     * Zum Schluss wird unser Arbeits-Buffer in einen String umgewandelt und der
-	     * reportText-Variable zugewiesen. Dadurch wird es mÃ¶glich, anschlieÃŸend das
-	     * Ergebnis mittels getReportText() auszulesen.
-	     */
-	    this.reportText = result.toString();
+		      /*
+		       * Nach jeder Ãœbersetzung eines Teilreports und anschlieÃŸendem Auslesen
+		       * sollte die Ergebnisvariable zurÃ¼ckgesetzt werden.
+		       */
+		      this.resetReportText();
+		    }
+
+		    /*
+		     * Zum Schluss wird unser Arbeits-Buffer in einen String umgewandelt und der
+		     * reportText-Variable zugewiesen. Dadurch wird es mÃ¶glich, anschlieÃŸend das
+		     * Ergebnis mittels getReportText() auszulesen.
+		     */
+		    this.reportText = result.toString();
+		  
 	  }
 
 	  /**
@@ -182,7 +223,7 @@ public class HTMLReportWriter {
 	       * Sollte dies in einer erweiterten Form des Projekts nicht mehr gelten,
 	       * so mÃ¼sste hier eine detailliertere Implementierung erfolgen.
 	       */
-	      AllNotSeenProfilesReport subReport = (AllNotSeenProfilesReport) r.getSubReportAt(i);
+	      SingleProfilReport subReport = (SingleProfilReport) r.getSubReportAt(i);
 	      
 	      this.process(subReport);
 

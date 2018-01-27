@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Vector;
 
+import com.gargoylesoftware.htmlunit.Cache;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import de.hdm.partnerboerse.server.PartnerboerseAdministrationImpl;
@@ -69,69 +70,75 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	    r.setImprint(imprint);
 
 	  }
+	
+	public SingleProfilReport createSingleProfilReport(Profil p){
+		
+		if (this.getPartnerboerseVerwaltung() == null){
+			return null;
+		}
+		
+		SingleProfilReport result = new SingleProfilReport();
+		
+		result.setTitle("Profil von " + p.getVorname() + " " + p.getNachname());
+		
+		CompositeParagraph profileData = new CompositeParagraph();
+		
+		profileData.addSubParagraph(new SimpleParagraph("Vorname"));
+		profileData.addSubParagraph(new SimpleParagraph("Nachname"));
+		profileData.addSubParagraph(new SimpleParagraph("E-Mail"));
+		profileData.addSubParagraph(new SimpleParagraph("Geburtstag"));
+		profileData.addSubParagraph(new SimpleParagraph("Haarfarbe"));
+		profileData.addSubParagraph(new SimpleParagraph("Körpergröße"));
+		profileData.addSubParagraph(new SimpleParagraph("Raucher"));
+		profileData.addSubParagraph(new SimpleParagraph("Religion"));
+		profileData.addSubParagraph(new SimpleParagraph("Ähnlichkeit"));
+		
+		result.setProfilData(profileData);
+		
+		CompositeParagraph profilInhalt = new CompositeParagraph();
+		profilInhalt.addSubParagraph(new SimpleParagraph(p.getVorname()));
+		profilInhalt.addSubParagraph(new SimpleParagraph(p.getNachname()));
+		profilInhalt.addSubParagraph(new SimpleParagraph(p.getEmail()));
+		profilInhalt.addSubParagraph(new SimpleParagraph(String.valueOf(p.getGeburtsdatum())));
+		profilInhalt.addSubParagraph(new SimpleParagraph(p.getHaarfarbe()));
+		profilInhalt.addSubParagraph(new SimpleParagraph(String.valueOf(p.getKoerpergroesse())));
+		profilInhalt.addSubParagraph(new SimpleParagraph(String.valueOf(p.isRaucher())));
+		profilInhalt.addSubParagraph(new SimpleParagraph(p.getReligion()));
+		profilInhalt.addSubParagraph(new SimpleParagraph(String.valueOf(p.getÄhnlichkeit())));
+		
+		result.setProfilInhalt(profilInhalt);
+		
+		return result;
+	}
 
 	@Override
 	public AllNotSeenProfilesReport createAllNotSeenProfilesReport(Profil p) throws IllegalArgumentException {
 		
 		if (this.getPartnerboerseVerwaltung() == null)
 		      return null;
-		
-		AllNotSeenProfilesReport result = new AllNotSeenProfilesReport();
-		
-		result.setTitle("Alle vom dir nicht angesehenen Profile");
-		
-		this.addImprint(result);
-		
-		result.setCreated(new Date());
-		
-		CompositeParagraph header = new CompositeParagraph();
-		
-		header.addSubParagraph(new SimpleParagraph(p.getNachname() + ", " + p.getVorname()));
-		header.addSubParagraph(new SimpleParagraph("E-Mail Adresse: " + p.getEmail()));
-		result.setHeaderData(header);
-		
-		// Kopfzeile für die Profil Tabelle
-		
-	    
-	    // TODO: Methode fehlt
-	    // ArrayList<Profil> profile = administration.getAllNichtBesuchteProfileOf(p);
-	    
-	    ArrayList<Profil> profile = administration.getAllProfils();
-	    Profil profil = administration.getProfilByID(16);
-	    profile.add(profil);
-	    
-	    Row headline = new Row();
-		
-		headline.addColumn(new Column("Vorname"));
-	    headline.addColumn(new Column("Nachname"));
-	    headline.addColumn(new Column("Geburtstag"));
-	    headline.addColumn(new Column("Haarfarbe"));
-	    headline.addColumn(new Column("Körpergröße"));
-	    headline.addColumn(new Column("Raucher"));
-	    headline.addColumn(new Column("Religion"));
-	    headline.addColumn(new Column("Ähnlichkeit"));
-	    
-	    result.addRow(headline);
-	    
-	    for (Profil pr : profile){
-	    	
-	    	Row profilrow = new Row();
-	    	
-	    	profilrow.addColumn(new Column(String.valueOf(pr.getVorname())));
-	    	profilrow.addColumn(new Column(String.valueOf(pr.getNachname())));
-	    	profilrow.addColumn(new Column(String.valueOf(pr.getGeburtsdatum())));
-	    	profilrow.addColumn(new Column(String.valueOf(pr.getHaarfarbe())));
-	    	profilrow.addColumn(new Column(String.valueOf(pr.getKoerpergroesse())));
-	    	profilrow.addColumn(new Column(String.valueOf(pr.isRaucher())));
-	    	profilrow.addColumn(new Column(String.valueOf(pr.getReligion())));
-	    	
-	    	result.addRow(profilrow);
-	    }
-	    
-	    
-		
-		
-		return result;
+
+		    AllNotSeenProfilesReport result = new AllNotSeenProfilesReport();
+		    
+		    result.setTitle("Alle nicht angesehenen Profile");
+
+		    this.addImprint(result);
+
+		    
+		    result.setCreated(new Date());
+
+		    // TODO: Das muss man updaten!
+		    ArrayList<Profil> allProfile = this.administration.getAllProfils();
+		    
+
+		    for (Profil pr : allProfile) {
+		      /*
+		       * Anlegen des jew. Teil-Reports und Hinzufügen zum Gesamt-Report.
+		       */
+		      result.addSubReport(this.createSingleProfilReport(pr));
+		    }
+
+		    
+		    return result;
 		
 	}
 
@@ -159,7 +166,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		      /*
 		       * Anlegen des jew. Teil-Reports und HinzufÃ¼gen zum Gesamt-Report.
 		       */
-		      result.addSubReport(this.createAllNotSeenProfilesReport(p));
+		      result.addSubReport(this.createSingleProfilReport(p));
 		    }
 
 		    
