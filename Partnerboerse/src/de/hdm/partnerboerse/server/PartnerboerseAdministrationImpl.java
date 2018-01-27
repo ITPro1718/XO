@@ -120,7 +120,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	@Override
 	public Profil createProfil(Profil p) throws IllegalArgumentException {
-		// System.out.println("test02"+p.toString());
+		
 		return this.pMapper.insert(p);
 	}
 
@@ -303,6 +303,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	@Override
 	public Suchprofil createSuchprofil(Profil source, String titel, String haarfarbe, float kgr, boolean raucher,
 			String religion, int alter) throws IllegalArgumentException {
+		
 		Suchprofil s = new Suchprofil();
 		s.setEigenprofilID(source.getId());
 		s.setHaarFarbe(haarfarbe);
@@ -348,12 +349,13 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		this.sMapper.deleteSuchprofil(suchprofil);
 	}
 	public ArrayList<Info> getInfoOfSuchprofil(int suchprofilid){
+		
 		return this.iMapper.findInfoOfSuchprofil(suchprofilid);
 	}
 
 	public ArrayList<Info> findAllInfosOfProfil(Profil profil) {
 
-	return this.iMapper.findInfoOf(profil);
+		return this.iMapper.findInfoOf(profil);
 	}
 
 
@@ -363,25 +365,25 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 			throws IllegalArgumentException {
 
 		
-		
-
-		// Die Schleife geht alle Suchprofilergebnisse durch (Profile) und
-		// vergleicht Profileigenschaften mit den eigenen Profileigenschaften
-		// ab.
-		// Die Gewichtungen können durch die oben implementierte MEthode
-		// "setGEwichtungen" belieb gesetzt werden und werden am Ende der
-		// schleife wieder prozentual umgerechnet
-		// (alle Gewichtungen zusammen ergeben 100% egal welche Zahl man gesetzt
-		// hat)
-		// Bsp. Haarfarbegewichtung 10, Religiongewichtung 20,
-		// Koerpergroessegewichtung 0 , Altergewichtung 30, Rauchergewichtung
-		// 50,
-		// Summe = 110,
-		// Ähnlichkeit in Prozent =
-		// 10*(100/110))+(20*(100/110))+(0*(100/110))+(30*(100/110))+(50*(100/110)
-		// =9.090909% + 18.181818% + 0% + 27.272728% + 45.454548% = 100%
-		// Somit kann man wenn man die Gewichtung 0 setzt, trotzdem 100%
-		// erreichen weil das Attribut nicht mit einberechnet wird.
+		/**
+		 * Die Schleife geht alle Suchprofilergebnisse durch (Profile) und
+		 * vergleicht Profileigenschaften mit den eigenen Profileigenschaften
+		 * ab.
+		 * Die Gewichtungen können durch die oben implementierte MEthode
+		 * "setGEwichtungen" belieb gesetzt werden und werden am Ende der
+		 * schleife wieder prozentual umgerechnet
+		 * (alle Gewichtungen zusammen ergeben 100% egal welche Zahl man gesetzt
+		 * hat)
+		 * Bsp. Haarfarbegewichtung 10, Religiongewichtung 20,
+		 * Koerpergroessegewichtung 0 , Altergewichtung 30, Rauchergewichtung
+		 * 50,
+		 * Summe = 110,
+		 * Ähnlichkeit in Prozent =
+		 * 10*(100/110))+(20*(100/110))+(0*(100/110))+(30*(100/110))+(50*(100/110)
+		 * =9.090909% + 18.181818% + 0% + 27.272728% + 45.454548% = 100%
+		 * Somit kann man wenn man die Gewichtung 0 setzt, trotzdem 100%
+		 * verreichen weil das Attribut nicht mit einberechnet wird.
+		 */
 
 		
 		ArrayList<Profil> comparedProfiles = new ArrayList<>();
@@ -602,8 +604,10 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	}
 	
 	
-		public boolean compareProfilAuswahlInfosWith(Suchprofil suchprofil, Profil profil){
+	public boolean compareProfilAuswahlInfosWith(Suchprofil suchprofil, Profil profil){
+		
 		for(Info i : suchprofilInfoHasAuswahl(suchprofil)){
+			
 			if(profilInfoHasAuswahl(profil).contains(i)){
 				return true;
 			}
@@ -612,7 +616,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		return false;
 	}
 
-		public ArrayList<Info> suchprofilInfoHasAuswahl(Suchprofil suchprofil){
+	public ArrayList<Info> suchprofilInfoHasAuswahl(Suchprofil suchprofil){
 		
 				ArrayList<Info> auswahlInfos = new ArrayList<>();
 					for(Info i : getInfoOfSuchprofil(suchprofil.getId())){
@@ -625,7 +629,8 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 					}
 					return auswahlInfos;
 		}
-		public ArrayList<Info> profilInfoHasAuswahl(Profil profil){
+	
+	public ArrayList<Info> profilInfoHasAuswahl(Profil profil){
 			
 			ArrayList<Info> auswahlInfos = new ArrayList<>();
 				for(Info i : findAllInfosOfProfil(profil)){
@@ -636,15 +641,13 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 					}
 				
 				}
-				return auswahlInfos;
+			return auswahlInfos;
 	}
 
 	
 
 	public boolean compareEigenprofil(Profil profil, Profil fremdprofil) {
-		if ((profil.getHaarfarbe() == fremdprofil.getHaarfarbe()) && (profil.isRaucher() == fremdprofil.isRaucher())
-				&& (getAge(profil.getGeburtsdatum()) == getAge(fremdprofil.getGeburtsdatum()))
-				&& (profil.getReligion() == fremdprofil.getReligion())) {
+		if (profil.equals(fremdprofil)) {
 			return true;
 
 		} else
@@ -671,11 +674,35 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	}
 
 	public boolean isHetero(Profil profil) {
-		return true;
+		
+		ArrayList<Info> infos = this.findInfoOf(profil);
+		
+		for (Info i : infos){
+			Eigenschaft e = this.getEigenschaftByID(i.getEigenschaftId());
+			
+			if (e.getErlaeuterung() == "Was ist deine Sexualität?"){
+				if (i.getText() == "Heterosexuell"){
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	public boolean isHomo(Profil profil) {
-		return true;
+		
+		ArrayList<Info> infos = this.findInfoOf(profil);
+		
+		for (Info i : infos){
+			Eigenschaft e = this.getEigenschaftByID(i.getEigenschaftId());
+			
+			if (e.getErlaeuterung() == "Was ist deine Sexualität?"){
+				if (i.getText() == "Homosexuell"){
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	@Override
@@ -686,25 +713,39 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		ArrayList<Besuch> visitsOfProfilowner = findBesucheOf(profil);
 		ArrayList<Integer> visitedProfilids = new ArrayList<>();
 
-		for (Besuch b : visitsOfProfilowner) {
+		for (Besuch b : visitsOfProfilowner){
+			
 			int visitid = b.getFremdprofilID();
 			visitedProfilids.add(visitid);
+			
 		}
+		
+		ArrayList<Profil> profilesToRemove = new ArrayList<Profil>();
 		for (Profil p : profile) {
-			int id = p.getId();
 
-			if (visitedProfilids.contains(id)) {
-				profile.remove(p);
-			} else if (compareEigenprofil(profil, p) == false) {
-				profile.remove(p);
-			} else if (compareSexuelleOrientierung(profil, p) == false) {
-				profile.remove(p);
-			} else if (compareInfos(profil, p) < 1) {
-				profile.remove(p);
+			if (visitedProfilids.contains(p.getId())) {
+				profilesToRemove.add(p);
+				
+			} 
+			else if (profil.equals(p)) {				
+				profilesToRemove.add(p);
+			} 
+			
+			else if (compareSexuelleOrientierung(profil, p) == false) {
+				profilesToRemove.add(p);
+			} 
+			
+			else if (compareInfos(profil, p) < 1) {
+				profilesToRemove.add(p);
 			}
 		}
+		
+		profile.remove(profilesToRemove);
+		
 		return profile;
 	}
+	
+	
 	public ArrayList<String> findAllTexts(Profil profil){
 		ArrayList<String> textsOfInfos = new ArrayList<String>();
 		for(Info i : findAllInfosOfProfil(profil)){
@@ -749,7 +790,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 			// Wenn bereits eine Info für diese Eigenschaft besteht, wird sie geupdated.
 			if (i.getEigenschaftId() == info.getEigenschaftId()){
 				info.setId(i.getId());
-				this.iMapper.update(info);
+				this.updateInfo(info);
 			}
 			else {
 				del.add(i);
@@ -783,7 +824,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 			// Wenn bereits eine Info für diese Eigenschaft besteht, wird sie geupdated.
 			if (i.getEigenschaftId() == info.getEigenschaftId()){
 				info.setId(i.getId());
-				this.iMapper.update(info);
+				this.updateInfo(info);
 			}
 			else {
 				del.add(i);
@@ -799,13 +840,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		return info;
 	}
 
-	@Override
-	public Info createInfoForAuswahl(Info info, Auswahl auswahl) throws IllegalArgumentException {
-
-		
-
-		return this.iMapper.insertInfo(info);
-	}
 
 	@Override
 	public ArrayList<Info> getAllInfos() throws IllegalArgumentException {
@@ -818,66 +852,21 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		return this.iMapper.findByKey(id);
 	}
 
-	public Info getAllInfosOf(Profil p) {
-
-		/**
-		 * TODO: Methode um alle Infos eines Profils zurückzubekommen
-		 * 
-		 * Durch diese Methode erhält man: Info, Eigenschaft, Freitext/Auswahl,
-		 * Element die eine Person angegeben hat.
-		 * 
-		 * Brauchen wir für die Ähnlichkeitsmaß-Berechnung
-		 */
-
-		return null;
-	}
 
 	@Override
 	public void updateInfo(Info info) throws IllegalArgumentException {
-		// Methode fehlt in Mapperklasse
-		// TODO: wir brauchen die Methode
+
+		this.iMapper.update(info);
 
 	}
 
 	@Override
 	public void deleteInfo(Info info) throws IllegalArgumentException {
 
-		/**
-		 * Abhängigkeiten: Freitext, Auswahl und Element (Element werden
-		 * gelöscht bevor die Auswahl gelöscht werden kann löschen bevor
-		 * Eigenschaft gelöscht werden kann
-		 */
-
-		Auswahl auswahl = this.findAuswahlOf(info);
-		Freitext freitext = this.findFreitextOf(info);
-
-		if (auswahl != null) {
-			this.deleteAuswahl(auswahl);
-		}
-
-		if (freitext != null) {
-			this.deleteFreitext(freitext);
-		}
-
 		this.iMapper.deleteInfo(info);
 
 	}
 
-	@Override
-	public void createEigenschaftForAuswahl(Profil p, Info i, Auswahl a) throws IllegalArgumentException {
-
-		
-
-
-
-	}
-
-	@Override
-	public void createEigenschaftForFreitext(Profil profil, Info info, Freitext freitext)
-			throws IllegalArgumentException {
-
-		
-	}
 
 	@Override
 	public ArrayList<Eigenschaft> getAllEigenschaften() throws IllegalArgumentException {
@@ -915,53 +904,11 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	
 	@Override
 	public void deleteInfoOfEigenschaft(Eigenschaft eigenschaft, Suchprofil sp) throws IllegalArgumentException {
-		
-
+		// TODO: Das hier funktioniert noch nicht oder?
 		this.deleteInfoOfEigenschaft(eigenschaft, sp);
 
 	}
 
-	@Override
-	public Freitext createFreitext(Freitext freitext) throws IllegalArgumentException {
-		return freitext;
-		
-		// return this.fMapper.insertFreitext(freitext);
-
-	}
-
-	/**
-	 * gibt einen Freitext aus einer Eigenschaft zurück
-	 */
-	@Override
-	public Freitext getFreitext(Eigenschaft eigenschaft) throws IllegalArgumentException {
-		return null;
-
-		// return this.fMapper.findFreitextOfInfo(null);
-	}
-
-	@Override
-	public void updateFreitext(Profil profil, Info info) throws IllegalArgumentException {
-
-		
-
-	}
-
-	@Override
-	public void deleteFreitext(Freitext freitext) throws IllegalArgumentException {
-		// this.fMapper.deleteFreitext(freitext);
-
-	}
-
-	@Override
-	public Auswahl createAuswahl(Auswahl auswahl) throws IllegalArgumentException {
-
-		Auswahl a = new Auswahl();
-		// wird vorerst auf 1 gesetzt und im Mapper auf die MAX + 1 angepasst
-		a.setId(1);
-
-		return this.aMapper.insertAuswahl(a);
-
-	}
 
 	@Override
 	public ArrayList<Auswahl> getAuswahl() throws IllegalArgumentException {
@@ -969,28 +916,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		return this.aMapper.findAll();
 	}
 
-	@Override
-	public void updateAuswahl(Profil profil, Info info) throws IllegalArgumentException {
-
-		
-
-	}
-
-	@Override
-	public void deleteAuswahl(Auswahl auswahl) throws IllegalArgumentException {
-		/**
-		 * Wie löschen wir die Abhängigkeiten bezüglich Element (auswahlID)?
-		 * 
-		 * Elemente kann man nicht löschen, wir löschen die Auswahl-FremdID aus
-		 * dem Element und dann erst die Auswahl - DONE
-		 * 
-		 * TODO: auswahlID aus der Infotabelle löschen
-		 * 
-		 */
-
-		this.deleteAuswahl(auswahl);
-
-	}
 
 	@Override
 	public ArrayList<Kontaktsperre> findKontaktsperrenOf(Profil profilowner) throws IllegalArgumentException {
@@ -1031,17 +956,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 		return this.iMapper.findEigenschaftsInfosOf(eigenschaft);
 
-	}
-
-	@Override
-	public Freitext findFreitextOf(Info info) throws IllegalArgumentException {
-		return null;
-
-		/**
-		 * Gibt den Freitext einer Info über den Fremdschlüssel zurück
-		 */
-
-		// return this.fMapper.findFreitextOfInfo(info);
 	}
 
 	@Override

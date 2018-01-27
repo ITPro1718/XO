@@ -327,9 +327,6 @@ public interface PartnerboerseAdministration extends RemoteService {
 	 * @throws IllegalArgumentException
 	 */
 
-	public void createEigenschaftForAuswahl(Profil p, Info i, Auswahl a) throws IllegalArgumentException;
-	
-	public void createEigenschaftForFreitext(Profil p, Info i, Freitext f) throws IllegalArgumentException;
 
 	/**
 	 * Alle Eigenschafts-Objekte anzeigen.
@@ -367,50 +364,6 @@ public interface PartnerboerseAdministration extends RemoteService {
 	
 	public void deleteInfoOfEigenschaft(Eigenschaft eigenschaft, Suchprofil sp) throws IllegalArgumentException;
 
-	/**
-	 * Freitext Methoden
-	 * Neues Freitext-Objekt, bezogen auf ein bestimmtes Eigenschafts-Objekt, erstellen.
-	 * @param freitext TODO
-	 * @return TODO
-	 * @throws IllegalArgumentException
-	 */
-	public Freitext createFreitext(Freitext freitext) throws IllegalArgumentException;
-
-	/**
-	 * Freitext anzeigen.
-	 * @param eigenschaft TODO
-	 * 
-	 * @return Freitext-Objekt
-	 * @throws IllegalArgumentException
-	 */
-	public Freitext getFreitext(Eigenschaft eigenschaft) throws IllegalArgumentException;
-
-	/**
-	 * Freitext bearbeiten
-	 * @param profil TODO
-	 * @param info TODO
-	 * 
-	 * @throws IllegalArgumentException
-	 */
-	public void updateFreitext(Profil profil, Info info) throws IllegalArgumentException;
-
-	/**
-	 * Freitext-Objekt loeschen.
-	 * 
-	 * @param freitext zu loeschendes Freitext-Objekt
-	 * @throws IllegalArgumentException
-	 */
-	public void deleteFreitext(Freitext freitext) throws IllegalArgumentException;
-
-	/**
-	 * Auswahl Methoden
-	 * Neues Auswahl-Objekt, bezogen auf ein bestimmtes Eigenschafts-Objekt, erstellen.
-	 * @param auswahl TODO
-	 * @return TODO
-	 * 
-	 * @throws IllegalArgumentException
-	 */
-	public Auswahl createAuswahl(Auswahl auswahl) throws IllegalArgumentException;
 
 	/**
 	 * Auswahl-Objekte anzeigen.
@@ -420,22 +373,6 @@ public interface PartnerboerseAdministration extends RemoteService {
 	 */
 	public ArrayList<Auswahl> getAuswahl() throws IllegalArgumentException;
 
-	/**
-	 * Auswahl-Objekt bearbeiten.
-	 * @param profil TODO
-	 * @param info TODO
-	 * 
-	 * @throws IllegalArgumentException
-	 */
-	public void updateAuswahl(Profil profil, Info info) throws IllegalArgumentException;
-
-	/**
-	 * Auswahl-Objekt loeschen.
-	 * 
-	 * @param auswahl zu loeschendes Auswahl-Objekt
-	 * @throws IllegalArgumentException
-	 */
-	public void deleteAuswahl(Auswahl auswahl) throws IllegalArgumentException;
 
 	public ArrayList<Kontaktsperre> findKontaktsperrenOf(Profil profilowner) throws IllegalArgumentException;
 	
@@ -446,8 +383,6 @@ public interface PartnerboerseAdministration extends RemoteService {
 	public ArrayList<Info> findInfoOf(Profil profilowner) throws IllegalArgumentException;
 	
 	public Info findInfoOfEigenschaft(Eigenschaft eigenschaft) throws IllegalArgumentException;
-	
-	public Freitext findFreitextOf(Info info) throws IllegalArgumentException;
 	
 	public Auswahl findAuswahlOf(Info info) throws IllegalArgumentException;
 	
@@ -466,8 +401,6 @@ public interface PartnerboerseAdministration extends RemoteService {
 	public ArrayList<Profil> getProfileForKontaktsperre(Profil eigenProfil) throws IllegalArgumentException;
 	
 	public Auswahl findAuswahlByTitle(Auswahl auswahl) throws IllegalArgumentException;
-	
-	public Info createInfoForAuswahl(Info info, Auswahl auswahl) throws IllegalArgumentException;
 	
 	public ArrayList<Eigenschaft> getAllEigenschaftenOf(Profil profil) throws IllegalArgumentException;
 
