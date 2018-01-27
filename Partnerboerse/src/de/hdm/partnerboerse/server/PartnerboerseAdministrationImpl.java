@@ -570,9 +570,9 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 				profile.remove(p);
 			} else if (compare(suchprofil, p) == false) {
 				profile.remove(p);
-			} else if (compareSexuelleOrientierung(suchprofilowner, p) == false) {
-				profile.remove(p);
-			}
+			}// else if (compareSexuelleOrientierung(suchprofilowner, p) == false) {
+				//profile.remove(p);
+			//}
 		}
 		return profile;
 	}
@@ -648,9 +648,10 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	
 
 	public boolean compareEigenprofil(Profil profil, Profil fremdprofil) {
-		if (profil.equals(fremdprofil)) {
-			return true;
-
+		if ((profil.isRaucher() == fremdprofil.isRaucher())
+							&& (getAge(profil.getGeburtsdatum()) == getAge(fremdprofil.getGeburtsdatum()))
+							&& (profil.getReligion() == fremdprofil.getReligion())) {
+				return true;
 		} else
 			return false;
 	}
@@ -711,7 +712,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 		ArrayList<Profil> profile = getAllProfils();
 
-		ArrayList<Besuch> visitsOfProfilowner = findBesucheOf(profil);
+		ArrayList<Besuch> visitsOfProfilowner = this.findBesucheOf(profil);
 		ArrayList<Integer> visitedProfilids = new ArrayList<>();
 
 		for (Besuch b : visitsOfProfilowner){
@@ -728,20 +729,19 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 				profilesToRemove.add(p);
 				
 			} 
-			else if (profil.equals(p)) {				
-				profilesToRemove.add(p);
-			} 
+			//TODO: Pflichtinfos Geschlecht GUI
+			//else if (compareSexuelleOrientierung(profil, p) == false) {
+				//profilesToRemove.add(p);
+			//} 
 			
-			else if (compareSexuelleOrientierung(profil, p) == false) {
-				profilesToRemove.add(p);
-			} 
-			
-			else if (compareInfos(profil, p) < 1) {
-				profilesToRemove.add(p);
-			}
+//			else if (compareInfos(profil, p) < 1) {
+//				profilesToRemove.add(p);
+//				System.out.println(p.toString());
+//			}
+			 
 		}
-		
-		profile.remove(profilesToRemove);
+		profile.remove(profil);
+		profile.removeAll(profilesToRemove);
 		
 		return profile;
 	}
@@ -761,11 +761,12 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	public int compareInfos(Profil profil, Profil fremdprofil){
 		int counter = 0;
 		for(Info i: findAllInfosOfProfil(profil)){
-			for(Info o: findAllInfosOfProfil(fremdprofil)){
-				
 			
-			if((i.getEigenschaftId() == o.getEigenschaftId())  && (i.getText() == o.getText())){
+			for(Info o: findAllInfosOfProfil(fremdprofil)){				
+			
+			if((i.getEigenschaftId() == o.getEigenschaftId())  && (i.getText().equals(o.getText()))){
 				counter++;
+				System.out.println("countr "+counter);
 				
 			}
 			
