@@ -21,7 +21,7 @@ public class CreateWidget extends VerticalPanel {
 	private	Label bdayLabel = new Label("Geburtstag: ");
 	private Label alterLabel = new Label("Alter ab: ");
 	private	Label hcolorLabel = new Label("Haarfarbe: ");
-	private	Label heightLabel = new Label("Größe (in cm) ab: ");
+	private	Label heightLabel = new Label("Größe (in cm): ");
 	private	Label smokerLabel = new Label("Raucher: ");
 	private	Label religionLabel = new Label("Religion: ");
 	private Label titleLabel = new Label("Name des Suchprofils:");
