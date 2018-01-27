@@ -304,6 +304,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	public Suchprofil createSuchprofil(Profil source, String titel, String haarfarbe, float kgr, boolean raucher,
 			String religion, int alter) throws IllegalArgumentException {
 		
+		
 		Suchprofil s = new Suchprofil();
 		s.setEigenprofilID(source.getId());
 		s.setHaarFarbe(haarfarbe);
