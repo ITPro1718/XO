@@ -59,7 +59,7 @@ public class EigenProfilView extends VerticalPanel {
 
 		profilIntGrid.setWidget(1, 0, editButton);
 
-		Grid profilGrid = new Grid(7, 6);
+		Grid profilGrid = new Grid(6, 6);
 		profilGrid.setStyleName("etable");
 		this.add(profilGrid);
 

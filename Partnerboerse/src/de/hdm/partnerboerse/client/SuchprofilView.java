@@ -1,7 +1,12 @@
 package de.hdm.partnerboerse.client;
 
+import java.util.ArrayList;
+
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Grid;
@@ -9,12 +14,19 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+
+import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
+import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
 import de.hdm.partnerboerse.shared.bo.Profil;
 import de.hdm.partnerboerse.shared.bo.Suchprofil;
 
 public class SuchprofilView extends VerticalPanel {
+	
+	private final PartnerboerseAdministrationAsync partnerAdmin =
+		      GWT.create(PartnerboerseAdministration.class);
 
 	Profil profil = ClientSideSettings.getProfil();
+	Suchprofil suchprofil = ClientSideSettings.getSuchprofil();
 
 	Button editButton = new Button("bearbeiten");
 	Button deleteButton = new Button("löschen");
@@ -23,6 +35,9 @@ public class SuchprofilView extends VerticalPanel {
 	CreateWidget cw = new CreateWidget();
 
 	Suchprofil newsuchprofil = new Suchprofil();
+	FlexTable profilFlexTable = new FlexTable();
+	
+	int row = 1;
 	
     LoadEigenschaften loadEigenschaften = new LoadEigenschaften();
 
@@ -58,6 +73,9 @@ public class SuchprofilView extends VerticalPanel {
 		 */
 	    Grid info = loadEigenschaften.loadEigenRead(newsuchprofil);
 		this.add(info);
+		this.add(searchButton);
+		
+		searchButton.addClickHandler(new searchButtonClickhandler());
 	}
 
 	private void updateSpTable(Suchprofil result) {
@@ -70,7 +88,7 @@ public class SuchprofilView extends VerticalPanel {
 		sProfilIntGrid.setWidget(1, 0, editButton);
 		sProfilIntGrid.setWidget(1, 1, deleteButton);
 
-		Grid sProfilGrid = new Grid(7, 6);
+		Grid sProfilGrid = new Grid(4, 6);
 		sProfilGrid.setStyleName("etable");
 		this.add(sProfilGrid);
 
@@ -100,7 +118,6 @@ public class SuchprofilView extends VerticalPanel {
 		FlexTable sProfilIntGrid2 = new FlexTable();
 		sProfilIntGrid2.setStyleName("itable");
 		this.add(sProfilIntGrid2);
-		sProfilIntGrid2.setWidget(0, 0, searchButton);
 
 	}
 
@@ -125,6 +142,53 @@ public class SuchprofilView extends VerticalPanel {
 		RootPanel.get("contwrap").clear();
 		RootPanel.get("contwrap").add(editSuchprofilPanel);
 
+	}
+	
+	private class searchButtonClickhandler implements ClickHandler{
+
+		@Override
+		public void onClick(ClickEvent event) {
+			RootPanel.get("contwrap").add(generateErgebnisTable());
+			// partnerAdmin.getSuchProfilErgebnisse(suchprofil, new getSuchProfilErgebnisseCallback());
+			partnerAdmin.getSuchProfilErgebnisse(suchprofil, new getSuchProfilErgebnisseCallback());
+		}
+		
+	}
+	
+	
+	private class getSuchProfilErgebnisseCallback implements AsyncCallback<ArrayList<Profil>>{
+
+		@Override
+		public void onFailure(Throwable caught) {
+		}
+
+		@Override
+		public void onSuccess(ArrayList<Profil> result) {
+			for (Profil p : result){
+				addProfileToErgebniseTable(p);
+			}
+		}
+		
+	}
+	
+	private FlexTable generateErgebnisTable(){
+		
+		profilFlexTable.setText(0, 0, "Vorname");
+	    profilFlexTable.setText(0, 1, "Nachname");
+	    profilFlexTable.setText(0, 2, "Ähnlichkeit");
+	    
+	    return profilFlexTable;
+	}
+	
+	
+	
+	private void addProfileToErgebniseTable(Profil p){
+		
+		profilFlexTable.setText(row, 0, p.getVorname());
+		profilFlexTable.setText(row, 1, p.getNachname());
+		profilFlexTable.setText(row, 2, String.valueOf(p.getÄhnlichkeit()));
+		row++;
+		
 	}
 
 }
