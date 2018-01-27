@@ -2,10 +2,16 @@ package de.hdm.partnerboerse.client;
 
 import java.util.ArrayList;
 
+import com.google.gwt.aria.client.NavigationRole;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
@@ -25,7 +31,7 @@ import de.hdm.partnerboerse.shared.report.*;
 
 public class ReportGenerator implements EntryPoint {
 
-	Navigation nav = new Navigation();
+	NavigationReport navrep = new NavigationReport();
 	// SPReport spr = new SPReport();
 	private LoginInfo loginInfo = null;
 	
@@ -50,10 +56,10 @@ public class ReportGenerator implements EntryPoint {
 		
 		loginService.login(GWT.getHostPageBaseURL(), new loginCallback());
 
-
+		
 		// Navigation Area
-		RootPanel.get("navwrap").add(nav);
-
+		RootPanel.get("navwrap").add(navrep);
+		
 		// Content Area
 		HTMLPanel reports = new HTMLPanel("<h2>" + "Hier finden Sie Ihre Reports" + "</h2>");
 		HTMLPanel choice = new HTMLPanel("<h3> Bitte wählen sie, welchen Report sie ausgeben wollen!<h3>");
@@ -67,7 +73,7 @@ public class ReportGenerator implements EntryPoint {
 		notSeenProfileButton.addClickHandler(new notSeenProfilesClickhandler());
 		suchprofilButton.addClickHandler(new profilesbySuchprofilClickhandler());
 		
-		
+
 	
 	}
 	

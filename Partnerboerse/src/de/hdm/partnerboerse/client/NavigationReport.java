@@ -2,15 +2,21 @@ package de.hdm.partnerboerse.client;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class Navigation extends VerticalPanel {
+public class NavigationReport extends VerticalPanel {
 
 	LoginInfo loginInfo = ClientSideSettings.getLoginInfo();
 	
@@ -51,7 +57,7 @@ public class Navigation extends VerticalPanel {
 		logoutUser.setTitle("Abmelden");
 		logoutUser.addStyleName("offbutton");
 
-		VerticalPanel navi = new VerticalPanel();
+		final VerticalPanel navi = new VerticalPanel();
 		this.add(navi);
 		navi.add(ppic);
 		navi.add(meinProfil);
@@ -63,6 +69,7 @@ public class Navigation extends VerticalPanel {
 		navi.add(meinePartnervorschlaege);
 		navi.add(logoutUser);
 		
+	     
 		/*
 		 * Methode lädt die View des eigenen Profils
 		 */
@@ -71,25 +78,10 @@ public class Navigation extends VerticalPanel {
           @Override
           public void onClick(ClickEvent event) {
             
-            loadEigenProfilView();
-            
-          }
+            Window.Location.assign("Partnerboerse.html");
 
-          /*
-           * Methode zeigt das eigene Profil an
-           */
-          private void loadEigenProfilView() {
-            
-            EigenProfilView epv = new EigenProfilView();
-            
-            HTMLPanel eigenProfilViewPanel = new HTMLPanel("<h3>" + "Hier können Sie ihr Profil sehen." + "</h3>");
-            eigenProfilViewPanel.add(epv);
-            
-            RootPanel.get("contwrap").clear();
-            RootPanel.get("contwrap").add(eigenProfilViewPanel);
-                     
-          }
-        });
+          	}
+          });
 		
 	      /*
          * Methode lädt die View der Merkliste
@@ -98,15 +90,17 @@ public class Navigation extends VerticalPanel {
           
           @Override
           public void onClick(ClickEvent event) {
+        	  
+        	Window.Location.assign("Partnerboerse.html");
             
-            EditMerkliste em = new EditMerkliste();
+/*            EditMerkliste em = new EditMerkliste();
             
             HTMLPanel emPanel = new HTMLPanel("<h3>" + "Hier können Sie ihre Merkliste editieren" + "</h3>");
             emPanel.add(em);
             
             RootPanel.get("contwrap").clear();
             RootPanel.get("contwrap").add(emPanel);
-            
+            */
           }
         });
 		
@@ -118,17 +112,15 @@ public class Navigation extends VerticalPanel {
           @Override
           public void onClick(ClickEvent event) {
             
-            EditKontaktsperre ep = new EditKontaktsperre();
+        	Window.Location.assign("Partnerboerse.html");
+        	  
+/*            EditKontaktsperre ep = new EditKontaktsperre();
             
             HTMLPanel epPanel = new HTMLPanel("<h3>" + "Hier können Sie ihre Kontaktsperren editieren" + "</h3>");
             epPanel.add(ep);
             
             RootPanel.get("contwrap").clear();
-            RootPanel.get("contwrap").add(epPanel);
-            
-            
-            
-            
+            RootPanel.get("contwrap").add(epPanel);*/
           }
         });
 		
@@ -136,14 +128,17 @@ public class Navigation extends VerticalPanel {
           
           @Override
           public void onClick(ClickEvent event) {
-            
-           ListViewSuchProfil sp = new ListViewSuchProfil();
+              
+          Window.Location.assign("Partnerboerse.html");
+          
+      
+           /*ListViewSuchProfil sp = new ListViewSuchProfil();
             
             HTMLPanel spPanel = new HTMLPanel("<h3>" + "Hier können Sie Ihr Suchprofil erstellen." + "</h3>");
             spPanel.add(sp);
 
             RootPanel.get("contwrap").clear();
-            RootPanel.get("contwrap").add(spPanel);
+            RootPanel.get("contwrap").add(spPanel);*/
             
           }
         });
@@ -153,21 +148,17 @@ public class Navigation extends VerticalPanel {
 			@Override
 			public void onClick(ClickEvent event) {
 					  
-				//logoutUser.setHref(loginInfo.getLogoutUrl());
 				ClientSideSettings.getLoginInfo();
 				logoutUser.setHref(ClientSideSettings.getLoginInfo().getLogoutUrl());
 				
 			}
 		});
 		
-		// Aufruf der Report HTML - Hier wird der Report aufgerufen
-		
 		meineSuchprofilReports.addClickHandler(new ClickHandler() {
 			
 			@Override
 			public void onClick(ClickEvent event) {
 				Window.Location.assign("PartnerboerseReport.html");
-				
 				
 			}
 		});
@@ -177,7 +168,6 @@ public class Navigation extends VerticalPanel {
 			@Override
 			public void onClick(ClickEvent event) {
 				Window.Location.assign("PartnerboerseReport.html");
-				
 				
 			}
 		});
