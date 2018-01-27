@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -149,28 +150,11 @@ public class SuchprofilView extends VerticalPanel {
 		public void onClick(ClickEvent event) {
 			RootPanel.get("contwrap").add(generateErgebnisTable());
 			// partnerAdmin.getSuchProfilErgebnisse(suchprofil, new getSuchProfilErgebnisseCallback());
-			partnerAdmin.getAllProfils(new allProfilesCallback());
+			partnerAdmin.getSuchProfilErgebnisse(suchprofil, new getSuchProfilErgebnisseCallback());
 		}
 		
 	}
 	
-	private class allProfilesCallback implements AsyncCallback<ArrayList<Profil>>{
-
-		@Override
-		public void onFailure(Throwable caught) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void onSuccess(ArrayList<Profil> result) {
-			for (Profil p : result){
-				addProfileToErgebniseTable(p);
-			}
-			
-		}
-		
-	}
 	
 	private class getSuchProfilErgebnisseCallback implements AsyncCallback<ArrayList<Profil>>{
 

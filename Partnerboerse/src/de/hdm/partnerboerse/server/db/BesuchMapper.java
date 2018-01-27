@@ -116,7 +116,8 @@ public class BesuchMapper {
 			Statement stmt = con.createStatement();
 
 			ResultSet rs = stmt.executeQuery("SELECT * FROM visit WHERE epID=" + p.getId());
-			if (rs.next()) {
+			
+			while (rs.next()) {
 				Besuch besuch = new Besuch();
 				besuch.setId(rs.getInt("id"));
 				besuch.setEigenprofilID(rs.getInt("epID"));
@@ -127,7 +128,7 @@ public class BesuchMapper {
 			e2.printStackTrace();
 			return null;
 		}
-
+		System.out.println(results.toString());
 		return results;
 	}
 
