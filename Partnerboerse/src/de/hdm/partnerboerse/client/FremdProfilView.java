@@ -12,6 +12,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
+import de.hdm.partnerboerse.shared.bo.Kontaktsperre;
+import de.hdm.partnerboerse.shared.bo.Merkzettel;
 import de.hdm.partnerboerse.shared.bo.Profil;
 import de.hdm.partnerboerse.client.CreateWidget;
 
@@ -21,93 +23,41 @@ public class FremdProfilView extends VerticalPanel {
 
 	Button merkButton = new Button("Profil merken");
 	Button sperrButton = new Button("Profil sperren");
+	Button entsperrButton = new Button("Profil entsperren");
+	Button entmerkButton = new Button("Profil entmerken");
 	
 	CreateWidget cw = new CreateWidget();
+	
+	LoadEigenschaften le = new LoadEigenschaften();
+	
+	Profil fremdprofil;
+	Grid profilIntGrid = new Grid(2, 3);
+	
+	public FremdProfilView(Profil profil){
+		this.fremdprofil = profil;
+	}
 
 	@Override
 	public void onLoad() {
 
-		loadProfileFromServer();
-
-		merkButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-
-				partnerAdmin.getProfilByID(1, new AsyncCallback<Profil>() {
-
-					@Override
-					public void onFailure(Throwable caught) {
-						Window.alert("Daten wurden nicht geladen!");
-
-					}
-
-					@Override
-					public void onSuccess(Profil result) {
-						Window.alert("Muss noch implementiert werden");
-					}
-
-				});
-			}
-		});
-		sperrButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-
-				partnerAdmin.getProfilByID(1, new AsyncCallback<Profil>() {
-
-					@Override
-					public void onFailure(Throwable caught) {
-						Window.alert("Daten wurden nicht geladen!");
-
-					}
-
-					@Override
-					public void onSuccess(Profil result) {
-						Window.alert("Muss noch implementiert werden");
-					}
-
-				});
-
-			}
-		});
+		updateProfilTable(fremdprofil);
+		Grid info = le.loadEigenRead(fremdprofil);
+		this.add(info);
+		
+		partnerAdmin.createBesuch(ClientSideSettings.getProfil(), fremdprofil, new CreateBesuchCallback());
+		changeButton(merkButton, "Merken");
+		changeButton(sperrButton, "Sperre");
 	}
-
-	private void loadProfileFromServer() {
-
-		partnerAdmin.getProfilByID(1, new AsyncCallback<Profil>() {
-
-			@Override
-			public void onFailure(Throwable caught) {
-
-				Window.alert("Daten wurden nicht geladen!");
-
-			}
-
-			@Override
-			public void onSuccess(Profil result) {
-
-				updateProfilTable(result);
-
-			}
-
-		});
-
-	}
-
-	// ToDo: Parameter muss umgeändert werden von "Profil result" in Google+
-	// Email später
-	// sobald Login da ist.
+	
 	private void updateProfilTable(Profil result) {
 		Profil fremdProfil = result;
 
-		Grid profilIntGrid = new Grid(2, 3);
+		
 		profilIntGrid.setStyleName("itable");
 		this.add(profilIntGrid);
 
-		profilIntGrid.setWidget(0, 0, merkButton);
-		profilIntGrid.setWidget(0, 1, sperrButton);
+//		profilIntGrid.setWidget(0, 0, merkButton);
+//		profilIntGrid.setWidget(0, 1, sperrButton);
 
 		FlexTable profilGrid = new FlexTable();
 		profilGrid.setStyleName("etable");
@@ -139,6 +89,134 @@ public class FremdProfilView extends VerticalPanel {
 		profilGrid.setText(4, 2, fremdProfil.getReligion());
 
 	}
+	
+	private class MerkButtonClickhandler implements ClickHandler{
+
+		@Override
+		public void onClick(ClickEvent event) {
+			partnerAdmin.createMerkzettelEintrag(ClientSideSettings.getProfil(), fremdprofil, new MerkProfilCallback());
+			changeButton(entmerkButton, "Merken");
+		}
+		
+	}
+	
+	private class SperrButtonClickhandler implements ClickHandler{
+
+		@Override
+		public void onClick(ClickEvent event) {
+			partnerAdmin.createKontaksperreEintrag(ClientSideSettings.getProfil(), fremdprofil, new SperrProfilCallback());
+			changeButton(entsperrButton, "Sperre");
+		}
+	}
+
+	private class MerkProfilCallback implements AsyncCallback<Void>{
+
+		@Override
+		public void onFailure(Throwable caught) {
+		}
+
+		@Override
+		public void onSuccess(Void result) {
+		}
+		
+	}
+	
+	private class SperrProfilCallback implements AsyncCallback<Void>{
+
+		@Override
+		public void onFailure(Throwable caught) {
+		}
+
+		@Override
+		public void onSuccess(Void result) {
+		}
+		
+	}
+	
+	private class CreateBesuchCallback implements AsyncCallback<Void>{
+
+		@Override
+		public void onFailure(Throwable caught) {
+		}
+
+		@Override
+		public void onSuccess(Void result) {
+		}
+		
+	}
+	
+	public void changeButton(Button button, String what){
+		
+		if (what.equals("Sperre")){
+			profilIntGrid.setWidget(0, 1, button);
+			if (button.getText().equals("Profil entsperren")){
+				button.addClickHandler(new EntsperrungClickhandler());
+			}
+			else {
+				button.addClickHandler(new SperrButtonClickhandler());
+			}
+		}
+		
+		if (what.equals("Merken")){
+			profilIntGrid.setWidget(0, 0, button);
+			if (button.getText().equals("Profil entmerken")){
+				button.addClickHandler(new EntmerkungsClickhandler());
+			}
+			else {
+				button.addClickHandler(new SperrButtonClickhandler());
+			}
+		}
+		
+	}
+	
+	private class EntsperrungClickhandler implements ClickHandler{
+
+		@Override
+		public void onClick(ClickEvent event) {
+			Kontaktsperre k = new Kontaktsperre();
+			k.setEigenprofilID(ClientSideSettings.getProfil().getId());
+			k.setFremdprofilID(fremdprofil.getId());
+			partnerAdmin.deleteKontaktsperreEintraege(k, new DeleteSperrungCallback());
+		}
+		
+	}
+	
+	private class DeleteSperrungCallback implements AsyncCallback<Void>{
+
+		@Override
+		public void onFailure(Throwable caught) {
+		}
+
+		@Override
+		public void onSuccess(Void result) {
+			changeButton(sperrButton, "Sperre");
+		}
+		
+	}
+	
+	private class EntmerkungsClickhandler implements ClickHandler{
+
+		@Override
+		public void onClick(ClickEvent event) {
+			Merkzettel m = new Merkzettel();
+			m.setEigenprofilID(ClientSideSettings.getProfil().getId());
+			m.setFremdprofilID(fremdprofil.getId());
+			partnerAdmin.deleteMerkzettelEintrag(m, new DeleteMerkungCallback());
+		}
+		
+	}
+	
+	private class DeleteMerkungCallback implements AsyncCallback<Void>{
+
+		@Override
+		public void onFailure(Throwable caught) {
+		}
+
+		@Override
+		public void onSuccess(Void result) {
+			changeButton(merkButton, "Merken");
+		}
+		
+	}
 
 }
-

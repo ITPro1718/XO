@@ -2,6 +2,8 @@ package de.hdm.partnerboerse.server;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
@@ -26,6 +28,7 @@ import de.hdm.partnerboerse.shared.bo.Kontaktsperre;
 import de.hdm.partnerboerse.shared.bo.Merkzettel;
 import de.hdm.partnerboerse.shared.bo.Profil;
 import de.hdm.partnerboerse.shared.bo.Suchprofil;
+
 
 /**
  * The server-side implementation of the RPC service.
@@ -54,10 +57,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	private int gewichtungAlter;
 	private int gewichtungRaucher;
 	private int gewichtung1Infoobjekt;
-	private int gewichtung2Infoobjekt;
-	private int gewichtung3Infoobjekt;
-	private int gewichtung4Infoobjekt;
-	private int gewichtung5Infoobjekt;
+	
 
 	public void setGewichtungenProfeig(int gwHaarfarbe, int gwReligion, int gwAlter, int gwRaucher) {
 
@@ -67,13 +67,9 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		this.gewichtungRaucher = gwRaucher;
 		
 	}
-	public void setGewichtungenInfos(int gwInfo1, int gwInfo2, int gwInfo3, int gwInfo4, int gwInfo5) {
+	public void setGewichtungenInfos(int gwInfo1) {
 
 		this.gewichtung1Infoobjekt = gwInfo1;
-		this.gewichtung2Infoobjekt = gwInfo2;
-		this.gewichtung3Infoobjekt = gwInfo3;
-		this.gewichtung4Infoobjekt = gwInfo4;
-		this.gewichtung5Infoobjekt = gwInfo5;
 
 		
 	}
@@ -289,9 +285,8 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 		Profil p = new Profil();
 		p.setId(kontaktsperre.getEigenprofilID());
-
 		ArrayList<Kontaktsperre> kon = this.findKontaktsperrenOf(p);
-
+		
 		for (Kontaktsperre k : kon) {
 			if (k.getFremdprofilID() == kontaktsperre.getFremdprofilID()) {
 				this.kMapper.deleteKontaktsperreEintrag(k);
@@ -393,12 +388,9 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		float o3 = this.gewichtungAlter;
 		float o4 = this.gewichtungRaucher;
 		float o5 = this.gewichtung1Infoobjekt;
-		float o6 = this.gewichtung2Infoobjekt;
-		float o7 = this.gewichtung3Infoobjekt;
-		float o8 = this.gewichtung4Infoobjekt;
-		float o9 = this.gewichtung5Infoobjekt;
+		
 
-		float summe = o1 + o2 + o3 + o4 + o5 + o6 + o7 + o8 + o9;
+		float summe = o1 + o2 + o3 + o4 + o5; 
 		float x = (float)100 / summe;
 
 		for (Profil p : getSuchProfilErgebnisse(suchprofil)) {
@@ -407,10 +399,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 			float p3 = 0;
 			float p4 = 0;
 			float p5 = 0;
-			float p6 = 0;
-			float p7 = 0;
-			float p8 = 0;
-			float p9 = 0;
+			//float y= 0;
 			
 
 			if (p.getHaarfarbe().equals(source.getHaarfarbe())) {
@@ -423,25 +412,24 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 			else if (p.isRaucher() == source.isRaucher()) {
 				p4 = o4;
-			} else if (compareInfos(source, p)==1) {
+			} else if (compareInfos(source, p)>=1) {
+				o5 = o5*compareInfos(source, p);
 				p5 = o5;
+				
+				//y= p5*x;
+				//if(y>50){
+					//y=50;
+				//}
 			}
-			else if (compareInfos(source, p)==2) {
-				p6 = o6;
-			}
-			else if (compareInfos(source, p)==3) {
-				p7 = o7;
-			}
-			else if (compareInfos(source, p)==4) {
-				p8 = o8;
-			}
-			else if (compareInfos(source, p)==5) {
-				p9 = o9;
-			}
-			p.setÄhnlichkeit((p1 * x) + (p2 * x) + (p3 * x) + (p4 * x) + (p5 * x) + (p6 * x) + (p7 * x) + (p8 * x) + (p9 * x));
+			
+			p.setÄhnlichkeit((p1 * x) + (p2 * x) + (p3 * x) + (p4 * x) + (p5*x));
 			comparedProfiles.add(p);
 		}
-
+		Collections.sort(comparedProfiles, new Comparator<Profil>(){
+			public int compare(Profil a, Profil b){
+				return Float.valueOf(b.getÄhnlichkeit()).compareTo(a.getÄhnlichkeit());
+			}
+		});
 		
 		// Hinweis: sexuelle Orientierung muss ein Pflichtattribut beim
 		// Profilerstellen sein, sonst kann man nicht rausfiltern ob Männer oder
@@ -459,12 +447,8 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		float o3 = this.gewichtungAlter;
 		float o4 = this.gewichtungRaucher;
 		float o5 = this.gewichtung1Infoobjekt;
-		float o6 = this.gewichtung2Infoobjekt;
-		float o7 = this.gewichtung3Infoobjekt;
-		float o8 = this.gewichtung4Infoobjekt;
-		float o9 = this.gewichtung5Infoobjekt;
-
-		float summe = o1 + o2 + o3 + o4 + o5 + o6 + o7 + o8 + o9;
+		
+		float summe = o1 + o2 + o3 + o4 + o5;
 		float x = (float)100 / summe;
 
 		for (Profil p : getNotSeenPartnervorschläge(profil)) {
@@ -473,10 +457,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 			float p3 = 0;
 			float p4 = 0;
 			float p5 = 0;
-			float p6 = 0;
-			float p7 = 0;
-			float p8 = 0;
-			float p9 = 0;
 			
 
 			if (p.getHaarfarbe().equals(profil.getHaarfarbe())) {
@@ -489,26 +469,23 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 			else if (p.isRaucher() == profil.isRaucher()) {
 				p4 = o4;
-			} else if (compareInfos(profil, p)==1) {
+			}  else if (compareInfos(profil, p)>=1) {
+				o5 = o5*compareInfos(profil, p);
 				p5 = o5;
+				
+				//y= p5*x;
+				//if(y>50){
+					//y=50;
+				//}
 			}
-			else if (compareInfos(profil, p)==2) {
-				p6 = o6;
-			}
-			else if (compareInfos(profil, p)==3) {
-				p7 = o7;
-			}
-			else if (compareInfos(profil, p)==4) {
-				p8 = o8;
-			}
-			else if (compareInfos(profil, p)==5) {
-				p9 = o9;
-			}
-
-			p.setÄhnlichkeit((p1 * x) + (p2 * x) + (p3 * x) + (p4 * x) + (p5 * x) + (p6 * x) + (p7 * x) + (p8 * x) + (p9 * x));
+			p.setÄhnlichkeit((p1 * x) + (p2 * x) + (p3 * x) + (p4 * x) + (p5 * x));
 			comparedProfiles.add(p);
 		}
-
+		Collections.sort(comparedProfiles, new Comparator<Profil>(){
+			public int compare(Profil a, Profil b){
+				return Float.valueOf(b.getÄhnlichkeit()).compareTo(a.getÄhnlichkeit());
+			}
+		});
 		
 		
 		// Hinweis: sexuelle Orientierung muss ein Pflichtattribut beim
@@ -545,10 +522,11 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 			}
 		}
 						
+
 		for (Profil p : profile) {
-			
-						
+				
 			for (Kontaktsperre k : this.findKontaktsperrenOf(suchprofilowner)) {
+
 				if(k.getFremdprofilID() == p.getId()){
 					profilsToRemove.add(p);
 				}
@@ -568,6 +546,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 			if (p.getId() == suchprofilowner.getId()) {
 				profilsToRemove.add(p);
 			} 
+			
 			if (compare(suchprofil, p) == false) {
 				profilsToRemove.add(p);
 			}
@@ -577,8 +556,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 			//}
 		}
 		profile.removeAll(profilsToRemove);
-		System.out.println(profilsToRemove.toString());
-		System.out.println(profile.toString());
 		return profile;
 	}
 
@@ -598,10 +575,16 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 				(suchprofill.getReligion().equals(profil.getReligion())) &&
 				
-				(compareProfilAuswahlInfosWith(suchprofill, profil)))
+				(compareProfilAuswahlInfosWith(suchprofill, profil)) &&
+				
+				(suchprofill.getKoerpergroesse() <= profil.getKoerpergroesse() &&
+				
+				(suchprofill.getAlter() <= getAge(profil.getGeburtsdatum()))
+				
+				))
 			
-			// && (suchprofill.getAlter() == getAge(profil.getGeburtsdatum())
-			// && (suchprofill.getKoerpergroesse() == profil.getKoerpergroesse())
+			// && (suchprofill.getAlter() <= getAge(profil.getGeburtsdatum())
+			
 		{
 			return true;
 		} else
@@ -610,22 +593,32 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	
 	
 	public boolean compareProfilAuswahlInfosWith(Suchprofil suchprofil, Profil profil){
-		System.out.println(suchprofil.toString() + "  " + profil.toString());
-		ArrayList<Info> infos = suchprofilInfoHasAuswahl(suchprofil);
 		
-		for(Info i : infos){
-			System.out.println("Diese Info: " + i.toString());
-			if(profilInfoHasAuswahl(profil).contains(i)){
-				System.out.println("----------return---------");
-				return true;
+		ArrayList<Info> infos = suchprofilInfoHasAuswahl(suchprofil);
+		ArrayList<Info> inf = profilInfoHasAuswahl(profil);
+		ArrayList<String> suchprofilinfotexte = new ArrayList<>();
+		ArrayList<String> profilinfotexte = new ArrayList<>();	
+		if(infos.isEmpty()){
+			return true;
+		}
+		for(Info i : infos){		
+			
+			for (Info a : inf){
+				//if (i.getText().equals(a.getText()))
+				//return true;
+				suchprofilinfotexte.add(i.getText());
+				profilinfotexte.add(a.getText());
 			}
+		}
+		if(profilinfotexte.containsAll(suchprofilinfotexte)){
+			return true;
 		}
 		return false;
 	}
 
 	public ArrayList<Info> suchprofilInfoHasAuswahl(Suchprofil suchprofil){
-			System.out.println(suchprofil.toString());
-			ArrayList<Info> auswahlInfos = new ArrayList<>();
+			
+			ArrayList<Info> auswahlInfos = new ArrayList<Info>();
 			
 			for(Info i : getInfoOfSuchprofil(suchprofil.getId())){
 				Eigenschaft eigenschaft = getEigenschaftByID(i.getEigenschaftId());
@@ -640,14 +633,15 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	
 	public ArrayList<Info> profilInfoHasAuswahl(Profil profil){
 			
-			ArrayList<Info> auswahlInfos = new ArrayList<>();
+		ArrayList<Info> auswahlInfos = new ArrayList<>();
+		
+		for (Info i : findAllInfosOfProfil(profil)){
 			
-			for(Info i : findAllInfosOfProfil(profil)){
-				Eigenschaft eigenschaft = getEigenschaftByID(i.getEigenschaftId());
-				if(eigenschaft.getIs_a().equals("auswahl")){
-					auswahlInfos.add(i);
-				}
+			Eigenschaft eigenschaft = getEigenschaftByID(i.getEigenschaftId());
+			if(eigenschaft.getIs_a().equals("auswahl")){
+				auswahlInfos.add(i);
 			}
+		}
 		return auswahlInfos;
 	}
 
@@ -732,9 +726,11 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 				//profilesToRemove.add(p);
 			//} 
 			
-//			else if (compareInfos(profil, p) < 1) {
+//			else if ((compareInfos(profil, p) <1) && ((findAllInfosOfProfil(profil).isEmpty()== false)) {
+			
 //				profilesToRemove.add(p);
 //				System.out.println(p.toString());
+			
 //			}
 			 
 		}
@@ -759,6 +755,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	
 	public int compareInfos(Profil profil, Profil fremdprofil){
 		int counter = 0;
+	
 		for(Info i: findAllInfosOfProfil(profil)){
 			
 			for(Info o: findAllInfosOfProfil(fremdprofil)){				

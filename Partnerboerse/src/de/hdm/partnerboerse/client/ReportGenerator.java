@@ -15,6 +15,7 @@ import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -46,6 +47,8 @@ public class ReportGenerator implements EntryPoint {
 	HorizontalPanel hp = new HorizontalPanel();
 	Button notSeenProfileButton = new Button("Not seen Profiles");
 	Button suchprofilButton = new Button("Profiles by Suchprofil");
+	FlexTable suchprofilTable = new FlexTable();
+	int row = 1;
 	
 	private final ReportGeneratorServiceAsync reportGenerator = GWT.create(ReportGeneratorService.class);
 	private final PartnerboerseAdministrationAsync partnerAdmin = GWT.create(PartnerboerseAdministration.class);
@@ -54,7 +57,9 @@ public class ReportGenerator implements EntryPoint {
 	@Override
 	public void onModuleLoad() {
 		
-		loginService.login(GWT.getHostPageBaseURL(), new loginCallback());
+		loginService.login(GWT.getHostPageBaseURL(), new LoginCallback());
+		
+		suchprofilTable.setText(0, 0, "Titel");
 
 		
 		// Navigation Area
@@ -81,8 +86,8 @@ public class ReportGenerator implements EntryPoint {
 
 		@Override
 		public void onClick(ClickEvent event) {
-			Suchprofil sp = new Suchprofil();
-			reportGenerator.createSuchprofilReport(sp, new AllProfilesBySuchprofilCallback());
+			RootPanel.get("contwrap").clear();
+	        RootPanel.get("contwrap").add(suchprofilTable);
 		}
 		
 	}
@@ -96,7 +101,7 @@ public class ReportGenerator implements EntryPoint {
 		
 	}
 	
-	private class loginCallback implements AsyncCallback<LoginInfo>{
+	private class LoginCallback implements AsyncCallback<LoginInfo>{
 
 		@Override
 		public void onFailure(Throwable caught) {
@@ -108,15 +113,13 @@ public class ReportGenerator implements EntryPoint {
 	        ClientSideSettings.setLoginInfo(result);
 	        
 	        if (loginInfo.isLoggedIn()) {
-	        	loginService.getEmailFromProfil(result.getEmailAddress(), new hasProfileCallback());
+	        	loginService.getEmailFromProfil(result.getEmailAddress(), new HasProfileCallback());
 	        }
 		}
 		
 	}
 	
-	/**
-	 * Befüllt ListBox mit Titeln der Suchprofile des Users
-	 */
+
 	private class SuchProfileOfUserCallback implements AsyncCallback<ArrayList<Suchprofil>>{
 
 		@Override
@@ -125,14 +128,14 @@ public class ReportGenerator implements EntryPoint {
 
 		@Override
 		public void onSuccess(ArrayList<Suchprofil> result) {
-			suchprofileOfUser = result;
-			for (Suchprofil s : suchprofileOfUser){
-				suchprofilListBox.addItem(s.getTitle());
+			for (Suchprofil s : result){
+				addToTable(s);
 			}
 		}
 		
 	}
-	private class hasProfileCallback implements AsyncCallback<Boolean>{
+	
+	private class HasProfileCallback implements AsyncCallback<Boolean>{
 
 		@Override
 		public void onFailure(Throwable caught) {
@@ -142,13 +145,13 @@ public class ReportGenerator implements EntryPoint {
 		@Override
 		public void onSuccess(Boolean result) {
 			if (result) {
-		       partnerAdmin.getProfilByEmail(loginInfo.getEmailAddress(), new getProfilFromServerCallback());
+		       partnerAdmin.getProfilByEmail(loginInfo.getEmailAddress(), new GetProfilFromServerCallback());
 		    } 
 		}
 		
 	}
 	
-	private class getProfilFromServerCallback implements AsyncCallback<Profil>{
+	private class GetProfilFromServerCallback implements AsyncCallback<Profil>{
 		@Override
 		public void onFailure(Throwable caught) {
 		}
@@ -205,5 +208,33 @@ public class ReportGenerator implements EntryPoint {
         writer.process(report);
         HTML htmlreport = new HTML(writer.getReportText());
         RootPanel.get("contwrap").add(htmlreport);
+	}
+	
+	
+	private void addToTable(Suchprofil suchprofil){
+		Button suchButton = new Button("Report!");
+		
+		suchprofilTable.setText(row, 0, suchprofil.getTitle());
+		suchprofilTable.setWidget(row, 1, suchButton);
+		ReportClickhandler rC = new ReportClickhandler();
+		rC.setSuchprofil(suchprofil);
+		suchButton.addClickHandler(rC);
+		row++;
+		
+	}
+	
+	private class ReportClickhandler implements ClickHandler{
+		
+		Suchprofil s;
+		
+		public void setSuchprofil(Suchprofil suchprofil){
+			this.s = suchprofil;
+		}
+
+		@Override
+		public void onClick(ClickEvent event) {
+			reportGenerator.createSuchprofilReport(s, new AllProfilesBySuchprofilCallback());
+		}
+		
 	}
 }
