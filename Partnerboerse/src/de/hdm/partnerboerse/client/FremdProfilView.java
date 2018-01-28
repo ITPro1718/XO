@@ -12,6 +12,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
+import de.hdm.partnerboerse.shared.bo.Kontaktsperre;
+import de.hdm.partnerboerse.shared.bo.Merkzettel;
 import de.hdm.partnerboerse.shared.bo.Profil;
 import de.hdm.partnerboerse.client.CreateWidget;
 
@@ -21,12 +23,15 @@ public class FremdProfilView extends VerticalPanel {
 
 	Button merkButton = new Button("Profil merken");
 	Button sperrButton = new Button("Profil sperren");
+	Button entsperrButton = new Button("Profil entsperren");
+	Button entmerkButton = new Button("Profil entmerken");
 	
 	CreateWidget cw = new CreateWidget();
 	
 	LoadEigenschaften le = new LoadEigenschaften();
 	
 	Profil fremdprofil;
+	Grid profilIntGrid = new Grid(2, 3);
 	
 	public FremdProfilView(Profil profil){
 		this.fremdprofil = profil;
@@ -40,19 +45,19 @@ public class FremdProfilView extends VerticalPanel {
 		this.add(info);
 		
 		partnerAdmin.createBesuch(ClientSideSettings.getProfil(), fremdprofil, new CreateBesuchCallback());
-		merkButton.addClickHandler(new MerkButtonClickhandler());
-		sperrButton.addClickHandler(new SperrButtonClickhandler());
+		changeButton(merkButton, "Merken");
+		changeButton(sperrButton, "Sperre");
 	}
 	
 	private void updateProfilTable(Profil result) {
 		Profil fremdProfil = result;
 
-		Grid profilIntGrid = new Grid(2, 3);
+		
 		profilIntGrid.setStyleName("itable");
 		this.add(profilIntGrid);
 
-		profilIntGrid.setWidget(0, 0, merkButton);
-		profilIntGrid.setWidget(0, 1, sperrButton);
+//		profilIntGrid.setWidget(0, 0, merkButton);
+//		profilIntGrid.setWidget(0, 1, sperrButton);
 
 		FlexTable profilGrid = new FlexTable();
 		profilGrid.setStyleName("etable");
@@ -90,7 +95,7 @@ public class FremdProfilView extends VerticalPanel {
 		@Override
 		public void onClick(ClickEvent event) {
 			partnerAdmin.createMerkzettelEintrag(ClientSideSettings.getProfil(), fremdprofil, new MerkProfilCallback());
-			
+			changeButton(entmerkButton, "Merken");
 		}
 		
 	}
@@ -100,6 +105,7 @@ public class FremdProfilView extends VerticalPanel {
 		@Override
 		public void onClick(ClickEvent event) {
 			partnerAdmin.createKontaksperreEintrag(ClientSideSettings.getProfil(), fremdprofil, new SperrProfilCallback());
+			changeButton(entsperrButton, "Sperre");
 		}
 	}
 
@@ -135,6 +141,80 @@ public class FremdProfilView extends VerticalPanel {
 
 		@Override
 		public void onSuccess(Void result) {
+		}
+		
+	}
+	
+	public void changeButton(Button button, String what){
+		
+		if (what.equals("Sperre")){
+			profilIntGrid.setWidget(0, 1, button);
+			if (button.getText().equals("Profil entsperren")){
+				button.addClickHandler(new EntsperrungClickhandler());
+			}
+			else {
+				button.addClickHandler(new SperrButtonClickhandler());
+			}
+		}
+		
+		if (what.equals("Merken")){
+			profilIntGrid.setWidget(0, 0, button);
+			if (button.getText().equals("Profil entmerken")){
+				button.addClickHandler(new EntmerkungsClickhandler());
+			}
+			else {
+				button.addClickHandler(new SperrButtonClickhandler());
+			}
+		}
+		
+	}
+	
+	private class EntsperrungClickhandler implements ClickHandler{
+
+		@Override
+		public void onClick(ClickEvent event) {
+			Kontaktsperre k = new Kontaktsperre();
+			k.setEigenprofilID(ClientSideSettings.getProfil().getId());
+			k.setFremdprofilID(fremdprofil.getId());
+			partnerAdmin.deleteKontaktsperreEintraege(k, new DeleteSperrungCallback());
+		}
+		
+	}
+	
+	private class DeleteSperrungCallback implements AsyncCallback<Void>{
+
+		@Override
+		public void onFailure(Throwable caught) {
+		}
+
+		@Override
+		public void onSuccess(Void result) {
+			changeButton(sperrButton, "Sperre");
+		}
+		
+	}
+	
+	private class EntmerkungsClickhandler implements ClickHandler{
+
+		@Override
+		public void onClick(ClickEvent event) {
+			Merkzettel m = new Merkzettel();
+			m.setEigenprofilID(ClientSideSettings.getProfil().getId());
+			m.setFremdprofilID(fremdprofil.getId());
+			partnerAdmin.deleteMerkzettelEintrag(m, new DeleteMerkungCallback());
+		}
+		
+	}
+	
+	private class DeleteMerkungCallback implements AsyncCallback<Void>{
+
+		@Override
+		public void onFailure(Throwable caught) {
+		}
+
+		@Override
+		public void onSuccess(Void result) {
+			changeButton(merkButton, "Merken");
 		}
 		
 	}
