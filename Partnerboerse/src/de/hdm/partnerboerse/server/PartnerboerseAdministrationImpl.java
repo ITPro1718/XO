@@ -57,10 +57,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	private int gewichtungAlter;
 	private int gewichtungRaucher;
 	private int gewichtung1Infoobjekt;
-	private int gewichtung2Infoobjekt;
-	private int gewichtung3Infoobjekt;
-	private int gewichtung4Infoobjekt;
-	private int gewichtung5Infoobjekt;
+	
 
 	public void setGewichtungenProfeig(int gwHaarfarbe, int gwReligion, int gwAlter, int gwRaucher) {
 
@@ -70,13 +67,9 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		this.gewichtungRaucher = gwRaucher;
 		
 	}
-	public void setGewichtungenInfos(int gwInfo1, int gwInfo2, int gwInfo3, int gwInfo4, int gwInfo5) {
+	public void setGewichtungenInfos(int gwInfo1) {
 
 		this.gewichtung1Infoobjekt = gwInfo1;
-		this.gewichtung2Infoobjekt = gwInfo2;
-		this.gewichtung3Infoobjekt = gwInfo3;
-		this.gewichtung4Infoobjekt = gwInfo4;
-		this.gewichtung5Infoobjekt = gwInfo5;
 
 		
 	}
@@ -396,12 +389,9 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		float o3 = this.gewichtungAlter;
 		float o4 = this.gewichtungRaucher;
 		float o5 = this.gewichtung1Infoobjekt;
-		float o6 = this.gewichtung2Infoobjekt;
-		float o7 = this.gewichtung3Infoobjekt;
-		float o8 = this.gewichtung4Infoobjekt;
-		float o9 = this.gewichtung5Infoobjekt;
+		
 
-		float summe = o1 + o2 + o3 + o4 + o5 + o6 + o7 + o8 + o9;
+		float summe = o1 + o2 + o3 + o4 + o5; 
 		float x = (float)100 / summe;
 
 		for (Profil p : getSuchProfilErgebnisse(suchprofil)) {
@@ -410,10 +400,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 			float p3 = 0;
 			float p4 = 0;
 			float p5 = 0;
-			float p6 = 0;
-			float p7 = 0;
-			float p8 = 0;
-			float p9 = 0;
+			//float y= 0;
 			
 
 			if (p.getHaarfarbe().equals(source.getHaarfarbe())) {
@@ -426,22 +413,17 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 			else if (p.isRaucher() == source.isRaucher()) {
 				p4 = o4;
-			} else if (compareInfos(source, p)==1) {
+			} else if (compareInfos(source, p)>=1) {
+				o5 = o5*compareInfos(source, p);
 				p5 = o5;
+				
+				//y= p5*x;
+				//if(y>50){
+					//y=50;
+				//}
 			}
-			else if (compareInfos(source, p)==2) {
-				p6 = o6;
-			}
-			else if (compareInfos(source, p)==3) {
-				p7 = o7;
-			}
-			else if (compareInfos(source, p)==4) {
-				p8 = o8;
-			}
-			else if (compareInfos(source, p)==5) {
-				p9 = o9;
-			}
-			p.setÄhnlichkeit((p1 * x) + (p2 * x) + (p3 * x) + (p4 * x) + (p5 * x) + (p6 * x) + (p7 * x) + (p8 * x) + (p9 * x));
+			
+			p.setÄhnlichkeit((p1 * x) + (p2 * x) + (p3 * x) + (p4 * x) + (p5*x));
 			comparedProfiles.add(p);
 		}
 		Collections.sort(comparedProfiles, new Comparator<Profil>(){
@@ -466,12 +448,8 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		float o3 = this.gewichtungAlter;
 		float o4 = this.gewichtungRaucher;
 		float o5 = this.gewichtung1Infoobjekt;
-		float o6 = this.gewichtung2Infoobjekt;
-		float o7 = this.gewichtung3Infoobjekt;
-		float o8 = this.gewichtung4Infoobjekt;
-		float o9 = this.gewichtung5Infoobjekt;
-
-		float summe = o1 + o2 + o3 + o4 + o5 + o6 + o7 + o8 + o9;
+		
+		float summe = o1 + o2 + o3 + o4 + o5;
 		float x = (float)100 / summe;
 
 		for (Profil p : getNotSeenPartnervorschläge(profil)) {
@@ -480,10 +458,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 			float p3 = 0;
 			float p4 = 0;
 			float p5 = 0;
-			float p6 = 0;
-			float p7 = 0;
-			float p8 = 0;
-			float p9 = 0;
 			
 
 			if (p.getHaarfarbe().equals(profil.getHaarfarbe())) {
@@ -496,23 +470,16 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 			else if (p.isRaucher() == profil.isRaucher()) {
 				p4 = o4;
-			} else if (compareInfos(profil, p)==1) {
+			}  else if (compareInfos(profil, p)>=1) {
+				o5 = o5*compareInfos(profil, p);
 				p5 = o5;
+				
+				//y= p5*x;
+				//if(y>50){
+					//y=50;
+				//}
 			}
-			else if (compareInfos(profil, p)==2) {
-				p6 = o6;
-			}
-			else if (compareInfos(profil, p)==3) {
-				p7 = o7;
-			}
-			else if (compareInfos(profil, p)==4) {
-				p8 = o8;
-			}
-			else if (compareInfos(profil, p)==5) {
-				p9 = o9;
-			}
-
-			p.setÄhnlichkeit((p1 * x) + (p2 * x) + (p3 * x) + (p4 * x) + (p5 * x) + (p6 * x) + (p7 * x) + (p8 * x) + (p9 * x));
+			p.setÄhnlichkeit((p1 * x) + (p2 * x) + (p3 * x) + (p4 * x) + (p5 * x));
 			comparedProfiles.add(p);
 		}
 		Collections.sort(comparedProfiles, new Comparator<Profil>(){
@@ -630,6 +597,10 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		
 		ArrayList<Info> infos = suchprofilInfoHasAuswahl(suchprofil);
 		ArrayList<Info> inf = profilInfoHasAuswahl(profil);
+		
+		if(infos.isEmpty()){
+			return true;
+		}
 		for(Info i : infos){		
 			
 			for (Info a : inf){
