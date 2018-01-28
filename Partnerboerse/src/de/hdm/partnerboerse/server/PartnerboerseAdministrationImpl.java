@@ -292,9 +292,8 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 		Profil p = new Profil();
 		p.setId(kontaktsperre.getEigenprofilID());
-
 		ArrayList<Kontaktsperre> kon = this.findKontaktsperrenOf(p);
-
+		
 		for (Kontaktsperre k : kon) {
 			if (k.getFremdprofilID() == kontaktsperre.getFremdprofilID()) {
 				this.kMapper.deleteKontaktsperreEintrag(k);
