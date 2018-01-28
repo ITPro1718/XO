@@ -548,9 +548,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 			}
 		}
 						
-		for (Profil p : profile) {
-			int id = p.getId();
-						
+		for (Profil p : profile) {						
 			for (Kontaktsperre k : kontaktsperrenofsuchprofilowner) {
 				if(k.getFremdprofilID() == p.getId()){
 					profilsToRemove.add(p);
@@ -571,6 +569,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 			if (p.getId() == suchprofilowner.getId()) {
 				profilsToRemove.add(p);
 			} 
+			
 			if (compare(suchprofil, p) == false) {
 				profilsToRemove.add(p);
 			}
@@ -580,8 +579,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 			//}
 		}
 		profile.removeAll(profilsToRemove);
-		System.out.println(profilsToRemove.toString());
-		System.out.println(profile.toString());
 		return profile;
 	}
 
@@ -601,10 +598,16 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 				(suchprofill.getReligion().equals(profil.getReligion())) &&
 				
-				(compareProfilAuswahlInfosWith(suchprofill, profil)))
+				(compareProfilAuswahlInfosWith(suchprofill, profil)) &&
+				
+				(suchprofill.getKoerpergroesse() <= profil.getKoerpergroesse() &&
+				
+				(suchprofill.getAlter() <= getAge(profil.getGeburtsdatum()))
+				
+				))
 			
-			// && (suchprofill.getAlter() == getAge(profil.getGeburtsdatum())
-			// && (suchprofill.getKoerpergroesse() == profil.getKoerpergroesse())
+			// && (suchprofill.getAlter() <= getAge(profil.getGeburtsdatum())
+			
 		{
 			return true;
 		} else
@@ -613,13 +616,13 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	
 	
 	public boolean compareProfilAuswahlInfosWith(Suchprofil suchprofil, Profil profil){
-		System.out.println(suchprofil.toString() + "  " + profil.toString());
-		ArrayList<Info> infos = suchprofilInfoHasAuswahl(suchprofil);
 		
-		for(Info i : infos){
-			System.out.println("Diese Info: " + i.toString());
-			if(profilInfoHasAuswahl(profil).contains(i)){
-				System.out.println("----------return---------");
+		ArrayList<Info> infos = suchprofilInfoHasAuswahl(suchprofil);
+		ArrayList<Info> inf = profilInfoHasAuswahl(profil);
+		for(Info i : infos){		
+			
+			for (Info a : inf){
+				if (i.getText().equals(a.getText()))
 				return true;
 			}
 		}
@@ -627,8 +630,8 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	}
 
 	public ArrayList<Info> suchprofilInfoHasAuswahl(Suchprofil suchprofil){
-			System.out.println(suchprofil.toString());
-			ArrayList<Info> auswahlInfos = new ArrayList<>();
+			
+			ArrayList<Info> auswahlInfos = new ArrayList<Info>();
 			
 			for(Info i : getInfoOfSuchprofil(suchprofil.getId())){
 				int eigID = i.getEigenschaftId();
@@ -644,15 +647,15 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	
 	public ArrayList<Info> profilInfoHasAuswahl(Profil profil){
 			
-			ArrayList<Info> auswahlInfos = new ArrayList<>();
+		ArrayList<Info> auswahlInfos = new ArrayList<>();
+		
+		for(Info i : findAllInfosOfProfil(profil)){
 			
-			for(Info i : findAllInfosOfProfil(profil)){
-				int eigID = i.getEigenschaftId();
-				Eigenschaft eigenschaft = getEigenschaftByID(eigID);
-				if(eigenschaft.getIs_a().equals("auswahl")){
-					auswahlInfos.add(i);
-				}
+			Eigenschaft eigenschaft = getEigenschaftByID(i.getEigenschaftId());
+			if(eigenschaft.getIs_a().equals("auswahl")){
+				auswahlInfos.add(i);
 			}
+		}
 		return auswahlInfos;
 	}
 

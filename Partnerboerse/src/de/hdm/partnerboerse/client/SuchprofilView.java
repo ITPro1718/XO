@@ -183,11 +183,39 @@ public class SuchprofilView extends VerticalPanel {
 	
 	
 	private void addProfileToErgebniseTable(Profil p){
+
+		Button showProfileButton = new Button("Checkout Profile!");
 		
 		profilFlexTable.setText(row, 0, p.getVorname());
 		profilFlexTable.setText(row, 1, p.getNachname());
 		profilFlexTable.setText(row, 2, String.valueOf(p.getÄhnlichkeit()));
+		profilFlexTable.setWidget(row, 4, showProfileButton);
+		showProfileClickhandler sp = new showProfileClickhandler();
+		sp.setProfile(p);
+		showProfileButton.addClickHandler(sp);
+		
 		row++;
+		
+	}
+	
+	private class showProfileClickhandler implements ClickHandler{
+		
+		Profil p;
+		
+		public void setProfile(Profil p){
+			this.p = p;
+		}
+
+		@Override
+		public void onClick(ClickEvent event) {
+			FremdProfilView fpv = new FremdProfilView(p);
+			
+			HTMLPanel fpvPanel = new HTMLPanel("<h2>" + "Profil von " + p.getVorname() + "</h2>");
+            fpvPanel.add(fpv);
+
+            RootPanel.get("contwrap").clear();
+            RootPanel.get("contwrap").add(fpvPanel);
+		}
 		
 	}
 
