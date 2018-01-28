@@ -413,9 +413,9 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 			float p9 = 0;
 			
 
-			if (p.getHaarfarbe() == source.getHaarfarbe()) {
+			if (p.getHaarfarbe().equals(source.getHaarfarbe())) {
 				p1 = o1;
-			} else if (p.getReligion() == source.getReligion()) {
+			} else if (p.getReligion().equals(source.getReligion())) {
 				p2 = o2;
 			} else if (getAge(p.getGeburtsdatum()) == getAge(source.getGeburtsdatum())) {
 				p3 = o3;
@@ -479,9 +479,9 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 			float p9 = 0;
 			
 
-			if (p.getHaarfarbe() == profil.getHaarfarbe()) {
+			if (p.getHaarfarbe().equals(profil.getHaarfarbe())) {
 				p1 = o1;
-			} else if (p.getReligion() == profil.getReligion()) {
+			} else if (p.getReligion().equals(profil.getReligion())) {
 				p2 = o2;
 			} else if (getAge(p.getGeburtsdatum()) == getAge(profil.getGeburtsdatum())) {
 				p3 = o3;
@@ -523,9 +523,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 		ArrayList<Profil> profile = this.getAllProfils();
 		Profil suchprofilowner = this.getProfilByID(suchprofil.getEigenprofilID());
-		ArrayList<Kontaktsperre> kontaktsperrenofsuchprofilowner = this.findKontaktsperrenOf(suchprofilowner);
-		ArrayList<Integer> fpids = new ArrayList<>();
-		ArrayList<Kontaktsperre> allKontaktsperren = this.getAllKontaktsperreEintraege();
 		ArrayList<Kontaktsperre> blockedSuchprofilowner = new ArrayList<>();
 		ArrayList<Profil> profilBlockedSuchprofilowner = new ArrayList<>();
 		ArrayList<Profil> profilsToRemove = new ArrayList<Profil>();
@@ -535,7 +532,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		// übereinstimmt, wird diese Kontaktsperre zu blockedSuchprofilowner
 		// hinzugefügt.( Alle Kontaktsperren die das eigene Profil geblockt
 		// haben)
-		for (Kontaktsperre s : allKontaktsperren) {
+		for (Kontaktsperre s : this.getAllKontaktsperreEintraege()) {
 			if (s.getFremdprofilID() == suchprofilowner.getId()) {
 				blockedSuchprofilowner.add(s);
 			}
@@ -549,9 +546,9 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		}
 						
 		for (Profil p : profile) {
-			int id = p.getId();
+			
 						
-			for (Kontaktsperre k : kontaktsperrenofsuchprofilowner) {
+			for (Kontaktsperre k : this.findKontaktsperrenOf(suchprofilowner)) {
 				if(k.getFremdprofilID() == p.getId()){
 					profilsToRemove.add(p);
 				}
@@ -631,8 +628,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 			ArrayList<Info> auswahlInfos = new ArrayList<>();
 			
 			for(Info i : getInfoOfSuchprofil(suchprofil.getId())){
-				int eigID = i.getEigenschaftId();
-				Eigenschaft eigenschaft = getEigenschaftByID(eigID);
+				Eigenschaft eigenschaft = getEigenschaftByID(i.getEigenschaftId());
 				if(eigenschaft.getIs_a().equals("auswahl")){
 					auswahlInfos.add(i);
 				}
@@ -647,8 +643,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 			ArrayList<Info> auswahlInfos = new ArrayList<>();
 			
 			for(Info i : findAllInfosOfProfil(profil)){
-				int eigID = i.getEigenschaftId();
-				Eigenschaft eigenschaft = getEigenschaftByID(eigID);
+				Eigenschaft eigenschaft = getEigenschaftByID(i.getEigenschaftId());
 				if(eigenschaft.getIs_a().equals("auswahl")){
 					auswahlInfos.add(i);
 				}
@@ -693,8 +688,8 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		for (Info i : infos){
 			Eigenschaft e = this.getEigenschaftByID(i.getEigenschaftId());
 			
-			if (e.getErlaeuterung() == "Was ist deine Sexualität?"){
-				if (i.getText() == "Heterosexuell"){
+			if (e.getErlaeuterung().equals("Was ist deine Sexualität?")){
+				if (i.getText().equals("Heterosexuell")){
 					return true;
 				}
 			}
@@ -709,8 +704,8 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		for (Info i : infos){
 			Eigenschaft e = this.getEigenschaftByID(i.getEigenschaftId());
 			
-			if (e.getErlaeuterung() == "Was ist deine Sexualität?"){
-				if (i.getText() == "Homosexuell"){
+			if (e.getErlaeuterung().equals("Was ist deine Sexualität?")){
+				if (i.getText().equals("Homosexuell")){
 					return true;
 				}
 			}
@@ -723,15 +718,10 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 		ArrayList<Profil> profile = getAllProfils();
 
-		ArrayList<Besuch> visitsOfProfilowner = this.findBesucheOf(profil);
-		ArrayList<Integer> visitedProfilids = new ArrayList<>();
-
-				
-		
 		ArrayList<Profil> profilesToRemove = new ArrayList<Profil>();
 		for (Profil p : profile) {
 			
-			for (Besuch b : visitsOfProfilowner){
+			for (Besuch b : this.findBesucheOf(profil)){
 				if (b.getFremdprofilID() == p.getId()){
 					profilesToRemove.add(p);
 				}
