@@ -596,16 +596,22 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		
 		ArrayList<Info> infos = suchprofilInfoHasAuswahl(suchprofil);
 		ArrayList<Info> inf = profilInfoHasAuswahl(profil);
-		
+		ArrayList<String> suchprofilinfotexte = new ArrayList<>();
+		ArrayList<String> profilinfotexte = new ArrayList<>();	
 		if(infos.isEmpty()){
 			return true;
 		}
 		for(Info i : infos){		
 			
 			for (Info a : inf){
-				if (i.getText().equals(a.getText()))
-				return true;
+				//if (i.getText().equals(a.getText()))
+				//return true;
+				suchprofilinfotexte.add(i.getText());
+				profilinfotexte.add(a.getText());
 			}
+		}
+		if(profilinfotexte.containsAll(suchprofilinfotexte)){
+			return true;
 		}
 		return false;
 	}
@@ -720,9 +726,11 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 				//profilesToRemove.add(p);
 			//} 
 			
-//			else if (compareInfos(profil, p) < 1) {
+//			else if ((compareInfos(profil, p) <1) && ((findAllInfosOfProfil(profil).isEmpty()== false)) {
+			
 //				profilesToRemove.add(p);
 //				System.out.println(p.toString());
+			
 //			}
 			 
 		}
@@ -747,6 +755,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	
 	public int compareInfos(Profil profil, Profil fremdprofil){
 		int counter = 0;
+	
 		for(Info i: findAllInfosOfProfil(profil)){
 			
 			for(Info o: findAllInfosOfProfil(fremdprofil)){				
