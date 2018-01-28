@@ -23,82 +23,27 @@ public class FremdProfilView extends VerticalPanel {
 	Button sperrButton = new Button("Profil sperren");
 	
 	CreateWidget cw = new CreateWidget();
+	
+	LoadEigenschaften le = new LoadEigenschaften();
+	
+	Profil fremdprofil;
+	
+	public FremdProfilView(Profil profil){
+		this.fremdprofil = profil;
+	}
 
 	@Override
 	public void onLoad() {
 
-		loadProfileFromServer();
-
-		merkButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-
-				partnerAdmin.getProfilByID(1, new AsyncCallback<Profil>() {
-
-					@Override
-					public void onFailure(Throwable caught) {
-						Window.alert("Daten wurden nicht geladen!");
-
-					}
-
-					@Override
-					public void onSuccess(Profil result) {
-						Window.alert("Muss noch implementiert werden");
-					}
-
-				});
-			}
-		});
-		sperrButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-
-				partnerAdmin.getProfilByID(1, new AsyncCallback<Profil>() {
-
-					@Override
-					public void onFailure(Throwable caught) {
-						Window.alert("Daten wurden nicht geladen!");
-
-					}
-
-					@Override
-					public void onSuccess(Profil result) {
-						Window.alert("Muss noch implementiert werden");
-					}
-
-				});
-
-			}
-		});
+		updateProfilTable(fremdprofil);
+		Grid info = le.loadEigenRead(fremdprofil);
+		this.add(info);
+		
+		partnerAdmin.createBesuch(ClientSideSettings.getProfil(), fremdprofil, new CreateBesuchCallback());
+		merkButton.addClickHandler(new MerkButtonClickhandler());
+		sperrButton.addClickHandler(new SperrButtonClickhandler());
 	}
-
-	private void loadProfileFromServer() {
-
-		partnerAdmin.getProfilByID(1, new AsyncCallback<Profil>() {
-
-			@Override
-			public void onFailure(Throwable caught) {
-
-				Window.alert("Daten wurden nicht geladen!");
-
-			}
-
-			@Override
-			public void onSuccess(Profil result) {
-
-				updateProfilTable(result);
-
-			}
-
-		});
-
-	}
-
-	// ToDo: Parameter muss umgeändert werden von "Profil result" in Google+
-	// Email später
-	// sobald Login da ist.
+	
 	private void updateProfilTable(Profil result) {
 		Profil fremdProfil = result;
 
@@ -139,6 +84,59 @@ public class FremdProfilView extends VerticalPanel {
 		profilGrid.setText(4, 2, fremdProfil.getReligion());
 
 	}
+	
+	private class MerkButtonClickhandler implements ClickHandler{
+
+		@Override
+		public void onClick(ClickEvent event) {
+			partnerAdmin.createMerkzettelEintrag(ClientSideSettings.getProfil(), fremdprofil, new MerkProfilCallback());
+			
+		}
+		
+	}
+	
+	private class SperrButtonClickhandler implements ClickHandler{
+
+		@Override
+		public void onClick(ClickEvent event) {
+			partnerAdmin.createKontaksperreEintrag(ClientSideSettings.getProfil(), fremdprofil, new SperrProfilCallback());
+		}
+	}
+
+	private class MerkProfilCallback implements AsyncCallback<Void>{
+
+		@Override
+		public void onFailure(Throwable caught) {
+		}
+
+		@Override
+		public void onSuccess(Void result) {
+		}
+		
+	}
+	
+	private class SperrProfilCallback implements AsyncCallback<Void>{
+
+		@Override
+		public void onFailure(Throwable caught) {
+		}
+
+		@Override
+		public void onSuccess(Void result) {
+		}
+		
+	}
+	
+	private class CreateBesuchCallback implements AsyncCallback<Void>{
+
+		@Override
+		public void onFailure(Throwable caught) {
+		}
+
+		@Override
+		public void onSuccess(Void result) {
+		}
+		
+	}
 
 }
-

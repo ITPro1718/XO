@@ -87,10 +87,10 @@ public class LoadEigenschaften extends VerticalPanel {
           infoGrid.setText(row, column, eg.getErlaeuterung());
           infoGrid.setWidget(row, column + 1, tb);
           if (suchprofil != null) {
-            addDeleteButtonforSuchprofil(eg);
+            addDeleteButtonforSuchprofil(tb, eg);
             addSaveButtonForSuchprofil(tb, eg);
           } else {
-            addDeleteButtonforProfil(eg);
+            addDeleteButtonforProfil(tb, eg);
             addSaveButtonForProfil(tb, eg);
             getInfosOfUser(tb, eg);
           }
@@ -225,7 +225,7 @@ public class LoadEigenschaften extends VerticalPanel {
     });
   }
 
-  private void addDeleteButtonforProfil(final Eigenschaft eg) {
+  private void addDeleteButtonforProfil(final TextBox tb, final Eigenschaft eg) {
     Button del = new Button("delete");
     infoGrid.setWidget(row, column + 3, del);
     del.addClickHandler(new ClickHandler() {
@@ -244,6 +244,8 @@ public class LoadEigenschaften extends VerticalPanel {
           @Override
           public void onSuccess(Void result) {
             Window.alert("Info erfolgreich gelöscht");
+            tb.setText("");
+            
           }
 
 
@@ -252,8 +254,66 @@ public class LoadEigenschaften extends VerticalPanel {
 
     });
   }
+  
+  private void addDeleteButtonforProfil(final Eigenschaft eg) {
+	    Button del = new Button("delete");
+	    infoGrid.setWidget(row, column + 3, del);
+	    del.addClickHandler(new ClickHandler() {
+
+
+	      @Override
+	      public void onClick(ClickEvent event) {
+
+	        partnerAdmin.deleteInfoOfEigenschaft(eg, profil, new AsyncCallback<Void>() {
+
+	          @Override
+	          public void onFailure(Throwable caught) {
+
+	          }
+
+	          @Override
+	          public void onSuccess(Void result) {
+	            Window.alert("Info erfolgreich gelöscht");
+	            
+	          }
+
+
+	        });
+	      }
+
+	    });
+	  }
 
   private void addDeleteButtonforSuchprofil(final Eigenschaft eg) {
+	    Button del = new Button("delete");
+	    infoGrid.setWidget(row, column + 3, del);
+	    del.addClickHandler(new ClickHandler() {
+
+
+	      @Override
+	      public void onClick(ClickEvent event) {
+
+	        partnerAdmin.deleteInfoOfEigenschaft(eg, suchprofil, new AsyncCallback<Void>() {
+
+	          @Override
+	          public void onFailure(Throwable caught) {
+
+	          }
+
+	          @Override
+	          public void onSuccess(Void result) {
+	            Window.alert("Info erfolgreich gelöscht");
+	            ListBox lb = new ListBox();
+	          }
+
+
+	        });
+	      }
+
+	    });
+	  }
+  
+  private void addDeleteButtonforSuchprofil(final TextBox tb, final Eigenschaft eg) {
     Button del = new Button("delete");
     infoGrid.setWidget(row, column + 3, del);
     del.addClickHandler(new ClickHandler() {
@@ -272,6 +332,7 @@ public class LoadEigenschaften extends VerticalPanel {
           @Override
           public void onSuccess(Void result) {
             Window.alert("Info erfolgreich gelöscht");
+            tb.setText("");
           }
 
 

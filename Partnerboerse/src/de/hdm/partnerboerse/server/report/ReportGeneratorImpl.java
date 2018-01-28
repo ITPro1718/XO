@@ -2,16 +2,10 @@ package de.hdm.partnerboerse.server.report;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Vector;
-
-import com.gargoylesoftware.htmlunit.Cache;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
-
 import de.hdm.partnerboerse.server.PartnerboerseAdministrationImpl;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
 import de.hdm.partnerboerse.shared.ReportGeneratorService;
-import de.hdm.partnerboerse.shared.bo.Eigenschaft;
-import de.hdm.partnerboerse.shared.bo.Info;
 import de.hdm.partnerboerse.shared.bo.Profil;
 import de.hdm.partnerboerse.shared.bo.Suchprofil;
 import de.hdm.partnerboerse.shared.report.*;
@@ -122,11 +116,9 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		    result.setTitle("Alle nicht angesehenen Profile");
 
 		    this.addImprint(result);
-
 		    
 		    result.setCreated(new Date());
-
-		    // TODO: Das muss man updaten!
+		    
 		    ArrayList<Profil> allProfile = this.administration.getNotSeenPartnervorschläge(p);
 		    
 
@@ -150,8 +142,18 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 
 		    AllProfilesBySuchprofil result = new AllProfilesBySuchprofil();
 		    
+		    Profil owner = administration.getProfilByID(suchprofil.getEigenprofilID());
+		    
+		    
+		    result.setTitle("Alle Profile anhand Suchprofil: " + suchprofil.getTitle());
+		    
+		    CompositeParagraph header = new CompositeParagraph();
 
-		    result.setTitle("Alle Profile anhand eines Suchprofils");
+		    header.addSubParagraph(new SimpleParagraph("Suchprofil: " + suchprofil.getTitle()));
+		    header.addSubParagraph(new SimpleParagraph(owner.getNachname() + ", " + owner.getVorname()));
+		    header.addSubParagraph(new SimpleParagraph("E-Mail: " + owner.getEmail()));
+
+		    result.setHeaderData(header);
 
 		    this.addImprint(result);
 
@@ -159,7 +161,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		    result.setCreated(new Date());
 
 		    
-		    ArrayList<Profil> allProfile = this.administration.getAllProfils();
+		    ArrayList<Profil> allProfile = this.administration.getSuchProfilErgebnisse(suchprofil);
 		    
 
 		    for (Profil p : allProfile) {
