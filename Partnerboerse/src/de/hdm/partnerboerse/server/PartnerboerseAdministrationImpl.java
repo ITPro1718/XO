@@ -2,6 +2,8 @@ package de.hdm.partnerboerse.server;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
@@ -26,6 +28,7 @@ import de.hdm.partnerboerse.shared.bo.Kontaktsperre;
 import de.hdm.partnerboerse.shared.bo.Merkzettel;
 import de.hdm.partnerboerse.shared.bo.Profil;
 import de.hdm.partnerboerse.shared.bo.Suchprofil;
+
 
 /**
  * The server-side implementation of the RPC service.
@@ -441,7 +444,11 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 			p.setÄhnlichkeit((p1 * x) + (p2 * x) + (p3 * x) + (p4 * x) + (p5 * x) + (p6 * x) + (p7 * x) + (p8 * x) + (p9 * x));
 			comparedProfiles.add(p);
 		}
-
+		Collections.sort(comparedProfiles, new Comparator<Profil>(){
+			public int compare(Profil a, Profil b){
+				return Float.valueOf(b.getÄhnlichkeit()).compareTo(a.getÄhnlichkeit());
+			}
+		});
 		
 		// Hinweis: sexuelle Orientierung muss ein Pflichtattribut beim
 		// Profilerstellen sein, sonst kann man nicht rausfiltern ob Männer oder
@@ -508,7 +515,11 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 			p.setÄhnlichkeit((p1 * x) + (p2 * x) + (p3 * x) + (p4 * x) + (p5 * x) + (p6 * x) + (p7 * x) + (p8 * x) + (p9 * x));
 			comparedProfiles.add(p);
 		}
-
+		Collections.sort(comparedProfiles, new Comparator<Profil>(){
+			public int compare(Profil a, Profil b){
+				return Float.valueOf(b.getÄhnlichkeit()).compareTo(a.getÄhnlichkeit());
+			}
+		});
 		
 		
 		// Hinweis: sexuelle Orientierung muss ein Pflichtattribut beim
