@@ -89,6 +89,7 @@ public class LoadEigenschaften extends VerticalPanel {
           if (suchprofil != null) {
             addDeleteButtonforSuchprofil(tb, eg);
             addSaveButtonForSuchprofil(tb, eg);
+            getInfosOfSuchprofil(tb, eg);
           } else {
             addDeleteButtonforProfil(tb, eg);
             addSaveButtonForProfil(tb, eg);
@@ -377,6 +378,27 @@ public class LoadEigenschaften extends VerticalPanel {
     });
   }
 
+  private void getInfosOfSuchprofil(final TextBox tb, final Eigenschaft eigenschaft) {
+    partnerAdmin.findInfoOf(suchprofil, new AsyncCallback<ArrayList<Info>>() {
+
+      @Override
+      public void onFailure(Throwable caught) {
+        // TODO Auto-generated method stub
+        
+      }
+
+      @Override
+      public void onSuccess(ArrayList<Info> result) {
+        for (Info info : result) {
+          if (info.getEigenschaftId() == eigenschaft.getId()) {
+            tb.setText(info.getText());
+          }
+        }
+        
+      }});
+    
+  }
+  
   class EigenschaftenReadCallback implements AsyncCallback<ArrayList<Eigenschaft>> {
 
     @Override
