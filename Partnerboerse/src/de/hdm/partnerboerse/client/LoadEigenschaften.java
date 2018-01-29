@@ -1,6 +1,7 @@
 package de.hdm.partnerboerse.client;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -39,7 +40,7 @@ public class LoadEigenschaften extends VerticalPanel {
     this.profil = p;
 
 
-    partnerAdmin.getAllEigenschaften(new eigenschaftenCallback());
+    partnerAdmin.getAllEigenschaften(new EigenschaftenCallback());
     return infoGrid;
   }
 
@@ -48,7 +49,7 @@ public class LoadEigenschaften extends VerticalPanel {
     this.suchprofil = sp;
 
 
-    partnerAdmin.getAllEigenschaften(new eigenschaftenCallback());
+    partnerAdmin.getAllEigenschaften(new EigenschaftenCallback());
     return infoGrid;
   }
 
@@ -68,12 +69,10 @@ public class LoadEigenschaften extends VerticalPanel {
     return infoGrid;
   }
 
-  class eigenschaftenCallback implements AsyncCallback<ArrayList<Eigenschaft>> {
+  class EigenschaftenCallback implements AsyncCallback<ArrayList<Eigenschaft>> {
 
     @Override
     public void onFailure(Throwable caught) {
-      // TODO Auto-generated method stub
-
     }
 
     @Override
@@ -106,7 +105,7 @@ public class LoadEigenschaften extends VerticalPanel {
 
           getAuswahlen(lb, eg);
           if (suchprofil != null) {
-            Window.alert(suchprofil.toString());
+
             addDeleteButtonforSuchprofil(eg);
             addSaveButtonForSuchprofil(lb, eg);
           } else {
@@ -190,7 +189,6 @@ public class LoadEigenschaften extends VerticalPanel {
 
           @Override
           public void onSuccess(Info result) {
-            Window.alert("Success");
           }
 
         });
@@ -216,7 +214,6 @@ public class LoadEigenschaften extends VerticalPanel {
 
           @Override
           public void onSuccess(Info result) {
-            Window.alert("hat geklappt");
           }
 
         });
@@ -243,7 +240,6 @@ public class LoadEigenschaften extends VerticalPanel {
 
           @Override
           public void onSuccess(Void result) {
-            Window.alert("Info erfolgreich gelöscht");
             tb.setText("");
             
           }
@@ -273,8 +269,6 @@ public class LoadEigenschaften extends VerticalPanel {
 
 	          @Override
 	          public void onSuccess(Void result) {
-	            Window.alert("Info erfolgreich gelöscht");
-	            
 	          }
 
 
@@ -302,7 +296,6 @@ public class LoadEigenschaften extends VerticalPanel {
 
 	          @Override
 	          public void onSuccess(Void result) {
-	            Window.alert("Info erfolgreich gelöscht");
 	            ListBox lb = new ListBox();
 	          }
 
@@ -331,7 +324,6 @@ public class LoadEigenschaften extends VerticalPanel {
 
           @Override
           public void onSuccess(Void result) {
-            Window.alert("Info erfolgreich gelöscht");
             tb.setText("");
           }
 
@@ -343,21 +335,79 @@ public class LoadEigenschaften extends VerticalPanel {
   }
 
   private void getAuswahlen(final ListBox lb, final Eigenschaft eg) {
-    partnerAdmin.getAuswahl(new AsyncCallback<ArrayList<Auswahl>>() {
+	  
+	  
+	    partnerAdmin.getAuswahl(new AsyncCallback<ArrayList<Auswahl>>() {
+	
+	      @Override
+	      public void onFailure(Throwable caught) {}
+	
+	      @Override
+	      public void onSuccess(ArrayList<Auswahl> result) {
+	    	
+	    	final HashMap<Integer, String> hm = new HashMap<Integer, String>();
+	    	int counter = 0;
+	    	
+	        for (Auswahl a : result) {
+	          if (a.getEigenschaftId() == eg.getId()) {
+	            lb.addItem(a.getTitel());
+	            hm.put(counter, a.getTitel());
+		        counter++;
+	          }
+	          
+	        }
+	        
+	        if (profil != null){
+	        	
+	        	partnerAdmin.findInfoOf(ClientSideSettings.getProfil(), new AsyncCallback<ArrayList<Info>>(){
 
-      @Override
-      public void onFailure(Throwable caught) {}
+					@Override
+					public void onFailure(Throwable caught) {
+					}
 
-      @Override
-      public void onSuccess(ArrayList<Auswahl> result) {
-        for (Auswahl a : result) {
-          if (a.getEigenschaftId() == eg.getId()) {
-            lb.addItem(a.getTitel());
-          }
-        }
-      }
-    });
-  }
+					@Override
+					public void onSuccess(ArrayList<Info> result) {
+						int c = 0;
+						for (Info i : result){
+							for (int z = 0; z < hm.size(); z++){
+								if (i.getText().equals(hm.get(z))){
+									lb.setSelectedIndex(z);
+								}
+							
+							}
+						}
+					}
+		        	
+		        });	        	
+	        }
+	        
+	        if (suchprofil != null){
+	        	partnerAdmin.findInfoOf(suchprofil, new AsyncCallback<ArrayList<Info>>(){
+
+					@Override
+					public void onFailure(Throwable caught) {
+					}
+
+					@Override
+					public void onSuccess(ArrayList<Info> result) {
+						int c = 0;
+						for (Info i : result){
+							for (int z = 0; z < hm.size(); z++){
+							
+								if (i.getText().equals(hm.get(z))){
+									lb.setSelectedIndex(z);
+								}
+							}
+						}
+					}
+	        		
+	        	});
+	        }
+	        
+	        
+	      }
+	    });
+	  }
 
   private void getInfosOfUser(final TextBox tb, final Eigenschaft eig) {
     partnerAdmin.findInfoOf(profil, new AsyncCallback<ArrayList<Info>>() {
@@ -381,8 +431,6 @@ public class LoadEigenschaften extends VerticalPanel {
 
     @Override
     public void onFailure(Throwable caught) {
-      // TODO Auto-generated method stub
-
     }
 
     @Override
@@ -408,8 +456,6 @@ public class LoadEigenschaften extends VerticalPanel {
 
       @Override
       public void onFailure(Throwable caught) {
-        // TODO Auto-generated method stub
-
       }
 
       @Override
@@ -429,8 +475,6 @@ public class LoadEigenschaften extends VerticalPanel {
 
       @Override
       public void onFailure(Throwable caught) {
-        // TODO Auto-generated method stub
-
       }
 
       @Override
@@ -455,8 +499,5 @@ public class LoadEigenschaften extends VerticalPanel {
       }
       row++;
     }
-
-
   }
-
 }

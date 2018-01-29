@@ -2,6 +2,8 @@ package de.hdm.partnerboerse.client;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -12,6 +14,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -85,7 +88,7 @@ public class EditProfile extends VerticalPanel {
     
     profilGrid.setWidget(2, 3, cw.getHcolorLabel());
     profilGrid.setWidget(2, 4, cw.setHcolorListBox());
-    // hcolorListBox.setValue(getProfilFromServer.getHaarfarbe());
+    setRightWert(cw.getHcolorListBox(), getProfilFromServer.getHaarfarbe());
 
     profilGrid.setWidget(3, 1, cw.getHeightLabel());
     profilGrid.setWidget(3, 2, cw.getHeightTextBox());
@@ -95,12 +98,21 @@ public class EditProfile extends VerticalPanel {
 
     profilGrid.setWidget(3, 3, cw.getSmokerLabel());
     profilGrid.setWidget(3, 4, cw.setSmokerListBox());
+    
+    String smokerString;
+    
+    if (getProfilFromServer.isRaucher() == true)
+    	smokerString = "Ja";
+    
+    else smokerString = "Nein";
+    setRightWert(cw.getSmokerListBox(), smokerString);
+    
 
     /*
      * https://stackoverflow.com/questions/3793650/convert-boolean-to-int-in -java Konvertiert bei
      * true zu 1 und bei false zu 0
      */
-    // ToDo: Methode Funktioniert nicht, noch ausbessern
+    // TODO: benutzen wir diese Methode????
     int smokerToInt = (getProfilFromServer.isRaucher()) ? 1 : 0;
     switch (smokerToInt) {
       case 1:
@@ -110,6 +122,7 @@ public class EditProfile extends VerticalPanel {
         cw.getSmokerListBox().getValue(1);
         break;
     }
+    
 
     // smokerListBox.setValue(1, getProfilFromServer.isRaucher());
 
@@ -117,7 +130,7 @@ public class EditProfile extends VerticalPanel {
     
     profilGrid.setWidget(4, 1, cw.getReligionLabel());
     profilGrid.setWidget(4, 2, cw.setReligionListBox());
-    // religionListBox.setValue(getProfilFromServer.getReligion());
+    setRightWert(cw.getReligionListBox(), getProfilFromServer.getReligion());
 
     /*
      * Grid für die Eingenschaftsobjekte. Zur besseren Beschreibung eines Profils.
@@ -128,10 +141,6 @@ public class EditProfile extends VerticalPanel {
     descripton.setStyleName("desctable");
     this.add(descripton);
 
-//    loadEigenschaften();
-//    Grid infoGrid = new Grid(4, 6);
-//    infoGrid.setStyleName("etable");
-//    this.add(infoGrid);
     
     LoadEigenschaften le = new LoadEigenschaften();
     Grid info = le.loadEigen(ClientSideSettings.getProfil());
@@ -275,90 +284,20 @@ public class EditProfile extends VerticalPanel {
 
   }
   
-  Grid infoGrid = new Grid(10,5);
-  int row = 1;
-  int column = 2;
-  
-  private void loadEigenschaften(){
-    
-    FlexTable infoTable = new FlexTable();
-    infoTable.setStyleName("itable");
-    this.add(infoTable);
-    
-    this.add(infoGrid);
-    
-    partnerAdmin.getAllEigenschaften(new AsyncCallback<ArrayList<Eigenschaft>>(){
-
-        @Override
-        public void onFailure(Throwable caught) {
-        }
-
-        @Override
-        public void onSuccess(ArrayList<Eigenschaft> result) {
-            
-            final ArrayList<Eigenschaft> eig = result;
-            
-            partnerAdmin.findInfoOf(ClientSideSettings.getProfil(), new AsyncCallback<ArrayList<Info>>(){
-
-                @Override
-                public void onFailure(Throwable caught) {
-                }
-
-                @Override
-                public void onSuccess(ArrayList<Info> result) {
-                    
-                    for (final Eigenschaft e : eig){
-
-                        infoGrid.setText(row, column, e.getErlaeuterung());
-                        
-                        for (final Info i : result){
-                            if (i.getEigenschaftId() == e.getId()){
-                              
-                              final TextBox textbox = new TextBox();
-                              
-                              textbox.setValue(i.getText());
-                              
-                              infoGrid.setWidget(row, column+1, textbox);  
-                              
-                              saveInfo (i, e, textbox);
-                              
-                            }
-                        }
-                        row++;
-                    }
-                }
-
-                private void saveInfo(final Info i, final Eigenschaft e, final TextBox textbox) {
-                  
-                  Window.alert(e.toString());
-                  final Button button = new Button("Speichern");
-                  infoGrid.setWidget(row, column+2, button);  
-
-                  button.addClickHandler(new ClickHandler() {
-                    
-                    @Override
-                    public void onClick(ClickEvent event) {
-                    
-                      partnerAdmin.createInfo(ClientSideSettings.getProfil(), textbox.getText(), e, new AsyncCallback<Info>() {
-
-                        @Override
-                        public void onFailure(Throwable caught) {
-                          // TODO Auto-generated method stub
-                          
-                        }
-
-                        @Override
-                        public void onSuccess(Info result) {
-                          Window.alert("Hat geklappt!");
-                          
-                        }});                      
-                    }
-                  });
-                  
-                }   
-            });
-        }
-    }); 
-}
+  private void setRightWert(ListBox lb, String string){
+	  
+	  HashMap<Integer, String> hm = new HashMap<Integer, String>();
+	  
+	  for (int i = 0; i < lb.getItemCount(); i++){
+		  hm.put(i, lb.getValue(i));
+	  }
+	  
+	  for (int o = 0; o < hm.size(); o++){
+		  if (hm.get(o).equals(string)){
+			  lb.setSelectedIndex(o);
+		  }
+	  }
+	  
+  }
 
 }

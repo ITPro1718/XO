@@ -1,14 +1,16 @@
 package de.hdm.partnerboerse.client;
 
+import java.util.ArrayList;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-
 import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
 import de.hdm.partnerboerse.shared.bo.Profil;
@@ -22,6 +24,8 @@ public class EigenschaftsView extends VerticalPanel{
 		      GWT.create(PartnerboerseAdministration.class);
 	
 	LoadEigenschaften lb = new LoadEigenschaften();
+	FlexTable profilFlexTable = new FlexTable();
+	int row = 1;
 	
 	Profil profil;
 	Suchprofil suchprofil;
@@ -58,16 +62,12 @@ public class EigenschaftsView extends VerticalPanel{
 
 				@Override
 				public void onClick(ClickEvent event) {
-
-					ListViewSuchProfil lvs = new ListViewSuchProfil();
 					
-
-					HTMLPanel evPanel = new HTMLPanel(
-							"<h3>" + "Hier sehen sie ihre Suchprofile!" + "</h3>");
-					evPanel.add(lvs);
-
 					RootPanel.get("contwrap").clear();
-					RootPanel.get("contwrap").add(evPanel);
+					HTMLPanel fpvPanel = new HTMLPanel("<h2>" + "Ergebnisse: " + "</h2>");
+					RootPanel.get("contwrap").add(fpvPanel);
+					RootPanel.get("contwrap").add(generateErgebnisTable());
+					partnerAdmin.getSuchProfilErgebnisse(suchprofil, new GetSuchProfilErgebnisseCallback());
 					
 				}
 			});
@@ -86,6 +86,69 @@ public class EigenschaftsView extends VerticalPanel{
 	
 	public void egFor(Suchprofil sp){
 		this.suchprofil = sp;
+	}
+	
+	private class GetSuchProfilErgebnisseCallback implements AsyncCallback<ArrayList<Profil>>{
+
+		@Override
+		public void onFailure(Throwable caught) {
+		}
+
+		@Override
+		public void onSuccess(ArrayList<Profil> result) {
+			for (Profil p : result){
+				addProfileToErgebniseTable(p);
+			}
+		}
+		
+	}
+	
+	private FlexTable generateErgebnisTable(){
+		
+		profilFlexTable.setText(0, 0, "Vorname");
+	    profilFlexTable.setText(0, 1, "Nachname");
+	    profilFlexTable.setText(0, 2, "Ähnlichkeit");
+	    
+	    return profilFlexTable;
+	}
+	
+	
+	
+	private void addProfileToErgebniseTable(Profil p){
+
+		Button showProfileButton = new Button("Checkout Profile!");
+		
+		profilFlexTable.setText(row, 0, p.getVorname());
+		profilFlexTable.setText(row, 1, p.getNachname());
+		profilFlexTable.setText(row, 2, String.valueOf(p.getÄhnlichkeit()));
+		profilFlexTable.setWidget(row, 4, showProfileButton);
+		ShowProfileClickhandler sp = new ShowProfileClickhandler();
+		sp.setProfile(p);
+		showProfileButton.addClickHandler(sp);
+		
+		row++;
+		
+	}
+	
+	private class ShowProfileClickhandler implements ClickHandler{
+		
+		Profil p;
+		
+		public void setProfile(Profil p){
+			this.p = p;
+		}
+
+		@Override
+		public void onClick(ClickEvent event) {
+			FremdProfilView fpv = new FremdProfilView(p);
+			
+			HTMLPanel fpvPanel = new HTMLPanel("<h2>" + "Profil von " + p.getVorname() + "</h2>");
+            fpvPanel.add(fpv);
+
+            RootPanel.get("contwrap").clear();
+            RootPanel.get("contwrap").add(fpvPanel);
+		}
+		
 	}
 
 }

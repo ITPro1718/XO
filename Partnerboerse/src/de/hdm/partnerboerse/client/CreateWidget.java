@@ -201,8 +201,8 @@ public class CreateWidget extends VerticalPanel {
 
 	public ListBox setSmokerListBox() {
 
-		smokerListBox.addItem("Ja", "YSmoker");
-		smokerListBox.addItem("Nein", "NSmoker");
+		smokerListBox.addItem("Ja", "Ja");
+		smokerListBox.addItem("Nein", "Nein");
 		return smokerListBox;
 	}
 
