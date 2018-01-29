@@ -75,7 +75,7 @@ public class SuchprofilView extends VerticalPanel {
 		this.add(info);
 		this.add(searchButton);
 		
-		searchButton.addClickHandler(new searchButtonClickhandler());
+		searchButton.addClickHandler(new SearchButtonClickhandler());
 	}
 
 	private void updateSpTable(Suchprofil result) {
@@ -144,19 +144,19 @@ public class SuchprofilView extends VerticalPanel {
 
 	}
 	
-	private class searchButtonClickhandler implements ClickHandler{
+	private class SearchButtonClickhandler implements ClickHandler{
 
 		@Override
 		public void onClick(ClickEvent event) {
 			RootPanel.get("contwrap").add(generateErgebnisTable());
 			// partnerAdmin.getSuchProfilErgebnisse(suchprofil, new getSuchProfilErgebnisseCallback());
-			partnerAdmin.getSuchProfilErgebnisse(suchprofil, new getSuchProfilErgebnisseCallback());
+			partnerAdmin.getSuchProfilErgebnisse(suchprofil, new GetSuchProfilErgebnisseCallback());
 		}
 		
 	}
 	
 	
-	private class getSuchProfilErgebnisseCallback implements AsyncCallback<ArrayList<Profil>>{
+	private class GetSuchProfilErgebnisseCallback implements AsyncCallback<ArrayList<Profil>>{
 
 		@Override
 		public void onFailure(Throwable caught) {
@@ -190,7 +190,7 @@ public class SuchprofilView extends VerticalPanel {
 		profilFlexTable.setText(row, 1, p.getNachname());
 		profilFlexTable.setText(row, 2, String.valueOf(p.getÄhnlichkeit()));
 		profilFlexTable.setWidget(row, 4, showProfileButton);
-		showProfileClickhandler sp = new showProfileClickhandler();
+		ShowProfileClickhandler sp = new ShowProfileClickhandler();
 		sp.setProfile(p);
 		showProfileButton.addClickHandler(sp);
 		
@@ -198,7 +198,7 @@ public class SuchprofilView extends VerticalPanel {
 		
 	}
 	
-	private class showProfileClickhandler implements ClickHandler{
+	private class ShowProfileClickhandler implements ClickHandler{
 		
 		Profil p;
 		
