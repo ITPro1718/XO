@@ -163,7 +163,7 @@ public class FremdProfilView extends VerticalPanel {
 				button.addClickHandler(new EntmerkungsClickhandler());
 			}
 			else {
-				button.addClickHandler(new SperrButtonClickhandler());
+				button.addClickHandler(new MerkButtonClickhandler());
 			}
 		}
 		
