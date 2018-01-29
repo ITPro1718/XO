@@ -1,6 +1,5 @@
 package de.hdm.partnerboerse.client;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 import com.google.gwt.core.client.GWT;
@@ -10,24 +9,14 @@ import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.TextArea;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
-import de.hdm.partnerboerse.shared.bo.Auswahl;
-import de.hdm.partnerboerse.shared.bo.Eigenschaft;
-import de.hdm.partnerboerse.shared.bo.Freitext;
-import de.hdm.partnerboerse.shared.bo.Info;
 import de.hdm.partnerboerse.shared.bo.Profil;
-import de.hdm.partnerboerse.client.CreateWidget;
 
 public class CreateEigenProfil extends VerticalPanel {
 
@@ -36,24 +25,23 @@ public class CreateEigenProfil extends VerticalPanel {
 	// Loginattribute
 	private LoginInfo loginInfo = null;
 
-	/*
+	/**
 	 * Widgets, deren Inhalte variable sind, werden als Attribute angelegt.
-	 */
+	 **/
 
 	Button createButton = new Button("Profil erstellen");
-	
+
 	CreateWidget cw = new CreateWidget();
 	LoadEigenschaften loadEig = new LoadEigenschaften();
 
-	/*
+	/**
 	 * Beim Anzeigen werden die anderen Widgets erzeugt. Alle werden in einem
 	 * Raster angeordnet, dessen Größe sich aus dem Platzbedarf der enthaltenen
 	 * Widgets bestimmt.
-	 */
+	 **/
 	@Override
 	public void onLoad() {
 
-		
 		Grid profilIntGrid = new Grid(2, 3);
 		profilIntGrid.setStyleName("itable");
 		this.add(profilIntGrid);
@@ -84,19 +72,11 @@ public class CreateEigenProfil extends VerticalPanel {
 
 		profilGrid.setWidget(3, 3, cw.getSmokerLabel());
 		profilGrid.setWidget(3, 4, cw.setSmokerListBox());
-		
+
 		// Spalte 4
 
 		profilGrid.setWidget(4, 1, cw.getReligionLabel());
 		profilGrid.setWidget(4, 2, cw.setReligionListBox());
-		
-		
-
-
-
-    // infoGrid.setWidget(0, 1, hobbyLab);
-    // infoGrid.setWidget(0, 2, hobby);
-    // hobby.setValue(getProfilFromServer.getNachname());
 
 		/**
 		 * Button zum Speichern des eigenen geänderten Profils
@@ -125,7 +105,7 @@ public class CreateEigenProfil extends VerticalPanel {
 					@Override
 					public void onSuccess(Profil result) {
 						ClientSideSettings.setProfil(result);
-						
+
 						EigenschaftsView ev = new EigenschaftsView();
 						ev.egFor(result);
 
@@ -186,13 +166,10 @@ public class CreateEigenProfil extends VerticalPanel {
 
 	}
 
-	  
 	Grid infoGrid = new Grid(10, 3);
 	int row = 1;
 	int column = 1;
-	
-	
- 	
+
 	public LoginInfo getLoginInfo() {
 		return loginInfo;
 	}

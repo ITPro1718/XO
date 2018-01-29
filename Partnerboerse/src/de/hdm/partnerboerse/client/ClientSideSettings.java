@@ -16,6 +16,7 @@ public class ClientSideSettings extends CommonSettings {
 	/**
 	 * Remote Service Proxy zur Verbindungsaufnahme mit dem Server-seitgen
 	 * Dienst namens <code>PartnerboerseAdministration</code>.
+	 * @author thies
 	 */
 
 	private static PartnerboerseAdministrationAsync profilverwaltung = null;
@@ -57,10 +58,10 @@ public class ClientSideSettings extends CommonSettings {
 	 * @return Eindeutige Instanz des Typs PartnerboerseAdministrationAsync
 	 */
 	public static PartnerboerseAdministrationAsync getProfilVerwaltung() {
-		// Gab es bislang noch keine PartnerboerseAdministration-Instanz,
-		// dann...
+		 //Gab es bislang noch keine PartnerboerseAdministration-Instanz,
+		 //dann...
 		if (profilverwaltung == null) {
-			// Zunächst instantiieren wir PartnerboerseAdministration
+			/**Zunächst instantiieren wir PartnerboerseAdministration**/
 			profilverwaltung = GWT.create(PartnerboerseAdministration.class);
 		}
 
@@ -79,7 +80,7 @@ public class ClientSideSettings extends CommonSettings {
 	public static ReportGeneratorServiceAsync getReportGenerator() {
 		// Gab es bislang noch keine ReportGenerator-Instanz, dann...
 		if (reportGeneratorService == null) {
-			// ZunÃ¤chst instantiieren wir ReportGenerator
+			// Zunächst instantiieren wir ReportGenerator
 			reportGeneratorService = GWT.create(ReportGenerator.class);
 
 			final AsyncCallback<Void> initReportGeneratorCallback = new AsyncCallback<Void>() {
