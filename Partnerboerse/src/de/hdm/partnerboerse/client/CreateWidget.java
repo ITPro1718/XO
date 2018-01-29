@@ -6,10 +6,8 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
- * Diese Klasse repräsentiert eine Listbox zur Auswahl der Religion. Erweitert
- * die Klasse {@link ListBox} und befüllt die zur Auswahl stehenden Werte.
  * 
- * @author sanjamikulic
+ * 
  *
  */
 public class CreateWidget extends VerticalPanel {
@@ -21,7 +19,8 @@ public class CreateWidget extends VerticalPanel {
 	private	Label bdayLabel = new Label("Geburtstag: ");
 	private Label alterLabel = new Label("Alter ab: ");
 	private	Label hcolorLabel = new Label("Haarfarbe: ");
-	private	Label heightLabel = new Label("Größe (in cm): ");
+	private	Label pheightLabel = new Label("Größe (in cm): ");
+	private	Label spheightLabel = new Label("Größe ab (in cm): ");	
 	private	Label smokerLabel = new Label("Raucher: ");
 	private	Label religionLabel = new Label("Religion: ");
 	private Label titleLabel = new Label("Name des Suchprofils:");
@@ -35,7 +34,7 @@ public class CreateWidget extends VerticalPanel {
 	private	TextBox lnameTextBox = new TextBox();
 	private	TextBox bdayTextBox = new TextBox();
 	private TextBox alterTextBox = new TextBox();
-	private	TextBox heightTextBox = new TextBox();
+	private	TextBox pheightTextBox = new TextBox();
 	private TextBox titleTextBox = new TextBox();
 
 	
@@ -46,7 +45,7 @@ public class CreateWidget extends VerticalPanel {
 	private	ListBox religionListBox = new ListBox();
 	private	ListBox smokerListBox = new ListBox();
 	private ListBox alterListBox = new ListBox();
-	private ListBox heightListBox = new ListBox();
+	private ListBox spheightListBox = new ListBox();
 	
 	
 
@@ -90,13 +89,13 @@ public class CreateWidget extends VerticalPanel {
 	}
 
 
-	public Label getHeightLabel() {
-		return heightLabel;
+	public Label getPHeightLabel() {
+		return pheightLabel;
 	}
 
 
-	public void setHeightLabel(Label heightLabel) {
-		this.heightLabel = heightLabel;
+	public void setPHeightLabel(Label heightLabel) {
+		this.pheightLabel = heightLabel;
 	}
 
 
@@ -166,12 +165,12 @@ public class CreateWidget extends VerticalPanel {
 
 
 	public TextBox getHeightTextBox() {
-		return heightTextBox;
+		return pheightTextBox;
 	}
 
 
 	public void setHeightTextBox(TextBox heightTextBox) {
-		this.heightTextBox = heightTextBox;
+		this.pheightTextBox = heightTextBox;
 	}
 
 
@@ -273,20 +272,30 @@ public class CreateWidget extends VerticalPanel {
 
 
 	public ListBox getHeightListBox() {
-		return heightListBox;
+		return spheightListBox;
 	}
 
 
 	public ListBox setHeightListBox() {
 
-		heightListBox.addItem("150", "150");
-		heightListBox.addItem("160", "160");
-		heightListBox.addItem("170", "170");
-		heightListBox.addItem("180", "180");
-		heightListBox.addItem("190", "190");
-		heightListBox.addItem("200", "200");
+		spheightListBox.addItem("150", "150");
+		spheightListBox.addItem("160", "160");
+		spheightListBox.addItem("170", "170");
+		spheightListBox.addItem("180", "180");
+		spheightListBox.addItem("190", "190");
+		spheightListBox.addItem("200", "200");
 
-		return heightListBox;
+		return spheightListBox;
+	}
+
+
+	public Label getSpheightLabel() {
+		return spheightLabel;
+	}
+
+
+	public void setSpheightLabel(Label spheightLabel) {
+		this.spheightLabel = spheightLabel;
 	}
 	
 

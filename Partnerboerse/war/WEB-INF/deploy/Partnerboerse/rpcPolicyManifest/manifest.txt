@@ -1,2 +1,4 @@
 # Module Partnerboerse
 # RPC service class, partial path of RPC policy file
+de.hdm.partnerboerse.shared.PartnerboerseAdministration, 4CA05C157C0BD54FC2C47ECD7509F919.gwt.rpc
+de.hdm.partnerboerse.client.LoginService, F56F69D871C4ABD7D123358120FAC6BE.gwt.rpc

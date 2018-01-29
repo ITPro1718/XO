@@ -78,7 +78,7 @@ public class FremdProfilView extends VerticalPanel {
 		profilGrid.setText(2, 4, fremdProfil.getHaarfarbe());
 
 		// Spalte 3
-		profilGrid.setWidget(3, 1, cw.getHeightLabel());
+		profilGrid.setWidget(3, 1, cw.getPHeightLabel());
 		profilGrid.setText(3, 2, String.valueOf(fremdProfil.getKoerpergroesse()));
 
 		profilGrid.setWidget(3, 3, cw.getSmokerLabel());

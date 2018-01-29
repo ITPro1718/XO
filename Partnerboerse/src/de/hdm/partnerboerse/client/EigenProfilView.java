@@ -9,6 +9,7 @@ import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+
 import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
 import de.hdm.partnerboerse.shared.bo.Profil;
@@ -78,7 +79,7 @@ public class EigenProfilView extends VerticalPanel {
 		profilGrid.setText(2, 4, meinProfil.getHaarfarbe());
 
 		// Spalte 3
-		profilGrid.setWidget(3, 1, cw.getHeightLabel());
+		profilGrid.setWidget(3, 1, cw.getPHeightLabel());
 		profilGrid.setText(3, 2, String.valueOf(meinProfil.getKoerpergroesse()));
 
 

@@ -105,7 +105,7 @@ public class SuchprofilView extends VerticalPanel {
 		sProfilGrid.setText(1, 4, suchProfil.getHaarFarbe());
 
 		// Spalte 2
-		sProfilGrid.setWidget(2, 1, cw.getHeightLabel());
+		sProfilGrid.setWidget(2, 1, cw.getPHeightLabel());
 		sProfilGrid.setText(2, 2, String.valueOf(suchProfil.getKoerpergroesse()));
 
 		sProfilGrid.setWidget(2, 3, cw.getSmokerLabel());

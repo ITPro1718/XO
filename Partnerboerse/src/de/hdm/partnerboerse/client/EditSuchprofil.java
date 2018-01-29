@@ -39,10 +39,10 @@ public class EditSuchprofil extends VerticalPanel {
 		SprofilGrid.setWidget(0, 1, cw.setAlterListBox());
 
 		// Spalte 4
-		SprofilGrid.setWidget(1, 0, cw.getHcolorListBox());
+		SprofilGrid.setWidget(1, 0, cw.getHcolorLabel());
 		SprofilGrid.setWidget(1, 1, cw.setHcolorListBox());
 
-		SprofilGrid.setWidget(2, 0, cw.getHeightLabel());
+		SprofilGrid.setWidget(2, 0, cw.getSpheightLabel());
 		SprofilGrid.setWidget(2, 1, cw.setHeightListBox());
 
 		// Spalte 5

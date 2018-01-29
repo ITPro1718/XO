@@ -4,6 +4,7 @@ import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+
 import de.hdm.partnerboerse.server.db.ProfilMapper;
 
 @SuppressWarnings("serial")

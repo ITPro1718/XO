@@ -15,6 +15,7 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+
 import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
 import de.hdm.partnerboerse.shared.bo.Eigenschaft;
@@ -87,7 +88,7 @@ public class EditProfile extends VerticalPanel {
     profilGrid.setWidget(2, 4, cw.setHcolorListBox());
     // hcolorListBox.setValue(getProfilFromServer.getHaarfarbe());
 
-    profilGrid.setWidget(3, 1, cw.getHeightLabel());
+    profilGrid.setWidget(3, 1, cw.getPHeightLabel());
     profilGrid.setWidget(3, 2, cw.getHeightTextBox());
     cw.getHeightTextBox().setValue(String.valueOf(getProfilFromServer.getKoerpergroesse()));
 

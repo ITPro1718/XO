@@ -79,7 +79,7 @@ public class CreateEigenProfil extends VerticalPanel {
 		profilGrid.setWidget(2, 4, cw.setHcolorListBox());
 
 		// Spalte 3
-		profilGrid.setWidget(3, 1, cw.getHeightLabel());
+		profilGrid.setWidget(3, 1, cw.getPHeightLabel());
 		profilGrid.setWidget(3, 2, cw.getHeightTextBox());
 
 		profilGrid.setWidget(3, 3, cw.getSmokerLabel());
