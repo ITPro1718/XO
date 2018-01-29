@@ -18,19 +18,24 @@ import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
 import de.hdm.partnerboerse.shared.bo.Profil;
 
+/**
+ * Die Klasse "CreateEigenProfil" wird im Editor nur dann aufgerufen, wenn
+ * es unter der, im Login angegebenen, E-Mail-Adresse noch kein Profil in
+ * der Partnerbörse XO existiert. Mit Hilfe dieser Klasse kann der User dann das Profil anlegen.
+ */
+
 public class CreateEigenProfil extends VerticalPanel {
 
+	//Erfragen der PartnerboereseAdministration.
 	private final PartnerboerseAdministrationAsync partnerAdmin = GWT.create(PartnerboerseAdministration.class);
 
-	// Loginattribute
-	private LoginInfo loginInfo = null;
-
 	/**
-	 * Widgets, deren Inhalte variable sind, werden als Attribute angelegt.
+	 * Klassenattribute, beginnend mit der Instanziierung der loginInfo, des
+	 * Buttons ("Profil erstellen"), der CreateWidget Klasse und der
+	 * loadEigenschaften-Klasse
 	 **/
-
+	private LoginInfo loginInfo = null;
 	Button createButton = new Button("Profil erstellen");
-
 	CreateWidget cw = new CreateWidget();
 	LoadEigenschaften loadEig = new LoadEigenschaften();
 
@@ -123,21 +128,20 @@ public class CreateEigenProfil extends VerticalPanel {
 
 	}
 
-	/*
+	/**
 	 * Werte aus den geänderten Formularen wird ausgelesen und in ein Profil
 	 * gespeichert und zurück gegeben
-	 */
+	 **/
 	private Profil getProfileValuesFromFormular() {
 
 		Profil setProfil = new Profil();
 
-		/*
-		 * DateTimerFromat wandelt den Wert von bdayTextBox in Date um
-		 */
+		// DateTimerFromat wandelt den Wert von bdayTextBox in Date um
+
 		Date bDayConvert = DateTimeFormat.getFormat("yyyy-MM-dd").parse(cw.getBdayTextBox().getValue());
-		/*
-		 * Integer.parseInt wandelt String in int um
-		 */
+
+		// Integer.parseInt wandelt String in int um
+
 		int heightConvert = Integer.parseInt(cw.getHeightTextBox().getValue());
 
 		setProfil.setVorname(cw.getVnameTextBox().getValue());
