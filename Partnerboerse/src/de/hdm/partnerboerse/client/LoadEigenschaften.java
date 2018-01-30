@@ -33,6 +33,7 @@ public class LoadEigenschaften extends VerticalPanel {
   private Suchprofil suchprofil;
   private ArrayList<Info> infoList = new ArrayList<>();
   private ArrayList<Eigenschaft> eigenschaftList = new ArrayList<>();
+  private ClientValidation cv = new ClientValidation();
 
 
   public Grid loadEigen(Profil p) {
@@ -129,17 +130,22 @@ public class LoadEigenschaften extends VerticalPanel {
       @Override
       public void onClick(ClickEvent event) {
 
-        // TODO: Suchprofil ID nehmen, und nicht das gespeicherte Profil
-        partnerAdmin.createInfo(ClientSideSettings.getProfil(), lb.getSelectedValue(), eg,
-            new AsyncCallback<Info>() {
-
-              @Override
-              public void onFailure(Throwable caught) {}
-
-              @Override
-              public void onSuccess(Info result) {}
-
-            });
+        if(cv.isInfoValid(lb.getSelectedValue())) {
+          partnerAdmin.createInfo(ClientSideSettings.getProfil(), lb.getSelectedValue(), eg,
+              new AsyncCallback<Info>() {
+  
+                @Override
+                public void onFailure(Throwable caught) {}
+  
+                @Override
+                public void onSuccess(Info result) {
+                  Window.alert("Die Info \"" + result.getText() + "\" wurde zur Eigenschaft \"" + eg.getErlaeuterung() + "\" gespeichert.");
+                }
+  
+          });
+        } else {
+          return;
+        }
       }
 
     });
@@ -153,20 +159,24 @@ public class LoadEigenschaften extends VerticalPanel {
       @Override
       public void onClick(ClickEvent event) {
 
-        partnerAdmin.createInfo(profil, tb.getText(), eg, new AsyncCallback<Info>() {
-
-          @Override
-          public void onFailure(Throwable caught) {
-            Window.alert("Hier ist der fail " + ClientSideSettings.getProfil().toString()
-                + tb.getText() + eg.toString());
-          }
-
-          @Override
-          public void onSuccess(Info result) {
-            Window.alert("Success");
-          }
-
-        });
+        if(cv.isInfoValid(tb.getText())) {
+          partnerAdmin.createInfo(profil, tb.getText(), eg, new AsyncCallback<Info>() {
+    
+            @Override
+            public void onFailure(Throwable caught) {
+              Window.alert("Hier ist der fail " + ClientSideSettings.getProfil().toString()
+                  + tb.getText() + eg.toString());
+            }
+    
+            @Override
+            public void onSuccess(Info result) {
+              Window.alert("Die Info \"" + tb.getText() + "\" wurde zur Eigenschaft \"" + eg.getErlaeuterung() + "\" gespeichert.");
+            }
+    
+          });
+        } else {
+          return;
+        }
       }
 
     });
@@ -180,19 +190,24 @@ public class LoadEigenschaften extends VerticalPanel {
       @Override
       public void onClick(ClickEvent event) {
 
-        partnerAdmin.createInfo(suchprofil, tb.getText(), eg, new AsyncCallback<Info>() {
-
-          @Override
-          public void onFailure(Throwable caught) {
-            Window.alert("Hier ist der fail " + ClientSideSettings.getProfil().toString()
-                + tb.getText() + eg.toString());
-          }
-
-          @Override
-          public void onSuccess(Info result) {
-          }
-
-        });
+        if(cv.isInfoValid(tb.getText())) {
+          partnerAdmin.createInfo(suchprofil, tb.getText(), eg, new AsyncCallback<Info>() {
+  
+            @Override
+            public void onFailure(Throwable caught) {
+              Window.alert("Hier ist der fail " + ClientSideSettings.getProfil().toString()
+                  + tb.getText() + eg.toString());
+            }
+  
+            @Override
+            public void onSuccess(Info result) {
+              Window.alert("Die Info \"" + tb.getText() + "\" wurde zur Eigenschaft \"" + eg.getErlaeuterung() + "\" gespeichert.");
+            }
+  
+          });
+        } else {
+          return;
+        }
       }
 
     });
@@ -206,18 +221,23 @@ public class LoadEigenschaften extends VerticalPanel {
       @Override
       public void onClick(ClickEvent event) {
 
-        partnerAdmin.createInfo(suchprofil, lb.getSelectedValue(), eg, new AsyncCallback<Info>() {
-
-          @Override
-          public void onFailure(Throwable caught) {
-            Window.alert("hat nicht geklappt");
-          }
-
-          @Override
-          public void onSuccess(Info result) {
-          }
-
-        });
+        if(cv.isInfoValid(lb.getSelectedValue())) {      
+          partnerAdmin.createInfo(suchprofil, lb.getSelectedValue(), eg, new AsyncCallback<Info>() {
+  
+            @Override
+            public void onFailure(Throwable caught) {
+              Window.alert("hat nicht geklappt");
+            }
+  
+            @Override
+            public void onSuccess(Info result) {
+              Window.alert("Die Info \"" + result.getText() + "\" wurde zur Eigenschaft \"" + eg.getErlaeuterung() + "\" gespeichert.");
+            }
+  
+          });
+        } else {
+          return;
+        }
       }
 
     });
@@ -297,7 +317,6 @@ public class LoadEigenschaften extends VerticalPanel {
 
 	          @Override
 	          public void onSuccess(Void result) {
-	            ListBox lb = new ListBox();
 	          }
 
 
@@ -368,7 +387,6 @@ public class LoadEigenschaften extends VerticalPanel {
 
 					@Override
 					public void onSuccess(ArrayList<Info> result) {
-						int c = 0;
 						for (Info i : result){
 							for (int z = 0; z < hm.size(); z++){
 								if (i.getText().equals(hm.get(z))){
@@ -391,7 +409,6 @@ public class LoadEigenschaften extends VerticalPanel {
 
 					@Override
 					public void onSuccess(ArrayList<Info> result) {
-						int c = 0;
 						for (Info i : result){
 							for (int z = 0; z < hm.size(); z++){
 							
