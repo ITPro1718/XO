@@ -341,6 +341,14 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	@Override
 	public void deleteSuchprofil(Suchprofil suchprofil) throws IllegalArgumentException {
+		
+		ArrayList<Info> infosOfSuchprofil = this.findInfoOf(suchprofil);
+		
+		if (infosOfSuchprofil != null) {
+			for (Info infos : infosOfSuchprofil){
+				this.deleteInfo(infos);
+			}
+		}
 
 		this.sMapper.deleteSuchprofil(suchprofil);
 	}
@@ -583,8 +591,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 				
 				))
 			
-			// && (suchprofill.getAlter() <= getAge(profil.getGeburtsdatum())
-			
 		{
 			return true;
 		} else
@@ -604,15 +610,15 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		for(Info i : infos){		
 			
 			for (Info a : inf){
-				//if (i.getText().equals(a.getText()))
-				//return true;
-				suchprofilinfotexte.add(i.getText());
-				profilinfotexte.add(a.getText());
+				if (i.getText().equals(a.getText()))
+				return true;
+				//suchprofilinfotexte.add(i.getText());
+				//profilinfotexte.add(a.getText());
 			}
 		}
-		if(profilinfotexte.containsAll(suchprofilinfotexte)){
-			return true;
-		}
+//		if(profilinfotexte.containsAll(suchprofilinfotexte)){
+//			return true;
+//		}
 		return false;
 	}
 
