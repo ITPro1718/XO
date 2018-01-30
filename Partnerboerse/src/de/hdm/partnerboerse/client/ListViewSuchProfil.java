@@ -119,7 +119,7 @@ public class ListViewSuchProfil extends VerticalPanel {
 					ClientSideSettings.setSuchprofil(sp);
 					SuchprofilView spv = new SuchprofilView();
 
-					HTMLPanel spvPanel = new HTMLPanel("<h3>" + "Das ist ihr Suchprofil" + "</h3>");
+					HTMLPanel spvPanel = new HTMLPanel("<h2>" + "Das ist ihr Suchprofil " + sp.getTitle() + "</h2>");
 					spvPanel.add(spv);
 					spv.setNewSuchprofil(search);
 					RootPanel.get("contwrap").clear();

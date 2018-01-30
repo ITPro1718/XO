@@ -101,8 +101,7 @@ public class EditProfile extends VerticalPanel {
     profilGrid.setWidget(3, 3, cw.getSmokerLabel());
     profilGrid.setWidget(3, 4, cw.setSmokerListBox());
     
-    String smokerString;
-    
+    String smokerString;    
     if (getProfilFromServer.isRaucher() == true)
     	smokerString = "Ja";
     
@@ -311,8 +310,7 @@ public class EditProfile extends VerticalPanel {
 		  if (hm.get(o).equals(string)){
 			  lb.setSelectedIndex(o);
 		  }
-	  }
-	  
+	  } 
   }
 
 }

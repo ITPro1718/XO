@@ -139,7 +139,7 @@ public class Navigation extends VerticalPanel {
             
            ListViewSuchProfil sp = new ListViewSuchProfil();
             
-            HTMLPanel spPanel = new HTMLPanel("<h3>" + "Hier können Sie Ihr Suchprofil erstellen." + "</h3>");
+            HTMLPanel spPanel = new HTMLPanel("<h3>" + "Hier können Sie Ihre Suchprofile verwalten." + "</h3>");
             spPanel.add(sp);
 
             RootPanel.get("contwrap").clear();

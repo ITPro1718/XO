@@ -65,7 +65,8 @@ public class Editor implements EntryPoint {
 
 		// Associate the Main panel with the HTML host page.
 		RootPanel.get("contwrap").add(mainPanel);
-
+		HTMLPanel eigenProfilViewPanel = new HTMLPanel("<h3>" + "Hier können Sie ihr Profil sehen." + "</h3>");
+        eigenProfilViewPanel.add(epv);
 		// Associate the Main panel with the HTML host page.
 		RootPanel.get("contwrap").add(epv);
 

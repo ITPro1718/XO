@@ -76,6 +76,7 @@ public class SuchprofilView extends VerticalPanel {
 		this.add(searchButton);
 		
 		searchButton.addClickHandler(new SearchButtonClickhandler());
+		deleteButton.addClickHandler(new DeleteProfilClickhandler());
 	}
 
 	private void updateSpTable(Suchprofil result) {
@@ -127,6 +128,35 @@ public class SuchprofilView extends VerticalPanel {
 
 	public void setNewSuchprofil(Suchprofil newsuchprofil) {
 		this.newsuchprofil = newsuchprofil;
+	}
+	
+	private class DeleteProfilClickhandler implements ClickHandler{
+
+		@Override
+		public void onClick(ClickEvent event) {
+			partnerAdmin.deleteSuchprofil(suchprofil, new DeleteSuchprofilCallback());
+			
+			ListViewSuchProfil lvsp = new ListViewSuchProfil();
+			HTMLPanel splistViewPanel = new HTMLPanel(
+					"<h3>" + "Hier können sie ihre Suchprofil verwalten." + "</h3>");
+			splistViewPanel.add(lvsp);
+
+			RootPanel.get("contwrap").clear();
+			RootPanel.get("contwrap").add(splistViewPanel);
+		}
+		
+	}
+	
+	private class DeleteSuchprofilCallback implements AsyncCallback<Void>{
+
+		@Override
+		public void onFailure(Throwable caught) {
+		}
+
+		@Override
+		public void onSuccess(Void result) {
+		}
+		
 	}
 
 	private void loadEditSuchprofilView(Suchprofil result) {
