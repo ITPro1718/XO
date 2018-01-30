@@ -241,20 +241,6 @@ public interface PartnerboerseAdministration extends RemoteService {
 	public void deleteSuchprofil(Suchprofil suchprofil) throws IllegalArgumentException;
 
 	/**
-	 * Aehnlichkeitsmass eines gefundenen Profils mit dem eigenen Profil berechnen
-	 * 
-	 * @param source eigenes Profil
-	 * @param suchprofil gesuchtes/gefundenes Profil
-	 * @return Aehnlichkeitsmass-Objekt
-	 * @throws IllegalArgumentException
-	 */
-	public ArrayList<Profil> berechneAehnlichkeitsmassForSuchprofilergebnisse(Profil source, Suchprofil suchprofil)
-			throws IllegalArgumentException;
-	
-	public ArrayList<Profil> berechneAehnlichkeitsmassForPartnervorschlaege(Profil profil)
-			throws IllegalArgumentException;
-
-	/**
 	 * Ergebnisse der Suchprofile. (gefundene Profile aufgrund des Suchprofils)
 	 * 
 	 * @param suchprofil das angewendete Suchprofil

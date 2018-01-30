@@ -15,11 +15,6 @@ import de.hdm.partnerboerse.shared.bo.Suchprofil;
 
 public interface PartnerboerseAdministrationAsync {
 
-	void berechneAehnlichkeitsmassForPartnervorschlaege(Profil profil, AsyncCallback<ArrayList<Profil>> callback);
-
-	void berechneAehnlichkeitsmassForSuchprofilergebnisse(Profil source, Suchprofil suchprofil,
-			AsyncCallback<ArrayList<Profil>> callback);
-
 	void createBesuch(Profil source, Profil target, AsyncCallback<Void> callback);
 
 	void createInfo(Profil profil, String text, Eigenschaft eigenschaft, AsyncCallback<Info> callback);
