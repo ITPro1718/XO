@@ -246,6 +246,7 @@ public class EditProfile extends VerticalPanel {
 
 
     Profil setProfil = new Profil();
+    Date bDayConvert;
     int heightConvert = 0;
 
     /**
@@ -261,10 +262,19 @@ public class EditProfile extends VerticalPanel {
       return setProfil;
     }
     
-    /*
-	 * DateTimerFromat wandelt den Wert von bdayTextBox in Date um
-	 */
-	Date bDayConvert = DateTimeFormat.getFormat("yyyy-MM-dd").parse(cw.getBdayTextBox().getValue());
+    /**
+     * Prüft, ob der Userwert in <code>getBdayTextBox()</code> eine
+     * den Date Format entspricht.
+     */
+    try {
+      /**
+       * DateTimerFromat wandelt den Wert von bdayTextBox in Date um
+       */
+      bDayConvert = DateTimeFormat.getFormat("yyyy-MM-dd").parse(cw.getBdayTextBox().getValue());
+    } catch (IllegalArgumentException e) {
+      Window.alert("Das eingegebene Datumsformat entspricht nicht: \"yyyy-mm-dd\".");
+      return setProfil;
+    }
 
     setProfil.setId(getProfilFromServer.getId());
     setProfil.setVorname(cw.getVnameTextBox().getValue());
