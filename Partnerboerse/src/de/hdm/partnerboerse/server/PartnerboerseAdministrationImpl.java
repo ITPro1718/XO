@@ -833,10 +833,26 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	}
 	
+	/**
+	 * Die Info zu einer Eigenschaft wird gelöscht zu dem passendem Suchprofil 
+	 */
 	@Override
 	public void deleteInfoOfEigenschaft(Eigenschaft eigenschaft, Suchprofil sp) throws IllegalArgumentException {
-		// TODO: Das hier funktioniert noch nicht oder?
-		this.deleteInfoOfEigenschaft(eigenschaft, sp);
+
+	    /**
+	     * Alle Info-Objekte zu einen Suchprofil werden in einem Array gespeichert.
+	     */
+		ArrayList<Info> suchprofilInfo = this.findInfoOf(sp);
+		
+		/**
+		 * ForEach Schleife geht durch alle Infos durch und löscht sie zu der angegebenen
+		 * Eigenschaft
+		 */
+		for (Info i : suchprofilInfo) {
+		  if(i.getEigenschaftId() == eigenschaft.getId()){
+		    this.iMapper.deleteInfo(i);
+		  }
+		}
 
 	}
 
