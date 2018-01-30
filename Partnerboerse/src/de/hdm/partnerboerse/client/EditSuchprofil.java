@@ -1,5 +1,6 @@
 package de.hdm.partnerboerse.client;
 
+import java.util.HashMap;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -8,6 +9,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
@@ -38,17 +40,27 @@ public class EditSuchprofil extends VerticalPanel {
     // Spalte 2
     SprofilGrid.setWidget(0, 0, cw.getAlterLabel());
     SprofilGrid.setWidget(0, 1, cw.setAlterListBox());
+    setRightWert(cw.getAlterListBox(), suchprofil.getHaarFarbe());
 
     // Spalte 4
     SprofilGrid.setWidget(1, 0, cw.getHcolorLabel());
     SprofilGrid.setWidget(1, 1, cw.setHcolorListBox());
+    setRightWert(cw.getAlterListBox(), suchprofil.getHaarFarbe());
 
     SprofilGrid.setWidget(2, 0, cw.getSpheightLabel());
     SprofilGrid.setWidget(2, 1, cw.setHeightListBox());
+    setRightWert(cw.getHeightListBox(), String.valueOf(suchprofil.getKoerpergroesse()));
 
     // Spalte 5
+    String smokerstring;
     SprofilGrid.setWidget(0, 2, cw.getSmokerLabel());
     SprofilGrid.setWidget(0, 3, cw.setSmokerListBox());
+    if (suchprofil.isRaucher()) {
+      smokerstring = "Ja";
+    } else {
+      smokerstring = " Nein";
+    }
+    setRightWert(cw.getSmokerListBox(), smokerstring);
 
     // Spalte 6
     SprofilGrid.setWidget(1, 2, cw.getReligionLabel());
@@ -139,4 +151,20 @@ public class EditSuchprofil extends VerticalPanel {
 
     return suchprofil;
   }
+  
+  private void setRightWert(ListBox lb, String string){
+    
+    HashMap<Integer, String> hm = new HashMap<Integer, String>();
+    
+    for (int i = 0; i < lb.getItemCount(); i++){
+        hm.put(i, lb.getValue(i));
+    }
+    
+    for (int o = 0; o < hm.size(); o++){
+        if (hm.get(o).equals(string)){
+            lb.setSelectedIndex(o);
+        }
+    }
+    
+}
 }
