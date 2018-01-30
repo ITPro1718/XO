@@ -363,91 +363,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	}
 
 
-
-	@Override
-	public ArrayList<Profil> berechneAehnlichkeitsmassForSuchprofilergebnisse(Profil source, Suchprofil suchprofil)
-			throws IllegalArgumentException {
-
-		
-		/**
-		 * Die Schleife geht alle Suchprofilergebnisse durch (Profile) und
-		 * vergleicht Profileigenschaften mit den eigenen Profileigenschaften
-		 * ab.
-		 * Die Gewichtungen können durch die oben implementierte MEthode
-		 * "setGEwichtungen" belieb gesetzt werden und werden am Ende der
-		 * schleife wieder prozentual umgerechnet
-		 * (alle Gewichtungen zusammen ergeben 100% egal welche Zahl man gesetzt
-		 * hat)
-		 * Bsp. Haarfarbegewichtung 10, Religiongewichtung 20,
-		 * Koerpergroessegewichtung 0 , Altergewichtung 30, Rauchergewichtung
-		 * 50,
-		 * Summe = 110,
-		 * Ähnlichkeit in Prozent =
-		 * 10*(100/110))+(20*(100/110))+(0*(100/110))+(30*(100/110))+(50*(100/110)
-		 * =9.090909% + 18.181818% + 0% + 27.272728% + 45.454548% = 100%
-		 * Somit kann man wenn man die Gewichtung 0 setzt, trotzdem 100%
-		 * verreichen weil das Attribut nicht mit einberechnet wird.
-		 */
-
-		
-		ArrayList<Profil> comparedProfiles = new ArrayList<>();
-		float o1 = this.gewichtungHaarfarbe;
-		float o2 = this.gewichtungReligion;
-		float o3 = this.gewichtungAlter;
-		float o4 = this.gewichtungRaucher;
-		float o5 = this.gewichtung1Infoobjekt;
-		
-
-		float summe = o1 + o2 + o3 + o4 + o5; 
-		float x = (float)100 / summe;
-
-		for (Profil p : getSuchProfilErgebnisse(suchprofil)) {
-			float p1 = 0;
-			float p2 = 0;
-			float p3 = 0;
-			float p4 = 0;
-			float p5 = 0;
-			//float y= 0;
-			
-
-			if (p.getHaarfarbe().equals(source.getHaarfarbe())) {
-				p1 = o1;
-			} else if (p.getReligion().equals(source.getReligion())) {
-				p2 = o2;
-			} else if (getAge(p.getGeburtsdatum()) == getAge(source.getGeburtsdatum())) {
-				p3 = o3;
-			}
-
-			else if (p.isRaucher() == source.isRaucher()) {
-				p4 = o4;
-			} else if (compareInfos(source, p)>=1) {
-				o5 = o5*compareInfos(source, p);
-				p5 = o5;
-				
-				//y= p5*x;
-				//if(y>50){
-					//y=50;
-				//}
-			}
-			
-			p.setÄhnlichkeit((p1 * x) + (p2 * x) + (p3 * x) + (p4 * x) + (p5*x));
-			comparedProfiles.add(p);
-		}
-		Collections.sort(comparedProfiles, new Comparator<Profil>(){
-			public int compare(Profil a, Profil b){
-				return Float.valueOf(b.getÄhnlichkeit()).compareTo(a.getÄhnlichkeit());
-			}
-		});
-		
-		// Hinweis: sexuelle Orientierung muss ein Pflichtattribut beim
-		// Profilerstellen sein, sonst kann man nicht rausfiltern ob Männer oder
-		// Frauen angezeigt werden sollen
-
-		return comparedProfiles;
-	}
-	
-	public ArrayList<Profil> berechneAehnlichkeitsmassForPartnervorschlaege(Profil profil)
-			throws IllegalArgumentException {
+	public ArrayList<Profil> berechneAehnlichkeitsmass(Profil profil, ArrayList<Profil> ergebnisse) {
 
 		ArrayList<Profil> comparedProfiles = new ArrayList<>();
 		float o1 = this.gewichtungHaarfarbe;
@@ -459,7 +375,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		float summe = o1 + o2 + o3 + o4 + o5;
 		float x = (float)100 / summe;
 
-		for (Profil p : getNotSeenPartnervorschläge(profil)) {
+		for (Profil p : ergebnisse) {
 			float p1 = 0;
 			float p2 = 0;
 			float p3 = 0;
@@ -471,7 +387,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 				p1 = o1;
 			} else if (p.getReligion().equals(profil.getReligion())) {
 				p2 = o2;
-			} else if (getAge(p.getGeburtsdatum()) == getAge(profil.getGeburtsdatum())) {
+			} else if (((getAge(p.getGeburtsdatum())) <= (getAge(profil.getGeburtsdatum())+3)) && ((getAge(p.getGeburtsdatum())) >= (getAge(profil.getGeburtsdatum())-3))) {
 				p3 = o3;
 			}
 
@@ -564,7 +480,8 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 			//}
 		}
 		profile.removeAll(profilsToRemove);
-		return profile;
+		ArrayList<Profil> comparedProfiles = this.berechneAehnlichkeitsmass(suchprofilowner, profile);
+		return comparedProfiles;
 	}
 
 	/**
@@ -576,24 +493,34 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	 * @return
 	 */
 	public boolean compare(Suchprofil suchprofill, Profil profil) {
+		int countersp = 0;
 
-		if ((suchprofill.getHaarFarbe().equals(profil.getHaarfarbe())) &&
-
-				(suchprofill.isRaucher() == profil.isRaucher()) &&
-
-				(suchprofill.getReligion().equals(profil.getReligion())) &&
+		if (suchprofill.getHaarFarbe().equals(profil.getHaarfarbe())) {
+			countersp++;
+		}
+		else if(suchprofill.isRaucher() == profil.isRaucher()){
+			countersp++;
+		}
+		else if(suchprofill.getReligion().equals(profil.getReligion())){
+			countersp++;
+		}
+		else if(suchprofill.getReligion().equals(profil.getReligion())){
+			countersp++;
+		}
 				
-				(compareProfilAuswahlInfosWith(suchprofill, profil)) &&
-				
-				(suchprofill.getKoerpergroesse() <= profil.getKoerpergroesse() &&
-				
-				(suchprofill.getAlter() <= getAge(profil.getGeburtsdatum()))
-				
-				))
-			
-		{
+		else if(compareProfilAuswahlInfosWith(suchprofill, profil)){
+			countersp++;
+		}
+		else if(suchprofill.getKoerpergroesse() <= profil.getKoerpergroesse()){
+			countersp++;
+		}
+		else if(suchprofill.getAlter() <= getAge(profil.getGeburtsdatum())){
+			countersp++;
+		}
+		if(countersp > 3){
 			return true;
-		} else
+		}
+				
 			return false;
 	}
 	
@@ -743,8 +670,8 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		profile.remove(profil);
 		System.out.println(profilesToRemove.toString());
 		profile.removeAll(profilesToRemove);
-		
-		return profile;
+		ArrayList<Profil> comparedProfiles = this.berechneAehnlichkeitsmass(profil, profile);
+		return comparedProfiles;
 	}
 	
 	
