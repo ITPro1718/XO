@@ -33,6 +33,7 @@ public class LoadEigenschaften extends VerticalPanel {
   private Suchprofil suchprofil;
   private ArrayList<Info> infoList = new ArrayList<>();
   private ArrayList<Eigenschaft> eigenschaftList = new ArrayList<>();
+  
 
 
   public Grid loadEigen(Profil p) {
@@ -77,6 +78,8 @@ public class LoadEigenschaften extends VerticalPanel {
 
     @Override
     public void onSuccess(ArrayList<Eigenschaft> result) {
+    	
+    	    	
       for (Eigenschaft e : result) {
 
         final Eigenschaft eg = e;
@@ -146,6 +149,8 @@ public class LoadEigenschaften extends VerticalPanel {
   }
 
   private void addSaveButtonForProfil(final TextBox tb, final Eigenschaft eg) {
+	  
+	  	  
     Button safe = new Button("save");
     infoGrid.setWidget(row, column + 2, safe);
     safe.addClickHandler(new ClickHandler() {
@@ -199,7 +204,15 @@ public class LoadEigenschaften extends VerticalPanel {
   }
 
   private void addSaveButtonForSuchprofil(final ListBox lb, final Eigenschaft eg) {
-    Button safe = new Button("save");
+	  
+	  final Button safe = new Button("save");
+	  
+	  for (Info i : infoList){
+		  Window.alert("prüfung");
+		  if (i.getEigenschaftId() == eg.getId()){
+			  safe.setText("update");		  
+			  }
+	  }
     infoGrid.setWidget(row, column + 2, safe);
     safe.addClickHandler(new ClickHandler() {
 
@@ -215,6 +228,7 @@ public class LoadEigenschaften extends VerticalPanel {
 
           @Override
           public void onSuccess(Info result) {
+        	  safe.setText("update");
           }
 
         });
@@ -403,8 +417,7 @@ public class LoadEigenschaften extends VerticalPanel {
 					}
 	        		
 	        	});
-	        }
-	        
+	        } 
 	        
 	      }
 	    });
@@ -508,6 +521,7 @@ public class LoadEigenschaften extends VerticalPanel {
       }
     });
   }
+  
 
   private void createReadGridForEigenschaftInfo() {
 

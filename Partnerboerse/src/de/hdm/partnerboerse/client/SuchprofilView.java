@@ -135,14 +135,6 @@ public class SuchprofilView extends VerticalPanel {
 		@Override
 		public void onClick(ClickEvent event) {
 			partnerAdmin.deleteSuchprofil(suchprofil, new DeleteSuchprofilCallback());
-			
-			ListViewSuchProfil lvsp = new ListViewSuchProfil();
-			HTMLPanel splistViewPanel = new HTMLPanel(
-					"<h3>" + "Hier können sie ihre Suchprofil verwalten." + "</h3>");
-			splistViewPanel.add(lvsp);
-
-			RootPanel.get("contwrap").clear();
-			RootPanel.get("contwrap").add(splistViewPanel);
 		}
 		
 	}
@@ -155,6 +147,14 @@ public class SuchprofilView extends VerticalPanel {
 
 		@Override
 		public void onSuccess(Void result) {
+			ClientSideSettings.setSuchprofil(null);
+			ListViewSuchProfil lvsp = new ListViewSuchProfil();
+			HTMLPanel splistViewPanel = new HTMLPanel(
+					"<h3>" + "Hier können sie ihre Suchprofil verwalten." + "</h3>");
+			splistViewPanel.add(lvsp);
+
+			RootPanel.get("contwrap").clear();
+			RootPanel.get("contwrap").add(splistViewPanel);
 		}
 		
 	}
