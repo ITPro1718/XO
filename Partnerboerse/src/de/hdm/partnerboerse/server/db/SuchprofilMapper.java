@@ -72,20 +72,29 @@ public class SuchprofilMapper {
 		return suchprofil;
 	}
 
+	/**
+	 * Suchprofil wird übergeben und in der DB geupdatet.
+	 * @param suchprofil
+	 */
 	public void updateSuchprofil(Suchprofil suchprofil) {
 		Connection con = DBConnection.getConnection();
+		String sql = "UPDATE suchprofil SET titel = ?, religion = ?, "
+		    + "haarfarbe = ?, koerpergroesse = ?, raucher = ?, age = ? WHERE suchprofil.id = ?;"; 
 
-		try {
-			Statement stmt = con.createStatement();
+		try(PreparedStatement stmt = con.prepareStatement(sql)) {
+		  
+		  stmt.setString(1, suchprofil.getTitle());
+		  stmt.setString(2, suchprofil.getReligion());
+		  stmt.setString(3, suchprofil.getHaarFarbe());
+		  stmt.setInt(4, (int) suchprofil.getKoerpergroesse());
+		  stmt.setBoolean(5, suchprofil.isRaucher());
+		  stmt.setInt(6, suchprofil.getAlter());
+		  stmt.setInt(7, suchprofil.getId());
+		  
+		  stmt.executeUpdate();
 
-			stmt.executeUpdate("UPDATE suchprofil " + "SET titel=\"" + suchprofil.getTitle() + "\", " + "religion=\""
-					+ suchprofil.getReligion() + "\", " + "haarfarbe=\"" + suchprofil.getHaarFarbe() + "\", "
-					+ "koerpergroesse=\"" + suchprofil.getKoerpergroesse() + "\" " + "raucher=\""
-					+ suchprofil.isRaucher() + "\", " + "age=\"" + suchprofil.getAlter() + "WHERE id="
-					+ suchprofil.getId());
-
-		} catch (SQLException e2) {
-			e2.printStackTrace();
+		} catch (SQLException e) {
+		  logger.severe("SuchProfilMapper.update konnte Daten nicht in die DB speichern: " + e.getMessage() + e.getCause());
 		}
 
 	}
