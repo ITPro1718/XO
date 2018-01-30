@@ -19,20 +19,21 @@ import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
 import de.hdm.partnerboerse.shared.bo.Profil;
 
 /**
- * Die Klasse "CreateEigenProfil" wird im Editor nur dann aufgerufen, wenn
- * es unter der, im Login angegebenen, E-Mail-Adresse noch kein Profil in
- * der Partnerbörse XO existiert. Mit Hilfe dieser Klasse kann der User dann das Profil anlegen.
+ * Die Klasse <code>CreateEigenProfil</code> wird im Editor nur dann aufgerufen,
+ * wenn unter der, im Login angegebenen, E-Mail-Adresse noch kein Profil in der
+ * Partnerbörse XO existiert. Mit Hilfe dieser Klasse kann der User sein Profil
+ * anlegen.
+ * 
+ * @author evelyn
  */
 
 public class CreateEigenProfil extends VerticalPanel {
 
-	//Erfragen der PartnerboereseAdministration.
+	// Erfragen der PartnerboereseAdministration.
 	private final PartnerboerseAdministrationAsync partnerAdmin = GWT.create(PartnerboerseAdministration.class);
 
 	/**
-	 * Klassenattribute, beginnend mit der Instanziierung der loginInfo, des
-	 * Buttons ("Profil erstellen"), der CreateWidget Klasse und der
-	 * loadEigenschaften-Klasse
+	 * Zuerst werden alle notwendigen Instanzvariablen deklariert
 	 **/
 	private LoginInfo loginInfo = null;
 	Button createButton = new Button("Profil erstellen");
@@ -40,10 +41,10 @@ public class CreateEigenProfil extends VerticalPanel {
 	LoadEigenschaften loadEig = new LoadEigenschaften();
 
 	/**
-	 * Beim Anzeigen werden die anderen Widgets erzeugt. Alle werden in einem
-	 * Raster angeordnet, dessen Größe sich aus dem Platzbedarf der enthaltenen
-	 * Widgets bestimmt.
+	 * In der <code>onLoad()</code> ein Grid und alle anzuzeigenden Widgets
+	 * erstellt und geladen.
 	 **/
+
 	@Override
 	public void onLoad() {
 
@@ -84,7 +85,8 @@ public class CreateEigenProfil extends VerticalPanel {
 		profilGrid.setWidget(4, 2, cw.setReligionListBox());
 
 		/**
-		 * Button zum Speichern des eigenen geänderten Profils
+		 * Dieser <code>createButton.ClickHandler(new ClickHandler)</code>
+		 * speichert die eingegebenen Daten, des neuen Users, im Profil ab.
 		 */
 		createButton.addClickHandler(new ClickHandler() {
 
@@ -99,33 +101,35 @@ public class CreateEigenProfil extends VerticalPanel {
 
 				Profil setProfil = getProfileValuesFromFormular();
 				ClientValidation cv = new ClientValidation();
-				
-				if(cv.isProfilValid(setProfil)) {
-				partnerAdmin.createProfil(setProfil, new AsyncCallback<Profil>() {
 
-					@Override
-					public void onFailure(Throwable caught) {
-						Window.alert("fehler");
-					}
+				if (cv.isProfilValid(setProfil)) {
+					partnerAdmin.createProfil(setProfil, new AsyncCallback<Profil>() {
 
-					@Override
-					public void onSuccess(Profil result) {
-						ClientSideSettings.setProfil(result);
+						/**
+						 * Wenn das Laden fehlgeschlafen ist, wird ein 
+						 */
+						@Override
+						public void onFailure(Throwable caught) {
+							Window.alert("Es ist ein Fehler aufgetreten! Ihr Profil wurde nicht gespeichert.");
+						}
 
-						EigenschaftsView ev = new EigenschaftsView();
-						ev.egFor(result);
+						@Override
+						public void onSuccess(Profil result) {
+							ClientSideSettings.setProfil(result);
+							EigenschaftsView ev = new EigenschaftsView();
+							ev.egFor(result);
 
-						HTMLPanel evPanel = new HTMLPanel(
-								"<h3>" + "Hier können sie ein relevante Infos angeben!" + "</h3>");
-						evPanel.add(ev);
+							HTMLPanel evPanel = new HTMLPanel(
+									"<h3>" + "Hier können sie ein relevante Infos angeben!" + "</h3>");
+							evPanel.add(ev);
 
-						RootPanel.get("contwrap").clear();
-						RootPanel.get("contwrap").add(evPanel);
+							RootPanel.get("contwrap").clear();
+							RootPanel.get("contwrap").add(evPanel);
 
-					}
-				});
+						}
+					});
 				} else {
-				  return;
+					return;
 				}
 			}
 		});
@@ -143,21 +147,22 @@ public class CreateEigenProfil extends VerticalPanel {
 		// DateTimerFromat wandelt den Wert von bdayTextBox in Date um
 
 		Date bDayConvert = DateTimeFormat.getFormat("yyyy-MM-dd").parse(cw.getBdayTextBox().getValue());
-        int heightConvert = 0;
+		int heightConvert = 0;
 
-        /**
-         * Prüft, ob der Userwert in Textbox Körpergröße eine Zahl ist
-         */
+		/**
+		 * Prüft, ob der Userwert in <code>getHeightTextBox()</code> eine
+		 * int-Zahl ist
+		 */
 		try {
-	      /*
-	       * Integer.parseInt wandelt String in int um
-	       */
-		  heightConvert = Integer.parseInt(cw.getHeightTextBox().getValue());
+			/*
+			 * Integer.parseInt wandelt String in int um
+			 */
+			heightConvert = Integer.parseInt(cw.getHeightTextBox().getValue());
 		} catch (NumberFormatException e) {
-	      Window.alert("Körpgergöße muss eine natürliche Zahl sein");
-	      return setProfil;
+			Window.alert("Körpergröße muss eine natürliche Zahl sein");
+			return setProfil;
 		}
-		
+
 		setProfil.setVorname(cw.getVnameTextBox().getValue());
 		setProfil.setNachname(cw.getLnameTextBox().getValue());
 		setProfil.setGeburtsdatum(bDayConvert);
@@ -167,10 +172,11 @@ public class CreateEigenProfil extends VerticalPanel {
 		setProfil.setEmail(loginInfo.getEmailAddress());
 		String raucherSelectedValue = cw.getSmokerListBox().getSelectedValue();
 
-		/*
-		 * String-Wert von Raucher wird ausgelesen und durch eine
-		 * Switch-Anweisung wird der Wert zu einem Boolean konvertiert.
-		 */
+		/**
+		 * String-Wert von Raucher wird ausgelesen und durch die
+		 * Switch-Anweisung wird der Wert zu einem Boolean konvertiert, da die
+		 * Datenbank für Raucher nur 0 oder 1 abspeichert.
+		 **/
 		switch (raucherSelectedValue) {
 		case "YSmoker":
 			setProfil.setRaucher(true);
