@@ -14,7 +14,6 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
-import de.hdm.partnerboerse.shared.bo.Profil;
 import de.hdm.partnerboerse.shared.bo.Suchprofil;
 
 public class EditSuchprofil extends VerticalPanel {
@@ -91,10 +90,10 @@ public class EditSuchprofil extends VerticalPanel {
        */
       private void updateSuchprofilCallback() {
 
-        Profil source = new Profil();
-        source.setId(ClientSideSettings.getProfil().getId());
-
         Suchprofil search = getSuchprofilWerte();
+        ClientValidation cv = new ClientValidation();
+        
+        if(cv.isSuchprofilValid(search)) {
 
         partnerAdmin.updateSuchprofil(search, new AsyncCallback<Void>() {
 
@@ -117,7 +116,9 @@ public class EditSuchprofil extends VerticalPanel {
 
           }
         });
-
+        } else {
+          return;
+        }
       }
 
     });
