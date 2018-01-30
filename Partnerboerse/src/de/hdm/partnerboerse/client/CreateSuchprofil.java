@@ -94,34 +94,37 @@ public class CreateSuchprofil extends VerticalPanel {
 			private void createSuchprofilCallback() {
 
 				Profil source = ClientSideSettings.getProfil();
-
 				Suchprofil search = getSuchprofilWerte();
-
-				partnerAdmin.createSuchprofil(source, search.getTitle(), search.getHaarFarbe(),
-						(float) search.getKoerpergroesse(), search.isRaucher(), search.getReligion(), search.getAlter(),
-						new AsyncCallback<Suchprofil>() {
-
-							@Override
-							public void onFailure(Throwable caught) {
-								Window.alert("Suchprofil wurde nicht gespeichert.");
-
-							}
-
-							@Override
-							public void onSuccess(Suchprofil result) {
-								
-								EigenschaftsView ev = new EigenschaftsView();
-								ev.egFor(result);
-
-								HTMLPanel evPanel = new HTMLPanel(
-										"<h3>" + "Hier können sie ein relevante Infos angeben!" + "</h3>");
-								evPanel.add(ev);
-
-								RootPanel.get("contwrap").clear();
-								RootPanel.get("contwrap").add(evPanel);
-							}
-
-						});
+				ClientValidation cv = new ClientValidation();
+				if(cv.isSuchprofilValid(search)) {
+    				partnerAdmin.createSuchprofil(source, search.getTitle(), search.getHaarFarbe(),
+    						(float) search.getKoerpergroesse(), search.isRaucher(), search.getReligion(), search.getAlter(),
+    						new AsyncCallback<Suchprofil>() {
+    
+    							@Override
+    							public void onFailure(Throwable caught) {
+    								Window.alert("Suchprofil wurde nicht gespeichert.");
+    
+    							}
+    
+    							@Override
+    							public void onSuccess(Suchprofil result) {
+    								
+    								EigenschaftsView ev = new EigenschaftsView();
+    								ev.egFor(result);
+    
+    								HTMLPanel evPanel = new HTMLPanel(
+    										"<h3>" + "Hier können sie ein relevante Infos angeben!" + "</h3>");
+    								evPanel.add(ev);
+    
+    								RootPanel.get("contwrap").clear();
+    								RootPanel.get("contwrap").add(evPanel);
+    							}
+    
+    						});
+				} else {
+				  return;
+				}
 
 			}
 

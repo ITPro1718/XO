@@ -15,6 +15,7 @@ public class ClientValidation {
   private final String regExLastName = "[a-zA-z]+([ '-][a-zA-Z]+)*";
   private final String regExSuchprofilTitel = "[a-zA-z]+([ '-][a-zA-Z]+)*";
   private final String regExInfoText = "[a-zA-z0-9]+([ '-][a-zA-Z0-9]+)*";
+  // private final String regExDate = "\\d{4}-\\d{2}-\\d{2}";
   private final int MIN_STRING_LENGTH = 2;
   private final int MAX_NAME_LENGHT = 15;
   private final int MIN_KOERPERGROESSE = 50;
@@ -43,6 +44,11 @@ public class ClientValidation {
           + " und darf keine Zahlen enthalten.");
       return false;
     }
+    // if (!profil.getGeburtsdatum().toString().matches(regExDate)) {
+    // Window.alert(profil.getGeburtsdatum().toString() + " entspricht nicht dem Format
+    // \"yyyy.mm.dd\".");
+    // return false;
+    // }
     if (profil.getNachname().length() <= MIN_STRING_LENGTH
         || profil.getNachname().length() >= MAX_NAME_LENGHT) {
       Window.alert("Der Nachname muss mehr als " + MIN_STRING_LENGTH + " und weniger als "

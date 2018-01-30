@@ -143,11 +143,22 @@ public class CreateEigenProfil extends VerticalPanel {
 	private Profil getProfileValuesFromFormular() {
 
 		Profil setProfil = new Profil();
-
-		// DateTimerFromat wandelt den Wert von bdayTextBox in Date um
-
-		Date bDayConvert = DateTimeFormat.getFormat("yyyy-MM-dd").parse(cw.getBdayTextBox().getValue());
-		int heightConvert = 0;
+		Date bDayConvert;
+        int heightConvert = 0;
+		
+        /**
+         * Prüft, ob der Userwert in <code>getBdayTextBox()</code> eine
+         * den Date Format entspricht.
+         */
+		try {
+		  /**
+		   * DateTimerFromat wandelt den Wert von bdayTextBox in Date um
+		   */
+          bDayConvert = DateTimeFormat.getFormat("yyyy-MM-dd").parse(cw.getBdayTextBox().getValue());
+		} catch (IllegalArgumentException e) {
+		  Window.alert("Das eingegebene Datumsformat entspricht nicht: \"yyyy-mm-dd\".");
+		  return setProfil;
+		}
 
 		/**
 		 * Prüft, ob der Userwert in <code>getHeightTextBox()</code> eine
