@@ -98,8 +98,9 @@ public class CreateEigenProfil extends VerticalPanel {
 			private void createProfileOnServer() {
 
 				Profil setProfil = getProfileValuesFromFormular();
-				// System.out.println("tes01" + setProfil.toString());
-
+				ClientValidation cv = new ClientValidation();
+				
+				if(cv.isProfilValid(setProfil)) {
 				partnerAdmin.createProfil(setProfil, new AsyncCallback<Profil>() {
 
 					@Override
@@ -123,6 +124,9 @@ public class CreateEigenProfil extends VerticalPanel {
 
 					}
 				});
+				} else {
+				  return;
+				}
 			}
 		});
 
@@ -139,11 +143,21 @@ public class CreateEigenProfil extends VerticalPanel {
 		// DateTimerFromat wandelt den Wert von bdayTextBox in Date um
 
 		Date bDayConvert = DateTimeFormat.getFormat("yyyy-MM-dd").parse(cw.getBdayTextBox().getValue());
+        int heightConvert = 0;
 
-		// Integer.parseInt wandelt String in int um
-
-		int heightConvert = Integer.parseInt(cw.getHeightTextBox().getValue());
-
+        /**
+         * Prüft, ob der Userwert in Textbox Körpergröße eine Zahl ist
+         */
+		try {
+	      /*
+	       * Integer.parseInt wandelt String in int um
+	       */
+		  heightConvert = Integer.parseInt(cw.getHeightTextBox().getValue());
+		} catch (NumberFormatException e) {
+	      Window.alert("Körpgergöße muss eine natürliche Zahl sein");
+	      return setProfil;
+		}
+		
 		setProfil.setVorname(cw.getVnameTextBox().getValue());
 		setProfil.setNachname(cw.getLnameTextBox().getValue());
 		setProfil.setGeburtsdatum(bDayConvert);

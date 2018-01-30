@@ -94,6 +94,7 @@ public class EditProfile extends VerticalPanel {
     profilGrid.setWidget(3, 1, cw.getPHeightLabel());
     profilGrid.setWidget(3, 2, cw.getHeightTextBox());
     cw.getHeightTextBox().setValue(String.valueOf(getProfilFromServer.getKoerpergroesse()));
+   
 
     // Spalte 5
 
@@ -164,7 +165,9 @@ public class EditProfile extends VerticalPanel {
       private void updateProfileOnServer() {
 
         getProfilFromServer = getProfileValuesFromFormular();
-
+        ClientValidation cv = new ClientValidation();
+        
+        if(cv.isProfilValid(getProfilFromServer)) {
 
         partnerAdmin.updateProfil(getProfilFromServer, new AsyncCallback<Void>() {
 
@@ -192,6 +195,9 @@ public class EditProfile extends VerticalPanel {
 
           }
         });
+        } else {
+          return;
+        }
       }
 
      
@@ -245,12 +251,20 @@ public class EditProfile extends VerticalPanel {
 
 
     Profil setProfil = new Profil();
+    int heightConvert = 0;
 
-    /*
-     * Integer.parseInt wandelt String in int um
+    /**
+     * Prüft, ob der Userwert in Textbox Körpergröße eine Zahl ist
      */
-    int heightConvert = Integer.parseInt(cw.getHeightTextBox().getValue());
-   
+    try {
+      /*
+       * Integer.parseInt wandelt String in int um
+       */
+      heightConvert = Integer.parseInt(cw.getHeightTextBox().getValue());
+    }catch (NumberFormatException e) {
+      Window.alert("Körpgergöße muss eine natürliche Zahl sein");
+      return setProfil;
+    }
     
     /*
 	 * DateTimerFromat wandelt den Wert von bdayTextBox in Date um
