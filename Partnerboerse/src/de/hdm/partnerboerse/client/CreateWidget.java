@@ -159,6 +159,7 @@ public class CreateWidget extends VerticalPanel {
 		hcolorListBox.addItem("braun", "braun");
 		hcolorListBox.addItem("blond", "blond");
 		hcolorListBox.addItem("grau", "grau");
+	    hcolorListBox.addItem("glatze", "glatze");
 		hcolorListBox.addItem("sonstige", "sonstige");
 		return hcolorListBox;
 	}

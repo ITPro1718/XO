@@ -9,6 +9,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Grid;
@@ -25,6 +26,7 @@ public class EditProfile extends VerticalPanel {
 
   private final PartnerboerseAdministrationAsync partnerAdmin =
       GWT.create(PartnerboerseAdministration.class);
+  private final LoginServiceAsync loginService = GWT.create(LoginService.class);
 
   LoginInfo loginInfo = ClientSideSettings.getLoginInfo();
 
@@ -36,7 +38,7 @@ public class EditProfile extends VerticalPanel {
    * Widgets, deren Inhalte variable sind, werden als Attribute angelegt.
    */
 
-  Button deleteButton = new Button("Profil löschen");
+  final Anchor deleteButton = new Anchor("Profil löschen");
   Button safeButton = new Button("Profil speichern");
   
 
@@ -48,6 +50,9 @@ public class EditProfile extends VerticalPanel {
   @Override
   public void onLoad() {
 	  
+
+	 deleteButton.addStyleName("offbutton");
+
     /*
      * Grid für die Attribute
      * 
@@ -141,16 +146,16 @@ public class EditProfile extends VerticalPanel {
     Grid info = le.loadEigen(ClientSideSettings.getProfil());
     this.add(info);
     
-    
+        
 
     /*
      * Button zum Speichern des eigenen geändertem Profils
      */
+    
     safeButton.addClickHandler(new ClickHandler() {
 
       @Override
       public void onClick(ClickEvent event) {
-
         updateProfileOnServer();
        
       }
@@ -202,37 +207,26 @@ public class EditProfile extends VerticalPanel {
     	
       @Override
       public void onClick(ClickEvent event) {
-        deleteProfilOnServer();
+    	  
+    	deleteButton.setHref(ClientSideSettings.getLoginInfo().getLogoutUrl());
+        partnerAdmin.deleteProfil(ClientSideSettings.getProfil(), new DeleteProfilCallback());
 
-      }
-
-      private void deleteProfilOnServer() {
-
-        Profil profileToDelete = ClientSideSettings.getProfil();
-
-        partnerAdmin.deleteProfil(profileToDelete, new AsyncCallback<Void>() {
-
-          @Override
-          public void onFailure(Throwable caught) {
-            Window.alert("Profil konnte nicht gelöscht werden");
-
-          }
-
-          @Override
-          public void onSuccess(Void result) {
-            // ToDo: Bei erfolgreicher Löschung wird dem Nutzer was
-            // angezeigt?
-            // Sobald das geklart ist mit der Gruppe, muss dies
-            // implementiert werden
-            // ToDo: alle Abhängigkeiten in der DB müssen auch
-            // gelöscht werden
-            Window.alert("Profil wurde gelöscht");
-
-          }
-        });
 
       }
     });
+  }
+  
+  private class DeleteProfilCallback implements AsyncCallback<Void>{
+
+	@Override
+	public void onFailure(Throwable caught) {
+	}
+
+	@Override
+	public void onSuccess(Void result) {
+		Window.alert("Ihr Profil wurde gelöscht");
+	}
+	  
   }
 
 

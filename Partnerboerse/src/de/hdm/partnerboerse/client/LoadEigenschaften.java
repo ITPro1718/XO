@@ -539,17 +539,20 @@ public class LoadEigenschaften extends VerticalPanel {
   }
   
 
+  /**
+   * Erstellt das Grid für alle Infos mit seinen zugehörigen
+   * Eigenschaften
+   */
   private void createReadGridForEigenschaftInfo() {
 
     for (Eigenschaft eigenschaft : eigenschaftList) {
-      infoGrid.setText(row, column, eigenschaft.getErlaeuterung());
-
       for (Info info : infoList) {
         if (info.getEigenschaftId() == eigenschaft.getId()) {
+          infoGrid.setText(row, column, eigenschaft.getErlaeuterung());
           infoGrid.setText(row, column + 1, info.getText());
+          row++;
         }
       }
-      row++;
     }
   }
 }

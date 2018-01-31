@@ -100,7 +100,7 @@ public class Editor implements EntryPoint {
 		});
 	}
 
-	private void loadLogin() {
+	public void loadLogin() {
 		// Assemble login panel.
 		signInLink.setHref(loginInfo.getLoginUrl());
 		loginPanel.add(loginLabel);
