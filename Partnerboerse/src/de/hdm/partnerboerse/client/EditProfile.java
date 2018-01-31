@@ -64,7 +64,7 @@ public class EditProfile extends VerticalPanel {
     profilIntGrid.setWidget(1, 0, safeButton);
     profilIntGrid.setWidget(1, 2, deleteButton);
 
-    Grid profilGrid = new Grid(6, 6);
+    Grid profilGrid = new Grid(7, 6);
     profilGrid.setStyleName("etable");
     this.add(profilGrid);
 
@@ -106,12 +106,14 @@ public class EditProfile extends VerticalPanel {
     setRightWert(cw.getSmokerListBox(), smokerString);
 
 	// Spalte 5
-	profilGrid.setWidget(5, 1, cw.getSexLabel());
-	profilGrid.setWidget(5, 2, cw.setSexListBox());
+	profilGrid.setWidget(4, 1, cw.getSexLabel());
+	profilGrid.setWidget(4, 2, cw.setSexListBox());
+	setRightWert(cw.getSexListBox(), getProfilFromServer.getGeschlecht());
 	
 	// Spalte 6
-	profilGrid.setWidget(6, 1, cw.getSearchForLabel());
-	profilGrid.setWidget(6, 2, cw.setSearchForListBox());
+	profilGrid.setWidget(5, 1, cw.getSearchForLabel());
+	profilGrid.setWidget(5, 2, cw.setSearchForListBox());
+	setRightWert(cw.getSearchForListBox(), getProfilFromServer.getSucheNach());
     
 
     /*
@@ -134,8 +136,8 @@ public class EditProfile extends VerticalPanel {
 
     // Spalte 6
     
-    profilGrid.setWidget(4, 1, cw.getReligionLabel());
-    profilGrid.setWidget(4, 2, cw.setReligionListBox());
+    profilGrid.setWidget(4, 3, cw.getReligionLabel());
+    profilGrid.setWidget(4, 4, cw.setReligionListBox());
     setRightWert(cw.getReligionListBox(), getProfilFromServer.getReligion());
 
     /*
@@ -281,6 +283,8 @@ public class EditProfile extends VerticalPanel {
     setProfil.setKoerpergroesse(heightConvert);
     setProfil.setReligion(cw.getReligionListBox().getSelectedValue());
     setProfil.setHaarfarbe(cw.getHcolorListBox().getSelectedValue());
+    setProfil.setGeschlecht(cw.getSexListBox().getSelectedValue());
+    setProfil.setSucheNach(cw.getSearchForListBox().getSelectedValue());
 
     /*
      * String-Wert von Raucher wird ausgelesen und durch eine Switch-Anweisung wird der Wert zu

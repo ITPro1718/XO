@@ -81,16 +81,16 @@ public class CreateEigenProfil extends VerticalPanel {
 
 		// Spalte 4
 
-		profilGrid.setWidget(4, 1, cw.getReligionLabel());
-		profilGrid.setWidget(4, 2, cw.setReligionListBox());
+		profilGrid.setWidget(4, 3, cw.getReligionLabel());
+		profilGrid.setWidget(4, 4, cw.setReligionListBox());
 		
 		// Spalte 5
-		profilGrid.setWidget(5, 1, cw.getSexLabel());
-		profilGrid.setWidget(5, 2, cw.setSexListBox());
+		profilGrid.setWidget(4, 1, cw.getSexLabel());
+		profilGrid.setWidget(4, 2, cw.setSexListBox());
 		
 		// Spalte 6
-		profilGrid.setWidget(6, 1, cw.getSearchForLabel());
-		profilGrid.setWidget(6, 2, cw.setSearchForListBox());
+		profilGrid.setWidget(5, 1, cw.getSearchForLabel());
+		profilGrid.setWidget(5, 2, cw.setSearchForListBox());
 		
 
 		/**
@@ -191,6 +191,9 @@ public class CreateEigenProfil extends VerticalPanel {
 		setProfil.setReligion(cw.getReligionListBox().getSelectedValue());
 		setProfil.setHaarfarbe(cw.getHcolorListBox().getSelectedValue());
 		setProfil.setEmail(loginInfo.getEmailAddress());
+		setProfil.setGeschlecht(cw.getSexListBox().getSelectedValue());
+		setProfil.setSucheNach(cw.getSearchForListBox().getSelectedValue());
+		
 		String raucherSelectedValue = cw.getSmokerListBox().getSelectedValue();
 
 		/**
