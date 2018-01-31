@@ -53,7 +53,7 @@ public interface PartnerboerseAdministration extends RemoteService {
 	 */
 	public Profil createProfil(Profil p) throws IllegalArgumentException;
 
-	void updateProfil(Profil p);
+	public void updateProfil(Profil p);
 
 	/**
 	 * 

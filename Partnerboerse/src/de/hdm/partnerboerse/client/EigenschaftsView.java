@@ -18,8 +18,6 @@ import de.hdm.partnerboerse.shared.bo.Suchprofil;
 
 public class EigenschaftsView extends VerticalPanel{
 	
-	
-	
 	private final PartnerboerseAdministrationAsync partnerAdmin =
 		      GWT.create(PartnerboerseAdministration.class);
 	
@@ -46,9 +44,7 @@ public class EigenschaftsView extends VerticalPanel{
 					Editor ed = new Editor();
 					RootPanel.get("contwrap").clear();
 					ed.onModuleLoad();
-					
-				}
-				
+				}	
 			});
 		}
 		
@@ -73,10 +69,6 @@ public class EigenschaftsView extends VerticalPanel{
 			});
 			
 		}
-		
-		
-		
-		
 	}
 
 	public void egFor(Profil p) {
@@ -140,15 +132,12 @@ public class EigenschaftsView extends VerticalPanel{
 
 		@Override
 		public void onClick(ClickEvent event) {
-			FremdProfilView fpv = new FremdProfilView(p);
 			
+			FremdProfilView fpv = new FremdProfilView(p);
 			HTMLPanel fpvPanel = new HTMLPanel("<h2>" + "Profil von " + p.getVorname() + "</h2>");
             fpvPanel.add(fpv);
-
             RootPanel.get("contwrap").clear();
             RootPanel.get("contwrap").add(fpvPanel);
 		}
-		
 	}
-
 }

@@ -25,7 +25,7 @@ public class LoadEigenschaften extends VerticalPanel {
   private final PartnerboerseAdministrationAsync partnerAdmin =
       GWT.create(PartnerboerseAdministration.class);
 
-  Grid infoGrid = new Grid(10, 6);
+  Grid infoGrid = new Grid(2, 6);
   int row = 1;
   int column = 2;
 
@@ -118,6 +118,8 @@ public class LoadEigenschaften extends VerticalPanel {
           }
           row++;
         }
+        
+        infoGrid.resize(infoGrid.getRowCount() + 1, infoGrid.getColumnCount());
       }
 
     }
@@ -550,6 +552,7 @@ public class LoadEigenschaften extends VerticalPanel {
         if (info.getEigenschaftId() == eigenschaft.getId()) {
           infoGrid.setText(row, column, eigenschaft.getErlaeuterung());
           infoGrid.setText(row, column + 1, info.getText());
+          infoGrid.resize(infoGrid.getRowCount() + 1, infoGrid.getColumnCount());
           row++;
         }
       }
