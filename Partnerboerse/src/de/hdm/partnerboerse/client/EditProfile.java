@@ -38,10 +38,8 @@ public class EditProfile extends VerticalPanel {
 
   Button deleteButton = new Button("Profil löschen");
   Button safeButton = new Button("Profil speichern");
-
   
 
-  DateTimeFormat dateFormat = DateTimeFormat.getFormat("yyyy-mm-dd");
 
   /*
    * Beim Anzeigen werden die anderen Widgets erzeugt. Alle werden in einem Raster angeordnet,
@@ -49,7 +47,7 @@ public class EditProfile extends VerticalPanel {
    */
   @Override
   public void onLoad() {
-
+	  
     /*
      * Grid für die Attribute
      * 
@@ -75,11 +73,11 @@ public class EditProfile extends VerticalPanel {
     cw.getLnameTextBox().setValue(getProfilFromServer.getNachname());
 
     // Spalte 2
-
     profilGrid.setWidget(2, 1, cw.getBdayLabel());
     profilGrid.setWidget(2, 2, cw.getBdayTextBox());
-    cw.getBdayTextBox().setValue(String.valueOf(getProfilFromServer.getGeburtsdatum()));
-
+    String dateString = DateTimeFormat.getFormat("dd.MM.yyyy").format(getProfilFromServer.getGeburtsdatum());
+    cw.getBdayTextBox().setValue(dateString);
+   
     
     // Spalte 4
     
@@ -246,7 +244,8 @@ public class EditProfile extends VerticalPanel {
 
 
     Profil setProfil = new Profil();
-    Date bDayConvert;
+    String bDayConvert = cw.getBdayTextBox().getValue();
+	Date date = DateTimeFormat.getFormat("dd.MM.yyyy").parse(bDayConvert);
     int heightConvert = 0;
 
     /**
@@ -270,7 +269,8 @@ public class EditProfile extends VerticalPanel {
       /**
        * DateTimerFromat wandelt den Wert von bdayTextBox in Date um
        */
-      bDayConvert = DateTimeFormat.getFormat("yyyy-MM-dd").parse(cw.getBdayTextBox().getValue());
+
+    String dateString = DateTimeFormat.getFormat("yyyy-MM-dd").format(date);
     } catch (IllegalArgumentException e) {
       Window.alert("Das eingegebene Datumsformat entspricht nicht: \"yyyy-mm-dd\".");
       return setProfil;
@@ -279,7 +279,7 @@ public class EditProfile extends VerticalPanel {
     setProfil.setId(getProfilFromServer.getId());
     setProfil.setVorname(cw.getVnameTextBox().getValue());
     setProfil.setNachname(cw.getLnameTextBox().getValue());
-    setProfil.setGeburtsdatum(bDayConvert);
+    setProfil.setGeburtsdatum(date);
     setProfil.setEmail(loginInfo.getEmailAddress());
     setProfil.setKoerpergroesse(heightConvert);
     setProfil.setReligion(cw.getReligionListBox().getSelectedValue());
