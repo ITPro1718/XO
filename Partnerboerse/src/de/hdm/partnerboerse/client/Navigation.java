@@ -24,8 +24,7 @@ public class Navigation extends VerticalPanel {
 
 	HTML reports = new HTML("<h3>" + "REPORTS" + "</h3>");
 
-	final Button meineSuchprofilReports = new Button("Suchprofil Report");
-	final Button meinePartnervorschlaege = new Button("Partnervorschläge");
+	final Button Report = new Button("Reports");
 
 	final Anchor logoutUser = new Anchor("Abmelden");
 	@Override
@@ -42,12 +41,8 @@ public class Navigation extends VerticalPanel {
 		meineMerkliste.addStyleName("button");
 		meineKontaktsperren.setTitle("Kontaktsperre");
 		meineKontaktsperren.addStyleName("button");
-		meineSuchprofile.setTitle("Suchprofile");
-		meineSuchprofile.addStyleName("button");
-		meineSuchprofile.setTitle("Suchprofil Report");
-		meineSuchprofile.addStyleName("button");
-		meineSuchprofile.setTitle("Partnervorschläge");
-		meineSuchprofile.addStyleName("button");
+		Report.setTitle("Report");
+		Report.addStyleName("button");
 		logoutUser.setTitle("Abmelden");
 		logoutUser.addStyleName("offbutton");
 
@@ -59,8 +54,7 @@ public class Navigation extends VerticalPanel {
 		navi.add(meineKontaktsperren);
 		navi.add(meineSuchprofile);
 		navi.add(reports);
-		navi.add(meineSuchprofilReports);
-		navi.add(meinePartnervorschlaege);
+		navi.add(Report);
 		navi.add(logoutUser);
 		
 		/*
@@ -162,17 +156,8 @@ public class Navigation extends VerticalPanel {
 		
 		// Aufruf der Report HTML - Hier wird der Report aufgerufen
 		
-		meineSuchprofilReports.addClickHandler(new ClickHandler() {
-			
-			@Override
-			public void onClick(ClickEvent event) {
-				Window.Location.assign("PartnerboerseReport.html");
-				
-				
-			}
-		});
-		
-		meinePartnervorschlaege.addClickHandler(new ClickHandler() {
+	
+		Report.addClickHandler(new ClickHandler() {
 			
 			@Override
 			public void onClick(ClickEvent event) {
