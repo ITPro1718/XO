@@ -395,7 +395,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 					//y=50;
 				//}
 			}
-			p.setÄhnlichkeit((int)((p1 * x) + (p2 * x) + (p3 * x) + (p4 * x) + (p5 * x)));
+			p.setÄhnlichkeit((int)(((p1 * x) + (p2 * x) + (p3 * x) + (p4 * x) + (p5 * x)) + 0.5));
 			comparedProfiles.add(p);
 		}
 		Collections.sort(comparedProfiles, new Comparator<Profil>(){
@@ -404,11 +404,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 			}
 		});
 		
-		
-		// Hinweis: sexuelle Orientierung muss ein Pflichtattribut beim
-		// Profilerstellen sein, sonst kann man nicht rausfiltern ob Männer oder
-		// Frauen angezeigt werden sollen
-
 		return comparedProfiles;
 	}
 	
