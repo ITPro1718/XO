@@ -98,7 +98,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		profilInhalt.addSubParagraph(new SimpleParagraph(String.valueOf(p.getKoerpergroesse())));
 		profilInhalt.addSubParagraph(new SimpleParagraph(String.valueOf(p.isRaucher())));
 		profilInhalt.addSubParagraph(new SimpleParagraph(p.getReligion()));
-		profilInhalt.addSubParagraph(new SimpleParagraph(String.valueOf(p.getÄhnlichkeit())));
+		profilInhalt.addSubParagraph(new SimpleParagraph(String.valueOf(p.getÄhnlichkeit()) + "%"));
 		
 		result.setProfilInhalt(profilInhalt);
 		

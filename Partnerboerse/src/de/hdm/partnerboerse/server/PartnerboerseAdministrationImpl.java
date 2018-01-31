@@ -364,6 +364,9 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 
 	public ArrayList<Profil> berechneAehnlichkeitsmass(Profil profil, ArrayList<Profil> ergebnisse) {
+		
+		setGewichtungenProfeig(25, 25, 25, 25);
+		setGewichtungenInfos(10);
 
 		ArrayList<Profil> comparedProfiles = new ArrayList<>();
 		float o1 = this.gewichtungHaarfarbe;
@@ -385,15 +388,19 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 			if (p.getHaarfarbe().equals(profil.getHaarfarbe())) {
 				p1 = o1;
-			} else if (p.getReligion().equals(profil.getReligion())) {
+			}
+			if (p.getReligion().equals(profil.getReligion())) {
 				p2 = o2;
-			} else if (((getAge(p.getGeburtsdatum())) <= (getAge(profil.getGeburtsdatum())+3)) && ((getAge(p.getGeburtsdatum())) >= (getAge(profil.getGeburtsdatum())-3))) {
+			} 
+			if (((getAge(p.getGeburtsdatum())) <= (getAge(profil.getGeburtsdatum())+3)) 
+					&& ((getAge(p.getGeburtsdatum())) >= (getAge(profil.getGeburtsdatum())-3))) {
 				p3 = o3;
 			}
 
-			else if (p.isRaucher() == profil.isRaucher()) {
+			if (p.isRaucher() == profil.isRaucher()) {
 				p4 = o4;
-			}  else if (compareInfos(profil, p)>=1) {
+			}  
+			if (compareInfos(profil, p)>=1) {
 				o5 = o5*compareInfos(profil, p);
 				p5 = o5;
 				
@@ -402,12 +409,12 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 					//y=50;
 				//}
 			}
-			p.setÄhnlichkeit((p1 * x) + (p2 * x) + (p3 * x) + (p4 * x) + (p5 * x));
+			p.setÄhnlichkeit((int)((p1 * x) + (p2 * x) + (p3 * x) + (p4 * x) + (p5 * x)));
 			comparedProfiles.add(p);
 		}
 		Collections.sort(comparedProfiles, new Comparator<Profil>(){
 			public int compare(Profil a, Profil b){
-				return Float.valueOf(b.getÄhnlichkeit()).compareTo(a.getÄhnlichkeit());
+				return Integer.valueOf(b.getÄhnlichkeit()).compareTo(a.getÄhnlichkeit());
 			}
 		});
 		
@@ -498,23 +505,20 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		if (suchprofill.getHaarFarbe().equals(profil.getHaarfarbe())) {
 			countersp++;
 		}
-		else if(suchprofill.isRaucher() == profil.isRaucher()){
+		if(suchprofill.isRaucher() == profil.isRaucher()){
 			countersp++;
 		}
-		else if(suchprofill.getReligion().equals(profil.getReligion())){
+		if(suchprofill.getReligion().equals(profil.getReligion())){
 			countersp++;
 		}
-		else if(suchprofill.getReligion().equals(profil.getReligion())){
+						
+		if(compareProfilAuswahlInfosWith(suchprofill, profil)){
 			countersp++;
 		}
-				
-		else if(compareProfilAuswahlInfosWith(suchprofill, profil)){
+		if(suchprofill.getKoerpergroesse() <= profil.getKoerpergroesse()){
 			countersp++;
 		}
-		else if(suchprofill.getKoerpergroesse() <= profil.getKoerpergroesse()){
-			countersp++;
-		}
-		else if(suchprofill.getAlter() <= getAge(profil.getGeburtsdatum())){
+		if(suchprofill.getAlter() <= getAge(profil.getGeburtsdatum())){
 			countersp++;
 		}
 		if(countersp > 3){
@@ -644,6 +648,23 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	public ArrayList<Profil> getNotSeenPartnervorschläge(Profil profil) throws IllegalArgumentException {
 
 		ArrayList<Profil> profile = getAllProfils();
+		
+		ArrayList<Kontaktsperre> blockedProfilowner = new ArrayList<Kontaktsperre>();
+		ArrayList<Profil> profilBlockedProfilowner = new ArrayList<Profil>();
+		
+		for (Kontaktsperre s : this.getAllKontaktsperreEintraege()) {
+			if (s.getFremdprofilID() == profil.getId()) {
+				blockedProfilowner.add(s);
+			}
+			// Besitzer dieser Kontaktsperren finden und einer Arraylist
+			// (profilBlockedSuchprofilowner) hinzufügen
+			for (Kontaktsperre t : blockedProfilowner) {
+				int epidofkkk = t.getEigenprofilID();
+				Profil pp = getProfilByID(epidofkkk);
+				profilBlockedProfilowner.add(pp);
+			}
+			
+		}
 
 		ArrayList<Profil> profilesToRemove = new ArrayList<Profil>();
 		for (Profil p : profile) {
@@ -653,22 +674,32 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 					profilesToRemove.add(p);
 				}
 			}
+			
+			for (Kontaktsperre k : this.findKontaktsperrenOf(profil)) {
 
+				if(k.getFremdprofilID() == p.getId()){
+					profilesToRemove.add(p);
+				}
+			}
+			
+			if (profilBlockedProfilowner.contains(p)) {
+				profilesToRemove.add(p);
+			}
+			
+			
 			//TODO: Pflichtinfos Geschlecht GUI
-			//else if (compareSexuelleOrientierung(profil, p) == false) {
+			//if (compareSexuelleOrientierung(profil, p) == false) {
 				//profilesToRemove.add(p);
 			//} 
 			
-//			else if ((compareInfos(profil, p) <1) && ((findAllInfosOfProfil(profil).isEmpty()== false)) {
-			
-//				profilesToRemove.add(p);
-//				System.out.println(p.toString());
+//			if ((compareInfos(profil, p) <1) && ((findAllInfosOfProfil(profil).isEmpty()== false)) {
+//						profilesToRemove.add(p);
+//						System.out.println(p.toString());
 			
 //			}
 			 
 		}
 		profile.remove(profil);
-		System.out.println(profilesToRemove.toString());
 		profile.removeAll(profilesToRemove);
 		ArrayList<Profil> comparedProfiles = this.berechneAehnlichkeitsmass(profil, profile);
 		return comparedProfiles;
@@ -695,7 +726,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 			
 			if((i.getEigenschaftId() == o.getEigenschaftId())  && (i.getText().equals(o.getText()))){
 				counter++;
-				System.out.println("countr "+counter);
 				
 			}
 			

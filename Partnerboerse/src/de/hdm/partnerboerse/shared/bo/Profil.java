@@ -24,7 +24,7 @@ public class Profil extends BusinessObjekt {
   
   private Date geburtsdatum;
  
-  private float ähnlichkeit;
+  private int ähnlichkeit;
 
   
   private String email;
@@ -146,19 +146,6 @@ public class Profil extends BusinessObjekt {
     this.email = email;
   }
 
-  /**
- * @return the ähnlichkeit
- */
-public float getÄhnlichkeit() {
-	return ähnlichkeit;
-}
-
-/**
- * @param ähnlichkeit the ähnlichkeit to set
- */
-public void setÄhnlichkeit(float ähnlichkeit) {
-	this.ähnlichkeit = ähnlichkeit;
-}
 
 /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
@@ -239,5 +226,13 @@ public void setÄhnlichkeit(float ähnlichkeit) {
         + ", koerpergroesse=" + koerpergroesse + ", raucher=" + raucher + ", religion=" + religion
         + ", geburtsdatum=" + geburtsdatum + ", passwort=" + ", email=" + email + "]";
   }
+
+public int getÄhnlichkeit() {
+	return ähnlichkeit;
+}
+
+public void setÄhnlichkeit(int ähnlichkeit) {
+	this.ähnlichkeit = ähnlichkeit;
+}
   
 }
