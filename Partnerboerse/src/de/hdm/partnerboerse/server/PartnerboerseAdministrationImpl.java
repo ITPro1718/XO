@@ -19,6 +19,7 @@ import de.hdm.partnerboerse.server.db.MerkzettelMapper;
 import de.hdm.partnerboerse.server.db.ProfilMapper;
 import de.hdm.partnerboerse.server.db.SuchprofilMapper;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
+import de.hdm.partnerboerse.shared.bo.Aehnlichkeitsmass;
 import de.hdm.partnerboerse.shared.bo.Auswahl;
 import de.hdm.partnerboerse.shared.bo.Besuch;
 import de.hdm.partnerboerse.shared.bo.Eigenschaft;
@@ -52,27 +53,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	private BesuchMapper bMapper = null;
 	
-	private int gewichtungHaarfarbe;
-	private int gewichtungReligion;
-	private int gewichtungAlter;
-	private int gewichtungRaucher;
-	private int gewichtung1Infoobjekt;
 	
-
-	public void setGewichtungenProfeig(int gwHaarfarbe, int gwReligion, int gwAlter, int gwRaucher) {
-
-		this.gewichtungHaarfarbe = gwHaarfarbe;
-		this.gewichtungReligion = gwReligion;
-		this.gewichtungAlter = gwAlter;
-		this.gewichtungRaucher = gwRaucher;
-		
-	}
-	public void setGewichtungenInfos(int gwInfo1) {
-
-		this.gewichtung1Infoobjekt = gwInfo1;
-
-		
-	}
 
 	public PartnerboerseAdministrationImpl() throws IllegalArgumentException {
 
@@ -365,15 +346,20 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	public ArrayList<Profil> berechneAehnlichkeitsmass(Profil profil, ArrayList<Profil> ergebnisse) {
 		
-		setGewichtungenProfeig(25, 25, 25, 25);
-		setGewichtungenInfos(10);
+		Aehnlichkeitsmass aehnlichkeitsmass = new Aehnlichkeitsmass();
+		aehnlichkeitsmass.setGewichtung1Infoobjekt(10);
+		aehnlichkeitsmass.setGewichtungAlter(30);
+		aehnlichkeitsmass.setGewichtungHaarfarbe(20);
+		aehnlichkeitsmass.setGewichtungRaucher(30);
+		aehnlichkeitsmass.setGewichtungReligion(30);
+		
 
 		ArrayList<Profil> comparedProfiles = new ArrayList<>();
-		float o1 = this.gewichtungHaarfarbe;
-		float o2 = this.gewichtungReligion;
-		float o3 = this.gewichtungAlter;
-		float o4 = this.gewichtungRaucher;
-		float o5 = this.gewichtung1Infoobjekt;
+		float o1 = aehnlichkeitsmass.getGewichtungHaarfarbe();
+		float o2 = aehnlichkeitsmass.getGewichtungReligion();
+		float o3 = aehnlichkeitsmass.getGewichtungAlter();
+		float o4 = aehnlichkeitsmass.getGewichtungRaucher();
+		float o5 = aehnlichkeitsmass.getGewichtung1Infoobjekt();
 		
 		float summe = o1 + o2 + o3 + o4 + o5;
 		float x = (float)100 / summe;
@@ -594,55 +580,17 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	}
 
 	public boolean compareSexuelleOrientierung(Profil profil, Profil fremdprofil) {
-		if (((isMale(profil) && isHetero(profil)) && (isFemale(fremdprofil) && isHetero(fremdprofil)))
-				|| ((isMale(profil) && isHomo(profil)) && (isMale(fremdprofil) && isHomo(fremdprofil)))
-				|| ((isFemale(profil) && isHetero(profil)) && (isMale(fremdprofil) && isHetero(fremdprofil)))
-				|| ((isFemale(profil) && isHomo(profil)) && (isFemale(fremdprofil) && isHomo(fremdprofil)))) {
+		
+		if ((((profil.getGeschlecht().equals("Mann")) && (profil.getSucheNach().equals("Frauen"))) && ((fremdprofil.getGeschlecht().equals("Frau")) && (fremdprofil.getSucheNach().equals("Männer")))
+				|| (((profil.getGeschlecht().equals("Mann")) && (profil.getSucheNach().equals("Männer"))) && ((fremdprofil.getGeschlecht().equals("Mann")) && (fremdprofil.getSucheNach().equals("Männer")))
+				|| (((profil.getGeschlecht().equals("Frau")) && (profil.getSucheNach().equals("Männer"))) && ((fremdprofil.getGeschlecht().equals("Mann")) && (fremdprofil.getSucheNach().equals("Frauen")))
+				|| (((profil.getGeschlecht().equals("Frau")) && (profil.getSucheNach().equals("Frauen"))) && ((fremdprofil.getGeschlecht().equals("Frau")) && (fremdprofil.getSucheNach().equals("Frauen")))) {
 			return true;
 		} else
 			return false;
 	}
 
-	// TODO: ismale,isfemale,ishetero,ishomo implementieren
-	public boolean isMale(Profil profil) {
-		return true;
-	}
-
-	public boolean isFemale(Profil profil) {
-		return true;
-	}
-
-	public boolean isHetero(Profil profil) {
-		
-		ArrayList<Info> infos = this.findInfoOf(profil);
-		
-		for (Info i : infos){
-			Eigenschaft e = this.getEigenschaftByID(i.getEigenschaftId());
-			
-			if (e.getErlaeuterung().equals("Was ist deine Sexualität?")){
-				if (i.getText().equals("Heterosexuell")){
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-
-	public boolean isHomo(Profil profil) {
-		
-		ArrayList<Info> infos = this.findInfoOf(profil);
-		
-		for (Info i : infos){
-			Eigenschaft e = this.getEigenschaftByID(i.getEigenschaftId());
-			
-			if (e.getErlaeuterung().equals("Was ist deine Sexualität?")){
-				if (i.getText().equals("Homosexuell")){
-					return true;
-				}
-			}
-		}
-		return false;
-	}
+	
 
 	@Override
 	public ArrayList<Profil> getNotSeenPartnervorschläge(Profil profil) throws IllegalArgumentException {
