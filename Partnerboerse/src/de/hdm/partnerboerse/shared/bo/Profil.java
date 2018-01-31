@@ -26,6 +26,9 @@ public class Profil extends BusinessObjekt {
  
   private int ähnlichkeit;
 
+  private String geschlecht;
+  
+  private String sucheNach;
   
   private String email;
 
@@ -233,6 +236,34 @@ public int getÄhnlichkeit() {
 
 public void setÄhnlichkeit(int ähnlichkeit) {
 	this.ähnlichkeit = ähnlichkeit;
+}
+
+/**
+ * @return the geschlecht
+ */
+public String getGeschlecht() {
+	return geschlecht;
+}
+
+/**
+ * @param geschlecht the geschlecht to set
+ */
+public void setGeschlecht(String geschlecht) {
+	this.geschlecht = geschlecht;
+}
+
+/**
+ * @return the sucheNach
+ */
+public String getSucheNach() {
+	return sucheNach;
+}
+
+/**
+ * @param sucheNach the sucheNach to set
+ */
+public void setSucheNach(String sucheNach) {
+	this.sucheNach = sucheNach;
 }
   
 }
