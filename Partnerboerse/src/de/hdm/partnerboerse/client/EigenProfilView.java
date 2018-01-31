@@ -56,8 +56,7 @@ public class EigenProfilView extends VerticalPanel {
 
 	private void updateProfilTable(Profil result) {
 		Profil meinProfil = result;
-		
-		
+			
 		
 		FlexTable profilIntGrid = new FlexTable();
 		profilIntGrid.setStyleName("itable");
