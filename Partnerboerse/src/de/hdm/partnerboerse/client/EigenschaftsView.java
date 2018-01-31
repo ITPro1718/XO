@@ -112,7 +112,7 @@ public class EigenschaftsView extends VerticalPanel{
 		
 		profilFlexTable.setText(row, 0, p.getVorname());
 		profilFlexTable.setText(row, 1, p.getNachname());
-		profilFlexTable.setText(row, 2, String.valueOf(p.getÄhnlichkeit()));
+		profilFlexTable.setText(row, 2, String.valueOf(p.getÄhnlichkeit()) + "%");
 		profilFlexTable.setWidget(row, 4, showProfileButton);
 		ShowProfileClickhandler sp = new ShowProfileClickhandler();
 		sp.setProfile(p);

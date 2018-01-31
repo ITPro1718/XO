@@ -82,15 +82,15 @@ public class FremdProfilView extends VerticalPanel {
 		profilGrid.setText(3, 4, GuiUtils.getJaNein(fremdProfil.isRaucher()));
 
 		// Spalte 4
-		profilGrid.setWidget(4, 1, cw.getReligionLabel());
-		profilGrid.setText(4, 2, fremdProfil.getReligion());
+		profilGrid.setWidget(4, 3, cw.getReligionLabel());
+		profilGrid.setText(4, 4, fremdProfil.getReligion());
 		
 		// Spalte 5
-		profilGrid.setWidget(5, 1, cw.getSexLabel());
-		profilGrid.setText(5, 2, fremdProfil.getGeschlecht());
+		profilGrid.setWidget(4, 1, cw.getSexLabel());
+		profilGrid.setText(4, 2, fremdProfil.getGeschlecht());
 		
 		// Spalte 6
-		profilGrid.setWidget(6, 1, cw.getSearchForLabel());
+		profilGrid.setWidget(5, 1, cw.getSearchForLabel());
 		profilGrid.setText(5, 2, fremdProfil.getSucheNach());
 
 
