@@ -1,8 +1,11 @@
 package de.hdm.partnerboerse.client;
 
+import java.util.Date;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Grid;
@@ -53,7 +56,9 @@ public class EigenProfilView extends VerticalPanel {
 
 	private void updateProfilTable(Profil result) {
 		Profil meinProfil = result;
-
+		
+		
+		
 		FlexTable profilIntGrid = new FlexTable();
 		profilIntGrid.setStyleName("itable");
 		this.add(profilIntGrid);
@@ -72,8 +77,12 @@ public class EigenProfilView extends VerticalPanel {
 		profilGrid.setText(1, 4, meinProfil.getNachname());
 
 		// Spalte 2
+		
+		String dateString = DateTimeFormat.getFormat("dd.MM.yyyy").format(meinProfil.getGeburtsdatum());
+	    cw.getBdayTextBox().setValue(dateString);
+		
 		profilGrid.setWidget(2, 1, cw.getBdayLabel());
-		profilGrid.setText(2, 2, meinProfil.getGeburtsdatum().toString());
+		profilGrid.setText(2, 2, dateString);
 
 		profilGrid.setWidget(2, 3, cw.getHcolorLabel());
 		profilGrid.setText(2, 4, meinProfil.getHaarfarbe());

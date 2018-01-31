@@ -143,8 +143,9 @@ public class CreateEigenProfil extends VerticalPanel {
 	private Profil getProfileValuesFromFormular() {
 
 		Profil setProfil = new Profil();
-		Date bDayConvert;
+		String bDayConvert = cw.getBdayTextBox().getValue();
         int heightConvert = 0;
+        Date date;
 		
         /**
          * Prüft, ob der Userwert in <code>getBdayTextBox()</code> eine
@@ -154,9 +155,9 @@ public class CreateEigenProfil extends VerticalPanel {
 		  /**
 		   * DateTimerFromat wandelt den Wert von bdayTextBox in Date um
 		   */
-          bDayConvert = DateTimeFormat.getFormat("yyyy-MM-dd").parse(cw.getBdayTextBox().getValue());
+			date = DateTimeFormat.getFormat("dd.MM.yyyy").parse(bDayConvert);
 		} catch (IllegalArgumentException e) {
-		  Window.alert("Das eingegebene Datumsformat entspricht nicht: \"yyyy-mm-dd\".");
+		  Window.alert("Das eingegebene Datumsformat entspricht nicht: \"dd.MM.yyyy\".");
 		  return setProfil;
 		}
 
@@ -176,7 +177,7 @@ public class CreateEigenProfil extends VerticalPanel {
 
 		setProfil.setVorname(cw.getVnameTextBox().getValue());
 		setProfil.setNachname(cw.getLnameTextBox().getValue());
-		setProfil.setGeburtsdatum(bDayConvert);
+		setProfil.setGeburtsdatum(date);
 		setProfil.setKoerpergroesse(heightConvert);
 		setProfil.setReligion(cw.getReligionListBox().getSelectedValue());
 		setProfil.setHaarfarbe(cw.getHcolorListBox().getSelectedValue());

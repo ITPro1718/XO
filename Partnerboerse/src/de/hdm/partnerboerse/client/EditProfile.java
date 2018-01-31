@@ -40,10 +40,8 @@ public class EditProfile extends VerticalPanel {
 
   final Anchor deleteButton = new Anchor("Profil löschen");
   Button safeButton = new Button("Profil speichern");
-
   
 
-  DateTimeFormat dateFormat = DateTimeFormat.getFormat("yyyy-mm-dd");
 
   /*
    * Beim Anzeigen werden die anderen Widgets erzeugt. Alle werden in einem Raster angeordnet,
@@ -52,7 +50,8 @@ public class EditProfile extends VerticalPanel {
   @Override
   public void onLoad() {
 	  
-	  deleteButton.addStyleName("offbutton");
+
+	 deleteButton.addStyleName("offbutton");
 
     /*
      * Grid für die Attribute
@@ -79,11 +78,11 @@ public class EditProfile extends VerticalPanel {
     cw.getLnameTextBox().setValue(getProfilFromServer.getNachname());
 
     // Spalte 2
-
     profilGrid.setWidget(2, 1, cw.getBdayLabel());
     profilGrid.setWidget(2, 2, cw.getBdayTextBox());
-    cw.getBdayTextBox().setValue(String.valueOf(getProfilFromServer.getGeburtsdatum()));
-
+    String dateString = DateTimeFormat.getFormat("dd.MM.yyyy").format(getProfilFromServer.getGeburtsdatum());
+    cw.getBdayTextBox().setValue(dateString);
+   
     
     // Spalte 4
     
@@ -239,7 +238,20 @@ public class EditProfile extends VerticalPanel {
 
 
     Profil setProfil = new Profil();
-    Date bDayConvert;
+    String bDayConvert = cw.getBdayTextBox().getValue();
+    Date date;
+    
+    /**
+     * Prüft, ob der Userwert in <code>getBdayTextBox()</code> eine
+     * den Date Format entspricht.
+     */
+    try{
+    	date = DateTimeFormat.getFormat("dd.MM.yyyy").parse(bDayConvert);
+    }catch (IllegalArgumentException e) {
+    	Window.alert("Das eingegebene Datumsformat entspricht nicht: \"dd.MM.yyyy\".");
+        return setProfil;
+    }
+	
     int heightConvert = 0;
 
     /**
@@ -254,25 +266,11 @@ public class EditProfile extends VerticalPanel {
       Window.alert("Körpgergöße muss eine natürliche Zahl sein");
       return setProfil;
     }
-    
-    /**
-     * Prüft, ob der Userwert in <code>getBdayTextBox()</code> eine
-     * den Date Format entspricht.
-     */
-    try {
-      /**
-       * DateTimerFromat wandelt den Wert von bdayTextBox in Date um
-       */
-      bDayConvert = DateTimeFormat.getFormat("yyyy-MM-dd").parse(cw.getBdayTextBox().getValue());
-    } catch (IllegalArgumentException e) {
-      Window.alert("Das eingegebene Datumsformat entspricht nicht: \"yyyy-mm-dd\".");
-      return setProfil;
-    }
 
     setProfil.setId(getProfilFromServer.getId());
     setProfil.setVorname(cw.getVnameTextBox().getValue());
     setProfil.setNachname(cw.getLnameTextBox().getValue());
-    setProfil.setGeburtsdatum(bDayConvert);
+    setProfil.setGeburtsdatum(date);
     setProfil.setEmail(loginInfo.getEmailAddress());
     setProfil.setKoerpergroesse(heightConvert);
     setProfil.setReligion(cw.getReligionListBox().getSelectedValue());

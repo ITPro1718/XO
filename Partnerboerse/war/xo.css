@@ -168,6 +168,9 @@ table.etable {
 table.etable td {
     padding: 10px;
 }
+.itable .offbutton {
+    margin: 0 !important;
+}
 .desctable td:first-child {
     width: 23%;
 }
