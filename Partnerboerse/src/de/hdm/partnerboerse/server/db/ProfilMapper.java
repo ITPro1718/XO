@@ -83,6 +83,8 @@ public class ProfilMapper {
         p.setHaarfarbe(rs.getString("haarfarbe"));
         p.setKoerpergroesse(rs.getInt("koerpergroesse"));
         p.setReligion(rs.getString("religion"));
+        p.setGeschlecht(rs.getString("geschlecht"));
+        p.setSucheNach(rs.getString("suche_nach"));
         return p;
       }
     }
@@ -150,6 +152,8 @@ public class ProfilMapper {
         p.setHaarfarbe(rs.getString("haarfarbe"));
         p.setKoerpergroesse(rs.getInt("koerpergroesse"));
         p.setReligion(rs.getString("religion"));
+        p.setGeschlecht(rs.getString("geschlecht"));
+        p.setSucheNach(rs.getString("suche_nach"));
 
         // Hinzufügen des neuen Objekts zum Ergebnisarraylist
         result.add(p);
@@ -186,6 +190,8 @@ public class ProfilMapper {
           p.setHaarfarbe(rs.getString("haarfarbe"));
           p.setKoerpergroesse(rs.getInt("koerpergroesse"));
           p.setReligion(rs.getString("religion"));
+          p.setGeschlecht(rs.getString("geschlecht"));
+          p.setSucheNach(rs.getString("suche_nach"));
 
           // Hinzufügen des neuen Objekts zum Ergebnisvektor
           result.add(p);
@@ -267,6 +273,8 @@ public class ProfilMapper {
         p.setHaarfarbe(rs.getString("haarfarbe"));
         p.setKoerpergroesse(rs.getInt("koerpergroesse"));
         p.setReligion(rs.getString("religion"));
+        p.setGeschlecht(rs.getString("geschlecht"));
+        p.setSucheNach(rs.getString("suche_nach"));
 
 
       }
@@ -298,6 +306,8 @@ public class ProfilMapper {
         p.setHaarfarbe(rs.getString("haarfarbe"));
         p.setKoerpergroesse(rs.getInt("koerpergroesse"));
         p.setReligion(rs.getString("religion"));
+        p.setGeschlecht(rs.getString("geschlecht"));
+        p.setSucheNach(rs.getString("suche_nach"));
 
         // Hinzufügen des neuen Objekts zum Ergebnisarraylist
         results.add(p);
@@ -319,7 +329,7 @@ public class ProfilMapper {
     Connection con = DBConnection.getConnection();
 
     try (PreparedStatement stmt = con.prepareStatement("INSERT INTO profil (email, vorname, nachname, geburtstag, "
-    	+ "haarfarbe, koerpergroesse, raucher, religion) VALUES (?, ?, ?, ?, ?, ?, ?, ?)")) {
+    	+ "haarfarbe, koerpergroesse, raucher, religion, geschlecht, suche_nach) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")) {
     	
     	Statement stmt1 = con.createStatement();
 		ResultSet rs = stmt1.executeQuery("SELECT MAX(id) AS maxid FROM profil");
@@ -338,6 +348,8 @@ public class ProfilMapper {
       stmt.setInt(6, (int) p.getKoerpergroesse());
       stmt.setBoolean(7, p.isRaucher());
       stmt.setString(8, p.getReligion());
+      stmt.setString(9, p.getGeschlecht());
+      stmt.setString(10, p.getSucheNach());
 
       stmt.executeUpdate();
 
@@ -360,7 +372,7 @@ public class ProfilMapper {
 
     try (PreparedStatement stmt = con.prepareStatement(
         "UPDATE profil SET vorname = ?, nachname = ?, geburtstag = ?, "
-            + "haarfarbe = ?, koerpergroesse=  ?, raucher = ?, religion = ?, email = ? WHERE id = ?")) {
+            + "haarfarbe = ?, koerpergroesse=  ?, raucher = ?, religion = ?, email = ?, geschlecht = ?, suche_nach = ? WHERE id = ?")) {
     	
 
       java.util.Date utilDate = p.getGeburtsdatum();
@@ -374,7 +386,9 @@ public class ProfilMapper {
       stmt.setBoolean(6, p.isRaucher());
       stmt.setString(7, p.getReligion());
       stmt.setString(8, p.getEmail());
-      stmt.setInt(9, p.getId());
+      stmt.setString(9, p.getGeschlecht());
+      stmt.setString(10, p.getSucheNach());
+      stmt.setInt(11, p.getId());
       
       stmt.executeUpdate();
       
