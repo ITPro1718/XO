@@ -348,9 +348,9 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		
 		Aehnlichkeitsmass aehnlichkeitsmass = new Aehnlichkeitsmass();
 		aehnlichkeitsmass.setGewichtung1Infoobjekt(10);
-		aehnlichkeitsmass.setGewichtungAlter(30);
+		aehnlichkeitsmass.setGewichtungAlter(50);
 		aehnlichkeitsmass.setGewichtungHaarfarbe(20);
-		aehnlichkeitsmass.setGewichtungRaucher(30);
+		aehnlichkeitsmass.setGewichtungRaucher(40);
 		aehnlichkeitsmass.setGewichtungReligion(30);
 		
 
@@ -467,10 +467,10 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 			if (compare(suchprofil, p) == false) {
 				profilsToRemove.add(p);
 			}
-			// TODO: Methode fehlt noch
-			// if (compareSexuelleOrientierung(suchprofilowner, p) == false) {
-				//profile.remove(p);
-			//}
+			
+			 if (compareSexuelleOrientierung(suchprofilowner, p) == false) {
+				profilsToRemove.add(p);
+			}
 		}
 		profile.removeAll(profilsToRemove);
 		ArrayList<Profil> comparedProfiles = this.berechneAehnlichkeitsmass(suchprofilowner, profile);
@@ -581,10 +581,10 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	public boolean compareSexuelleOrientierung(Profil profil, Profil fremdprofil) {
 		
-		if ((((profil.getGeschlecht().equals("Mann")) && (profil.getSucheNach().equals("Frauen"))) && ((fremdprofil.getGeschlecht().equals("Frau")) && (fremdprofil.getSucheNach().equals("Männer")))
-				|| (((profil.getGeschlecht().equals("Mann")) && (profil.getSucheNach().equals("Männer"))) && ((fremdprofil.getGeschlecht().equals("Mann")) && (fremdprofil.getSucheNach().equals("Männer")))
-				|| (((profil.getGeschlecht().equals("Frau")) && (profil.getSucheNach().equals("Männer"))) && ((fremdprofil.getGeschlecht().equals("Mann")) && (fremdprofil.getSucheNach().equals("Frauen")))
-				|| (((profil.getGeschlecht().equals("Frau")) && (profil.getSucheNach().equals("Frauen"))) && ((fremdprofil.getGeschlecht().equals("Frau")) && (fremdprofil.getSucheNach().equals("Frauen")))) {
+		if(((profil.getGeschlecht().equals("Mann")) && (profil.getSucheNach().equals("Frauen"))) && ((fremdprofil.getGeschlecht().equals("Frau"))&& (fremdprofil.getSucheNach().equals("Männer")))
+				|| ((profil.getGeschlecht().equals("Mann")) && (profil.getSucheNach().equals("Männer"))) && ((fremdprofil.getGeschlecht().equals("Mann")) && (fremdprofil.getSucheNach().equals("Männer")))
+				|| ((profil.getGeschlecht().equals("Frau")) && (profil.getSucheNach().equals("Männer"))) && ((fremdprofil.getGeschlecht().equals("Mann")) && (fremdprofil.getSucheNach().equals("Frauen")))
+				|| ((profil.getGeschlecht().equals("Frau")) && (profil.getSucheNach().equals("Frauen"))) && ((fremdprofil.getGeschlecht().equals("Frau")) && (fremdprofil.getSucheNach().equals("Frauen")))) {
 			return true;
 		} else
 			return false;
@@ -635,10 +635,10 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 			}
 			
 			
-			//TODO: Pflichtinfos Geschlecht GUI
-			//if (compareSexuelleOrientierung(profil, p) == false) {
-				//profilesToRemove.add(p);
-			//} 
+			 
+			if (compareSexuelleOrientierung(profil, p) == false) {
+				profilesToRemove.add(p);
+			} 
 			
 //			if ((compareInfos(profil, p) <1) && ((findAllInfosOfProfil(profil).isEmpty()== false)) {
 //						profilesToRemove.add(p);
@@ -667,7 +667,9 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	
 	public int compareInfos(Profil profil, Profil fremdprofil){
 		int counter = 0;
-	
+	if((findAllInfosOfProfil(profil).isEmpty()) && (findAllInfosOfProfil(fremdprofil).isEmpty())){
+		counter = 1;
+	}
 		for(Info i: findAllInfosOfProfil(profil)){
 			
 			for(Info o: findAllInfosOfProfil(fremdprofil)){				
