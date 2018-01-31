@@ -82,21 +82,19 @@ public class EditProfile extends VerticalPanel {
     profilGrid.setWidget(2, 2, cw.getBdayTextBox());
     String dateString = DateTimeFormat.getFormat("dd.MM.yyyy").format(getProfilFromServer.getGeburtsdatum());
     cw.getBdayTextBox().setValue(dateString);
-   
-    
-    // Spalte 4
     
     profilGrid.setWidget(2, 3, cw.getHcolorLabel());
     profilGrid.setWidget(2, 4, cw.setHcolorListBox());
     setRightWert(cw.getHcolorListBox(), getProfilFromServer.getHaarfarbe());
+    
+    // Spalte 3
 
     profilGrid.setWidget(3, 1, cw.getPHeightLabel());
     profilGrid.setWidget(3, 2, cw.getHeightTextBox());
     cw.getHeightTextBox().setValue(String.valueOf(getProfilFromServer.getKoerpergroesse()));
-   
 
-    // Spalte 5
-
+    //Spalte 4
+    
     profilGrid.setWidget(3, 3, cw.getSmokerLabel());
     profilGrid.setWidget(3, 4, cw.setSmokerListBox());
     
@@ -106,6 +104,14 @@ public class EditProfile extends VerticalPanel {
     
     else smokerString = "Nein";
     setRightWert(cw.getSmokerListBox(), smokerString);
+
+	// Spalte 5
+	profilGrid.setWidget(5, 1, cw.getSexLabel());
+	profilGrid.setWidget(5, 2, cw.setSexListBox());
+	
+	// Spalte 6
+	profilGrid.setWidget(6, 1, cw.getSearchForLabel());
+	profilGrid.setWidget(6, 2, cw.setSearchForListBox());
     
 
     /*

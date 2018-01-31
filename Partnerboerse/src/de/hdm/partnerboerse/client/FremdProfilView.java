@@ -56,9 +56,6 @@ public class FremdProfilView extends VerticalPanel {
 		profilIntGrid.setStyleName("itable");
 		this.add(profilIntGrid);
 
-//		profilIntGrid.setWidget(0, 0, merkButton);
-//		profilIntGrid.setWidget(0, 1, sperrButton);
-
 		FlexTable profilGrid = new FlexTable();
 		profilGrid.setStyleName("etable");
 		this.add(profilGrid);
@@ -87,6 +84,15 @@ public class FremdProfilView extends VerticalPanel {
 		// Spalte 4
 		profilGrid.setWidget(4, 1, cw.getReligionLabel());
 		profilGrid.setText(4, 2, fremdProfil.getReligion());
+		
+		// Spalte 5
+		profilGrid.setWidget(5, 1, cw.getSexLabel());
+		profilGrid.setText(5, 2, fremdProfil.getGeschlecht());
+		
+		// Spalte 6
+		profilGrid.setWidget(6, 1, cw.getSearchForLabel());
+		profilGrid.setText(5, 2, fremdProfil.getSucheNach());
+
 
 	}
 	

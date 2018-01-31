@@ -83,6 +83,15 @@ public class CreateEigenProfil extends VerticalPanel {
 
 		profilGrid.setWidget(4, 1, cw.getReligionLabel());
 		profilGrid.setWidget(4, 2, cw.setReligionListBox());
+		
+		// Spalte 5
+		profilGrid.setWidget(5, 1, cw.getSexLabel());
+		profilGrid.setWidget(5, 2, cw.setSexListBox());
+		
+		// Spalte 6
+		profilGrid.setWidget(6, 1, cw.getSearchForLabel());
+		profilGrid.setWidget(6, 2, cw.setSearchForListBox());
+		
 
 		/**
 		 * Dieser <code>createButton.ClickHandler(new ClickHandler)</code>

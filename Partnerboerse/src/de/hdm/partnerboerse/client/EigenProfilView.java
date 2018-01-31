@@ -97,6 +97,15 @@ public class EigenProfilView extends VerticalPanel {
 		// Spalte 4
 		profilGrid.setWidget(4, 1, cw.getReligionLabel());
 		profilGrid.setText(4, 2, meinProfil.getReligion());
+		
+		// Spalte 5
+		profilGrid.setWidget(5, 1, cw.getSexLabel());
+		profilGrid.setText(5, 2, meinProfil.getGeschlecht());
+		
+		// Spalte 6
+		profilGrid.setWidget(6, 1, cw.getSearchForLabel());
+		profilGrid.setText(5, 2, meinProfil.getSucheNach());
+
 
 	}
 
