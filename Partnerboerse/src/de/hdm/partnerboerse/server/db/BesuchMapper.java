@@ -128,7 +128,6 @@ public class BesuchMapper {
 			e2.printStackTrace();
 			return null;
 		}
-		System.out.println(results.toString());
 		return results;
 	}
 
