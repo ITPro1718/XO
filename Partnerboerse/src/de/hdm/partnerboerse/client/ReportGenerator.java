@@ -30,12 +30,18 @@ import de.hdm.partnerboerse.shared.bo.Profil;
 import de.hdm.partnerboerse.shared.bo.Suchprofil;
 import de.hdm.partnerboerse.shared.report.*;
 
+/**
+ * Erstellt den View für den ReportGenerator-Client. Es werden sich über AsyncCallbacks
+ * reports vom Server geholt und diese werden von den printReport-Methoden in reines
+ * HTML umgewandelt und dann ausgegeben.
+ * @author Burghardt
+ *
+ */
 public class ReportGenerator implements EntryPoint {
 
 	NavigationReport navrep = new NavigationReport();
 	// SPReport spr = new SPReport();
 	private LoginInfo loginInfo = null;
-	
 	
 	ListBox suchprofilListBox = new ListBox();
 	ArrayList<Profil> profile = new ArrayList<Profil>();
@@ -75,24 +81,33 @@ public class ReportGenerator implements EntryPoint {
 		RootPanel.get("contwrap").add(hp);
 		hp.add(notSeenProfileButton);
 		hp.add(suchprofilButton);
-		notSeenProfileButton.addClickHandler(new notSeenProfilesClickhandler());
-		suchprofilButton.addClickHandler(new profilesbySuchprofilClickhandler());
+		notSeenProfileButton.addClickHandler(new NotSeenProfilesClickhandler());
+		suchprofilButton.addClickHandler(new ProfilesbySuchprofilClickhandler());
 		
 
 	
 	}
 	
-	private class profilesbySuchprofilClickhandler implements ClickHandler{
+	/**
+	 * Clickhandler für den ProfilesBySuchProfilButton
+	 */
+	private class ProfilesbySuchprofilClickhandler implements ClickHandler{
 
 		@Override
 		public void onClick(ClickEvent event) {
+			/**
+			 * Cleart den Content und fügt die Suchprofiltabelle hinzu
+			 */
 			RootPanel.get("contwrap").clear();
 	        RootPanel.get("contwrap").add(suchprofilTable);
 		}
 		
 	}
 	
-	private class notSeenProfilesClickhandler implements ClickHandler{
+	/**
+	 * Clickhandler für den NotSeenProfilesButton
+	 */
+	private class NotSeenProfilesClickhandler implements ClickHandler{
 
 		@Override
 		public void onClick(ClickEvent event) {
@@ -101,6 +116,9 @@ public class ReportGenerator implements EntryPoint {
 		
 	}
 	
+	/**
+	 * Login Callback welcher überprüft ob man eingeloggt ist
+	 */
 	private class LoginCallback implements AsyncCallback<LoginInfo>{
 
 		@Override
@@ -118,8 +136,10 @@ public class ReportGenerator implements EntryPoint {
 		}
 		
 	}
-	
 
+	/**
+	 * Sucht alle Suchprofile eines Users und gibt diese zurück
+	 */
 	private class SuchProfileOfUserCallback implements AsyncCallback<ArrayList<Suchprofil>>{
 
 		@Override
@@ -135,6 +155,9 @@ public class ReportGenerator implements EntryPoint {
 		
 	}
 	
+	/**
+	 * Prüft, ob eine E-Mail bereits ein Profil hat
+	 */
 	private class HasProfileCallback implements AsyncCallback<Boolean>{
 
 		@Override
@@ -151,6 +174,10 @@ public class ReportGenerator implements EntryPoint {
 		
 	}
 	
+	/**
+	 * Holt sich ein Profil aus der Datenbank
+	 *
+	 */
 	private class GetProfilFromServerCallback implements AsyncCallback<Profil>{
 		@Override
 		public void onFailure(Throwable caught) {
@@ -159,16 +186,17 @@ public class ReportGenerator implements EntryPoint {
 		@Override
 		public void onSuccess(Profil result) {
 			ClientSideSettings.setProfil(result);
-			/**
-	         * TODO: Hier die Callbacks reinschreiben
-	         */
+			
 	        partnerAdmin.findSuchprofileOf(ClientSideSettings.getProfil(), new SuchProfileOfUserCallback());
 	        
 		}
 		
 	}
 	
-	
+	/**
+	 * Holt sich den Report der nicht angesehenen Profilen zurück und printet diesen
+	 * in onSuccess
+	 */
 	private class AllNotSeenProfilesReportCallback implements AsyncCallback<AllNotSeenProfilesReport>{
 
 		@Override
@@ -181,6 +209,10 @@ public class ReportGenerator implements EntryPoint {
 		}
 	}
 	
+	/**
+	 * Holt sich den Report von Profilen anhand eines Suchprofils und printet diesen
+	 * in onSuccess
+	 */
 	private class AllProfilesBySuchprofilCallback implements AsyncCallback<AllProfilesBySuchprofil>{
 
 		@Override
@@ -194,6 +226,10 @@ public class ReportGenerator implements EntryPoint {
 		
 	}
 	
+	/**
+	 * Printet den übergebenen report
+	 * @param report
+	 */
 	private void printReport(AllNotSeenProfilesReport report){
 		RootPanel.get("contwrap").clear();
 		HTMLReportWriter writer = new HTMLReportWriter();
@@ -202,6 +238,10 @@ public class ReportGenerator implements EntryPoint {
         RootPanel.get("contwrap").add(htmlreport);
 	}
 	
+	/**
+	 * Printet den übergebenen report
+	 * @param report
+	 */
 	private void printReport(AllProfilesBySuchprofil report){
 		RootPanel.get("contwrap").clear();
 		HTMLReportWriter writer = new HTMLReportWriter();
@@ -210,7 +250,10 @@ public class ReportGenerator implements EntryPoint {
         RootPanel.get("contwrap").add(htmlreport);
 	}
 	
-	
+	/**
+	 * Printet den übergebenen report
+	 * @param report
+	 */
 	private void addToTable(Suchprofil suchprofil){
 		Button suchButton = new Button("Report!");
 		
@@ -223,6 +266,10 @@ public class ReportGenerator implements EntryPoint {
 		
 	}
 	
+	/**
+	 * Holt sich einen Report anhand von Suchprofilen
+	 * 
+	 */
 	private class ReportClickhandler implements ClickHandler{
 		
 		Suchprofil s;
