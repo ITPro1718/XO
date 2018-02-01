@@ -2,6 +2,8 @@ package de.hdm.partnerboerse.server.report;
 
 import java.util.ArrayList;
 import java.util.Date;
+
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import de.hdm.partnerboerse.server.PartnerboerseAdministrationImpl;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
@@ -118,6 +120,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		profilInhalt.addSubParagraph(new SimpleParagraph(p.getVorname()));
 		profilInhalt.addSubParagraph(new SimpleParagraph(p.getNachname()));
 		profilInhalt.addSubParagraph(new SimpleParagraph(p.getEmail()));
+		DateTimeFormat.getFormat("dd.MM.yyyy").format(p.getGeburtsdatum());
 		profilInhalt.addSubParagraph(new SimpleParagraph(String.valueOf(p.getGeburtsdatum())));
 		profilInhalt.addSubParagraph(new SimpleParagraph(p.getHaarfarbe()));
 		profilInhalt.addSubParagraph(new SimpleParagraph(String.valueOf(p.getKoerpergroesse())));

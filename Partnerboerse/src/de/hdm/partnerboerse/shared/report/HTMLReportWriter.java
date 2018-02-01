@@ -2,6 +2,7 @@ package de.hdm.partnerboerse.shared.report;
 
 import java.util.Vector;
 
+
 /*
  * Disclaimer: Diese Klasse wurde aus dem Bankprojekt übernommen und auf unser
  * Projekt angepasst.
@@ -150,8 +151,8 @@ public class HTMLReportWriter {
 		    }
 
 		    result.append("<td>" + paragraph2HTML(r.getImprint()) + "</td>");
-		    result.append("</tr><tr><td></td><td>" + r.getCreated().toString()
-		        + "</td></tr></table>");
+		    result.append("</tr><tr><td></td><td></td></tr></table>");
+		    
 
 		    
 		    
@@ -207,8 +208,7 @@ public class HTMLReportWriter {
 	    }
 
 	    result.append("<td>" + paragraph2HTML(r.getImprint()) + "</td>");
-	    result.append("</tr><tr><td></td><td>" + r.getCreated().toString()
-	        + "</td></tr></table>");
+	    result.append("</tr><tr><td></td><td></td></tr></table>");
 
 	    
 	    
