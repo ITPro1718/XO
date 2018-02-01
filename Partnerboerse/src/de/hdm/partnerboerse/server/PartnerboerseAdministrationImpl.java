@@ -894,6 +894,15 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	@Override
 	public void createBesuch(Profil source, Profil target) throws IllegalArgumentException {
+		
+		ArrayList<Besuch> besuche = this.findBesucheOf(source);
+		
+		for (Besuch besuch : besuche){
+			if (besuch.getFremdprofilID() == target.getId()){
+				return;
+			}
+		}
+		
 		Besuch b = new Besuch();
 		b.setEigenprofilID(source.getId());
 		b.setFremdprofilID(target.getId());

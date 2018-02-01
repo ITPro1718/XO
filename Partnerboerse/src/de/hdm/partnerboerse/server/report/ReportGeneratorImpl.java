@@ -120,7 +120,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		profilInhalt.addSubParagraph(new SimpleParagraph(p.getVorname()));
 		profilInhalt.addSubParagraph(new SimpleParagraph(p.getNachname()));
 		profilInhalt.addSubParagraph(new SimpleParagraph(p.getEmail()));
-		profilInhalt.addSubParagraph(new SimpleParagraph(String.valueOf(p.getGeburtsdatum())));
+		profilInhalt.addSubParagraph(new SimpleParagraph(this.parseToGermanDatum(p.getGeburtsdatum())));
 		profilInhalt.addSubParagraph(new SimpleParagraph(p.getHaarfarbe()));
 		profilInhalt.addSubParagraph(new SimpleParagraph(String.valueOf(p.getKoerpergroesse())));
 		profilInhalt.addSubParagraph(new SimpleParagraph(String.valueOf(p.isRaucher())));
@@ -238,4 +238,29 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	     */
 	    return result;
 	  }
+	
+	/**
+	 * Nimmt das Geburtsdatum und wandelt es für den Report Generator in das deutsche Datenformat um
+	 * @param datum
+	 * @return
+	 */
+	@SuppressWarnings("deprecation")
+	private String parseToGermanDatum(Date datum){
+		
+		String year = String.valueOf(1900 + datum.getYear());
+		String month = String.valueOf(datum.getMonth() + 1);
+		String day = String.valueOf(datum.getDate());
+		
+		if (Integer.parseInt(month) < 10){
+			month = "0" + month;
+		}
+		if (Integer.parseInt(day) < 10){
+			day = "0" + day;
+		}
+		
+		
+		String result = day + "." + month + "." + year;
+		return result;
+				
+	}
 }
