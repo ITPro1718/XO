@@ -24,7 +24,7 @@ import de.hdm.partnerboerse.shared.bo.Profil;
  * Partnerbörse XO existiert. Mit Hilfe dieser Klasse kann der User sein Profil
  * anlegen.
  * 
- * @author evelyn
+ * @author evelyn, adnan
  */
 
 public class CreateEigenProfil extends VerticalPanel {
@@ -129,7 +129,7 @@ public class CreateEigenProfil extends VerticalPanel {
 							ev.egFor(result);
 
 							HTMLPanel evPanel = new HTMLPanel(
-									"<h3>" + "Hier können sie ein relevante Infos angeben!" + "</h3>");
+									"<h3>" + "Hier können sie relevante Infos angeben!" + "</h3>");
 							evPanel.add(ev);
 
 							RootPanel.get("contwrap").clear();

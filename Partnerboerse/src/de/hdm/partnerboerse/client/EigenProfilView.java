@@ -40,6 +40,7 @@ public class EigenProfilView extends VerticalPanel {
 		updateProfilTable(ClientSideSettings.getProfil());
 
 		Grid info = loadEigenschaften.loadEigenRead(ClientSideSettings.getProfil());
+		info.setStyleName("inftab");
 		this.add(info);
 		
 
@@ -63,6 +64,7 @@ public class EigenProfilView extends VerticalPanel {
 		this.add(profilIntGrid);
 
 		profilIntGrid.setWidget(1, 0, editButton);
+		editButton.addStyleName("ebtn");
 
 		Grid profilGrid = new Grid(7, 6);
 		profilGrid.setStyleName("etable");
@@ -118,13 +120,14 @@ public class EigenProfilView extends VerticalPanel {
 	private void loadEditProfilView(Profil result) {
 
 		EditProfile ep = new EditProfile();
+		Profil meinProfil = result;
 
 		// ToDo: Sollte man umÃ¤ndern, wirkt ziemlich unsicher
 		ep.getProfilFromServer = result;
 
 		// Profile Edit - Panel wird erzeugt und eingefügt.
 		HTMLPanel editProfilePanel = new HTMLPanel(
-				"<h3>" + "Hier können Sie ihre Profilinformationen bearbeiten." + "</h3>");
+				"<h3>" + meinProfil.getVorname().toString() + " hier kannst du deine Profilinformationen bearbeiten." + "</h3>");
 
 		editProfilePanel.add(ep);
 

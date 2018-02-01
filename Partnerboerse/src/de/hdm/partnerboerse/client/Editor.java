@@ -59,7 +59,7 @@ public class Editor implements EntryPoint {
 	}
 
 	public void loadXO() {
-
+		
 		// Navigation Area
 		RootPanel.get("navwrap").add(nav);
 

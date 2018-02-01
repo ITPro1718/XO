@@ -2,6 +2,8 @@ package de.hdm.partnerboerse.shared.report;
 
 import java.util.Vector;
 
+import com.google.gwt.i18n.shared.DateTimeFormat;
+
 
 
 public class HTMLReportWriter {
@@ -155,8 +157,9 @@ public class HTMLReportWriter {
 		    }
 
 		    result.append("<td>" + paragraph2HTML(r.getImprint()) + "</td>");
-		    result.append("</tr><tr><td></td><td>" + r.getCreated().toString()
+		    result.append("</tr><tr><td></td><td>" + DateTimeFormat.getFormat("dd.MM.yyyy").format(r.getCreated()) 
 		        + "</td></tr></table>");
+		    
 
 		    
 		    
@@ -212,7 +215,7 @@ public class HTMLReportWriter {
 	    }
 
 	    result.append("<td>" + paragraph2HTML(r.getImprint()) + "</td>");
-	    result.append("</tr><tr><td></td><td>" + r.getCreated().toString()
+	    result.append("</tr><tr><td></td><td>" + DateTimeFormat.getFormat("dd.MM.yyyy").format(r.getCreated())
 	        + "</td></tr></table>");
 
 	    
