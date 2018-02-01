@@ -1,5 +1,7 @@
 package de.hdm.partnerboerse.client;
 
+import java.util.ArrayList;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -23,8 +25,7 @@ public class FremdProfilView extends VerticalPanel {
 
 	Button merkButton = new Button("Profil merken");
 	Button sperrButton = new Button("Profil sperren");
-	Button entsperrButton = new Button("Profil entsperren");
-	Button entmerkButton = new Button("Profil entmerken");
+	ArrayList<Merkzettel> merkzettelList = new ArrayList<Merkzettel>();
 	
 	CreateWidget cw = new CreateWidget();
 	
@@ -44,9 +45,14 @@ public class FremdProfilView extends VerticalPanel {
 		Grid info = le.loadEigenRead(fremdprofil);
 		this.add(info);
 		
+		partnerAdmin.findMerkzettelnOf(ClientSideSettings.getProfil(), new GetMerkzettelOfCallback());
+		
 		partnerAdmin.createBesuch(ClientSideSettings.getProfil(), fremdprofil, new CreateBesuchCallback());
-		changeButton(merkButton, "Merken");
-		changeButton(sperrButton, "Sperre");
+		profilIntGrid.setWidget(0, 0, merkButton);
+		profilIntGrid.setWidget(0, 1, sperrButton);
+		
+		merkButton.addClickHandler(new MerkButtonClickhandler());
+		sperrButton.addClickHandler(new SperrButtonClickhandler());
 	}
 	
 	private void updateProfilTable(Profil result) {
@@ -100,18 +106,34 @@ public class FremdProfilView extends VerticalPanel {
 
 		@Override
 		public void onClick(ClickEvent event) {
-			partnerAdmin.createMerkzettelEintrag(ClientSideSettings.getProfil(), fremdprofil, new MerkProfilCallback());
-			changeButton(entmerkButton, "Merken");
+			
+			if (merkButton.getText().equals("Profil merken")){
+				partnerAdmin.createMerkzettelEintrag(ClientSideSettings.getProfil(), fremdprofil, new MerkProfilCallback());			
+			}
+			else {
+				Merkzettel m = new Merkzettel();
+				m.setEigenprofilID(ClientSideSettings.getProfil().getId());
+				m.setFremdprofilID(fremdprofil.getId());
+				partnerAdmin.deleteMerkzettelEintrag(m, new DeleteMerkungCallback());
+			}
 		}
-		
 	}
 	
 	private class SperrButtonClickhandler implements ClickHandler{
 
 		@Override
 		public void onClick(ClickEvent event) {
-			partnerAdmin.createKontaksperreEintrag(ClientSideSettings.getProfil(), fremdprofil, new SperrProfilCallback());
-			changeButton(entsperrButton, "Sperre");
+			
+			if (sperrButton.getText().equals("Profil sperren")){
+				partnerAdmin.createKontaksperreEintrag(ClientSideSettings.getProfil(), fremdprofil, new SperrProfilCallback());
+			}
+			
+			else {
+				Kontaktsperre k = new Kontaktsperre();
+				k.setEigenprofilID(ClientSideSettings.getProfil().getId());
+				k.setFremdprofilID(fremdprofil.getId());
+				partnerAdmin.deleteKontaktsperreEintraege(k, new DeleteSperrungCallback());				
+			}
 		}
 	}
 
@@ -124,6 +146,7 @@ public class FremdProfilView extends VerticalPanel {
 		@Override
 		public void onSuccess(Void result) {
 			sperrButton.setEnabled(false);
+			merkButton.setText("Profil entmerken");
 		}
 		
 	}
@@ -137,6 +160,7 @@ public class FremdProfilView extends VerticalPanel {
 		@Override
 		public void onSuccess(Void result) {
 			merkButton.setEnabled(false);
+			sperrButton.setText("Profil entsperren");
 		}
 		
 	}
@@ -153,41 +177,6 @@ public class FremdProfilView extends VerticalPanel {
 		
 	}
 	
-	public void changeButton(Button button, String what){
-		
-		if (what.equals("Sperre")){
-			profilIntGrid.setWidget(0, 1, button);
-			if (button.getText().equals("Profil entsperren")){
-				button.addClickHandler(new EntsperrungClickhandler());
-			}
-			else {
-				button.addClickHandler(new SperrButtonClickhandler());
-			}
-		}
-		
-		if (what.equals("Merken")){
-			profilIntGrid.setWidget(0, 0, button);
-			if (button.getText().equals("Profil entmerken")){
-				button.addClickHandler(new EntmerkungsClickhandler());
-			}
-			else {
-				button.addClickHandler(new MerkButtonClickhandler());
-			}
-		}
-		
-	}
-	
-	private class EntsperrungClickhandler implements ClickHandler{
-
-		@Override
-		public void onClick(ClickEvent event) {
-			Kontaktsperre k = new Kontaktsperre();
-			k.setEigenprofilID(ClientSideSettings.getProfil().getId());
-			k.setFremdprofilID(fremdprofil.getId());
-			partnerAdmin.deleteKontaktsperreEintraege(k, new DeleteSperrungCallback());
-		}
-		
-	}
 	
 	private class DeleteSperrungCallback implements AsyncCallback<Void>{
 
@@ -197,23 +186,9 @@ public class FremdProfilView extends VerticalPanel {
 
 		@Override
 		public void onSuccess(Void result) {
-			changeButton(sperrButton, "Sperre");
 			merkButton.setEnabled(true);
+			sperrButton.setText("Profil sperren");
 		}
-		
-	}
-	
-	private class EntmerkungsClickhandler implements ClickHandler{
-
-		@Override
-		public void onClick(ClickEvent event) {
-			Merkzettel m = new Merkzettel();
-			m.setEigenprofilID(ClientSideSettings.getProfil().getId());
-			m.setFremdprofilID(fremdprofil.getId());
-			partnerAdmin.deleteMerkzettelEintrag(m, new DeleteMerkungCallback());
-			sperrButton.setEnabled(true);
-		}
-		
 	}
 	
 	private class DeleteMerkungCallback implements AsyncCallback<Void>{
@@ -224,9 +199,27 @@ public class FremdProfilView extends VerticalPanel {
 
 		@Override
 		public void onSuccess(Void result) {
-			changeButton(merkButton, "Merken");
+			sperrButton.setEnabled(true);
+			merkButton.setText("Profil merken");
 		}
 		
+	}
+	
+	private class GetMerkzettelOfCallback implements AsyncCallback<ArrayList<Merkzettel>>{
+
+		@Override
+		public void onFailure(Throwable caught) {
+		}
+
+		@Override
+		public void onSuccess(ArrayList<Merkzettel> result) {
+			for (Merkzettel m : result){
+				if (fremdprofil.getId() == m.getFremdprofilID()){
+					sperrButton.setEnabled(false);
+					merkButton.setText("Profil entmerken");
+				}
+			}
+		}
 	}
 
 }
