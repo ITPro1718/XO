@@ -83,19 +83,21 @@ public class LoadEigenschaften extends VerticalPanel {
       for (Eigenschaft e : result) {
 
         final Eigenschaft eg = e;
+        final Button saveButton = new Button("speichern");
+        final Button deleteButton = new Button("löschen");
 
         if (eg.getIs_a().equals("freitext")) {
           TextBox tb = new TextBox();
           infoGrid.setText(row, column, eg.getErlaeuterung());
           infoGrid.setWidget(row, column + 1, tb);
           if (suchprofil != null) {
-            addDeleteButtonforSuchprofil(tb, eg);
-            addSaveButtonForSuchprofil(tb, eg);
-            getInfosOfSuchprofil(tb, eg);
+            addDeleteButtonforSuchprofil(saveButton, deleteButton, tb, eg);
+            addSaveButtonForSuchprofil(saveButton, deleteButton, tb, eg);
+            getInfosOfSuchprofil(saveButton, deleteButton, tb, eg);
           } else {
-            addDeleteButtonforProfil(tb, eg);
-            addSaveButtonForProfil(tb, eg);
-            getInfosOfUser(tb, eg);
+            addDeleteButtonforProfil(saveButton, deleteButton, tb, eg);
+            addSaveButtonForProfil(saveButton, deleteButton, tb, eg);
+            getInfosOfUser(saveButton, deleteButton ,tb, eg);
           }
           row++;
         }
@@ -107,14 +109,13 @@ public class LoadEigenschaften extends VerticalPanel {
           infoGrid.setText(row, column, eg.getErlaeuterung());
           infoGrid.setWidget(row, column + 1, lb);
 
-          getAuswahlen(lb, eg);
+          getAuswahlen(saveButton, deleteButton, lb, eg);
           if (suchprofil != null) {
-
-            addDeleteButtonforSuchprofil(eg);
-            addSaveButtonForSuchprofil(lb, eg);
+            addDeleteButtonforSuchprofil(saveButton, deleteButton, eg);
+            addSaveButtonForSuchprofil(saveButton, deleteButton, lb, eg);
           } else {
-            addDeleteButtonforProfil(eg);
-            addSaveButtonForProfil(lb, eg);
+            addDeleteButtonforProfil(saveButton, deleteButton, eg);
+            addSaveButtonForProfil(saveButton, deleteButton, lb, eg);
           }
           row++;
         }
@@ -126,10 +127,10 @@ public class LoadEigenschaften extends VerticalPanel {
 
   }
 
-  private void addSaveButtonForProfil(final ListBox lb, final Eigenschaft eg) {
-    Button safe = new Button("save");
-    infoGrid.setWidget(row, column + 2, safe);
-    safe.addClickHandler(new ClickHandler() {
+  private void addSaveButtonForProfil(final Button saveButton, final Button deleteButton, final ListBox lb, final Eigenschaft eg) {
+
+    infoGrid.setWidget(row, column + 2, saveButton);
+    saveButton.addClickHandler(new ClickHandler() {
 
       @Override
       public void onClick(ClickEvent event) {
@@ -143,6 +144,8 @@ public class LoadEigenschaften extends VerticalPanel {
   
                 @Override
                 public void onSuccess(Info result) {
+                	saveButton.setText("updaten");
+                	deleteButton.setEnabled(true);
                   Window.alert("Die Info \"" + result.getText() + "\" wurde zur Eigenschaft \"" + eg.getErlaeuterung() + "\" gespeichert.");
                 }
   
@@ -155,12 +158,10 @@ public class LoadEigenschaften extends VerticalPanel {
     });
   }
 
-  private void addSaveButtonForProfil(final TextBox tb, final Eigenschaft eg) {
+  private void addSaveButtonForProfil(final Button saveButton, final Button deleteButton, final TextBox tb, final Eigenschaft eg) {
 	  
-	  	  
-    Button safe = new Button("save");
-    infoGrid.setWidget(row, column + 2, safe);
-    safe.addClickHandler(new ClickHandler() {
+    infoGrid.setWidget(row, column + 2, saveButton);
+    saveButton.addClickHandler(new ClickHandler() {
 
       @Override
       public void onClick(ClickEvent event) {
@@ -176,6 +177,8 @@ public class LoadEigenschaften extends VerticalPanel {
     
             @Override
             public void onSuccess(Info result) {
+              deleteButton.setEnabled(true);
+              saveButton.setText("update");
               Window.alert("Die Info \"" + tb.getText() + "\" wurde zur Eigenschaft \"" + eg.getErlaeuterung() + "\" gespeichert.");
             }
     
@@ -188,10 +191,10 @@ public class LoadEigenschaften extends VerticalPanel {
     });
   }
 
-  private void addSaveButtonForSuchprofil(final TextBox tb, final Eigenschaft eg) {
-    Button safe = new Button("save");
-    infoGrid.setWidget(row, column + 2, safe);
-    safe.addClickHandler(new ClickHandler() {
+  private void addSaveButtonForSuchprofil(final Button saveButton, final Button deleteButton, final TextBox tb, final Eigenschaft eg) {
+
+    infoGrid.setWidget(row, column + 2, saveButton);
+    saveButton.addClickHandler(new ClickHandler() {
 
       @Override
       public void onClick(ClickEvent event) {
@@ -208,6 +211,8 @@ public class LoadEigenschaften extends VerticalPanel {
             @Override
             public void onSuccess(Info result) {
               Window.alert("Die Info \"" + tb.getText() + "\" wurde zur Eigenschaft \"" + eg.getErlaeuterung() + "\" gespeichert.");
+              deleteButton.setEnabled(true);
+              saveButton.setText("updaten");
             }
   
           });
@@ -219,18 +224,11 @@ public class LoadEigenschaften extends VerticalPanel {
     });
   }
 
-  private void addSaveButtonForSuchprofil(final ListBox lb, final Eigenschaft eg) {
+  private void addSaveButtonForSuchprofil(final Button saveButton, final Button deleteButton, final ListBox lb, final Eigenschaft eg) {
 	  
-	  final Button safe = new Button("save");
-	  
-	  for (Info i : infoList){
-		  Window.alert("prüfung");
-		  if (i.getEigenschaftId() == eg.getId()){
-			  safe.setText("update");		  
-			  }
-	  }
-    infoGrid.setWidget(row, column + 2, safe);
-    safe.addClickHandler(new ClickHandler() {
+
+    infoGrid.setWidget(row, column + 2, saveButton);
+    saveButton.addClickHandler(new ClickHandler() {
 
       @Override
       public void onClick(ClickEvent event) {
@@ -245,7 +243,9 @@ public class LoadEigenschaften extends VerticalPanel {
   
             @Override
             public void onSuccess(Info result) {
-              Window.alert("Die Info \"" + result.getText() + "\" wurde zur Eigenschaft \"" + eg.getErlaeuterung() + "\" gespeichert.");
+              deleteButton.setEnabled(true);
+              saveButton.setText("updaten");
+            	Window.alert("Die Info \"" + result.getText() + "\" wurde zur Eigenschaft \"" + eg.getErlaeuterung() + "\" gespeichert.");
             }
   
           });
@@ -258,10 +258,10 @@ public class LoadEigenschaften extends VerticalPanel {
     });
   }
 
-  private void addDeleteButtonforProfil(final TextBox tb, final Eigenschaft eg) {
-    Button del = new Button("delete");
-    infoGrid.setWidget(row, column + 3, del);
-    del.addClickHandler(new ClickHandler() {
+  private void addDeleteButtonforProfil(final Button saveButton, final Button deleteButton, final TextBox tb, final Eigenschaft eg) {
+
+    infoGrid.setWidget(row, column + 3, deleteButton);
+    deleteButton.addClickHandler(new ClickHandler() {
 
 
       @Override
@@ -277,7 +277,8 @@ public class LoadEigenschaften extends VerticalPanel {
           @Override
           public void onSuccess(Void result) {
             tb.setText("");
-            
+            saveButton.setText("speichern");
+            deleteButton.setEnabled(false);
           }
 
 
@@ -287,10 +288,10 @@ public class LoadEigenschaften extends VerticalPanel {
     });
   }
   
-  private void addDeleteButtonforProfil(final Eigenschaft eg) {
-	    Button del = new Button("delete");
-	    infoGrid.setWidget(row, column + 3, del);
-	    del.addClickHandler(new ClickHandler() {
+  private void addDeleteButtonforProfil(final Button saveButton, final Button deleteButton, final Eigenschaft eg) {
+
+	    infoGrid.setWidget(row, column + 3, deleteButton);
+	    deleteButton.addClickHandler(new ClickHandler() {
 
 
 	      @Override
@@ -305,6 +306,8 @@ public class LoadEigenschaften extends VerticalPanel {
 
 	          @Override
 	          public void onSuccess(Void result) {
+	        	  saveButton.setText("speichern");
+	        	  deleteButton.setEnabled(false);
 	          }
 
 
@@ -314,10 +317,10 @@ public class LoadEigenschaften extends VerticalPanel {
 	    });
 	  }
 
-  private void addDeleteButtonforSuchprofil(final Eigenschaft eg) {
-	    Button del = new Button("delete");
-	    infoGrid.setWidget(row, column + 3, del);
-	    del.addClickHandler(new ClickHandler() {
+  private void addDeleteButtonforSuchprofil(final Button saveButton, final Button deleteButton, final Eigenschaft eg) {
+
+	    infoGrid.setWidget(row, column + 3, deleteButton);
+	    deleteButton.addClickHandler(new ClickHandler() {
 
 
 	      @Override
@@ -332,6 +335,8 @@ public class LoadEigenschaften extends VerticalPanel {
 
 	          @Override
 	          public void onSuccess(Void result) {
+	        	  deleteButton.setEnabled(false);
+	        	  saveButton.setText("speichern");
 	          }
 
 
@@ -341,10 +346,10 @@ public class LoadEigenschaften extends VerticalPanel {
 	    });
 	  }
   
-  private void addDeleteButtonforSuchprofil(final TextBox tb, final Eigenschaft eg) {
-    Button del = new Button("delete");
-    infoGrid.setWidget(row, column + 3, del);
-    del.addClickHandler(new ClickHandler() {
+  private void addDeleteButtonforSuchprofil(final Button saveButton, final Button deleteButton, final TextBox tb, final Eigenschaft eg) {
+
+    infoGrid.setWidget(row, column + 3, deleteButton);
+    deleteButton.addClickHandler(new ClickHandler() {
 
 
       @Override
@@ -354,22 +359,20 @@ public class LoadEigenschaften extends VerticalPanel {
 
           @Override
           public void onFailure(Throwable caught) {
-
           }
 
           @Override
           public void onSuccess(Void result) {
             tb.setText("");
+            deleteButton.setEnabled(false);
+            saveButton.setText("speichern");
           }
-
-
         });
       }
-
     });
   }
 
-  private void getAuswahlen(final ListBox lb, final Eigenschaft eg) {
+  private void getAuswahlen(final Button saveButton, final Button deleteButton, final ListBox lb, final Eigenschaft eg) {
 	  
 	  
 	    partnerAdmin.getAuswahl(new AsyncCallback<ArrayList<Auswahl>>() {
@@ -406,8 +409,13 @@ public class LoadEigenschaften extends VerticalPanel {
 							for (int z = 0; z < hm.size(); z++){
 								if (i.getText().equals(hm.get(z))){
 									lb.setSelectedIndex(z);
-								}
-							
+									deleteButton.setEnabled(true);
+									saveButton.setText("updaten");
+									break;
+								}						
+							}
+							if (saveButton.getText().equals("speichern")){
+								deleteButton.setEnabled(false);
 							}
 						}
 					}
@@ -429,7 +437,13 @@ public class LoadEigenschaften extends VerticalPanel {
 							
 								if (i.getText().equals(hm.get(z))){
 									lb.setSelectedIndex(z);
+									saveButton.setText("updaten");
+									deleteButton.setEnabled(true);
+									break;
 								}
+							}
+							if (saveButton.getText().equals("speichern")){
+								deleteButton.setEnabled(false);
 							}
 						}
 					}
@@ -441,31 +455,36 @@ public class LoadEigenschaften extends VerticalPanel {
 	    });
 	  }
 
-  private void getInfosOfUser(final TextBox tb, final Eigenschaft eig) {
-    partnerAdmin.findInfoOf(profil, new AsyncCallback<ArrayList<Info>>() {
+  private void getInfosOfUser(final Button saveButton, final Button deleteButton, final TextBox tb, final Eigenschaft eig) {
+    
+	  partnerAdmin.findInfoOf(profil, new AsyncCallback<ArrayList<Info>>() {
 
       @Override
-      public void onFailure(Throwable caught) {}
+      public void onFailure(Throwable caught) {
+    	  Window.alert("hier bin ich gelandet");
+      }
 
       @Override
       public void onSuccess(ArrayList<Info> result) {
         for (Info i : result) {
           if (i.getEigenschaftId() == eig.getId()) {
             tb.setText(i.getText());
+            saveButton.setText("updaten");
           }
         }
+        if (saveButton.getText().equals("speichern")){
+        	deleteButton.setEnabled(false);        
+        	}
       }
 
     });
   }
 
-  private void getInfosOfSuchprofil(final TextBox tb, final Eigenschaft eigenschaft) {
+  private void getInfosOfSuchprofil(final Button saveButton, final Button deleteButton, final TextBox tb, final Eigenschaft eigenschaft) {
     partnerAdmin.findInfoOf(suchprofil, new AsyncCallback<ArrayList<Info>>() {
 
       @Override
       public void onFailure(Throwable caught) {
-        // TODO Auto-generated method stub
-        
       }
 
       @Override
@@ -473,8 +492,12 @@ public class LoadEigenschaften extends VerticalPanel {
         for (Info info : result) {
           if (info.getEigenschaftId() == eigenschaft.getId()) {
             tb.setText(info.getText());
+            saveButton.setText("updaten");
           }
         }
+        if (saveButton.getText().equals("speichern")){
+        	deleteButton.setEnabled(false);        
+        	}
         
       }});
     

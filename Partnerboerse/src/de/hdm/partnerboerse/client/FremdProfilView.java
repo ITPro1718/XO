@@ -123,6 +123,7 @@ public class FremdProfilView extends VerticalPanel {
 
 		@Override
 		public void onSuccess(Void result) {
+			sperrButton.setEnabled(false);
 		}
 		
 	}
@@ -135,6 +136,7 @@ public class FremdProfilView extends VerticalPanel {
 
 		@Override
 		public void onSuccess(Void result) {
+			merkButton.setEnabled(false);
 		}
 		
 	}
@@ -196,6 +198,7 @@ public class FremdProfilView extends VerticalPanel {
 		@Override
 		public void onSuccess(Void result) {
 			changeButton(sperrButton, "Sperre");
+			merkButton.setEnabled(true);
 		}
 		
 	}
@@ -208,6 +211,7 @@ public class FremdProfilView extends VerticalPanel {
 			m.setEigenprofilID(ClientSideSettings.getProfil().getId());
 			m.setFremdprofilID(fremdprofil.getId());
 			partnerAdmin.deleteMerkzettelEintrag(m, new DeleteMerkungCallback());
+			sperrButton.setEnabled(true);
 		}
 		
 	}
