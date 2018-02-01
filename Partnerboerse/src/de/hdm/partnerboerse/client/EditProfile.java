@@ -14,7 +14,9 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -41,7 +43,6 @@ public class EditProfile extends VerticalPanel {
   final Anchor deleteButton = new Anchor("Profil löschen");
   Button safeButton = new Button("Profil speichern");
   
-
 
   /*
    * Beim Anzeigen werden die anderen Widgets erzeugt. Alle werden in einem Raster angeordnet,
@@ -132,8 +133,6 @@ public class EditProfile extends VerticalPanel {
     }
     
 
-    // smokerListBox.setValue(1, getProfilFromServer.isRaucher());
-
     // Spalte 6
     
     profilGrid.setWidget(4, 3, cw.getReligionLabel());
@@ -149,79 +148,76 @@ public class EditProfile extends VerticalPanel {
     descripton.setStyleName("desctable");
     this.add(descripton);
 
-    
     LoadEigenschaften le = new LoadEigenschaften();
     Grid info = le.loadEigen(ClientSideSettings.getProfil());
     this.add(info);
-    
-        
+       
 
     /*
      * Button zum Speichern des eigenen geändertem Profils
      */
     
-    safeButton.addClickHandler(new ClickHandler() {
-
-      @Override
-      public void onClick(ClickEvent event) {
-        updateProfileOnServer();
-       
-      }
-
-      private void updateProfileOnServer() {
-
-        getProfilFromServer = getProfileValuesFromFormular();
-        ClientValidation cv = new ClientValidation();
-        
-        if(cv.isProfilValid(getProfilFromServer)) {
-
-        partnerAdmin.updateProfil(getProfilFromServer, new AsyncCallback<Void>() {
-
-          @Override
-          public void onFailure(Throwable caught) {
-            Window.alert("Profil wurde nicht gespeichert.");
-
-          }
-
-          @Override
-          public void onSuccess(Void result) {
-            Window.alert(cw.getVnameTextBox().getValue() + " Profil wurde gespeichert.");
-
-
-            ClientSideSettings.setProfil(getProfilFromServer);
-
-            EigenProfilView epv = new EigenProfilView();
-
-            HTMLPanel eigenProfilViewPanel =
-                new HTMLPanel("<h3>" + "Hier können Sie ihr Profil sehen." + "</h3>");
-            eigenProfilViewPanel.add(epv);
-
-            RootPanel.get("contwrap").clear();
-            RootPanel.get("contwrap").add(eigenProfilViewPanel);
-
-          }
-        });
-        } else {
-          return;
-        }
-      }
-
-     
+    safeButton.addClickHandler(new SaveButtonClickhandler());
+    deleteButton.addClickHandler(new DeleteButtonClickhandler());
+  }
   
+  private void updateProfileOnServer() {
 
-    });
+      getProfilFromServer = getProfileValuesFromFormular();
+      ClientValidation cv = new ClientValidation();
+      
+      if(cv.isProfilValid(getProfilFromServer)) {
 
-    deleteButton.addClickHandler(new ClickHandler() {
-    	
-      @Override
-      public void onClick(ClickEvent event) {
-    	  
-    	deleteButton.setHref(ClientSideSettings.getLoginInfo().getLogoutUrl());
-        partnerAdmin.deleteProfil(ClientSideSettings.getProfil(), new DeleteProfilCallback());
+      partnerAdmin.updateProfil(getProfilFromServer, new AsyncCallback<Void>() {
+
+        @Override
+        public void onFailure(Throwable caught) {
+          Window.alert("Profil wurde nicht gespeichert.");
+
+        }
+
+        @Override
+        public void onSuccess(Void result) {
+    
+          Window.alert(cw.getVnameTextBox().getValue() + " Profil wurde gespeichert.");
 
 
+          ClientSideSettings.setProfil(getProfilFromServer);
+
+          EigenProfilView epv = new EigenProfilView();
+
+          HTMLPanel eigenProfilViewPanel =
+              new HTMLPanel("<h3>" + "Hier können Sie ihr Profil sehen." + "</h3>");
+          eigenProfilViewPanel.add(epv);
+
+          RootPanel.get("contwrap").clear();
+          RootPanel.get("contwrap").add(eigenProfilViewPanel);
+
+        }
+      });
+      } else {
+        return;
       }
-    });
+    }
+  
+  private class SaveButtonClickhandler implements ClickHandler{
+	  
+	  @Override
+	  public void onClick(ClickEvent event){
+		  updateProfileOnServer();
+	  }
+  }
+  
+  private class DeleteButtonClickhandler implements ClickHandler{
+	  
+	  @Override
+      public void onClick(ClickEvent event) {
+		  
+		  if (Window.confirm("Wollen sie ihr Profil wirklich löschen?")){
+			  deleteButton.setHref(ClientSideSettings.getLoginInfo().getLogoutUrl());
+		      partnerAdmin.deleteProfil(ClientSideSettings.getProfil(), new DeleteProfilCallback());
+		  }       
+      }
   }
   
   private class DeleteProfilCallback implements AsyncCallback<Void>{
@@ -234,16 +230,13 @@ public class EditProfile extends VerticalPanel {
 	public void onSuccess(Void result) {
 		Window.alert("Ihr Profil wurde gelöscht");
 	}
-	  
   }
-
 
 /**
    * TODO: Datum muss noch aderster gemappt werden es ist falsch! Werte aus den geänderten
    * Formularen wird ausgelesen und in ein Profil gespeichert und zurück gegeben
    */
   private Profil getProfileValuesFromFormular() {
-
 
     Profil setProfil = new Profil();
     String bDayConvert = cw.getBdayTextBox().getValue();
@@ -305,6 +298,11 @@ public class EditProfile extends VerticalPanel {
 
   }
   
+  /**
+   * Setzt den richtigen Wert in die ListBox welches das Profil ausgewählt hatte
+   * @param lb
+   * @param string
+   */
   private void setRightWert(ListBox lb, String string){
 	  
 	  HashMap<Integer, String> hm = new HashMap<Integer, String>();
