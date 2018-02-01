@@ -1,7 +1,11 @@
 package de.hdm.partnerboerse.shared.report;
 
+/*
+ * Disclaimer: Diese Klasse wurde aus dem Bankprojekt übernommen.
+ */
+
 /**
- * Diese Klasse stellt einzelne AbsÃ¤tze dar. Der Absatzinhalt wird als String
+ * Diese Klasse stellt einzelne Absätze dar. Der Absatzinhalt wird als String
  * gespeichert. Der Anwender sollte in diesem Strinig keinerlei
  * Formatierungssymbole einfügen, da diese in der Regel zielformatspezifisch
  * sind.

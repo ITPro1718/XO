@@ -2,6 +2,10 @@ package de.hdm.partnerboerse.shared.report;
 
 import java.io.Serializable;
 
+/*
+ * Disclaimer: Diese Klasse wurde aus dem Bankprojekt übernommen.
+ */
+
 /**
  * Spalte eines <code>Row</code>-Objekts. <code>Column</code>-Objekte
  * implementieren das <code>Serializable</code>-Interface und kÃ¶nnen daher als

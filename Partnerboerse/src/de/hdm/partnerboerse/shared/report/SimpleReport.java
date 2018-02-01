@@ -2,6 +2,10 @@ package de.hdm.partnerboerse.shared.report;
 
 import java.util.Vector;
 
+/*
+ * Disclaimer: Diese Klasse wurde aus dem Bankprojekt übernommen.
+ */
+
 /**
  * <p>
  * Ein einfacher Report, der neben den Informationen der Superklasse <code>
@@ -32,9 +36,9 @@ public class SimpleReport extends Report {
 	  private Vector<Row> table = new Vector<Row>();
 
 	  /**
-	   * HinzufÃ¼gen einer Zeile.
+	   * Hinzufügen einer Zeile.
 	   * 
-	   * @param r die hinzuzufÃ¼gende Zeile
+	   * @param r die hinzuzufügende Zeile
 	   */
 	  public void addRow(Row r) {
 	    this.table.addElement(r);
@@ -50,7 +54,7 @@ public class SimpleReport extends Report {
 	  }
 
 	  /**
-	   * Auslesen sÃ¤mtlicher Positionsdaten.
+	   * Auslesen sämtlicher Positionsdaten.
 	   * 
 	   * @return die Tabelle der Positionsdaten
 	   */

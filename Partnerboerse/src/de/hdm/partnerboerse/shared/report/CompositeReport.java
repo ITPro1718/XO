@@ -2,6 +2,10 @@ package de.hdm.partnerboerse.shared.report;
 
 import java.util.Vector;
 
+/*
+ * Disclaimer: Diese Klasse wurde aus dem Bankprojekt übernommen.
+ */
+
 /**
  * Ein zusammengesetzter Report. Dieser Report kann aus einer Menge von 
  * Teil-Reports (vgl. Attribut <code>subReports</code>) bestehen.

@@ -13,10 +13,12 @@ package de.hdm.partnerboerse.shared.report;
  * Prozessierung der Quellinformation zuständig sind.
  * </p>
  * 
- * @author Thies
+ * @author Thies, Burghardt
  */
 
 public abstract class ReportWriter {
+	
+	public abstract void process(SingleProfilReport r);
 	
 	public abstract void process(AllNotSeenProfilesReport r);
 	

@@ -343,7 +343,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		return this.iMapper.findInfoOf(profil);
 	}
 
-
+	
 	public ArrayList<Profil> berechneAehnlichkeitsmass(Profil profil, ArrayList<Profil> ergebnisse) {
 		
 		Aehnlichkeitsmass aehnlichkeitsmass = new Aehnlichkeitsmass();
@@ -390,12 +390,13 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 				o5 = o5*compareInfos(profil, p);
 				p5 = o5;
 				
-				//y= p5*x;
-				//if(y>50){
-					//y=50;
-				//}
+
 			}
-			p.setÄhnlichkeit((int)(((p1 * x) + (p2 * x) + (p3 * x) + (p4 * x) + (p5 * x)) + 0.5));
+			int aehnlichkeit = (int) (((p1 * x) + (p2 * x) + (p3 * x) + (p4 * x) + (p5 * x)) + 0.5);
+			if (aehnlichkeit > 100){
+				aehnlichkeit = 100;
+			}
+			p.setÄhnlichkeit(aehnlichkeit);
 			comparedProfiles.add(p);
 		}
 		Collections.sort(comparedProfiles, new Comparator<Profil>(){

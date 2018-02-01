@@ -2,8 +2,19 @@ package de.hdm.partnerboerse.shared.report;
 
 import java.util.Vector;
 
+/*
+ * Disclaimer: Diese Klasse wurde aus dem Bankprojekt übernommen und auf unser
+ * Projekt angepasst.
+ */
 
-
+/**
+ * Ein <code>ReportWriter</code>, der Reports mittels HTML formatiert. Das im
+ * Zielformat vorliegende Ergebnis wird in der Variable <code>reportText</code>
+ * abgelegt und kann nach Aufruf der entsprechenden Prozessierungsmethode mit
+ * <code>getReportText()</code> ausgelesen werden.
+ * 
+ * @author Thies, Burghardt
+ */
 public class HTMLReportWriter {
 	
 	/**
@@ -82,8 +93,8 @@ public class HTMLReportWriter {
 	  }
 
 	  /**
-	   * Prozessieren des Ã¼bergebenen Reports und Ablage im Zielformat. Ein Auslesen
-	   * des Ergebnisses kann spÃ¤ter mittels <code>getReportText()</code> erfolgen.
+	   * Prozessieren des Übergebenen Reports und Ablage im Zielformat. Ein Auslesen
+	   * des Ergebnisses kann später mittels <code>getReportText()</code> erfolgen.
 	   * 
 	   * @param r der zu prozessierende Report
 	   */
@@ -95,36 +106,15 @@ public class HTMLReportWriter {
 		  
 		  result.append("<H2>" + r.getTitle() + "</H2>");
 		  
+		  /**
+		   * Erstellt eine 2-Spaltige Tabelle, welche mit den Inhalten der CompositeParagraphen
+		   * befüllt wird.
+		   */
 		  result.append("<table style=\"width:400px;border:1px solid silver\"><tr>");
 		  result.append("<td valign=\"top\"><b>" + paragraph2HTML(r.getProfilData()) + "</b></td>");
 		  result.append("<td valign=\"top\">" + paragraph2HTML(r.getProfilInhalt()) + "</td>");
 		  result.append("</tr></table>");
-		  
-		  Vector<Row> rows = r.getRows();
-		  result.append("<table style=\"width:400px\">");
 
-		  for (int i = 0; i < rows.size(); i++) {
-		    Row row = rows.elementAt(i);
-		    result.append("<tr>");
-		    for (int k = 0; k < row.getNumColumns(); k++) {
-		      if (i == 0) {
-		        result.append("<td style=\"background:silver;font-weight:bold\">" + row.getColumnAt(k)
-		            + "</td>");
-		      }
-		      else {
-		        if (i > 1) {
-		          result.append("<td style=\"border-top:1px solid silver\">"
-		              + row.getColumnAt(k) + "</td>");
-		        }
-		        else {
-		          result.append("<td valign=\"top\">" + row.getColumnAt(k) + "</td>");
-		        }
-		      }
-		    }
-		    result.append("</tr>");
-		  }
-
-		  result.append("</table>");
 
 		    /*
 		     * Zum Schluss wird unser Arbeits-Buffer in einen String umgewandelt und der
@@ -136,7 +126,12 @@ public class HTMLReportWriter {
 		  
 	  }
 	  
-	  
+	  /**
+	   * Prozessieren des Übergebenen Reports und Ablage im Zielformat. Ein Auslesen
+	   * des Ergebnisses kann später mittels <code>getReportText()</code> erfolgen.
+	   * 
+	   * @param r der zu prozessierende Report
+	   */
 	  public void process(AllNotSeenProfilesReport r) {
 		  
 		  this.resetReportText();
@@ -189,8 +184,8 @@ public class HTMLReportWriter {
 	  }
 
 	  /**
-	   * Prozessieren des Ã¼bergebenen Reports und Ablage im Zielformat. Ein Auslesen
-	   * des Ergebnisses kann spÃ¤ter mittels <code>getReportText()</code> erfolgen.
+	   * Prozessieren des Übergebenen Reports und Ablage im Zielformat. Ein Auslesen
+	   * des Ergebnisses kann später mittels <code>getReportText()</code> erfolgen.
 	   * 
 	   * @param r der zu prozessierende Report
 	   */

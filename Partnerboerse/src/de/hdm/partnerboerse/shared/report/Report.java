@@ -3,6 +3,26 @@ package de.hdm.partnerboerse.shared.report;
 import java.io.Serializable;
 import java.util.Date;
 
+/*
+ * Disclaimer: Diese Klasse wurde aus dem Bankprojekt übernommen und auf unser 
+ * Projekt angepasst.
+ */
+
+/**
+ * <p>
+ * Basisklasse aller Reports. Reports sind als <code>Serializable</code>
+ * deklariert, damit sie von dem Server an den Client gesendet werden können.
+ * Der Zugriff auf Reports erfolgt also nach deren Bereitstellung lokal auf dem
+ * Client.
+ * </p>
+ * <p>
+ * Ein Report besitzt eine Reihe von Standardelementen. Sie werden mittels
+ * Attributen modelliert und dort dokumentiert.
+ * </p>
+ * 
+ * @see Report
+ * @author Thies, Burghardt
+ */
 public class Report implements Serializable {
 
 	/**
@@ -72,10 +92,19 @@ public class Report implements Serializable {
 	    this.headerData = headerData;
 	  }
 	  
+	  /**
+	   * Setzen der Profildata, damit sind die Beschreibungen 
+	   * der Profilattribute gemeint
+	   * @param profilData
+	   */
 	  public void setProfilData(Paragraph profilData){
 		  this.profilData = profilData;
 	  }
 	  
+	  /**
+	   * Auslesen der Profildata
+	   * @return
+	   */
 	  public Paragraph getProfilData(){
 		  return this.profilData;
 	  }
@@ -118,10 +147,17 @@ public class Report implements Serializable {
 	    this.created = created;
 	  }
 
+	  /**
+	   * Auslesen der Profilinhalte
+	   */
 	public Paragraph getProfilInhalt() {
 		return profilInhalt;
 	}
 
+	/**
+	 * Setzten der Profilinhalte als Paragraph
+	 * Damit sind die Werte gemeint, die ein Profil als Attribut eingetragen hat
+	 */
 	public void setProfilInhalt(Paragraph profilInhalt) {
 		this.profilInhalt = profilInhalt;
 	}

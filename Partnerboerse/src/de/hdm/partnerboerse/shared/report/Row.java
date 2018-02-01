@@ -3,6 +3,11 @@ package de.hdm.partnerboerse.shared.report;
 import java.io.Serializable;
 import java.util.Vector;
 
+/*
+ * Disclaimer: Diese Klasse wurde aus dem Bankprojekt übernommen und auf unser 
+ * Projekt angepasst.
+ */
+
 /**
  * Zeile einer Tabelle eines <code>SimpleReport</code>-Objekts. <code>Row</code>
  * -Objekte implementieren das <code>Serializable</code>-Interface und kÃ¶nnen
