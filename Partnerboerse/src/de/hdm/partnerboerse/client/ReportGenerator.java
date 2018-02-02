@@ -130,12 +130,14 @@ public class ReportGenerator implements EntryPoint {
 				
 				// Content Area
 				HTMLPanel reports = new HTMLPanel("<h2>" + "Hier finden Sie Ihre Reports" + "</h2>");
-				HTMLPanel choice = new HTMLPanel("<h3> Bitte wählen sie, welchen Report sie ausgeben wollen!<h3>");
+				HTMLPanel choice = new HTMLPanel("<h3> Bitte wählen sie, welchen Report sie ausgeben wollen!</h3>");
 				// reports.add(spr);
 				reports.addStyleName("repwrap");
+				choice.addStyleName("repwrap");
 				RootPanel.get("contwrap").add(reports);
 				RootPanel.get("contwrap").add(choice);
 				RootPanel.get("contwrap").add(hp);
+				hp.addStyleName("repwrp");
 				hp.add(notSeenProfileButton);
 				hp.add(suchprofilButton);
 				notSeenProfileButton.addClickHandler(new NotSeenProfilesClickhandler());

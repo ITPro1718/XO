@@ -125,7 +125,7 @@ button:hover {background: lightgreen !important;}
 .offbutton {
     background: #f18487 !important;
     margin-top: 3.5em !important;
-    color: #fff;
+    color: #fff !important;
     transition: all 1s linear;
     width: 95%;
     height: auto;
@@ -135,7 +135,6 @@ button:hover {background: lightgreen !important;}
     font-size: 1.2em;
     max-width: 250px;
 }
-
 .offbutton:hover {
     background: #f18487 !important;
     text-decoration: none;
@@ -244,6 +243,34 @@ select {
     text-align: center;
     font-size: 14px;
 }
+.repwrap h2, .repwrap h3, .repwrp tr td {
+    text-align: center;
+}
+/*Login Area*/
+.logbtn {
+    background: linear-gradient(to left, #f3f3f3 50%, #f18487 50%);
+    background-position:right bottom;
+    background-size: 200% 100%;
+    margin: 3.5em auto;
+    color: #f18487 !important;
+    transition: all 1s ease;
+    width: 95%;
+    height: auto;
+    display: block;
+    padding: 10px 5px;
+    text-align: center;
+    font-size: 1.2em;
+    max-width: 250px;
+}
+.logbtn:hover {
+    background-position:left bottom;
+    text-decoration: none;
+    color: #000 !important;
+}
+
+.log, .logpanel {
+    text-align: center;
+}
 
 /*Press and Datasecurity Area*/
 .presstab tr td:first-child {
@@ -294,6 +321,10 @@ MEDIA QUERRIES
     	height: 95%;
     	font-size: 12px !important;
 	}
+	.naviRep tr:nth-child(5), .naviRep tr:nth-child(6), .naviRep tr:nth-child(7) {
+    	float: left;
+    	margin: 5px 3px 0 0;
+	}
 }
 /* IPad Land */
 @media only screen and (min-width: 1024px) and (max-width: 1223px) {
@@ -315,6 +346,10 @@ MEDIA QUERRIES
     	width: 95%;
     	height: 95%;
     	font-size: 12px !important;
+	}
+	.naviRep tr:nth-child(5), .naviRep tr:nth-child(6), .naviRep tr:nth-child(7) {
+    	float: left;
+    	margin: 5px 3px 0 0;
 	}
 }
 /* IPad Port */
@@ -338,6 +373,10 @@ MEDIA QUERRIES
     	height: 95%;
     	font-size: 12px !important;
 	}
+	.naviRep tr:nth-child(5), .naviRep tr:nth-child(6), .naviRep tr:nth-child(7) {
+    	float: left;
+    	margin: 5px 3px 0 0;
+	}
 }
 /* Laps */
 @media only screen and (min-width: 1224px) and (max-width: 1823px) {
@@ -356,6 +395,10 @@ MEDIA QUERRIES
     	width: 95%;
     	height: 95%;
     	font-size: 12px !important;
+	}
+	.naviRep tr:nth-child(5), .naviRep tr:nth-child(6), .naviRep tr:nth-child(7) {
+    	float: left;
+    	margin: 5px 3px 0 0;
 	}
 }
 /* Large screens ----------- */

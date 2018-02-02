@@ -36,7 +36,7 @@ public class EditKontaktsperre extends VerticalPanel {
 		HTML kontaktsperre = new HTML("<h3>" + "Kontaktsperrenliste" + "</h3>");
 		kontaktsperre.addStyleName("kswrap");
 
-		kontaktsperreGrid.setStyleName("kstable");
+		kontaktsperreGrid.setStyleName("mltable");
 		this.add(kontaktsperreGrid);
 
 		// Zeile 1

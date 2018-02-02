@@ -5,6 +5,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -24,8 +25,10 @@ public class Editor implements EntryPoint {
 	private LoginInfo loginInfo = null;
 
 	private VerticalPanel loginPanel = new VerticalPanel();
-	private Label loginLabel = new Label("Melde dich mit deinem Google-Konto an, dann kann es schon losgehen!");
+	private HTML loginLabel = new HTML("<h3 class=\"log\">"+"Melden Sie sich mit Ihrem Google-Konto an, dann kann es schon losgehen!"+"<h3>");
 	private Anchor signInLink = new Anchor("anmelden");
+	
+
 
 	// Unnötige Attribute?! Muss angepasst werden
 	private VerticalPanel mainPanel = new VerticalPanel();
@@ -103,6 +106,8 @@ public class Editor implements EntryPoint {
 	public void loadLogin() {
 		// Assemble login panel.
 		HTMLPanel eigenProfilViewPanel = new HTMLPanel("<h1>" + "Willkommen bei der XO-Partnerboerse" + "</h1>");
+		eigenProfilViewPanel.addStyleName("logpanel");
+		signInLink.addStyleName("logbtn");
         
 		signInLink.setHref(loginInfo.getLoginUrl());
 		loginPanel.add(loginLabel);

@@ -127,7 +127,7 @@ public class EigenProfilView extends VerticalPanel {
 
 		// Profile Edit - Panel wird erzeugt und eingefügt.
 		HTMLPanel editProfilePanel = new HTMLPanel(
-				"<h3>" + meinProfil.getVorname().toString() + " hier kannst du deine Profilinformationen bearbeiten." + "</h3>");
+				"<h3>" + " Hier können Sie Ihre Profilinformationen bearbeiten." + "</h3>");
 
 		editProfilePanel.add(ep);
 

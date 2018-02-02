@@ -44,6 +44,7 @@ public class FremdProfilView extends VerticalPanel {
 
 		updateProfilTable(fremdprofil);
 		Grid info = le.loadEigenRead(fremdprofil);
+		info.setStyleName("inftab");
 		this.add(info);
 		
 		partnerAdmin.findMerkzettelnOf(ClientSideSettings.getProfil(), new GetMerkzettelOfCallback());
