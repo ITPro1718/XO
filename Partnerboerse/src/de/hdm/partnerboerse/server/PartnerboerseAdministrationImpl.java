@@ -414,7 +414,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		ArrayList<Profil> profile = this.getAllProfils();
 		Profil suchprofilowner = this.getProfilByID(suchprofil.getEigenprofilID());
 		ArrayList<Kontaktsperre> blockedSuchprofilowner = new ArrayList<>();
-		ArrayList<Profil> profilBlockedSuchprofilowner = new ArrayList<>();
 		ArrayList<Profil> profilsToRemove = new ArrayList<Profil>();
 		
 		// Wenn die Fremdprofil-ID einer Kontaktsperre (gesperrte Profil ID) mit
@@ -431,7 +430,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 			for (Kontaktsperre t : blockedSuchprofilowner) {
 				int epidofkkk = t.getEigenprofilID();
 				Profil pp = getProfilByID(epidofkkk);
-				profilBlockedSuchprofilowner.add(pp);
+				profilsToRemove.add(pp);
 			}
 		}
 						
@@ -452,9 +451,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 			// sind Profile aus der Liste, die das eigene Profil auf der
 			// Kontaaktsperrliste hatten.
 			
-			if (profilBlockedSuchprofilowner.contains(p)) {
-				profilsToRemove.add(p);
-			}
 
 			if (p.getId() == suchprofilowner.getId()) {
 				profilsToRemove.add(p);
