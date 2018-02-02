@@ -111,9 +111,12 @@ public class HTMLReportWriter extends ReportWriter {
 		   * Erstellt eine 2-Spaltige Tabelle, welche mit den Inhalten der CompositeParagraphen
 		   * befüllt wird.
 		   */
-		  result.append("<table style=\"width:400px;border:1px solid silver\"><tr>");
-		  result.append("<td valign=\"top\"><b>" + paragraph2HTML(r.getProfilData()) + "</b></td>");
-		  result.append("<td valign=\"top\">" + paragraph2HTML(r.getProfilInhalt()) + "</td>");
+		  result.append("<table style=\"width:600px;border:1px solid silver\"><tr>");
+		  result.append("<td valign=\"top\"><b>" + paragraph2HTML(r.getProfilData()) + "</b>");
+		  result.append("<br><p>Informationen über das Profil:</p>");
+		  result.append("<b>" + paragraph2HTML(r.getErlaeuterungen()) + "</b></td>");
+		  result.append("<td valign=\"top\">" + paragraph2HTML(r.getProfilInhalt()));
+		  result.append("<br><br><br>" + paragraph2HTML(r.getInfo()) + "</td>");
 		  result.append("</tr></table>");
 
 

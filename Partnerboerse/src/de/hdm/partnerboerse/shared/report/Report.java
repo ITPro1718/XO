@@ -45,6 +45,10 @@ public class Report implements Serializable {
 	  private Paragraph profilData = null;
 	  
 	  private Paragraph profilInhalt = null;
+	  
+	  private Paragraph erlaeuterungen = null;
+	  
+	  private Paragraph info = null;
 
 	  /**
 	   * Jeder Bericht kann einen individuellen Titel besitzen.
@@ -160,6 +164,22 @@ public class Report implements Serializable {
 	 */
 	public void setProfilInhalt(Paragraph profilInhalt) {
 		this.profilInhalt = profilInhalt;
+	}
+
+	public Paragraph getErlaeuterungen() {
+		return erlaeuterungen;
+	}
+
+	public void setErlaeuterungen(Paragraph erlaeuterungen) {
+		this.erlaeuterungen = erlaeuterungen;
+	}
+
+	public Paragraph getInfo() {
+		return info;
+	}
+
+	public void setInfo(Paragraph info) {
+		this.info = info;
 	}
 
 }

@@ -3,11 +3,13 @@ package de.hdm.partnerboerse.server.report;
 import java.util.ArrayList;
 import java.util.Date;
 
+import com.google.appengine.api.images.Composite;
 import com.google.gwt.i18n.shared.*;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import de.hdm.partnerboerse.server.PartnerboerseAdministrationImpl;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
 import de.hdm.partnerboerse.shared.ReportGeneratorService;
+import de.hdm.partnerboerse.shared.bo.Info;
 import de.hdm.partnerboerse.shared.bo.Profil;
 import de.hdm.partnerboerse.shared.bo.Suchprofil;
 import de.hdm.partnerboerse.shared.report.*;
@@ -128,6 +130,21 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		profilInhalt.addSubParagraph(new SimpleParagraph(String.valueOf(p.getÄhnlichkeit()) + "%"));
 		
 		result.setProfilInhalt(profilInhalt);
+		
+		
+		CompositeParagraph erlaeuterungen = new CompositeParagraph();
+		CompositeParagraph infos = new CompositeParagraph();
+		
+		ArrayList<Info> infosOfProfile = administration.findInfoOf(p);
+		
+		for (Info i : infosOfProfile){
+			erlaeuterungen.addSubParagraph(new SimpleParagraph(administration.getEigenschaftByID(i.getEigenschaftId()).getErlaeuterung()));
+			infos.addSubParagraph(new SimpleParagraph(i.getText()));
+		}
+		
+		
+		result.setErlaeuterungen(erlaeuterungen);
+		result.setInfo(infos);
 		
 		/**
 		 * Gibt den erstellten Report zurück
