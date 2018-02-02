@@ -179,7 +179,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	public ArrayList<Profil> getProfileForMerkzettel(Profil eigenProfil) throws IllegalArgumentException {
 		
 		ArrayList<Merkzettel> merk = this.findMerkzettelnOf(eigenProfil);
-		ArrayList<Profil> result = null;
+		ArrayList<Profil> result = new ArrayList<Profil>();
 		
 		for (Merkzettel m : merk){
 			Profil p = this.getProfilByID(m.getFremdprofilID());
