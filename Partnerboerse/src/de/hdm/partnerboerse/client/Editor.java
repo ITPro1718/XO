@@ -102,10 +102,13 @@ public class Editor implements EntryPoint {
 
 	public void loadLogin() {
 		// Assemble login panel.
+		HTMLPanel eigenProfilViewPanel = new HTMLPanel("<h1>" + "Willkommen bei der XO-Partnerboerse" + "</h1>");
+        
 		signInLink.setHref(loginInfo.getLoginUrl());
 		loginPanel.add(loginLabel);
 		loginPanel.add(signInLink);
-		RootPanel.get("contwrap").add(loginPanel);
+		eigenProfilViewPanel.add(loginPanel);
+		RootPanel.get("contwrap").add(eigenProfilViewPanel);
 	}
 
 	private void hasProfile(final LoginInfo result) {

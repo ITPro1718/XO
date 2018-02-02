@@ -81,9 +81,6 @@ public class CreateSuchprofil extends VerticalPanel {
 		this.add(safeButton);
 
 		
-		// loadEigenschaften();
-
-
 		safeButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -158,121 +155,6 @@ public class CreateSuchprofil extends VerticalPanel {
 		s.setTitle(cw.getTitleTextBox().getValue());
 
 		return s;
-	}
+	}	
 	
-	Grid infoGrid = new Grid(10,5);
-	int row = 1;
-	int column = 2;
-	
-	private void loadEigenschaften(){
-		
-		this.add(infoGrid);
-		
-		partnerAdmin.getAllEigenschaften(new AsyncCallback<ArrayList<Eigenschaft>>(){
-
-			@Override
-			public void onFailure(Throwable caught) {
-				
-			}
-
-			@Override
-			public void onSuccess(ArrayList<Eigenschaft> result) {
-				
-				for (Eigenschaft e : result){
-					
-					final Eigenschaft eg = e;
-					
-					if (eg.getIs_a().equals("freitext")){
-						TextBox tb = new TextBox();
-						infoGrid.setText(row, column, eg.getErlaeuterung());
-						infoGrid.setWidget(row, column + 1, tb);
-						
-						addSaveButton(tb, eg);
-						row++;
-					}
-					
-					if (eg.getIs_a().equals("auswahl")){
-						
-						final ListBox lb = new ListBox();
-						
-						infoGrid.setText(row, column, eg.getErlaeuterung());
-						infoGrid.setWidget(row, column + 1, lb);
-						
-						getAuswahlen(lb, eg);
-						addSaveButton(lb, eg);
-						row++;
-					}
-				}
-			}
-		});	
-	} 
-	
-	private void addSaveButton(final ListBox lb, final Eigenschaft eg){
-		Button safe = new Button("save");
-		infoGrid.setWidget(row, column + 2, safe);
-		safe.addClickHandler(new ClickHandler(){
-
-			@Override
-			public void onClick(ClickEvent event) {
-				
-				// TODO: Suchprofil ID nehmen, und nicht das gespeicherte Profil
-				partnerAdmin.createInfo(ClientSideSettings.getProfil(), lb.getSelectedValue(), eg, new AsyncCallback<Info>(){
-
-					@Override
-					public void onFailure(Throwable caught) {
-					}
-
-					@Override
-					public void onSuccess(Info result) {
-					}
-					
-				});
-			}
-			
-		});
-	}
-	
-	private void addSaveButton(final TextBox tb, final Eigenschaft eg){
-		Button safe = new Button("save");
-		infoGrid.setWidget(row, column + 2, safe);
-		safe.addClickHandler(new ClickHandler(){
-
-			@Override
-			public void onClick(ClickEvent event) {
-								
-				partnerAdmin.createInfo(ClientSideSettings.getProfil(), tb.getText(), eg, new AsyncCallback<Info>(){
-
-					@Override
-					public void onFailure(Throwable caught) {
-						Window.alert("Hier ist der fail " + ClientSideSettings.getProfil().toString() + tb.getText() + eg.toString());
-					}
-
-					@Override
-					public void onSuccess(Info result) {
-						Window.alert("Success");
-					}
-					
-				});
-			}
-			
-		});
-	}
-	
-	private void getAuswahlen(final ListBox lb, final Eigenschaft eg){
-		partnerAdmin.getAuswahl(new AsyncCallback<ArrayList<Auswahl>>(){
-
-			@Override
-			public void onFailure(Throwable caught) {
-			}
-
-			@Override
-			public void onSuccess(ArrayList<Auswahl> result) {
-				for (Auswahl a : result){
-					if (a.getEigenschaftId() == eg.getId()){
-						lb.addItem(a.getTitel());								
-					}
-				}
-			}
-		});
-	}
 }

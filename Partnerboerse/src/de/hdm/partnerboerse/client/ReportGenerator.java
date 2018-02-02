@@ -14,13 +14,16 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
@@ -42,6 +45,9 @@ public class ReportGenerator implements EntryPoint {
 	NavigationReport navrep = new NavigationReport();
 	// SPReport spr = new SPReport();
 	private LoginInfo loginInfo = null;
+	private Label loginLabel = new Label("Melde dich mit deinem Google-Konto an, dann kann es schon losgehen!");
+	private Anchor signInLink = new Anchor("anmelden");
+	private VerticalPanel loginPanel = new VerticalPanel();
 	
 	ListBox suchprofilListBox = new ListBox();
 	ArrayList<Profil> profile = new ArrayList<Profil>();
@@ -65,24 +71,6 @@ public class ReportGenerator implements EntryPoint {
 		
 		loginService.login(GWT.getHostPageBaseURL(), new LoginCallback());
 		
-		suchprofilTable.setText(0, 0, "Titel");
-
-		
-		// Navigation Area
-		RootPanel.get("navwrap").add(navrep);
-		
-		// Content Area
-		HTMLPanel reports = new HTMLPanel("<h2>" + "Hier finden Sie Ihre Reports" + "</h2>");
-		HTMLPanel choice = new HTMLPanel("<h3> Bitte wählen sie, welchen Report sie ausgeben wollen!<h3>");
-		// reports.add(spr);
-		reports.addStyleName("repwrap");
-		RootPanel.get("contwrap").add(reports);
-		RootPanel.get("contwrap").add(choice);
-		RootPanel.get("contwrap").add(hp);
-		hp.add(notSeenProfileButton);
-		hp.add(suchprofilButton);
-		notSeenProfileButton.addClickHandler(new NotSeenProfilesClickhandler());
-		suchprofilButton.addClickHandler(new ProfilesbySuchprofilClickhandler());
 		
 
 	
@@ -131,7 +119,31 @@ public class ReportGenerator implements EntryPoint {
 	        ClientSideSettings.setLoginInfo(result);
 	        
 	        if (loginInfo.isLoggedIn()) {
+	        	
 	        	loginService.getEmailFromProfil(result.getEmailAddress(), new HasProfileCallback());
+	        	
+	        	suchprofilTable.setText(0, 0, "Titel");
+
+				
+				// Navigation Area
+				RootPanel.get("navwrap").add(navrep);
+				
+				// Content Area
+				HTMLPanel reports = new HTMLPanel("<h2>" + "Hier finden Sie Ihre Reports" + "</h2>");
+				HTMLPanel choice = new HTMLPanel("<h3> Bitte wählen sie, welchen Report sie ausgeben wollen!<h3>");
+				// reports.add(spr);
+				reports.addStyleName("repwrap");
+				RootPanel.get("contwrap").add(reports);
+				RootPanel.get("contwrap").add(choice);
+				RootPanel.get("contwrap").add(hp);
+				hp.add(notSeenProfileButton);
+				hp.add(suchprofilButton);
+				notSeenProfileButton.addClickHandler(new NotSeenProfilesClickhandler());
+				suchprofilButton.addClickHandler(new ProfilesbySuchprofilClickhandler());
+	        }
+	        
+	        else {
+	        	loadLogin();
 	        }
 		}
 		
@@ -169,7 +181,7 @@ public class ReportGenerator implements EntryPoint {
 		public void onSuccess(Boolean result) {
 			if (result) {
 		       partnerAdmin.getProfilByEmail(loginInfo.getEmailAddress(), new GetProfilFromServerCallback());
-		    } 
+		    }
 		}
 		
 	}
@@ -188,6 +200,7 @@ public class ReportGenerator implements EntryPoint {
 			ClientSideSettings.setProfil(result);
 			
 	        partnerAdmin.findSuchprofileOf(ClientSideSettings.getProfil(), new SuchProfileOfUserCallback());
+	        
 	        
 		}
 		
@@ -283,5 +296,16 @@ public class ReportGenerator implements EntryPoint {
 			reportGenerator.createSuchprofilReport(s, new AllProfilesBySuchprofilCallback());
 		}
 		
+	}
+	
+	public void loadLogin() {
+		// Assemble login panel.
+		HTMLPanel eigenProfilViewPanel = new HTMLPanel("<h1>" + "Willkommen bei der XO-Partnerboerse" + "</h1>");
+        
+		signInLink.setHref(loginInfo.getLoginUrl());
+		loginPanel.add(loginLabel);
+		loginPanel.add(signInLink);
+		eigenProfilViewPanel.add(loginPanel);
+		RootPanel.get("contwrap").add(eigenProfilViewPanel);
 	}
 }

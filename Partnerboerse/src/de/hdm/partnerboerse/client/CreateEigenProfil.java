@@ -128,8 +128,8 @@ public class CreateEigenProfil extends VerticalPanel {
 							EigenschaftsView ev = new EigenschaftsView();
 							ev.egFor(result);
 
-							HTMLPanel evPanel = new HTMLPanel(
-									"<h3>" + "Hier können sie relevante Infos angeben!" + "</h3>");
+							HTMLPanel evPanel = new HTMLPanel("<h1> Hallo " + result.getVorname() + ", hilf uns dabei, dich näher kennen zu lernen.</h1><br>"
+											+ "<h3>Diese Angaben sind freiwillig, helfen dir jedoch dabei, den richtigen Partner zu finden!</h3>");
 							evPanel.add(ev);
 
 							RootPanel.get("contwrap").clear();
@@ -213,10 +213,6 @@ public class CreateEigenProfil extends VerticalPanel {
 		return setProfil;
 
 	}
-
-	Grid infoGrid = new Grid(10, 3);
-	int row = 1;
-	int column = 1;
 
 	public LoginInfo getLoginInfo() {
 		return loginInfo;
