@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
@@ -75,7 +76,8 @@ public class FremdProfilView extends VerticalPanel {
 
 		// Spalte 2
 		profilGrid.setWidget(2, 1, cw.getBdayLabel());
-		profilGrid.setText(2, 2, fremdProfil.getGeburtsdatum().toString());
+		String dateString = DateTimeFormat.getFormat("dd.MM.yyyy").format(fremdProfil.getGeburtsdatum());
+		profilGrid.setText(2, 2, dateString);
 
 		profilGrid.setWidget(2, 3, cw.getHcolorLabel());
 		profilGrid.setText(2, 4, fremdProfil.getHaarfarbe());
