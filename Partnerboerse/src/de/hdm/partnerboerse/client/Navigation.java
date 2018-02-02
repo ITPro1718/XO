@@ -27,12 +27,16 @@ public class Navigation extends VerticalPanel {
 	final Button Report = new Button("Reports");
 
 	final Anchor logoutUser = new Anchor("Abmelden");
+	final HTML spr = new HTML(" | ");
+	final Anchor impr = new Anchor("Impressum");
+	final Anchor dataS = new Anchor("Datenschutz");
+	
 	@Override
 	public void onLoad() {
 
 		// Navigation Area
 		HTML ppic = new HTML("<img src=\"" + "../img/ppic.jpg" + "\">");
-
+		
 		ppic.setTitle("Profilbild");
 		ppic.addStyleName("ppic");
 		meinProfil.setTitle("Mein Profil");
@@ -45,8 +49,13 @@ public class Navigation extends VerticalPanel {
 		Report.addStyleName("button");
 		logoutUser.setTitle("Abmelden");
 		logoutUser.addStyleName("offbutton");
+		impr.addStyleName("impdat");
+		dataS.addStyleName("spr");
+		dataS.addStyleName("impdat");
+
 
 		VerticalPanel navi = new VerticalPanel();
+		navi.addStyleName("navi");
 		this.add(navi);
 		navi.add(ppic);
 		navi.add(meinProfil);
@@ -56,6 +65,9 @@ public class Navigation extends VerticalPanel {
 		navi.add(reports);
 		navi.add(Report);
 		navi.add(logoutUser);
+		navi.add(impr);
+		navi.add(spr);
+		navi.add(dataS);
 		
 		/*
 		 * Methode lädt die View des eigenen Profils
@@ -164,6 +176,37 @@ public class Navigation extends VerticalPanel {
 				Window.Location.assign("PartnerboerseReport.html");
 				
 				
+			}
+		});
+		
+		impr.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+					  
+				Impressum ip = new Impressum();
+				ip.addStyleName("impress");
+				
+				HTMLPanel ipPanel = new HTMLPanel("<h3>" + "Impressum" + "</h3>");
+	            ipPanel.add(ip);
+
+	            RootPanel.get("contwrap").clear();
+	            RootPanel.get("contwrap").add(ipPanel);
+			}
+		});
+		dataS.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+					  
+				Datenschutz ds = new Datenschutz();
+				ds.addStyleName("datasec");
+				
+				HTMLPanel dsPanel = new HTMLPanel("<h3>" + "Datenschutz" + "</h3>");
+	            dsPanel.add(ds);
+
+	            RootPanel.get("contwrap").clear();
+	            RootPanel.get("contwrap").add(dsPanel);
 			}
 		});
 

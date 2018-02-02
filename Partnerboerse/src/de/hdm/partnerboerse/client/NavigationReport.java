@@ -26,6 +26,9 @@ public class NavigationReport extends VerticalPanel {
 	final Button meinProfil = new Button("Zurück zum Profil");
 	final Button Reports = new Button("Reports");
 	final Anchor logoutUser = new Anchor("Abmelden");
+	final HTML spr = new HTML(" | ");
+	final Anchor impr = new Anchor("Impressum");
+	final Anchor dataS = new Anchor("Datenschutz");
 	
 	HTML reports = new HTML("<h3>" + "REPORTS" + "</h3>");
 	
@@ -46,13 +49,21 @@ public class NavigationReport extends VerticalPanel {
 
 		logoutUser.setTitle("Abmelden");
 		logoutUser.addStyleName("offbutton");
+		
+		impr.addStyleName("impdat");
+		dataS.addStyleName("spr");
+		dataS.addStyleName("impdat");
 
 		final VerticalPanel navi = new VerticalPanel();
+		navi.addStyleName("naviRep");
 		this.add(navi);
 		navi.add(ppic);
 		navi.add(meinProfil);
 		navi.add(Reports);
 		navi.add(logoutUser);
+		navi.add(impr);
+		navi.add(spr);
+		navi.add(dataS);
 
 		/*
 		 * Methode lädt die View des eigenen Profils
@@ -86,6 +97,37 @@ public class NavigationReport extends VerticalPanel {
 				ClientSideSettings.getLoginInfo();
 				logoutUser.setHref(ClientSideSettings.getLoginInfo().getLogoutUrl());
 
+			}
+		});
+		
+		impr.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+					  
+				Impressum ip = new Impressum();
+				ip.addStyleName("impress");
+				
+				HTMLPanel ipPanel = new HTMLPanel("<h3>" + "Impressum" + "</h3>");
+	            ipPanel.add(ip);
+
+	            RootPanel.get("contwrap").clear();
+	            RootPanel.get("contwrap").add(ipPanel);
+			}
+		});
+		dataS.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+					  
+				Datenschutz ds = new Datenschutz();
+				ds.addStyleName("datasec");
+				
+				HTMLPanel dsPanel = new HTMLPanel("<h3>" + "Datenschutz" + "</h3>");
+	            dsPanel.add(ds);
+
+	            RootPanel.get("contwrap").clear();
+	            RootPanel.get("contwrap").add(dsPanel);
 			}
 		});
 
