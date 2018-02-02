@@ -180,11 +180,31 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		
 		ArrayList<Merkzettel> merk = this.findMerkzettelnOf(eigenProfil);
 		ArrayList<Profil> result = new ArrayList<Profil>();
+		ArrayList<Kontaktsperre> kont = this.findKontaktsperrenOf(eigenProfil);
+		ArrayList<Profil> profilesToRemove = new ArrayList<Profil>();
+		ArrayList<Kontaktsperre> wurdegesperrt = this.getAllKontaktsperreEintraege();
 		
 		for (Merkzettel m : merk){
 			Profil p = this.getProfilByID(m.getFremdprofilID());
 			result.add(p);
 		}
+		
+		for (Kontaktsperre k : kont){
+			for (Profil p : result){
+				if (k.getFremdprofilID() == p.getId()){
+					profilesToRemove.add(p);
+				}
+			}
+		}
+		
+		for (Kontaktsperre k : wurdegesperrt){
+			for (Profil p : result){
+				if (k.getFremdprofilID() == eigenProfil.getId()){
+					profilesToRemove.add(p);
+				}
+			}
+		}
+		result.removeAll(profilesToRemove);		
 
 		return result;
 
