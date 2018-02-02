@@ -198,14 +198,13 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		}
 		
 		for (Kontaktsperre k : wurdegesperrt){
-			for (Profil p : result){
-				if (k.getFremdprofilID() == eigenProfil.getId()){
-					profilesToRemove.add(p);
-				}
+			if (k.getFremdprofilID() == eigenProfil.getId()){
+				System.out.println(k.toString());
+				profilesToRemove.add(this.getProfilByID(k.getEigenprofilID()));
 			}
 		}
 		result.removeAll(profilesToRemove);		
-
+		System.out.println(result.toString());
 		return result;
 
 	}
