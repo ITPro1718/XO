@@ -14,14 +14,14 @@ public class ClientValidation {
   private final String regExFirstname = "[A-Z][a-zA-Z]*";
   private final String regExLastName = "[a-zA-z]+([ '-][a-zA-Z]+)*";
   private final String regExSuchprofilTitel = "[a-zA-z]+([ '-][a-zA-Z]+)*";
-  private final String regExInfoText = "[a-zA-z0-9]+([ '-][a-zA-Z0-9]+)*";
+  //private final String regExInfoText = "[a-zA-z0-9]+([ '-][a-zA-Z0-9]+)*";
   // private final String regExDate = "\\d{4}-\\d{2}-\\d{2}";
   private final int MIN_STRING_LENGTH = 2;
   private final int MAX_NAME_LENGHT = 15;
   private final int MIN_KOERPERGROESSE = 50;
   private final int MAX_KOERPERGROESSE = 250;
   private final int MAX_SUCHPROFIL_TITEL_LENGHT = 40;
-  private final int MAX_INFOTEXT_LENGHT = 50;
+  private final int MAX_INFOTEXT_LENGHT = 99;
 
   /**
    * Methode prüft, ob alle Profileingaben korrekt nach dieser Methode sind.
@@ -111,12 +111,12 @@ public class ClientValidation {
           + MAX_INFOTEXT_LENGHT + " Zeichen haben.");
       return false;
     }
-    if (!info.getText().matches(regExInfoText)) {
-      Window.alert(info.getText()
-          + " entspricht nicht unseren Namenskonventionen. Es muss mit einem Großbuchstaben anfangen"
-          + " und darf keine Zahlen enthalten.");
-      return false;
-    }
+//    if (!info.getText().matches(regExInfoText)) {
+//      Window.alert(info.getText()
+//          + " entspricht nicht unseren Namenskonventionen. Es muss mit einem Großbuchstaben anfangen"
+//          + " und darf keine Zahlen enthalten.");
+//      return false;
+//    }
     return true;
   }
 
@@ -127,12 +127,12 @@ public class ClientValidation {
           + MAX_INFOTEXT_LENGHT + " Zeichen haben.");
       return false;
     }
-    if (!text.matches(regExInfoText)) {
-      Window.alert(
-          text + " entspricht nicht unseren Namenskonventionen. Es muss mit einem Großbuchstaben anfangen"
-              + " und darf keine Zahlen enthalten.");
-      return false;
-    }
+//    if (!text.matches(regExInfoText)) {
+//      Window.alert(
+//          text + " entspricht nicht unseren Namenskonventionen. Es muss mit einem Großbuchstaben anfangen"
+//              + " und darf keine Zahlen enthalten.");
+//      return false;
+//    }
     return true;
   }
 }
