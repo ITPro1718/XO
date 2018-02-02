@@ -67,6 +67,19 @@ public class EditMerkliste extends VerticalPanel {
 			}
 		});
 	}
+	
+	private class GetMerkzettelOfCallback implements AsyncCallback<ArrayList<Merkzettel>>{
+
+		@Override
+		public void onFailure(Throwable caught) {
+		}
+
+		@Override
+		public void onSuccess(ArrayList<Merkzettel> result) {
+			
+		}
+		
+	}
 
 	/*
 	 * Schleife setzt alle Profile in das Flextable (merklisteGrid)

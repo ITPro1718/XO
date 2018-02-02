@@ -30,7 +30,6 @@ import de.hdm.partnerboerse.shared.bo.Merkzettel;
 import de.hdm.partnerboerse.shared.bo.Profil;
 import de.hdm.partnerboerse.shared.bo.Suchprofil;
 
-
 /**
  * The server-side implementation of the RPC service.
  */
@@ -52,8 +51,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	private SuchprofilMapper sMapper = null;
 
 	private BesuchMapper bMapper = null;
-	
-	
 
 	public PartnerboerseAdministrationImpl() throws IllegalArgumentException {
 
@@ -97,7 +94,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	@Override
 	public Profil createProfil(Profil p) throws IllegalArgumentException {
-		
+
 		return this.pMapper.insert(p);
 	}
 
@@ -180,8 +177,16 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	@Override
 	public ArrayList<Profil> getProfileForMerkzettel(Profil eigenProfil) throws IllegalArgumentException {
+		
+		ArrayList<Merkzettel> merk = this.findMerkzettelnOf(eigenProfil);
+		ArrayList<Profil> result = null;
+		
+		for (Merkzettel m : merk){
+			Profil p = this.getProfilByID(m.getFremdprofilID());
+			result.add(p);
+		}
 
-		return this.pMapper.findProfileForMerkliste(eigenProfil);
+		return result;
 
 	}
 
@@ -194,7 +199,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	@Override
 	public ArrayList<Profil> getAllProfils() throws IllegalArgumentException {
-		
+
 		return this.pMapper.findAllProfiles();
 
 	}
@@ -267,7 +272,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		Profil p = new Profil();
 		p.setId(kontaktsperre.getEigenprofilID());
 		ArrayList<Kontaktsperre> kon = this.findKontaktsperrenOf(p);
-		
+
 		for (Kontaktsperre k : kon) {
 			if (k.getFremdprofilID() == kontaktsperre.getFremdprofilID()) {
 				this.kMapper.deleteKontaktsperreEintrag(k);
@@ -279,8 +284,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	@Override
 	public Suchprofil createSuchprofil(Profil source, String titel, String haarfarbe, float kgr, boolean raucher,
 			String religion, int alter) throws IllegalArgumentException {
-		
-		
+
 		Suchprofil s = new Suchprofil();
 		s.setEigenprofilID(source.getId());
 		s.setHaarFarbe(haarfarbe);
@@ -322,19 +326,20 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	@Override
 	public void deleteSuchprofil(Suchprofil suchprofil) throws IllegalArgumentException {
-		
+
 		ArrayList<Info> infosOfSuchprofil = this.findInfoOf(suchprofil);
-		
+
 		if (infosOfSuchprofil != null) {
-			for (Info infos : infosOfSuchprofil){
+			for (Info infos : infosOfSuchprofil) {
 				this.deleteInfo(infos);
 			}
 		}
 
 		this.sMapper.deleteSuchprofil(suchprofil);
 	}
-	public ArrayList<Info> getInfoOfSuchprofil(int suchprofilid){
-		
+
+	public ArrayList<Info> getInfoOfSuchprofil(int suchprofilid) {
+
 		return this.iMapper.findInfoOfSuchprofil(suchprofilid);
 	}
 
@@ -343,16 +348,14 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		return this.iMapper.findInfoOf(profil);
 	}
 
-	
 	public ArrayList<Profil> berechneAehnlichkeitsmass(Profil profil, ArrayList<Profil> ergebnisse) {
-		
+
 		Aehnlichkeitsmass aehnlichkeitsmass = new Aehnlichkeitsmass();
 		aehnlichkeitsmass.setGewichtung1Infoobjekt(10);
 		aehnlichkeitsmass.setGewichtungAlter(50);
 		aehnlichkeitsmass.setGewichtungHaarfarbe(20);
 		aehnlichkeitsmass.setGewichtungRaucher(40);
 		aehnlichkeitsmass.setGewichtungReligion(30);
-		
 
 		ArrayList<Profil> comparedProfiles = new ArrayList<>();
 		float o1 = aehnlichkeitsmass.getGewichtungHaarfarbe();
@@ -360,9 +363,9 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		float o3 = aehnlichkeitsmass.getGewichtungAlter();
 		float o4 = aehnlichkeitsmass.getGewichtungRaucher();
 		float o5 = aehnlichkeitsmass.getGewichtung1Infoobjekt();
-		
+
 		float summe = o1 + o2 + o3 + o4 + o5;
-		float x = (float)100 / summe;
+		float x = (float) 100 / summe;
 
 		for (Profil p : ergebnisse) {
 			float p1 = 0;
@@ -370,44 +373,42 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 			float p3 = 0;
 			float p4 = 0;
 			float p5 = 0;
-			
 
 			if (p.getHaarfarbe().equals(profil.getHaarfarbe())) {
 				p1 = o1;
 			}
 			if (p.getReligion().equals(profil.getReligion())) {
 				p2 = o2;
-			} 
-			if (((getAge(p.getGeburtsdatum())) <= (getAge(profil.getGeburtsdatum())+3)) 
-					&& ((getAge(p.getGeburtsdatum())) >= (getAge(profil.getGeburtsdatum())-3))) {
+			}
+			if (((getAge(p.getGeburtsdatum())) <= (getAge(profil.getGeburtsdatum()) + 3))
+					&& ((getAge(p.getGeburtsdatum())) >= (getAge(profil.getGeburtsdatum()) - 3))) {
 				p3 = o3;
 			}
 
 			if (p.isRaucher() == profil.isRaucher()) {
 				p4 = o4;
-			}  
-			if (compareInfos(profil, p)>=1) {
-				o5 = o5*compareInfos(profil, p);
+			}
+			if (compareInfos(profil, p) >= 1) {
+				o5 = o5 * compareInfos(profil, p);
 				p5 = o5;
-				
 
 			}
 			int aehnlichkeit = (int) (((p1 * x) + (p2 * x) + (p3 * x) + (p4 * x) + (p5 * x)) + 0.5);
-			if (aehnlichkeit > 100){
+			if (aehnlichkeit > 100) {
 				aehnlichkeit = 100;
 			}
 			p.setÄhnlichkeit(aehnlichkeit);
 			comparedProfiles.add(p);
 		}
-		Collections.sort(comparedProfiles, new Comparator<Profil>(){
-			public int compare(Profil a, Profil b){
+		Collections.sort(comparedProfiles, new Comparator<Profil>() {
+			public int compare(Profil a, Profil b) {
 				return Integer.valueOf(b.getÄhnlichkeit()).compareTo(a.getÄhnlichkeit());
 			}
 		});
-		
+
 		return comparedProfiles;
 	}
-	
+
 	@Override
 	public ArrayList<Profil> getSuchProfilErgebnisse(Suchprofil suchprofil) throws IllegalArgumentException {
 
@@ -415,7 +416,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		Profil suchprofilowner = this.getProfilByID(suchprofil.getEigenprofilID());
 		ArrayList<Kontaktsperre> blockedSuchprofilowner = new ArrayList<>();
 		ArrayList<Profil> profilsToRemove = new ArrayList<Profil>();
-		
+
 		// Wenn die Fremdprofil-ID einer Kontaktsperre (gesperrte Profil ID) mit
 		// der eigenen Profil-ID des "Suchprofilbesitzers"
 		// übereinstimmt, wird diese Kontaktsperre zu blockedSuchprofilowner
@@ -433,34 +434,32 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 				profilsToRemove.add(pp);
 			}
 		}
-						
 
 		for (Profil p : profile) {
-				
+
 			for (Kontaktsperre k : this.findKontaktsperrenOf(suchprofilowner)) {
 
-				if(k.getFremdprofilID() == p.getId()){
+				if (k.getFremdprofilID() == p.getId()) {
 					profilsToRemove.add(p);
 				}
 			}
-			
+
 			// Wenn die Arraylist mit Profilen,( Profilbesitzer die einen selbst
 			// geblockt haben), ein Profil der Liste mit allen Profilen
 			// enthält(Abgleich)
 			// so wird dieses Profil aus der Liste aller Profile gelöscht. Somit
 			// sind Profile aus der Liste, die das eigene Profil auf der
 			// Kontaaktsperrliste hatten.
-			
 
 			if (p.getId() == suchprofilowner.getId()) {
 				profilsToRemove.add(p);
-			} 
-			
+			}
+
 			if (compare(suchprofil, p) == false) {
 				profilsToRemove.add(p);
 			}
-			
-			 if (compareSexuelleOrientierung(suchprofilowner, p) == false) {
+
+			if (compareSexuelleOrientierung(suchprofilowner, p) == false) {
 				profilsToRemove.add(p);
 			}
 		}
@@ -470,8 +469,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	}
 
 	/**
-	 * Gibt TRUE zurück, wenn ein Profil mit einem Suchprofil
-	 * übereinstimmt
+	 * Gibt TRUE zurück, wenn ein Profil mit einem Suchprofil übereinstimmt
 	 * 
 	 * @param suchprofill
 	 * @param profil
@@ -483,115 +481,117 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		if (suchprofill.getHaarFarbe().equals(profil.getHaarfarbe())) {
 			countersp++;
 		}
-		if(suchprofill.isRaucher() == profil.isRaucher()){
+		if (suchprofill.isRaucher() == profil.isRaucher()) {
 			countersp++;
 		}
-		if(suchprofill.getReligion().equals(profil.getReligion())){
+		if (suchprofill.getReligion().equals(profil.getReligion())) {
 			countersp++;
 		}
-						
-		if(compareProfilAuswahlInfosWith(suchprofill, profil)){
+
+		if (compareProfilAuswahlInfosWith(suchprofill, profil)) {
 			countersp++;
 		}
-		if(suchprofill.getKoerpergroesse() <= profil.getKoerpergroesse()){
+		if (suchprofill.getKoerpergroesse() <= profil.getKoerpergroesse()) {
 			countersp++;
 		}
-		if(suchprofill.getAlter() <= getAge(profil.getGeburtsdatum())){
+		if (suchprofill.getAlter() <= getAge(profil.getGeburtsdatum())) {
 			countersp++;
 		}
-		if(countersp > 3){
+		if (countersp > 3) {
 			return true;
 		}
-				
-			return false;
-	}
-	
-	
-	public boolean compareProfilAuswahlInfosWith(Suchprofil suchprofil, Profil profil){
-		
-		ArrayList<Info> infos = suchprofilInfoHasAuswahl(suchprofil);
-		ArrayList<Info> inf = profilInfoHasAuswahl(profil);
-		ArrayList<String> suchprofilinfotexte = new ArrayList<>();
-		ArrayList<String> profilinfotexte = new ArrayList<>();	
-		if(infos.isEmpty()){
-			return true;
-		}
-		for(Info i : infos){		
-			
-			for (Info a : inf){
-				if (i.getText().equals(a.getText()))
-				return true;
-				//suchprofilinfotexte.add(i.getText());
-				//profilinfotexte.add(a.getText());
-			}
-		}
-//		if(profilinfotexte.containsAll(suchprofilinfotexte)){
-//			return true;
-//		}
+
 		return false;
 	}
 
-	public ArrayList<Info> suchprofilInfoHasAuswahl(Suchprofil suchprofil){
-			
-			ArrayList<Info> auswahlInfos = new ArrayList<Info>();
-			
-			for(Info i : getInfoOfSuchprofil(suchprofil.getId())){
-				Eigenschaft eigenschaft = getEigenschaftByID(i.getEigenschaftId());
-				if(eigenschaft.getIs_a().equals("auswahl")){
-					auswahlInfos.add(i);
-				}
-			
-			}
-			
-			return auswahlInfos;
+	public boolean compareProfilAuswahlInfosWith(Suchprofil suchprofil, Profil profil) {
+
+		ArrayList<Info> infos = suchprofilInfoHasAuswahl(suchprofil);
+		ArrayList<Info> inf = profilInfoHasAuswahl(profil);
+		ArrayList<String> suchprofilinfotexte = new ArrayList<>();
+		ArrayList<String> profilinfotexte = new ArrayList<>();
+		if (infos.isEmpty()) {
+			return true;
 		}
-	
-	public ArrayList<Info> profilInfoHasAuswahl(Profil profil){
-			
-		ArrayList<Info> auswahlInfos = new ArrayList<>();
-		
-		for (Info i : findAllInfosOfProfil(profil)){
-			
+		for (Info i : infos) {
+
+			for (Info a : inf) {
+				if (i.getText().equals(a.getText()))
+					return true;
+				// suchprofilinfotexte.add(i.getText());
+				// profilinfotexte.add(a.getText());
+			}
+		}
+		// if(profilinfotexte.containsAll(suchprofilinfotexte)){
+		// return true;
+		// }
+		return false;
+	}
+
+	public ArrayList<Info> suchprofilInfoHasAuswahl(Suchprofil suchprofil) {
+
+		ArrayList<Info> auswahlInfos = new ArrayList<Info>();
+
+		for (Info i : getInfoOfSuchprofil(suchprofil.getId())) {
 			Eigenschaft eigenschaft = getEigenschaftByID(i.getEigenschaftId());
-			if(eigenschaft.getIs_a().equals("auswahl")){
+			if (eigenschaft.getIs_a().equals("auswahl")) {
+				auswahlInfos.add(i);
+			}
+
+		}
+
+		return auswahlInfos;
+	}
+
+	public ArrayList<Info> profilInfoHasAuswahl(Profil profil) {
+
+		ArrayList<Info> auswahlInfos = new ArrayList<Info>();
+
+		for (Info i : findAllInfosOfProfil(profil)) {
+
+			Eigenschaft eigenschaft = getEigenschaftByID(i.getEigenschaftId());
+			if (eigenschaft.getIs_a().equals("auswahl")) {
 				auswahlInfos.add(i);
 			}
 		}
 		return auswahlInfos;
 	}
 
-	
-
 	public boolean compareEigenprofil(Profil profil, Profil fremdprofil) {
 		if ((profil.isRaucher() == fremdprofil.isRaucher())
-							&& (getAge(profil.getGeburtsdatum()) == getAge(fremdprofil.getGeburtsdatum()))
-							&& (profil.getReligion() == fremdprofil.getReligion())) {
-				return true;
-		} else
-			return false;
-	}
-
-	public boolean compareSexuelleOrientierung(Profil profil, Profil fremdprofil) {
-		
-		if(((profil.getGeschlecht().equals("Mann")) && (profil.getSucheNach().equals("Frauen"))) && ((fremdprofil.getGeschlecht().equals("Frau"))&& (fremdprofil.getSucheNach().equals("Männer")))
-				|| ((profil.getGeschlecht().equals("Mann")) && (profil.getSucheNach().equals("Männer"))) && ((fremdprofil.getGeschlecht().equals("Mann")) && (fremdprofil.getSucheNach().equals("Männer")))
-				|| ((profil.getGeschlecht().equals("Frau")) && (profil.getSucheNach().equals("Männer"))) && ((fremdprofil.getGeschlecht().equals("Mann")) && (fremdprofil.getSucheNach().equals("Frauen")))
-				|| ((profil.getGeschlecht().equals("Frau")) && (profil.getSucheNach().equals("Frauen"))) && ((fremdprofil.getGeschlecht().equals("Frau")) && (fremdprofil.getSucheNach().equals("Frauen")))) {
+				&& (getAge(profil.getGeburtsdatum()) == getAge(fremdprofil.getGeburtsdatum()))
+				&& (profil.getReligion() == fremdprofil.getReligion())) {
 			return true;
 		} else
 			return false;
 	}
 
-	
+	public boolean compareSexuelleOrientierung(Profil profil, Profil fremdprofil) {
+
+		if (((profil.getGeschlecht().equals("Mann")) && (profil.getSucheNach().equals("Frauen")))
+				&& ((fremdprofil.getGeschlecht().equals("Frau")) && (fremdprofil.getSucheNach().equals("Männer")))
+				|| ((profil.getGeschlecht().equals("Mann")) && (profil.getSucheNach().equals("Männer")))
+						&& ((fremdprofil.getGeschlecht().equals("Mann"))
+								&& (fremdprofil.getSucheNach().equals("Männer")))
+				|| ((profil.getGeschlecht().equals("Frau")) && (profil.getSucheNach().equals("Männer")))
+						&& ((fremdprofil.getGeschlecht().equals("Mann"))
+								&& (fremdprofil.getSucheNach().equals("Frauen")))
+				|| ((profil.getGeschlecht().equals("Frau")) && (profil.getSucheNach().equals("Frauen")))
+						&& ((fremdprofil.getGeschlecht().equals("Frau"))
+								&& (fremdprofil.getSucheNach().equals("Frauen")))) {
+			return true;
+		} else
+			return false;
+	}
 
 	@Override
 	public ArrayList<Profil> getNotSeenPartnervorschläge(Profil profil) throws IllegalArgumentException {
 
 		ArrayList<Profil> profile = getAllProfils();
-		
+
 		ArrayList<Kontaktsperre> blockedProfilowner = new ArrayList<Kontaktsperre>();
 		ArrayList<Profil> profilBlockedProfilowner = new ArrayList<Profil>();
-		
+
 		for (Kontaktsperre s : this.getAllKontaktsperreEintraege()) {
 			if (s.getFremdprofilID() == profil.getId()) {
 				blockedProfilowner.add(s);
@@ -603,74 +603,72 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 				Profil pp = getProfilByID(epidofkkk);
 				profilBlockedProfilowner.add(pp);
 			}
-			
+
 		}
 
 		ArrayList<Profil> profilesToRemove = new ArrayList<Profil>();
 		for (Profil p : profile) {
-			
-			for (Besuch b : this.findBesucheOf(profil)){
-				if (b.getFremdprofilID() == p.getId()){
+
+			for (Besuch b : this.findBesucheOf(profil)) {
+				if (b.getFremdprofilID() == p.getId()) {
 					profilesToRemove.add(p);
 				}
 			}
-			
+
 			for (Kontaktsperre k : this.findKontaktsperrenOf(profil)) {
 
-				if(k.getFremdprofilID() == p.getId()){
+				if (k.getFremdprofilID() == p.getId()) {
 					profilesToRemove.add(p);
 				}
 			}
-			
+
 			if (profilBlockedProfilowner.contains(p)) {
 				profilesToRemove.add(p);
 			}
-			
-			
-			 
+
 			if (compareSexuelleOrientierung(profil, p) == false) {
 				profilesToRemove.add(p);
-			} 
-			
-//			if ((compareInfos(profil, p) <1) && ((findAllInfosOfProfil(profil).isEmpty()== false)) {
-//						profilesToRemove.add(p);
-//						System.out.println(p.toString());
-			
-//			}
-			 
+			}
+
+			// if ((compareInfos(profil, p) <1) &&
+			// ((findAllInfosOfProfil(profil).isEmpty()== false)) {
+			// profilesToRemove.add(p);
+			// System.out.println(p.toString());
+
+			// }
+
 		}
 		profile.remove(profil);
 		profile.removeAll(profilesToRemove);
 		ArrayList<Profil> comparedProfiles = this.berechneAehnlichkeitsmass(profil, profile);
 		return comparedProfiles;
 	}
-	
-	
-	public ArrayList<String> findAllTexts(Profil profil){
+
+	public ArrayList<String> findAllTexts(Profil profil) {
 		ArrayList<String> textsOfInfos = new ArrayList<String>();
-		for(Info i : findAllInfosOfProfil(profil)){
-			
+		for (Info i : findAllInfosOfProfil(profil)) {
+
 			textsOfInfos.add(i.getText());
 		}
 		return textsOfInfos;
 	}
 
-	
-	
-	public int compareInfos(Profil profil, Profil fremdprofil){
+	public int compareInfos(Profil profil, Profil fremdprofil) {
+
 		int counter = 0;
-	if((findAllInfosOfProfil(profil).isEmpty()) && (findAllInfosOfProfil(fremdprofil).isEmpty())){
-		counter = 1;
-	}
-		for(Info i: findAllInfosOfProfil(profil)){
-			
-			for(Info o: findAllInfosOfProfil(fremdprofil)){				
-			
-			if((i.getEigenschaftId() == o.getEigenschaftId())  && (i.getText().equals(o.getText()))){
-				counter++;
-				
-			}
-			
+		if ((findAllInfosOfProfil(profil).isEmpty()) && (findAllInfosOfProfil(fremdprofil).isEmpty())) {
+			counter = 1;
+		}
+
+		for (Info i : findAllInfosOfProfil(profil)) {
+
+			for (Info o : findAllInfosOfProfil(fremdprofil)) {
+
+				if ((i.getEigenschaftId() == o.getEigenschaftId()) && (i.getText().equals(o.getText()))) {
+					counter++;
+
+				}
+
 			}
 		}
 		return counter;
@@ -678,71 +676,74 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	@Override
 	public Info createInfo(Profil profil, String text, Eigenschaft eigenschaft) throws IllegalArgumentException {
-		
+
 		ArrayList<Info> infos = this.findInfoOf(profil);
 		ArrayList<Info> del = new ArrayList<Info>();
-		
+
 		// Erstellt ein Info Objekt, welches in die Datenbank geschrieben wird
 		Info info = new Info();
 		info.setepId(profil.getId());
 		info.setText(text);
 		info.setEigenschaftId(eigenschaft.getId());
-		
-		// Prüft, ob für diese Eigenschaft bereits ein Info-Objekt für diesen User angelegt wurde
-		for (Info i : infos){
-			// Wenn bereits eine Info für diese Eigenschaft besteht, wird sie geupdated.
-			if (i.getEigenschaftId() == info.getEigenschaftId()){
+
+		// Prüft, ob für diese Eigenschaft bereits ein Info-Objekt für diesen
+		// User angelegt wurde
+		for (Info i : infos) {
+			// Wenn bereits eine Info für diese Eigenschaft besteht, wird sie
+			// geupdated.
+			if (i.getEigenschaftId() == info.getEigenschaftId()) {
 				info.setId(i.getId());
 				this.updateInfo(info);
-			}
-			else {
+			} else {
 				del.add(i);
 			}
 		}
-		// Removed alle bereits vorhandenen objekte, wenn die Liste leer ist, sprich noch kein Eintrag vorhanden,
+		// Removed alle bereits vorhandenen objekte, wenn die Liste leer ist,
+		// sprich noch kein Eintrag vorhanden,
 		// wird eine neue Info angelegt
-		infos.removeAll(del);		
-		if (infos.isEmpty()){
+		infos.removeAll(del);
+		if (infos.isEmpty()) {
 			this.iMapper.insertInfo(info);
 		}
-		
+
 		return info;
 
-
 	}
-	
-	public Info createInfo(Suchprofil suchprofil, String text, Eigenschaft eigenschaft) throws IllegalArgumentException {
-		
+
+	public Info createInfo(Suchprofil suchprofil, String text, Eigenschaft eigenschaft)
+			throws IllegalArgumentException {
+
 		ArrayList<Info> infos = getInfoOfSuchprofil(suchprofil.getId());
 		ArrayList<Info> del = new ArrayList<Info>();
-		
+
 		// Erstellt ein Info Objekt, welches in die Datenbank geschrieben wird
 		Info info = new Info();
 		info.setSuchprofilId(suchprofil.getId());
 		info.setText(text);
 		info.setEigenschaftId(eigenschaft.getId());
-		
-		// Prüft, ob für diese Eigenschaft bereits ein Info-Objekt für diesen User angelegt wurde
-		for (Info i : infos){
-			// Wenn bereits eine Info für diese Eigenschaft besteht, wird sie geupdated.
-			if (i.getEigenschaftId() == info.getEigenschaftId()){
+
+		// Prüft, ob für diese Eigenschaft bereits ein Info-Objekt für diesen
+		// User angelegt wurde
+		for (Info i : infos) {
+			// Wenn bereits eine Info für diese Eigenschaft besteht, wird sie
+			// geupdated.
+			if (i.getEigenschaftId() == info.getEigenschaftId()) {
 				info.setId(i.getId());
 				this.updateInfo(info);
-			}
-			else {
+			} else {
 				del.add(i);
 			}
 		}
-		// Removed alle bereits vorhandenen objekte, wenn die Liste leer ist, sprich noch kein Eintrag vorhanden,
+		// Removed alle bereits vorhandenen objekte, wenn die Liste leer ist,
+		// sprich noch kein Eintrag vorhanden,
 		// wird eine neue Info angelegt
-		infos.removeAll(del);		
-		if (infos.isEmpty()){
+		infos.removeAll(del);
+		if (infos.isEmpty()) {
 			this.iMapper.insertInfo(info);
 		}
-		
+
 		return info;
 	}
-
 
 	@Override
 	public ArrayList<Info> getAllInfos() throws IllegalArgumentException {
@@ -754,7 +755,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	public Info getInfoByID(int id) throws IllegalArgumentException {
 		return this.iMapper.findByKey(id);
 	}
-
 
 	@Override
 	public void updateInfo(Info info) throws IllegalArgumentException {
@@ -769,7 +769,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		this.iMapper.deleteInfo(info);
 
 	}
-
 
 	@Override
 	public ArrayList<Eigenschaft> getAllEigenschaften() throws IllegalArgumentException {
@@ -793,48 +792,46 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	@Override
 	public void deleteInfoOfEigenschaft(Eigenschaft eigenschaft, Profil p) throws IllegalArgumentException {
-		
 
 		ArrayList<Info> userInfos = this.findInfoOf(p);
-		
-		for (Info i : userInfos){
-			if (i.getEigenschaftId() == eigenschaft.getId()){
+
+		for (Info i : userInfos) {
+			if (i.getEigenschaftId() == eigenschaft.getId()) {
 				this.iMapper.deleteInfo(i);
 			}
 		}
 
 	}
-	
+
 	/**
-	 * Die Info zu einer Eigenschaft wird gelöscht zu dem passendem Suchprofil 
+	 * Die Info zu einer Eigenschaft wird gelöscht zu dem passendem Suchprofil
 	 */
 	@Override
 	public void deleteInfoOfEigenschaft(Eigenschaft eigenschaft, Suchprofil sp) throws IllegalArgumentException {
 
-	    /**
-	     * Alle Info-Objekte zu einen Suchprofil werden in einem Array gespeichert.
-	     */
-		ArrayList<Info> suchprofilInfo = this.findInfoOf(sp);
-		
 		/**
-		 * ForEach Schleife geht durch alle Infos durch und löscht sie zu der angegebenen
-		 * Eigenschaft
+		 * Alle Info-Objekte zu einen Suchprofil werden in einem Array
+		 * gespeichert.
+		 */
+		ArrayList<Info> suchprofilInfo = this.findInfoOf(sp);
+
+		/**
+		 * ForEach Schleife geht durch alle Infos durch und löscht sie zu der
+		 * angegebenen Eigenschaft
 		 */
 		for (Info i : suchprofilInfo) {
-		  if(i.getEigenschaftId() == eigenschaft.getId()){
-		    this.iMapper.deleteInfo(i);
-		  }
+			if (i.getEigenschaftId() == eigenschaft.getId()) {
+				this.iMapper.deleteInfo(i);
+			}
 		}
 
 	}
-
 
 	@Override
 	public ArrayList<Auswahl> getAuswahl() throws IllegalArgumentException {
 
 		return this.aMapper.findAll();
 	}
-
 
 	@Override
 	public ArrayList<Kontaktsperre> findKontaktsperrenOf(Profil profilowner) throws IllegalArgumentException {
@@ -862,12 +859,12 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		return this.iMapper.findInfoOf(profilowner);
 
 	}
-	
+
 	@Override
 	public ArrayList<Info> findInfoOf(Suchprofil suchprofil) throws IllegalArgumentException {
-	  
-	  return this.iMapper.findInfoOfSuchprofil(suchprofil.getId());
-	  
+
+		return this.iMapper.findInfoOfSuchprofil(suchprofil.getId());
+
 	}
 
 	@Override
@@ -885,20 +882,20 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		 * Gibt eine Auswahl aus einer Info zurück
 		 */
 
-		//return this.aMapper.findAuswahlOf(info);
+		// return this.aMapper.findAuswahlOf(info);
 	}
 
 	@Override
 	public void createBesuch(Profil source, Profil target) throws IllegalArgumentException {
-		
+
 		ArrayList<Besuch> besuche = this.findBesucheOf(source);
-		
-		for (Besuch besuch : besuche){
-			if (besuch.getFremdprofilID() == target.getId()){
+
+		for (Besuch besuch : besuche) {
+			if (besuch.getFremdprofilID() == target.getId()) {
 				return;
 			}
 		}
-		
+
 		Besuch b = new Besuch();
 		b.setEigenprofilID(source.getId());
 		b.setFremdprofilID(target.getId());
@@ -943,7 +940,5 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 		return this.eiMapper.getAllEigenschaftenOf(profil);
 	}
-
-	
 
 }
