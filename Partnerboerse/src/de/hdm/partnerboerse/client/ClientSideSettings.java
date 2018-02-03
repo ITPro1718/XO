@@ -27,9 +27,21 @@ public class ClientSideSettings extends CommonSettings {
 	 */
 	private static ReportGeneratorServiceAsync reportGeneratorService = null;
 	
+	/**
+	 *  User Login Status wird auf null gesetzt
+	 */
+	
 	private static LoginInfo loginInfo = null;
 	
+	/**
+	 * User-Profil Instanz wird auf null gesetzt
+	 */
+	
 	private static Profil profil = null;
+	
+	/**
+	 * User Suchprofil Instanz wird auf null gesetzt
+	 */
 	
 	private static Suchprofil suchprofil = null;
 

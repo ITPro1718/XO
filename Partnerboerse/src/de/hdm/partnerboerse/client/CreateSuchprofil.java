@@ -35,17 +35,10 @@ public class CreateSuchprofil extends VerticalPanel {
 	CreateWidget cw = new CreateWidget();
 
 	/**
-	 * TODO wenn EigenschaftsModell steht // Eigenschaften für InfoGrid Label
-	 * sdescriptLab = new Label("Beschreibe dich kurz: "); Label hobbyLab = new
-	 * Label("Deine Hobbies: "); Label musicLab = new Label("Deine lieblings
-	 * Musik: "); Label searchForLab = newLabel("Du Bist auf der Suche Nach? ");
-	 * Label sexOrientLab = new Label("Deine sexuelle Ausrichtung: ");
-	 * 
-	 * TextBox hobby = new TextBox(); TextBox music = new TextBox(); TextArea
-	 * sdescript = new TextArea(); ListBox sexOrient = new ListBox(); ListBox
-	 * searchFor = new ListBox();
-	 **/
-
+	 *  Suchprofil wird erstellt, das Grid wird gezeichnet und 
+	 *  die jeweiligen Informationen aus der CreatWidget Klasse in das Grid eingetragen.
+	 */
+	
 	@Override
 	public void onLoad() {
 
@@ -78,8 +71,18 @@ public class CreateSuchprofil extends VerticalPanel {
 		SprofilGrid.setWidget(2, 2, cw.getTitleLabel());
 		SprofilGrid.setWidget(2, 3, cw.getTitleTextBox());
 
+		/**
+		 *  Ein Safebutton wird hinzugefügt
+		 */
+		
 		this.add(safeButton);
 
+		/**
+		 *  Der Klickhandler für den Safebutton wird erstellt und 
+		 *  die eingetragenen Werte in die Datenbank eingetragen.
+		 *  Es wird vorab geprüft ob die Speicherung erfolgreich war, 
+		 *  Danach wird das Sucprofil ausgegeben (Wenn die Speicherung erfolgreich war).
+		 */
 		
 		safeButton.addClickHandler(new ClickHandler() {
 
@@ -128,6 +131,11 @@ public class CreateSuchprofil extends VerticalPanel {
 		});
 
 	}
+	
+	/**
+	 *  Falls das Suchprofil nicht neu ist und bereits existiert, 
+	 *  werden die vorabdefinierten Werte für den User geladen.
+	 */
 
 	private Suchprofil getSuchprofilWerte() {
 
