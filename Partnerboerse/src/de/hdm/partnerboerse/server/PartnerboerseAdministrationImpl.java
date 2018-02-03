@@ -371,10 +371,10 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 		Aehnlichkeitsmass aehnlichkeitsmass = new Aehnlichkeitsmass();
 		aehnlichkeitsmass.setGewichtung1Infoobjekt(10);
-		aehnlichkeitsmass.setGewichtungAlter(50);
-		aehnlichkeitsmass.setGewichtungHaarfarbe(20);
-		aehnlichkeitsmass.setGewichtungRaucher(40);
-		aehnlichkeitsmass.setGewichtungReligion(30);
+		aehnlichkeitsmass.setGewichtungAlter(80);
+		aehnlichkeitsmass.setGewichtungHaarfarbe(40);
+		aehnlichkeitsmass.setGewichtungRaucher(70);
+		aehnlichkeitsmass.setGewichtungReligion(50);
 
 		ArrayList<Profil> comparedProfiles = new ArrayList<>();
 		float o1 = aehnlichkeitsmass.getGewichtungHaarfarbe();
@@ -382,9 +382,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		float o3 = aehnlichkeitsmass.getGewichtungAlter();
 		float o4 = aehnlichkeitsmass.getGewichtungRaucher();
 		float o5 = aehnlichkeitsmass.getGewichtung1Infoobjekt();
-
-		float summe = o1 + o2 + o3 + o4 + o5;
-		float x = (float) 100 / summe;
+		float o6 = aehnlichkeitsmass.getGewichtung1Infoobjekt();
 
 		for (Profil p : ergebnisse) {
 			float p1 = 0;
@@ -392,6 +390,9 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 			float p3 = 0;
 			float p4 = 0;
 			float p5 = 0;
+			float p6 = 0;
+			float summe = o1 + o2 + o3 + o4 + o5 + o6;
+			float x = (float) 100 / summe;
 
 			if (p.getHaarfarbe().equals(profil.getHaarfarbe())) {
 				p1 = o1;
@@ -407,15 +408,46 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 			if (p.isRaucher() == profil.isRaucher()) {
 				p4 = o4;
 			}
+			if((profilInfoHasFreitext(profil).isEmpty()) && (profilInfoHasAuswahl(profil).isEmpty())){
+				p5 = o5;
+				p6 = o6;
+			}	
+			if(compareInfos(profil, p) == 0){
+				p5 = o5;
+	
+			}
+			if(compareStrings(profilInfoHasFreitext(profil), profilInfoHasFreitext(p)) == 0){
+				p6 = o6;  
+
+			}
 			if (compareInfos(profil, p) >= 1) {
 				o5 = o5 * compareInfos(profil, p);
 				p5 = o5;
+		
+			}
+			if (compareInfos(profil, p) < 0) {
+				
+				o5 = o5 * (-1*(compareInfos(profil, p)));
+				p5 = -1*(o5);	
+		
+			}
+			if (compareStrings(profilInfoHasFreitext(profil), profilInfoHasFreitext(p)) >=1) {
+				o6 = o6 * compareStrings(profilInfoHasFreitext(profil), profilInfoHasFreitext(p));
+				p6 = o6;	
+	
+			}
+			if (compareStrings(profilInfoHasFreitext(profil), profilInfoHasFreitext(p)) < 0) {
+				
+				o6 = o6 * (-1*(compareStrings(profilInfoHasFreitext(profil), profilInfoHasFreitext(p))));
+				p6 = -1*(o6);	
 
 			}
-			int aehnlichkeit = (int) (((p1 * x) + (p2 * x) + (p3 * x) + (p4 * x) + (p5 * x)) + 0.5);
+		
+			int aehnlichkeit = (int) (((p1 * x) + (p2 * x) + (p3 * x) + (p4 * x) + (p5 * x) + (p6 * x)) + 0.5);
 			if (aehnlichkeit > 100) {
 				aehnlichkeit = 100;
 			}
+
 			p.setÄhnlichkeit(aehnlichkeit);
 			comparedProfiles.add(p);
 		}
@@ -510,6 +542,9 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		if (compareProfilAuswahlInfosWith(suchprofill, profil)) {
 			countersp++;
 		}
+		if (compareProfilFreitextInfosWith(suchprofill, profil)) {
+			countersp++;
+		}
 		if (suchprofill.getKoerpergroesse() <= profil.getKoerpergroesse()) {
 			countersp++;
 		}
@@ -527,24 +562,64 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 		ArrayList<Info> infos = suchprofilInfoHasAuswahl(suchprofil);
 		ArrayList<Info> inf = profilInfoHasAuswahl(profil);
-		ArrayList<String> suchprofilinfotexte = new ArrayList<>();
-		ArrayList<String> profilinfotexte = new ArrayList<>();
 		if (infos.isEmpty()) {
-			return true;
+			return false;
 		}
 		for (Info i : infos) {
 
 			for (Info a : inf) {
 				if (i.getText().equals(a.getText()))
 					return true;
-				// suchprofilinfotexte.add(i.getText());
-				// profilinfotexte.add(a.getText());
 			}
 		}
-		// if(profilinfotexte.containsAll(suchprofilinfotexte)){
-		// return true;
-		// }
+		
 		return false;
+	}
+	public boolean compareProfilFreitextInfosWith(Suchprofil suchprofil, Profil profil){
+		ArrayList<Info> freitextInfosSuchprofil = suchprofilInfoHasFreitext(suchprofil);
+		ArrayList<Info> freitextInfosProfil = profilInfoHasFreitext(profil);
+		if (freitextInfosSuchprofil.isEmpty()) {
+			return false;
+		}
+		if(compareStrings(freitextInfosSuchprofil, freitextInfosProfil) > 0){
+			return true;
+		}
+		return false;
+	}
+	public boolean compareProfilFreitextInfosWith(Profil profil1, Profil profil2){
+		ArrayList<Info> freitextInfosProfil1 = profilInfoHasFreitext(profil1);
+		ArrayList<Info> freitextInfosProfil2 = profilInfoHasFreitext(profil2);
+		
+		if(compareStrings(freitextInfosProfil1, freitextInfosProfil2) > 0){
+			return true;
+		}
+		return false;
+	}
+	
+	public int compareStrings(ArrayList<Info> freitexte1, ArrayList<Info> freitexte2){
+		int counterEqualStrings = 0;
+		for(Info i: freitexte1){
+			for(Info p: freitexte2){
+				String freiText1 = i.getText();
+				String freiText1OhneLeerzeichen = freiText1.replaceAll(" ","");
+				String freiText1OhneSatzzeichen = freiText1OhneLeerzeichen.replaceAll("\\p{Punct}","");
+				String freiText1KleinBuchstaben = freiText1OhneSatzzeichen.toLowerCase();
+				String freiText2 = p.getText();
+				String freiText2OhneLeerzeichen = freiText2.replaceAll(" ","");
+				String freiText2OhneSatzzeichen = freiText2OhneLeerzeichen.replaceAll("\\p{Punct}","");
+				String freiText2KleinBuchstaben = freiText2OhneSatzzeichen.toLowerCase();
+				if((i.getEigenschaftId() == p.getEigenschaftId()) && (freiText1KleinBuchstaben.equals(freiText2KleinBuchstaben))){
+					
+					counterEqualStrings++;
+				}
+				if((i.getEigenschaftId() == p.getEigenschaftId()) && (freiText1KleinBuchstaben.equals(freiText2KleinBuchstaben) == false)){
+				
+					counterEqualStrings--;
+				}
+			}
+		}
+		
+		return counterEqualStrings;
 	}
 
 	public ArrayList<Info> suchprofilInfoHasAuswahl(Suchprofil suchprofil) {
@@ -561,6 +636,19 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 		return auswahlInfos;
 	}
+	public ArrayList<Info> suchprofilInfoHasFreitext(Suchprofil suchprofil) {
+
+		ArrayList<Info> freitextInfos = new ArrayList<Info>();
+
+		for (Info i : getInfoOfSuchprofil(suchprofil.getId())) {
+
+			Eigenschaft eigenschaft = getEigenschaftByID(i.getEigenschaftId());
+			if (eigenschaft.getIs_a().equals("freitext")) {
+				freitextInfos.add(i);
+			}
+		}
+		return freitextInfos;
+	}
 
 	public ArrayList<Info> profilInfoHasAuswahl(Profil profil) {
 
@@ -575,6 +663,19 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		}
 		return auswahlInfos;
 	}
+	public ArrayList<Info> profilInfoHasFreitext(Profil profil) {
+
+		ArrayList<Info> freitextInfos = new ArrayList<Info>();
+
+		for (Info i : findAllInfosOfProfil(profil)) {
+
+			Eigenschaft eigenschaft = getEigenschaftByID(i.getEigenschaftId());
+			if (eigenschaft.getIs_a().equals("freitext")) {
+				freitextInfos.add(i);
+			}
+		}
+		return freitextInfos;
+	}
 
 	public boolean compareEigenprofil(Profil profil, Profil fremdprofil) {
 		if ((profil.isRaucher() == fremdprofil.isRaucher())
@@ -587,17 +688,17 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	public boolean compareSexuelleOrientierung(Profil profil, Profil fremdprofil) {
 
-		if (((profil.getGeschlecht().equals("Mann")) && (profil.getSucheNach().equals("Frauen")))
-				&& ((fremdprofil.getGeschlecht().equals("Frau")) && (fremdprofil.getSucheNach().equals("Männer")))
-				|| ((profil.getGeschlecht().equals("Mann")) && (profil.getSucheNach().equals("Männer")))
+		if ((((profil.getGeschlecht().equals("Mann")) && (profil.getSucheNach().equals("Frauen")))
+				&& ((fremdprofil.getGeschlecht().equals("Frau")) && (fremdprofil.getSucheNach().equals("Männer"))))	
+				|| (((profil.getGeschlecht().equals("Mann")) && (profil.getSucheNach().equals("Männer")))
 						&& ((fremdprofil.getGeschlecht().equals("Mann"))
-								&& (fremdprofil.getSucheNach().equals("Männer")))
-				|| ((profil.getGeschlecht().equals("Frau")) && (profil.getSucheNach().equals("Männer")))
+								&& (fremdprofil.getSucheNach().equals("Männer"))))
+				|| (((profil.getGeschlecht().equals("Frau")) && (profil.getSucheNach().equals("Männer")))
 						&& ((fremdprofil.getGeschlecht().equals("Mann"))
-								&& (fremdprofil.getSucheNach().equals("Frauen")))
-				|| ((profil.getGeschlecht().equals("Frau")) && (profil.getSucheNach().equals("Frauen")))
+								&& (fremdprofil.getSucheNach().equals("Frauen"))))
+				|| (((profil.getGeschlecht().equals("Frau")) && (profil.getSucheNach().equals("Frauen")))
 						&& ((fremdprofil.getGeschlecht().equals("Frau"))
-								&& (fremdprofil.getSucheNach().equals("Frauen")))) {
+								&& (fremdprofil.getSucheNach().equals("Frauen"))))) {
 			return true;
 		} else
 			return false;
@@ -649,13 +750,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 				profilesToRemove.add(p);
 			}
 
-			// if ((compareInfos(profil, p) <1) &&
-			// ((findAllInfosOfProfil(profil).isEmpty()== false)) {
-			// profilesToRemove.add(p);
-			// System.out.println(p.toString());
-
-			// }
-
 		}
 		profile.remove(profil);
 		profile.removeAll(profilesToRemove);
@@ -671,25 +765,36 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		}
 		return textsOfInfos;
 	}
+	
+	public boolean compareInfosIsEmpty(Profil profil, Profil fremdprofil){
+	
+	if ((findAllInfosOfProfil(profil).isEmpty()) && (findAllInfosOfProfil(fremdprofil).isEmpty())) {
+		return true;
+	}
+	return false;
+	}
 
 	public int compareInfos(Profil profil, Profil fremdprofil) {
 
 		int counter = 0;
-		if ((findAllInfosOfProfil(profil).isEmpty()) && (findAllInfosOfProfil(fremdprofil).isEmpty())) {
-			counter = 1;
-		}
 
-		for (Info i : findAllInfosOfProfil(profil)) {
+		for (Info i : profilInfoHasAuswahl(profil)) {
 
-			for (Info o : findAllInfosOfProfil(fremdprofil)) {
+			for (Info o : profilInfoHasAuswahl(fremdprofil)) {
 
 				if ((i.getEigenschaftId() == o.getEigenschaftId()) && (i.getText().equals(o.getText()))) {
 					counter++;
 
 				}
+				if ((i.getEigenschaftId() == o.getEigenschaftId()) && (i.getText().equals(o.getText()) == false)) {
+					counter--;
+
+				}
+				
 
 			}
 		}
+	
 		return counter;
 	}
 
