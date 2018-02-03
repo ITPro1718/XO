@@ -187,7 +187,7 @@ public class EditProfile extends VerticalPanel {
           EigenProfilView epv = new EigenProfilView();
 
           HTMLPanel eigenProfilViewPanel =
-              new HTMLPanel("<h3>" + "Hier können Sie ihr Profil sehen." + "</h3>");
+              new HTMLPanel("<h3>" + "Hier können Sie ihr Profil ansehen." + "</h3>");
           eigenProfilViewPanel.add(epv);
 
           RootPanel.get("contwrap").clear();
@@ -213,7 +213,7 @@ public class EditProfile extends VerticalPanel {
 	  @Override
       public void onClick(ClickEvent event) {
 		  
-		  if (Window.confirm("Wollen sie ihr Profil wirklich löschen?")){
+		  if (Window.confirm("Wollen Sie ihr Profil wirklich löschen?")){
 			  deleteButton.setHref(ClientSideSettings.getLoginInfo().getLogoutUrl());
 		      partnerAdmin.deleteProfil(ClientSideSettings.getProfil(), new DeleteProfilCallback());
 		  }       

@@ -108,7 +108,7 @@ public class EigenschaftsView extends VerticalPanel{
 	
 	private void addProfileToErgebniseTable(Profil p){
 
-		Button showProfileButton = new Button("Checkout Profile!");
+		Button showProfileButton = new Button("Profil ansehen");
 		
 		profilFlexTable.setText(row, 0, p.getVorname());
 		profilFlexTable.setText(row, 1, p.getNachname());

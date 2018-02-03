@@ -40,7 +40,7 @@ public class ClientValidation {
     }
     if (!profil.getVorname().matches(regExFirstname)) {
       Window.alert(profil.getVorname()
-          + " entspricht nicht unseren Konventionen eines Vornamens. Es muss mit einem Großbuchstaben anfangen"
+          + " entspricht nicht unseren Konventionen eines Vornamens. Der Vorname muss mit einem Großbuchstaben anfangen"
           + " und darf keine Zahlen enthalten.");
       return false;
     }
@@ -57,7 +57,7 @@ public class ClientValidation {
     }
     if (!profil.getNachname().matches(regExLastName)) {
       Window.alert(profil.getNachname()
-          + " entspricht nicht unseren Konventionen eines Nachnamens. Es muss mit einem Großbuchstaben anfangen"
+          + " entspricht nicht unseren Konventionen eines Nachnamens. Der Nachname muss mit einem Großbuchstaben anfangen"
           + " und darf keine Zahlen enthalten.");
       return false;
     }
@@ -88,7 +88,7 @@ public class ClientValidation {
     }
     if (!suchprofil.getTitle().matches(regExSuchprofilTitel)) {
       Window.alert(suchprofil.getTitle()
-          + " entspricht nicht unseren Namenskonventionen. Es muss mit einem Großbuchstaben anfangen"
+          + " entspricht nicht unseren Namenskonventionen. Der Name des Suchprofils muss mit einem Großbuchstaben anfangen"
           + " und darf keine Zahlen enthalten.");
       return false;
     }

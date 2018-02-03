@@ -211,7 +211,7 @@ public class LoadEigenschaften extends VerticalPanel {
                 @Override
                 public void onSuccess(Info result) {
                 	// Setzt den saveButton auf updaten und graut den deleteButton aus
-                	saveButton.setText("updaten");
+                	saveButton.setText("aktualisieren");
                 	deleteButton.setEnabled(true);
                 	Window.alert("Die Info \"" + result.getText() + "\" wurde zur Eigenschaft \"" + eg.getErlaeuterung() + "\" gespeichert.");
                 }
@@ -256,7 +256,7 @@ public class LoadEigenschaften extends VerticalPanel {
 	            public void onSuccess(Info result) {
 	            	// Setzt den saveButton auf updaten und graut den deleteButton aus
 	            	deleteButton.setEnabled(true);
-	            	saveButton.setText("updaten");
+	            	saveButton.setText("aktualisieren");
 	            	Window.alert("Die Info \"" + tb.getText() + "\" wurde zur Eigenschaft \"" + eg.getErlaeuterung() + "\" gespeichert.");
 	            }
     
@@ -302,7 +302,7 @@ public class LoadEigenschaften extends VerticalPanel {
 	            	// Setzt den saveButton auf updaten und graut den deleteButton aus
 	                Window.alert("Die Info \"" + tb.getText() + "\" wurde zur Eigenschaft \"" + eg.getErlaeuterung() + "\" gespeichert.");
 	                deleteButton.setEnabled(true);
-	                saveButton.setText("updaten");
+	                saveButton.setText("aktualisieren");
 	            }
 	  
 	          });
@@ -338,14 +338,14 @@ public class LoadEigenschaften extends VerticalPanel {
   
             @Override
             public void onFailure(Throwable caught) {
-              Window.alert("hat nicht geklappt");
+              Window.alert("hat nicht funktioniert");
             }
   
             @Override
             public void onSuccess(Info result) {
             	// Setzt den saveButton auf updaten und graut den deleteButton aus
                 deleteButton.setEnabled(true);
-                saveButton.setText("updaten");
+                saveButton.setText("aktualisieren");
             	Window.alert("Die Info \"" + result.getText() + "\" wurde zur Eigenschaft \"" + eg.getErlaeuterung() + "\" gespeichert.");
             }
   
@@ -556,7 +556,7 @@ public class LoadEigenschaften extends VerticalPanel {
 								if (i.getText().equals(hm.get(z))){
 									lb.setSelectedIndex(z);
 									deleteButton.setEnabled(true);
-									saveButton.setText("updaten");
+									saveButton.setText("aktualisieren");
 									break;
 								}						
 							}
@@ -595,7 +595,7 @@ public class LoadEigenschaften extends VerticalPanel {
 							
 								if (i.getText().equals(hm.get(z))){
 									lb.setSelectedIndex(z);
-									saveButton.setText("updaten");
+									saveButton.setText("aktualisieren");
 									deleteButton.setEnabled(true);
 									break;
 								}
@@ -642,7 +642,7 @@ public class LoadEigenschaften extends VerticalPanel {
         for (Info i : result) {
           if (i.getEigenschaftId() == eig.getId()) {
             tb.setText(i.getText());
-            saveButton.setText("updaten");
+            saveButton.setText("aktualisieren");
           }
         }
         /**
@@ -679,7 +679,7 @@ public class LoadEigenschaften extends VerticalPanel {
         for (Info info : result) {
           if (info.getEigenschaftId() == eigenschaft.getId()) {
             tb.setText(info.getText());
-            saveButton.setText("updaten");
+            saveButton.setText("aktualisieren");
           }
         }
         /**

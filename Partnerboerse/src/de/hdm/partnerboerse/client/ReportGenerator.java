@@ -57,8 +57,8 @@ public class ReportGenerator implements EntryPoint {
 	ArrayList<Suchprofil> suchprofileOfUser = new ArrayList<Suchprofil>();
 	
 	HorizontalPanel hp = new HorizontalPanel();
-	Button notSeenProfileButton = new Button("Not seen Profiles");
-	Button suchprofilButton = new Button("Profiles by Suchprofil");
+	Button notSeenProfileButton = new Button("Partnervorschläge");
+	Button suchprofilButton = new Button("Profile nach Suchprofil");
 	FlexTable suchprofilTable = new FlexTable();
 	int row = 1;
 	
@@ -130,7 +130,7 @@ public class ReportGenerator implements EntryPoint {
 				
 				// Content Area
 				HTMLPanel reports = new HTMLPanel("<h2>" + "Hier finden Sie Ihre Reports" + "</h2>");
-				HTMLPanel choice = new HTMLPanel("<h3> Bitte wählen sie, welchen Report sie ausgeben wollen!</h3>");
+				HTMLPanel choice = new HTMLPanel("<h3> Bitte wählen Sie, welchen Report Sie ausgeben wollen!</h3>");
 				// reports.add(spr);
 				reports.addStyleName("repwrap");
 				choice.addStyleName("repwrap");

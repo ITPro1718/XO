@@ -108,7 +108,7 @@ public class EditSuchprofil extends VerticalPanel {
             ListViewSuchProfil lvsp = new ListViewSuchProfil();
 
             HTMLPanel splistViewPanel =
-                new HTMLPanel("<h3>" + "Hier können sie ein Suchprofil erstellen!" + "</h3>");
+                new HTMLPanel("<h3>" + "Hier können Sie ein Suchprofil erstellen!" + "</h3>");
             splistViewPanel.add(lvsp);
 
             RootPanel.get("contwrap").clear();

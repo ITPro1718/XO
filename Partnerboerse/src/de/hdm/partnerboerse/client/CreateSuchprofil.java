@@ -111,7 +111,7 @@ public class CreateSuchprofil extends VerticalPanel {
     								ev.egFor(result);
     
     								HTMLPanel evPanel = new HTMLPanel(
-    										"<h3>" + "Hier können sie ein relevante Infos angeben!" + "</h3>");
+    										"<h3>" + "Hier können Sie einige relevante Infos angeben!" + "</h3>");
     								evPanel.add(ev);
     
     								RootPanel.get("contwrap").clear();
