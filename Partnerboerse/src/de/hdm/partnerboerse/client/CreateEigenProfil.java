@@ -202,10 +202,10 @@ public class CreateEigenProfil extends VerticalPanel {
 		 * Datenbank für Raucher nur 0 oder 1 abspeichert.
 		 **/
 		switch (raucherSelectedValue) {
-		case "YSmoker":
+		case "Ja":
 			setProfil.setRaucher(true);
 			break;
-		case "NSmoker":
+		case "Nein":
 			setProfil.setRaucher(false);
 			break;
 		}

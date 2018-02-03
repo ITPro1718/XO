@@ -286,10 +286,10 @@ public class EditProfile extends VerticalPanel {
     String raucherSelectedValue = cw.getSmokerListBox().getSelectedValue();
 
     switch (raucherSelectedValue) {
-      case "YSmoker":
+      case "Ja":
         setProfil.setRaucher(true);
         break;
-      case "NSmoker":
+      case "Nein":
         setProfil.setRaucher(false);
         break;
     }
