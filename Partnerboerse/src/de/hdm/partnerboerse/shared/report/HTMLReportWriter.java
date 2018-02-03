@@ -113,10 +113,9 @@ public class HTMLReportWriter extends ReportWriter {
 		   */
 		  result.append("<table style=\"width:600px;border:1px solid silver\"><tr>");
 		  result.append("<td valign=\"top\"><b>" + paragraph2HTML(r.getProfilData()) + "</b>");
-		  result.append("<br><p>Informationen über das Profil:</p>");
 		  result.append("<b>" + paragraph2HTML(r.getErlaeuterungen()) + "</b></td>");
 		  result.append("<td valign=\"top\">" + paragraph2HTML(r.getProfilInhalt()));
-		  result.append("<br><br><br>" + paragraph2HTML(r.getInfo()) + "</td>");
+		  result.append(paragraph2HTML(r.getInfo()) + "</td>");
 		  result.append("</tr></table>");
 
 

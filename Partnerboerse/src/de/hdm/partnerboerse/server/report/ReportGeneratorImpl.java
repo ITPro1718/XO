@@ -132,10 +132,21 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		result.setProfilInhalt(profilInhalt);
 		
 		
+		/**
+		 * Erstellt die Ausgabe durch subParagraphen für die Eigenschaften und Infos, die das Profil besitzt
+		 * Sind keine Informationen vorhanden, so werden auch im Report keine angezeigt.
+		 */
 		CompositeParagraph erlaeuterungen = new CompositeParagraph();
 		CompositeParagraph infos = new CompositeParagraph();
 		
 		ArrayList<Info> infosOfProfile = administration.findInfoOf(p);
+		
+		if (infosOfProfile.size() > 0){
+			erlaeuterungen.addSubParagraph(new SimpleParagraph("<br>"));
+			infos.addSubParagraph(new SimpleParagraph("<br>"));
+			erlaeuterungen.addSubParagraph(new SimpleParagraph("<u>Informationen über " + p.getVorname() + ":</u>"));
+			infos.addSubParagraph(new SimpleParagraph("<br>"));
+		}
 		
 		for (Info i : infosOfProfile){
 			erlaeuterungen.addSubParagraph(new SimpleParagraph(administration.getEigenschaftByID(i.getEigenschaftId()).getErlaeuterung()));
