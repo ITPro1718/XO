@@ -12,6 +12,8 @@ public interface ReportGeneratorServiceAsync {
 
 	void createAllNotSeenProfilesReport(Profil p, AsyncCallback<AllNotSeenProfilesReport> callback);
 
+	void createSingleProfilReport(Profil profil, AsyncCallback<SingleProfilReport> callback);
+
 	void createSuchprofilReport(Suchprofil suchprofil, AsyncCallback<AllProfilesBySuchprofil> callback);
 
 	void init(AsyncCallback<Void> callback);
