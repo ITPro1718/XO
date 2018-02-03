@@ -20,21 +20,28 @@ import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
 import de.hdm.partnerboerse.shared.bo.Profil;
 
 public class Impressum extends VerticalPanel {
+	
+	/**
+	 * Überpüfen ob der User eingeloggt ist.
+	 */
 
 	LoginInfo loginInfo = ClientSideSettings.getLoginInfo();
-		
-	
-	/*
-	 * Widgets, deren Inhalte variable sind, werden als Attribute angelegt.
-	 */
 
 	@Override
 	public void onLoad() {
-		
-		
+	
+		/**
+		 * Es wird ein Grid angelegt um das Impressum zu Strukturieren, 
+		 * welches mit einem Styleattribute belegt wird und zum Grid hinzugefügt wird
+		 */
 		Grid press = new Grid(20,2);
 		press.addStyleName("presstab");
 		this.add(press);
+		
+		/**
+		 * Hier werden die Einzelnen Spalten und Zeilen mit den notwendigen
+		 * Infomationen befüllt
+		 */
 		
 		press.setText(0, 0, "Angaben gemäß § 5 TMG");		
 		press.setText(1, 0, "Anschrift");
@@ -79,6 +86,10 @@ public class Impressum extends VerticalPanel {
 				+ "Soweit die Inhalte auf dieser Seite nicht vom Betreiber erstellt wurden, werden die Urheberrechte Dritter beachtet. "
 				+ "Insbesondere werden Inhalte Dritter als solche gekennzeichnet. Sollten Sie trotzdem auf eine Urheberrechtsverletzung aufmerksam werden, "
 				+ "bitten wir um einen entsprechenden Hinweis. Bei Bekanntwerden von Rechtsverletzungen werden wir derartige Inhalte umgehend entfernen. ");
+		
+		/**
+		 * Zu letzt wird dann das Press-Grid zum Rootpanel hinzugefügt und ausgegeben.
+		 */
 		
 		RootPanel.get("contwrap").add(press);
 

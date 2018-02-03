@@ -23,8 +23,6 @@ import de.hdm.partnerboerse.shared.bo.Profil;
  * wenn unter der, im Login angegebenen, E-Mail-Adresse noch kein Profil in der
  * Partnerbörse XO existiert. Mit Hilfe dieser Klasse kann der User sein Profil
  * anlegen.
- * 
- * @author evelyn, adnan
  */
 
 public class CreateEigenProfil extends VerticalPanel {

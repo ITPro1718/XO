@@ -20,16 +20,20 @@ import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
 import de.hdm.partnerboerse.shared.bo.Profil;
 
 public class Datenschutz extends VerticalPanel {
+	
+	/**
+	 * Überpüfen ob der User eingeloggt ist.
+	 */
 
 	LoginInfo loginInfo = ClientSideSettings.getLoginInfo();
 	
-	/*
-	 * Widgets, deren Inhalte variable sind, werden als Attribute angelegt.
-	 */
-
 	@Override
 	public void onLoad() {
 		
+		/**
+		 * Es wird ein HTML Element angelegt, welches die Datenschutzerklärung beinhaltet. 
+		 * Als durchgängiger Text der nicht Strukturiert werden muss, ist kein Grid notwendig.
+		 */
 		
 		HTML datasec = new HTML("Die Nutzung unserer Webseite ist in der Regel ohne Angabe personenbezogener Daten möglich. "
 				+ "Soweit auf unseren Seiten personenbezogene Daten (beispielsweise Name, Anschrift oder eMail-Adressen) erhoben werden, erfolgt dies, "
@@ -40,6 +44,10 @@ public class Datenschutz extends VerticalPanel {
 				+ "angeforderter Werbung und Informationsmaterialien wird hiermit ausdrücklich widersprochen. "
 				+ "Die Betreiber der Seiten behalten sich ausdrücklich rechtliche Schritte im Falle der unverlangten Zusendung von Werbeinformationen, etwa durch Spam-Mails, vor.");
 		datasec.addStyleName("datasec");
+		
+		/**
+		 * Zu letzt wird dann das Datasec-HTML Element zum Rootpanel hinzugefügt und ausgegeben.
+		 */
 		
 		RootPanel.get("contwrap").add(datasec);
 
