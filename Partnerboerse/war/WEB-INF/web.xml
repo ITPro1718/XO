@@ -14,7 +14,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
   <!-- Servlets -->
   <servlet>
     <servlet-name>loginService</servlet-name>
-    <servlet-class>de.hdm.partnerboerse.client.LoginServiceImpl</servlet-class>
+    <servlet-class>de.hdm.partnerboerse.client.login.LoginServiceImpl</servlet-class>
   </servlet>		
 
   <servlet-mapping>
