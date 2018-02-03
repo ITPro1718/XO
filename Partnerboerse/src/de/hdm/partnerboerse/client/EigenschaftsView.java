@@ -34,7 +34,7 @@ public class EigenschaftsView extends VerticalPanel{
 		if (profil != null){
 			Grid infoGrid = lb.loadEigen(profil);
 			this.add(infoGrid);
-			Button goButton = new Button("Lets go!");
+			Button goButton = new Button("Auf gehts!");
 			this.add(goButton);
 			
 			goButton.addClickHandler(new ClickHandler(){
