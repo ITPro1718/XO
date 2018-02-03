@@ -91,7 +91,7 @@ public class BesuchMapper {
 			while (rs.next()) {
 				Besuch besuch = new Besuch();
 				besuch.setId(rs.getInt("id"));
-				besuch.setEigenprofilID(rs.getInt("epId"));
+				besuch.setEigenprofilID(rs.getInt("epID"));
 				besuch.setFremdprofilID(rs.getInt("fpID"));
 				result.add(besuch);
 			}

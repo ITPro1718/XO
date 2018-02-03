@@ -280,9 +280,11 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		p.setId(merkzettel.getEigenprofilID());
 
 		ArrayList<Merkzettel> merk = this.findMerkzettelnOf(p);
+		System.out.println(merk.toString());
 
 		for (Merkzettel m : merk) {
 			if (m.getFremdprofilID() == merkzettel.getFremdprofilID()) {
+				System.out.println("hier bi nich");
 				this.mMapper.deleteMerkzettelEintrag(m);
 			}
 		}
