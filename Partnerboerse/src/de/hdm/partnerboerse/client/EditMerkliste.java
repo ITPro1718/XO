@@ -76,14 +76,36 @@ public class EditMerkliste extends VerticalPanel {
 		for (Profil p : result) {
 
 			Button deleteButton = new Button("löschen");
+			Button showButton = new Button("anzeigen");
 			int row = merklisteGrid.getRowCount();
 
 			merklisteGrid.setText(row, 0, p.getVorname());
 			merklisteGrid.setText(row, 1, p.getNachname());
 			merklisteGrid.setText(row, 2, p.getEmail());
-			merklisteGrid.setWidget(row, 3, deleteButton);
+			merklisteGrid.setWidget(row, 3, showButton);
+			merklisteGrid.setWidget(row, 4, deleteButton);
 			
 			final Profil fin = p;
+			class ShowProfileClickhandler implements ClickHandler{
+				Profil p;
+				public void setProfile(Profil p){
+					this.p = p;
+				}
+
+				@Override
+				public void onClick(ClickEvent event) {
+					FremdProfilView fpv = new FremdProfilView(p);
+					
+					HTMLPanel fpvPanel = new HTMLPanel("<h2>" + "Profil von " + p.getVorname() + "</h2>");
+		            fpvPanel.add(fpv);
+
+		            RootPanel.get("contwrap").clear();
+		            RootPanel.get("contwrap").add(fpvPanel);
+				}
+			}
+			ShowProfileClickhandler sp = new ShowProfileClickhandler();
+			sp.setProfile(p);
+			showButton.addClickHandler(sp);
 			deleteButton.addClickHandler(new ClickHandler(){
 
 				@Override
@@ -108,6 +130,7 @@ public class EditMerkliste extends VerticalPanel {
 				}
 				
 			});
+			
 
 		}
 	}
