@@ -398,10 +398,10 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 		Aehnlichkeitsmass aehnlichkeitsmass = new Aehnlichkeitsmass();
 		aehnlichkeitsmass.setGewichtung1Infoobjekt(10);
-		aehnlichkeitsmass.setGewichtungAlter(80);
-		aehnlichkeitsmass.setGewichtungHaarfarbe(40);
-		aehnlichkeitsmass.setGewichtungRaucher(70);
-		aehnlichkeitsmass.setGewichtungReligion(50);
+		aehnlichkeitsmass.setGewichtungAlter(70);
+		aehnlichkeitsmass.setGewichtungHaarfarbe(35);
+		aehnlichkeitsmass.setGewichtungRaucher(55);
+		aehnlichkeitsmass.setGewichtungReligion(45);
 
 		ArrayList<Profil> comparedProfiles = new ArrayList<>();
 		float o1 = aehnlichkeitsmass.getGewichtungHaarfarbe();
@@ -435,7 +435,8 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 			if (p.isRaucher() == profil.isRaucher()) {
 				p4 = o4;
 			}
-			if((profilInfoHasFreitext(profil).isEmpty()) && (profilInfoHasAuswahl(profil).isEmpty())){
+			if(((profilInfoHasFreitext(profil).isEmpty()) && (profilInfoHasAuswahl(profil).isEmpty())) ||
+					((profilInfoHasFreitext(p).isEmpty()) && (profilInfoHasAuswahl(p).isEmpty()))){
 				p5 = o5;
 				p6 = o6;
 			}	
@@ -454,8 +455,8 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 			}
 			if (compareInfos(profil, p) < 0) {
 				
-				o5 = o5 * (-1*(compareInfos(profil, p)));
-				p5 = -1*(o5);	
+				o5 = 0.5f * (o5 * (-1*(compareInfos(profil, p))));
+				p5 = 0.5f * (-1*(o5));	
 		
 			}
 			if (compareStrings(profilInfoHasFreitext(profil), profilInfoHasFreitext(p)) >=1) {
@@ -465,14 +466,17 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 			}
 			if (compareStrings(profilInfoHasFreitext(profil), profilInfoHasFreitext(p)) < 0) {
 				
-				o6 = o6 * (-1*(compareStrings(profilInfoHasFreitext(profil), profilInfoHasFreitext(p))));
-				p6 = -1*(o6);	
+				o6 = 0.5f * (o6 * (-1*(compareStrings(profilInfoHasFreitext(profil), profilInfoHasFreitext(p)))));
+				p6 = 0.5f * (-1*(o6));	
 
 			}
 		
 			int aehnlichkeit = (int) (((p1 * x) + (p2 * x) + (p3 * x) + (p4 * x) + (p5 * x) + (p6 * x)) + 0.5);
 			if (aehnlichkeit > 100) {
 				aehnlichkeit = 100;
+			}
+			if(aehnlichkeit < 0) {
+				aehnlichkeit = 0;
 			}
 
 			p.setÄhnlichkeit(aehnlichkeit);
@@ -704,15 +708,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		return freitextInfos;
 	}
 
-	public boolean compareEigenprofil(Profil profil, Profil fremdprofil) {
-		if ((profil.isRaucher() == fremdprofil.isRaucher())
-				&& (getAge(profil.getGeburtsdatum()) == getAge(fremdprofil.getGeburtsdatum()))
-				&& (profil.getReligion() == fremdprofil.getReligion())) {
-			return true;
-		} else
-			return false;
-	}
-
 	public boolean compareSexuelleOrientierung(Profil profil, Profil fremdprofil) {
 
 		if ((((profil.getGeschlecht().equals("Mann")) && (profil.getSucheNach().equals("Frauen")))
@@ -818,7 +813,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 				}
 				
-
 			}
 		}
 	
