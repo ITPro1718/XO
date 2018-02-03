@@ -87,7 +87,16 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		if (this.getPartnerboerseVerwaltung() == null){
 			return null;
 		}
-		
+		/**
+		 * Wandelt den Boolean-Wert bzgl. dem Attribut Raucher in einen String um, und speichert es in "isRaucher".
+		 */
+		String isRaucher = "";
+		if(p.isRaucher()){
+			isRaucher = "Ja";
+		}
+		if(p.isRaucher()== false){
+			isRaucher = "Nein";
+		}
 		/**
 		 * Legt einen neuen SingleProfilReport an
 		 */
@@ -125,7 +134,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		profilInhalt.addSubParagraph(new SimpleParagraph(this.parseToGermanDatum(p.getGeburtsdatum())));
 		profilInhalt.addSubParagraph(new SimpleParagraph(p.getHaarfarbe()));
 		profilInhalt.addSubParagraph(new SimpleParagraph(String.valueOf(p.getKoerpergroesse())));
-		profilInhalt.addSubParagraph(new SimpleParagraph(String.valueOf(p.isRaucher())));
+		profilInhalt.addSubParagraph(new SimpleParagraph(isRaucher));
 		profilInhalt.addSubParagraph(new SimpleParagraph(p.getReligion()));
 		profilInhalt.addSubParagraph(new SimpleParagraph(String.valueOf(p.getÄhnlichkeit()) + "%"));
 		
@@ -183,7 +192,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	    /**
 	     * setzt den Titel des Reports
 	     */
-	    result.setTitle("Alle nicht angesehenen Profile");
+	    result.setTitle("Alle nicht angesehenen Partnervorschläge");
 
 	    /**
 	     * fügt dem Report ein Impressum hinzu
