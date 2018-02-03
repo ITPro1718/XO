@@ -1,4 +1,4 @@
-package de.hdm.partnerboerse.client;
+package de.hdm.partnerboerse.client.editor.profil;
 
 import java.util.ArrayList;
 
@@ -18,24 +18,29 @@ import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
 import de.hdm.partnerboerse.shared.bo.Kontaktsperre;
 import de.hdm.partnerboerse.shared.bo.Merkzettel;
 import de.hdm.partnerboerse.shared.bo.Profil;
-import de.hdm.partnerboerse.client.CreateWidget;
+import de.hdm.partnerboerse.client.ClientSideSettings;
+import de.hdm.partnerboerse.client.editor.eigenschaften.LoadEigenschaften;
+import de.hdm.partnerboerse.client.editor.forms.CreateWidget;
+import de.hdm.partnerboerse.client.editor.forms.GuiUtils;
 
 public class FremdProfilView extends VerticalPanel {
 
 	private final PartnerboerseAdministrationAsync partnerAdmin = GWT.create(PartnerboerseAdministration.class);
-
+	/**
+	 * Klassen Attribute von FremdProfilView
+	 */
 	Button merkButton = new Button("Profil merken");
 	Button sperrButton = new Button("Profil sperren");
 	ArrayList<Merkzettel> merkzettelList = new ArrayList<Merkzettel>();
-	
+
 	CreateWidget cw = new CreateWidget();
-	
+
 	LoadEigenschaften le = new LoadEigenschaften();
-	
+
 	Profil fremdprofil;
 	Grid profilIntGrid = new Grid(2, 3);
-	
-	public FremdProfilView(Profil profil){
+
+	public FremdProfilView(Profil profil) {
 		this.fremdprofil = profil;
 	}
 
@@ -46,21 +51,23 @@ public class FremdProfilView extends VerticalPanel {
 		Grid info = le.loadEigenRead(fremdprofil);
 		info.setStyleName("inftab");
 		this.add(info);
-		
+
 		partnerAdmin.findMerkzettelnOf(ClientSideSettings.getProfil(), new GetMerkzettelOfCallback());
-		
+
 		partnerAdmin.createBesuch(ClientSideSettings.getProfil(), fremdprofil, new CreateBesuchCallback());
 		profilIntGrid.setWidget(0, 0, merkButton);
 		profilIntGrid.setWidget(0, 1, sperrButton);
-		
+
 		merkButton.addClickHandler(new MerkButtonClickhandler());
 		sperrButton.addClickHandler(new SperrButtonClickhandler());
 	}
-	
+
+	/**
+	 * Erstellen der Fremdprofil FlexTable, zur Ausgabe der Fremdprofile
+	 */
 	private void updateProfilTable(Profil result) {
 		Profil fremdProfil = result;
 
-		
 		profilIntGrid.setStyleName("itable");
 		this.add(profilIntGrid);
 
@@ -93,27 +100,30 @@ public class FremdProfilView extends VerticalPanel {
 		// Spalte 4
 		profilGrid.setWidget(4, 3, cw.getReligionLabel());
 		profilGrid.setText(4, 4, fremdProfil.getReligion());
-		
+
 		// Spalte 5
 		profilGrid.setWidget(4, 1, cw.getSexLabel());
 		profilGrid.setText(4, 2, fremdProfil.getGeschlecht());
-		
+
 		// Spalte 6
 		profilGrid.setWidget(5, 1, cw.getSearchForLabel());
 		profilGrid.setText(5, 2, fremdProfil.getSucheNach());
 
-
 	}
-	
-	private class MerkButtonClickhandler implements ClickHandler{
+
+	/**
+	 * ClickHandler zum Merken der Fremdprofile
+	 */
+
+	private class MerkButtonClickhandler implements ClickHandler {
 
 		@Override
 		public void onClick(ClickEvent event) {
-			
-			if (merkButton.getText().equals("Profil merken")){
-				partnerAdmin.createMerkzettelEintrag(ClientSideSettings.getProfil(), fremdprofil, new MerkProfilCallback());			
-			}
-			else {
+
+			if (merkButton.getText().equals("Profil merken")) {
+				partnerAdmin.createMerkzettelEintrag(ClientSideSettings.getProfil(), fremdprofil,
+						new MerkProfilCallback());
+			} else {
 				Merkzettel m = new Merkzettel();
 				m.setEigenprofilID(ClientSideSettings.getProfil().getId());
 				m.setFremdprofilID(fremdprofil.getId());
@@ -121,26 +131,40 @@ public class FremdProfilView extends VerticalPanel {
 			}
 		}
 	}
-	
-	private class SperrButtonClickhandler implements ClickHandler{
+
+	/**
+	 * 
+	 * ClickHandler zum Sperren der Fremdprofile
+	 */
+	private class SperrButtonClickhandler implements ClickHandler {
 
 		@Override
 		public void onClick(ClickEvent event) {
-			
-			if (sperrButton.getText().equals("Profil sperren")){
-				partnerAdmin.createKontaksperreEintrag(ClientSideSettings.getProfil(), fremdprofil, new SperrProfilCallback());
+
+			if (sperrButton.getText().equals("Profil sperren")) {
+				partnerAdmin.createKontaksperreEintrag(ClientSideSettings.getProfil(), fremdprofil,
+						new SperrProfilCallback());
 			}
-			
+
 			else {
 				Kontaktsperre k = new Kontaktsperre();
 				k.setEigenprofilID(ClientSideSettings.getProfil().getId());
 				k.setFremdprofilID(fremdprofil.getId());
-				partnerAdmin.deleteKontaktsperreEintraege(k, new DeleteSperrungCallback());				
+				partnerAdmin.deleteKontaktsperreEintraege(k, new DeleteSperrungCallback());
 			}
 		}
 	}
 
-	private class MerkProfilCallback implements AsyncCallback<Void>{
+	/**
+	 * CALLBACK KLASSEN
+	 */
+
+	/**
+	 * TODO Kommentieren!
+	 *
+	 */
+
+	private class MerkProfilCallback implements AsyncCallback<Void> {
 
 		@Override
 		public void onFailure(Throwable caught) {
@@ -151,10 +175,10 @@ public class FremdProfilView extends VerticalPanel {
 			sperrButton.setEnabled(false);
 			merkButton.setText("Profil entmerken");
 		}
-		
+
 	}
-	
-	private class SperrProfilCallback implements AsyncCallback<Void>{
+
+	private class SperrProfilCallback implements AsyncCallback<Void> {
 
 		@Override
 		public void onFailure(Throwable caught) {
@@ -165,10 +189,10 @@ public class FremdProfilView extends VerticalPanel {
 			merkButton.setEnabled(false);
 			sperrButton.setText("Profil entsperren");
 		}
-		
+
 	}
-	
-	private class CreateBesuchCallback implements AsyncCallback<Void>{
+
+	private class CreateBesuchCallback implements AsyncCallback<Void> {
 
 		@Override
 		public void onFailure(Throwable caught) {
@@ -177,11 +201,10 @@ public class FremdProfilView extends VerticalPanel {
 		@Override
 		public void onSuccess(Void result) {
 		}
-		
+
 	}
-	
-	
-	private class DeleteSperrungCallback implements AsyncCallback<Void>{
+
+	private class DeleteSperrungCallback implements AsyncCallback<Void> {
 
 		@Override
 		public void onFailure(Throwable caught) {
@@ -193,8 +216,8 @@ public class FremdProfilView extends VerticalPanel {
 			sperrButton.setText("Profil sperren");
 		}
 	}
-	
-	private class DeleteMerkungCallback implements AsyncCallback<Void>{
+
+	private class DeleteMerkungCallback implements AsyncCallback<Void> {
 
 		@Override
 		public void onFailure(Throwable caught) {
@@ -205,10 +228,10 @@ public class FremdProfilView extends VerticalPanel {
 			sperrButton.setEnabled(true);
 			merkButton.setText("Profil merken");
 		}
-		
+
 	}
-	
-	private class GetMerkzettelOfCallback implements AsyncCallback<ArrayList<Merkzettel>>{
+
+	private class GetMerkzettelOfCallback implements AsyncCallback<ArrayList<Merkzettel>> {
 
 		@Override
 		public void onFailure(Throwable caught) {
@@ -216,8 +239,8 @@ public class FremdProfilView extends VerticalPanel {
 
 		@Override
 		public void onSuccess(ArrayList<Merkzettel> result) {
-			for (Merkzettel m : result){
-				if (fremdprofil.getId() == m.getFremdprofilID()){
+			for (Merkzettel m : result) {
+				if (fremdprofil.getId() == m.getFremdprofilID()) {
 					sperrButton.setEnabled(false);
 					merkButton.setText("Profil entmerken");
 				}

@@ -1,4 +1,4 @@
-package de.hdm.partnerboerse.client;
+package de.hdm.partnerboerse.client.editor.profil;
 
 import java.util.Date;
 
@@ -14,6 +14,12 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+import de.hdm.partnerboerse.client.ClientSideSettings;
+import de.hdm.partnerboerse.client.ClientValidation;
+import de.hdm.partnerboerse.client.editor.eigenschaften.EigenschaftsView;
+import de.hdm.partnerboerse.client.editor.eigenschaften.LoadEigenschaften;
+import de.hdm.partnerboerse.client.editor.forms.CreateWidget;
+import de.hdm.partnerboerse.client.login.LoginInfo;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
 import de.hdm.partnerboerse.shared.bo.Profil;
@@ -41,8 +47,7 @@ public class CreateEigenProfil extends VerticalPanel {
 	LoadEigenschaften loadEig = new LoadEigenschaften();
 
 	/**
-	 * In der <code>onLoad()</code> ein Grid und alle anzuzeigenden Widgets
-	 * erstellt und geladen.
+	 * 
 	 **/
 
 	@Override
@@ -83,11 +88,11 @@ public class CreateEigenProfil extends VerticalPanel {
 
 		profilGrid.setWidget(4, 3, cw.getReligionLabel());
 		profilGrid.setWidget(4, 4, cw.setReligionListBox());
-		
+
 		// Spalte 5
 		profilGrid.setWidget(4, 1, cw.getSexLabel());
 		profilGrid.setWidget(4, 2, cw.setSexListBox());
-		
+
 		// Spalte 6
 		profilGrid.setWidget(5, 1, cw.getSearchForLabel());
 		profilGrid.setWidget(5, 2, cw.setSearchForListBox());
@@ -97,54 +102,61 @@ public class CreateEigenProfil extends VerticalPanel {
 		 * Dieser <code>createButton.ClickHandler(new ClickHandler)</code>
 		 * speichert die eingegebenen Daten, des neuen Users, im Profil ab.
 		 */
-		createButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-
-				createProfileOnServer();
-
-			}
-
-			private void createProfileOnServer() {
-
-				Profil setProfil = getProfileValuesFromFormular();
-				ClientValidation cv = new ClientValidation();
-
-				if (cv.isProfilValid(setProfil)) {
-					partnerAdmin.createProfil(setProfil, new AsyncCallback<Profil>() {
-
-						/**
-						 * Wenn das Laden fehlgeschlafen ist, wird ein 
-						 */
-						@Override
-						public void onFailure(Throwable caught) {
-							Window.alert("Es ist ein Fehler aufgetreten! Ihr Profil wurde nicht gespeichert.");
-						}
-
-						@Override
-						public void onSuccess(Profil result) {
-							ClientSideSettings.setProfil(result);
-							EigenschaftsView ev = new EigenschaftsView();
-							ev.egFor(result);
-
-							HTMLPanel evPanel = new HTMLPanel("<h1> Hallo " + result.getVorname() + ", hilf uns dabei, dich näher kennen zu lernen.</h1><br>"
-											+ "<h3>Diese Angaben sind freiwillig, helfen dir jedoch dabei, den richtigen Partner zu finden!</h3>");
-							evPanel.add(ev);
-
-							RootPanel.get("contwrap").clear();
-							RootPanel.get("contwrap").add(evPanel);
-
-						}
-					});
-				} else {
-					return;
-				}
-			}
-		});
+		createButton.addClickHandler(new CreateButtonClickhandler()); 
 
 	}
+ /**
+  * ClickHandler
+  *
+  */
+	
+	private class CreateButtonClickhandler implements ClickHandler{
 
+		@Override
+		public void onClick(ClickEvent event) {
+
+			createProfileOnServer();
+
+		}
+
+		private void createProfileOnServer() {
+
+			Profil setProfil = getProfileValuesFromFormular();
+			ClientValidation cv = new ClientValidation();
+
+			if (cv.isProfilValid(setProfil)) {
+				partnerAdmin.createProfil(setProfil, new AsyncCallback<Profil>() {
+
+					/**
+					 * Wenn das Laden fehlgeschlafen ist, wird ein Window.alert(); ausgegeben.
+					 */
+					@Override
+					public void onFailure(Throwable caught) {
+						Window.alert("Es ist ein Fehler aufgetreten! Ihr Profil wurde nicht gespeichert.");
+					}
+
+					@Override
+					public void onSuccess(Profil result) {
+						ClientSideSettings.setProfil(result);
+						EigenschaftsView ev = new EigenschaftsView();
+						ev.egFor(result);
+
+						HTMLPanel evPanel = new HTMLPanel("<h1> Hallo " + result.getVorname()
+								+ ", hilf uns dabei, Sie näher kennen zu lernen.</h1><br>"
+								+ "<h3>Diese Angaben sind freiwillig, helfen Ihr jedoch dabei, den richtigen Partner zu finden!</h3>");
+						evPanel.add(ev);
+
+						RootPanel.get("contwrap").clear();
+						RootPanel.get("contwrap").add(evPanel);
+
+					}
+				});
+			} else {
+				return;
+			}
+		}
+	}
+	
 	/**
 	 * Werte aus den geänderten Formularen wird ausgelesen und in ein Profil
 	 * gespeichert und zurück gegeben
@@ -153,21 +165,21 @@ public class CreateEigenProfil extends VerticalPanel {
 
 		Profil setProfil = new Profil();
 		String bDayConvert = cw.getBdayTextBox().getValue();
-        int heightConvert = 0;
-        Date date;
-		
-        /**
-         * Prüft, ob der Userwert in <code>getBdayTextBox()</code> eine
-         * den Date Format entspricht.
-         */
+		int heightConvert = 0;
+		Date date;
+
+		/**
+		 * Prüft, ob der Userwert in <code>getBdayTextBox()</code> eine den Date
+		 * Format entspricht.
+		 */
 		try {
-		  /**
-		   * DateTimerFromat wandelt den Wert von bdayTextBox in Date um
-		   */
+			/**
+			 * DateTimerFromat wandelt den Wert von bdayTextBox in Date um
+			 */
 			date = DateTimeFormat.getFormat("dd.MM.yyyy").parse(bDayConvert);
 		} catch (IllegalArgumentException e) {
-		  Window.alert("Das eingegebene Datumsformat entspricht nicht: \"dd.MM.yyyy\".");
-		  return setProfil;
+			Window.alert("Das eingegebene Datumsformat entspricht nicht: \"dd.MM.yyyy\".");
+			return setProfil;
 		}
 
 		/**
@@ -193,7 +205,7 @@ public class CreateEigenProfil extends VerticalPanel {
 		setProfil.setEmail(loginInfo.getEmailAddress());
 		setProfil.setGeschlecht(cw.getSexListBox().getSelectedValue());
 		setProfil.setSucheNach(cw.getSearchForListBox().getSelectedValue());
-		
+
 		String raucherSelectedValue = cw.getSmokerListBox().getSelectedValue();
 
 		/**

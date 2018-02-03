@@ -1,4 +1,4 @@
-package de.hdm.partnerboerse.client;
+package de.hdm.partnerboerse.client.editor.forms;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -9,6 +9,15 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+
+import de.hdm.partnerboerse.client.ClientSideSettings;
+import de.hdm.partnerboerse.client.editor.kontaktsperremerkliste.EditKontaktsperre;
+import de.hdm.partnerboerse.client.editor.kontaktsperremerkliste.EditMerkliste;
+import de.hdm.partnerboerse.client.editor.profil.EigenProfilView;
+import de.hdm.partnerboerse.client.editor.suchprofil.ListViewSuchProfil;
+import de.hdm.partnerboerse.client.impressum.Datenschutz;
+import de.hdm.partnerboerse.client.impressum.Impressum;
+import de.hdm.partnerboerse.client.login.LoginInfo;
 
 public class Navigation extends VerticalPanel {
 

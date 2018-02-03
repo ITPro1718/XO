@@ -15,7 +15,7 @@ public class DBConnection {
 
 	private static Connection con = null;
 
-	private static String localurl = "jdbc:mysql://localhost:3306/partnerboerse?user=root&password=";
+	private static String localurl = "jdbc:mysql://localhost:3306/partnerboerse?user=root&password=Edgar121-.-";
 	private static String googleurl = "jdbc:google:mysql://crested-dialect-193613:partnerboerse/partnerboerse?user=root&password=root";
 	private static String url;
 

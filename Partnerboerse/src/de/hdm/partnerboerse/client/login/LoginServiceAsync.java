@@ -1,4 +1,4 @@
-package de.hdm.partnerboerse.client;
+package de.hdm.partnerboerse.client.login;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
