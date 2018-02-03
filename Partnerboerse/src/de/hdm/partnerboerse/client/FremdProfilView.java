@@ -41,7 +41,7 @@ public class FremdProfilView extends VerticalPanel {
 
 	@Override
 	public void onLoad() {
-
+		
 		updateProfilTable(fremdprofil);
 		Grid info = le.loadEigenRead(fremdprofil);
 		info.setStyleName("inftab");
@@ -60,8 +60,7 @@ public class FremdProfilView extends VerticalPanel {
 	private void updateProfilTable(Profil result) {
 		Profil fremdProfil = result;
 
-		
-		profilIntGrid.setStyleName("itable");
+		profilIntGrid.setStyleName("fprof");
 		this.add(profilIntGrid);
 
 		FlexTable profilGrid = new FlexTable();
