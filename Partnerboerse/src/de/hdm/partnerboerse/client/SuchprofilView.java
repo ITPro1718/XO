@@ -226,6 +226,7 @@ public class SuchprofilView extends VerticalPanel {
 		profilFlexTable.setText(0, 0, "Vorname");
 	    profilFlexTable.setText(0, 1, "Nachname");
 	    profilFlexTable.setText(0, 2, "Ähnlichkeit");
+	    profilFlexTable.addStyleName("mltable");
 	    
 	    return profilFlexTable;
 	}

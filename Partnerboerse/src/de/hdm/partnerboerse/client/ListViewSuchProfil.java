@@ -38,7 +38,7 @@ public class ListViewSuchProfil extends VerticalPanel {
 		HTML splist = new HTML("<h3>" + "Suchprofilliste" + "</h3>");
 		splist.addStyleName("spwrap");
 
-		splistGrid.setStyleName("sptable");
+		splistGrid.setStyleName("mltable");
 		this.add(splistGrid);
 
 		splistGrid.setWidget(0, 0, createButton);
@@ -164,6 +164,7 @@ public class ListViewSuchProfil extends VerticalPanel {
 		profilFlexTable.setText(0, 0, "Vorname");
 	    profilFlexTable.setText(0, 1, "Nachname");
 	    profilFlexTable.setText(0, 2, "Ähnlichkeit");
+	    profilFlexTable.addStyleName("mltable");
 	    
 	    return profilFlexTable;
 	}
