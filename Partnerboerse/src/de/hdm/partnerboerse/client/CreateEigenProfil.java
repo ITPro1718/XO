@@ -1,4 +1,4 @@
-package de.hdm.partnerboerse.client.editor.profil;
+package de.hdm.partnerboerse.client;
 
 import java.util.Date;
 

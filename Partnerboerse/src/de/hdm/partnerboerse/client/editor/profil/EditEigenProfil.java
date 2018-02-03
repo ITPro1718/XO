@@ -121,7 +121,9 @@ public class EditEigenProfil extends VerticalPanel {
 		profilGrid.setWidget(5, 2, cw.setSearchForListBox());
 		setRightWert(cw.getSearchForListBox(), getProfilFromServer.getSucheNach());
 
-		// TODO: benutzen wir diese Methode????
+		/**
+		 *  TODO: benutzen wir diese Methode????
+		 */
 		int smokerToInt = (getProfilFromServer.isRaucher()) ? 1 : 0;
 		switch (smokerToInt) {
 		case 1:
@@ -300,16 +302,16 @@ public class EditEigenProfil extends VerticalPanel {
 		 */
 		String raucherSelectedValue = cw.getSmokerListBox().getSelectedValue();
 
-		switch (raucherSelectedValue) {
-		case "YSmoker":
-			setProfil.setRaucher(true);
-			break;
-		case "NSmoker":
-			setProfil.setRaucher(false);
-			break;
-		}
+	    switch (raucherSelectedValue) {
+	      case "Ja":
+	        setProfil.setRaucher(true);
+	        break;
+	      case "Nein":
+	        setProfil.setRaucher(false);
+	        break;
+	    }
 
-		return setProfil;
+	    return setProfil;
 
 	}
 

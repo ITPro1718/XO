@@ -132,10 +132,10 @@ public class CreateSuchprofil extends VerticalPanel {
 
 		String raucherSelectedValue = cw.getSmokerListBox().getSelectedValue();
 		switch (raucherSelectedValue) {
-		case "YSmoker":
+		case "Ja":
 			s.setRaucher(true);
 			break;
-		case "NSmoker":
+		case "Nein":
 			s.setRaucher(false);
 			break;
 		default:

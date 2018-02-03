@@ -65,6 +65,10 @@ public class CreateSuchprofil extends VerticalPanel {
 		safeButton.addClickHandler(new SafeButtonClickhandler());
 
 	}
+	/**
+	 * ClickHandler zum Speichern des neuen Suchprofils
+	 *
+	 */
 	
 	private class SafeButtonClickhandler implements ClickHandler{
 
@@ -115,7 +119,8 @@ public class CreateSuchprofil extends VerticalPanel {
 	
 	/**
 	 * 
-	 * Methode
+	 * METHODEN 
+	 * TODO Kommentieren!
 	 * 
 	 */
 
@@ -131,10 +136,10 @@ public class CreateSuchprofil extends VerticalPanel {
 
 		String raucherSelectedValue = cw.getSmokerListBox().getSelectedValue();
 		switch (raucherSelectedValue) {
-		case "YSmoker":
+		case "Ja":
 			s.setRaucher(true);
 			break;
-		case "NSmoker":
+		case "Nein":
 			s.setRaucher(false);
 			break;
 		default:

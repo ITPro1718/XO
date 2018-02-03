@@ -114,7 +114,7 @@ public void reload(){
 		
 		EditKontaktsperre ek = new EditKontaktsperre();
         
-        HTMLPanel ekPanel = new HTMLPanel("<h3>" + "Hier können Sie ihre Kontaktsperre editieren" + "</h3>");
+        HTMLPanel ekPanel = new HTMLPanel("<h3>" + "Hier können Sie Ihre Kontaktsperren ansehen und editieren" + "</h3>");
         ekPanel.add(ek);
         
         RootPanel.get("contwrap").clear();
