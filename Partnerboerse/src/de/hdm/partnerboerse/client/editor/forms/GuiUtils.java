@@ -1,4 +1,4 @@
-package de.hdm.partnerboerse.client;
+package de.hdm.partnerboerse.client.editor.forms;
 
 /**
  * Hilfsmethoden für den Umgang mit der GUI

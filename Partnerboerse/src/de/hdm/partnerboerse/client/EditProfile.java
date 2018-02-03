@@ -23,6 +23,9 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
 import de.hdm.partnerboerse.shared.bo.Profil;
+import de.hdm.partnerboerse.client.login.*;
+import de.hdm.partnerboerse.client.editor.forms.CreateWidget;
+import de.hdm.partnerboerse.client.editor.profil.EigenProfilView;
 
 public class EditProfile extends VerticalPanel {
 

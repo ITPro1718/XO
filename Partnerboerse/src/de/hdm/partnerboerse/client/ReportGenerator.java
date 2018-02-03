@@ -25,6 +25,10 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+import de.hdm.partnerboerse.client.login.LoginInfo;
+import de.hdm.partnerboerse.client.login.LoginService;
+import de.hdm.partnerboerse.client.login.LoginServiceAsync;
+import de.hdm.partnerboerse.client.report.NavigationReport;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
 import de.hdm.partnerboerse.shared.ReportGeneratorService;

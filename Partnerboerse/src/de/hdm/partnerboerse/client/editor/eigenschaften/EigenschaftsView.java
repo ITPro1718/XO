@@ -1,4 +1,4 @@
-package de.hdm.partnerboerse.client;
+package de.hdm.partnerboerse.client.editor.eigenschaften;
 
 import java.util.ArrayList;
 import com.google.gwt.core.client.GWT;
@@ -12,6 +12,7 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+import de.hdm.partnerboerse.client.Editor;
 import de.hdm.partnerboerse.client.editor.profil.FremdProfilView;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
@@ -110,7 +111,7 @@ public class EigenschaftsView extends VerticalPanel{
 	
 	private void addProfileToErgebniseTable(Profil p){
 
-		Button showProfileButton = new Button("Profil ansehen");
+		Button showProfileButton = new Button("Checkout Profile!");
 		
 		profilFlexTable.setText(row, 0, p.getVorname());
 		profilFlexTable.setText(row, 1, p.getNachname());

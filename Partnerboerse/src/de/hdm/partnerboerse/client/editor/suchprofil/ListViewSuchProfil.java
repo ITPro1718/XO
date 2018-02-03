@@ -1,4 +1,4 @@
-package de.hdm.partnerboerse.client;
+package de.hdm.partnerboerse.client.editor.suchprofil;
 
 import java.util.ArrayList;
 
@@ -14,6 +14,7 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+import de.hdm.partnerboerse.client.ClientSideSettings;
 import de.hdm.partnerboerse.client.editor.profil.FremdProfilView;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
@@ -68,7 +69,7 @@ public class ListViewSuchProfil extends VerticalPanel {
 				CreateSuchprofil spl = new CreateSuchprofil();
 
 				HTMLPanel createsuchprofilViewPanel = new HTMLPanel(
-						"<h3>" + "Hier können Sie ein Suchprofil erstellen!" + "</h3>");
+						"<h3>" + "Hier können sie ein Suchprofil erstellen!" + "</h3>");
 				createsuchprofilViewPanel.add(spl);
 
 				RootPanel.get("contwrap").clear();
@@ -174,7 +175,7 @@ public class ListViewSuchProfil extends VerticalPanel {
 	
 	private void addProfileToErgebniseTable(Profil p){
 
-		Button showProfileButton = new Button("Profil ansehen");
+		Button showProfileButton = new Button("Checkout Profile!");
 		
 		profilFlexTable.setText(row, 0, p.getVorname());
 		profilFlexTable.setText(row, 1, p.getNachname());

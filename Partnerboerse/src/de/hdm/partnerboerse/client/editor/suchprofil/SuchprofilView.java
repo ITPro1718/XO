@@ -1,4 +1,4 @@
-package de.hdm.partnerboerse.client;
+package de.hdm.partnerboerse.client.editor.suchprofil;
 
 import java.util.ArrayList;
 
@@ -15,6 +15,8 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+import de.hdm.partnerboerse.client.ClientSideSettings;
+import de.hdm.partnerboerse.client.editor.eigenschaften.LoadEigenschaften;
 import de.hdm.partnerboerse.client.editor.forms.CreateWidget;
 import de.hdm.partnerboerse.client.editor.forms.GuiUtils;
 import de.hdm.partnerboerse.client.editor.profil.FremdProfilView;
@@ -84,9 +86,9 @@ public class SuchprofilView extends VerticalPanel {
 		this.add(sProfilGrid);
 		
 		/**
-		 * Attribute von Suchprofil
+		 * Attribute vom Suchprofil
 		 */
-		// Spalte 1
+		// Zeile 1
 		sProfilGrid.setWidget(1, 1, cw.getAlterLabel());
 
 		sProfilGrid.setText(1, 2, Integer.toString(suchProfil.getAlter()));
@@ -94,14 +96,14 @@ public class SuchprofilView extends VerticalPanel {
 		sProfilGrid.setWidget(1, 3, cw.getHcolorLabel());
 		sProfilGrid.setText(1, 4, suchProfil.getHaarFarbe());
 
-		// Spalte 2
+		// Zeile 2
 		sProfilGrid.setWidget(2, 1, cw.getSpheightLabel());
 		sProfilGrid.setText(2, 2, String.valueOf(suchProfil.getKoerpergroesse()));
 
 		sProfilGrid.setWidget(2, 3, cw.getSmokerLabel());
 		sProfilGrid.setText(2, 4, GuiUtils.getJaNein(suchProfil.isRaucher()));
 
-		// Spalte 3
+		// Zeile 3
 		sProfilGrid.setWidget(3, 1, cw.getReligionLabel());
 		sProfilGrid.setText(3, 2, suchProfil.getReligion());
 		
@@ -160,7 +162,7 @@ public class SuchprofilView extends VerticalPanel {
 			ClientSideSettings.setSuchprofil(null);
 			ListViewSuchProfil lvsp = new ListViewSuchProfil();
 			HTMLPanel splistViewPanel = new HTMLPanel(
-					"<h3>" + "Hier können Sie ihre Suchprofile verwalten." + "</h3>");
+					"<h3>" + "Hier können Sie Ihre Suchprofil verwalten." + "</h3>");
 			splistViewPanel.add(lvsp);
 
 			RootPanel.get("contwrap").clear();
@@ -179,7 +181,7 @@ public class SuchprofilView extends VerticalPanel {
 
 		// Profile Edit - Panel wird erzeugt und eingefügt.
 		HTMLPanel editSuchprofilPanel = new HTMLPanel(
-				"<h3>" + "Hier können Sie ihre Profilinformationen bearbeiten." + "</h3>");
+				"<h3>" + "Hier können Sie ihre Suchprofilattribute bearbeiten." + "</h3>");
 
 		editSuchprofilPanel.add(editsp);
 
@@ -240,7 +242,7 @@ public class SuchprofilView extends VerticalPanel {
 	 */
 	private void addProfileToErgebniseTable(Profil p){
 
-		Button showProfileButton = new Button("Profil ansehen");
+		Button showProfileButton = new Button("Profil ansehen!");
 		
 		profilFlexTable.setText(row, 0, p.getVorname());
 		profilFlexTable.setText(row, 1, p.getNachname());

@@ -12,6 +12,14 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+import de.hdm.partnerboerse.client.editor.forms.Navigation;
+import de.hdm.partnerboerse.client.editor.profil.CreateEigenProfil;
+import de.hdm.partnerboerse.client.editor.profil.EditEigenProfil;
+import de.hdm.partnerboerse.client.editor.profil.EigenProfilView;
+import de.hdm.partnerboerse.client.editor.suchprofil.EditSuchprofil;
+import de.hdm.partnerboerse.client.login.LoginInfo;
+import de.hdm.partnerboerse.client.login.LoginService;
+import de.hdm.partnerboerse.client.login.LoginServiceAsync;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
 import de.hdm.partnerboerse.shared.bo.Profil;
@@ -36,7 +44,7 @@ public class Editor implements EntryPoint {
 
 	Navigation nav = new Navigation();
 	EigenProfilView epv = new EigenProfilView();
-	EditProfile ep = new EditProfile();
+	EditEigenProfil ep = new EditEigenProfil();
 	EditSuchprofil sp = new EditSuchprofil();
 
 	@Override

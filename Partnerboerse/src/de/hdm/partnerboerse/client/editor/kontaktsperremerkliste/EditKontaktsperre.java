@@ -1,4 +1,4 @@
-package de.hdm.partnerboerse.client;
+package de.hdm.partnerboerse.client.editor.kontaktsperremerkliste;
 
 import java.util.ArrayList;
 import com.google.gwt.core.client.GWT;
@@ -16,6 +16,7 @@ import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
 import de.hdm.partnerboerse.shared.bo.Kontaktsperre;
 import de.hdm.partnerboerse.shared.bo.Profil;
+import de.hdm.partnerboerse.client.ClientSideSettings;
 import de.hdm.partnerboerse.client.editor.forms.CreateWidget;
 
 
@@ -113,7 +114,7 @@ public void reload(){
 		
 		EditKontaktsperre ek = new EditKontaktsperre();
         
-        HTMLPanel ekPanel = new HTMLPanel("<h3>" + "Hier können Sie ihre Kontaktsperren editieren" + "</h3>");
+        HTMLPanel ekPanel = new HTMLPanel("<h3>" + "Hier können Sie ihre Kontaktsperre editieren" + "</h3>");
         ekPanel.add(ek);
         
         RootPanel.get("contwrap").clear();

@@ -1,4 +1,4 @@
-package de.hdm.partnerboerse.client;
+package de.hdm.partnerboerse.client.editor.forms;
 
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -6,8 +6,8 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
- * 
- * 
+ * <code> CreateWidget </code> erstellt die Attribute der Profile und der
+ * Suchprofile, sowie dessegn getter und setter Methoden;
  *
  */
 public class CreateWidget extends VerticalPanel {
@@ -50,6 +50,11 @@ public class CreateWidget extends VerticalPanel {
 	private ListBox sexListBox = new ListBox();
 	private ListBox searchForListBox = new ListBox();
 
+	/**
+	 * Label getter und setter
+	 * 
+	 */
+	// Attribut Vorname
 	public Label getVnameLabel() {
 		return vnameLabel;
 	}
@@ -57,6 +62,8 @@ public class CreateWidget extends VerticalPanel {
 	public void setVnameLabel(Label vnameLabel) {
 		this.vnameLabel = vnameLabel;
 	}
+
+	// Attribut Nachname
 
 	public Label getLnameLabel() {
 		return lnameLabel;
@@ -66,6 +73,8 @@ public class CreateWidget extends VerticalPanel {
 		this.lnameLabel = lnameLabel;
 	}
 
+	// Attribut Geburtstag
+
 	public Label getBdayLabel() {
 		return bdayLabel;
 	}
@@ -73,6 +82,8 @@ public class CreateWidget extends VerticalPanel {
 	public void setBdayLabel(Label bdayLabel) {
 		this.bdayLabel = bdayLabel;
 	}
+
+	// Attribut Haarfarbe
 
 	public Label getHcolorLabel() {
 		return hcolorLabel;
@@ -82,6 +93,8 @@ public class CreateWidget extends VerticalPanel {
 		this.hcolorLabel = hcolorLabel;
 	}
 
+	// Attribut Körpergröße
+
 	public Label getPHeightLabel() {
 		return pheightLabel;
 	}
@@ -89,6 +102,8 @@ public class CreateWidget extends VerticalPanel {
 	public void setPHeightLabel(Label heightLabel) {
 		this.pheightLabel = heightLabel;
 	}
+
+	// Attribut Raucher
 
 	public Label getSmokerLabel() {
 		return smokerLabel;
@@ -98,6 +113,8 @@ public class CreateWidget extends VerticalPanel {
 		this.smokerLabel = smokerLabel;
 	}
 
+	// Attribut Raucher
+
 	public Label getReligionLabel() {
 		return religionLabel;
 	}
@@ -105,6 +122,72 @@ public class CreateWidget extends VerticalPanel {
 	public void setReligionLabel(Label religionLabel) {
 		this.religionLabel = religionLabel;
 	}
+
+	// Attribut Titel
+	public Label getTitleLabel() {
+		return titleLabel;
+	}
+
+	public void setTitleLabel(Label titleLabel) {
+		this.titleLabel = titleLabel;
+	}
+
+	// Attribut Alter
+
+	public Label getAlterLabel() {
+		return alterLabel;
+	}
+
+	public void setAlterLabel(Label alterLabel) {
+		this.alterLabel = alterLabel;
+	}
+
+	// Attribut EMail
+
+	public Label getEmailLabel() {
+		return emailLabel;
+	}
+
+	public void setEmailLabel(Label emailLabel) {
+		this.emailLabel = emailLabel;
+	}
+
+	// Attribut Suchprofil Körpergröße
+
+	public Label getSpheightLabel() {
+		return spheightLabel;
+	}
+
+	public void setSpheightLabel(Label spheightLabel) {
+		this.spheightLabel = spheightLabel;
+	}
+
+	// Attribut Geschlecht
+
+	public Label getSexLabel() {
+		return sexLabel;
+	}
+
+	public void setSexLabel(Label sexLabel) {
+		this.sexLabel = sexLabel;
+	}
+
+	// Attribut Such Nach
+
+	public Label getSearchForLabel() {
+		return searchForLabel;
+	}
+
+	public void setSearchForLabel(Label searchForLabel) {
+		this.searchForLabel = searchForLabel;
+	}
+
+	/**
+	 * Textbox getter und setter
+	 * 
+	 */
+
+	// Attribut Vorname
 
 	public TextBox getVnameTextBox() {
 		return vnameTextBox;
@@ -114,6 +197,8 @@ public class CreateWidget extends VerticalPanel {
 		this.vnameTextBox = vnameTextBox;
 	}
 
+	// Attribut Nachname
+
 	public TextBox getLnameTextBox() {
 		return lnameTextBox;
 	}
@@ -122,6 +207,8 @@ public class CreateWidget extends VerticalPanel {
 		this.lnameTextBox = lnameTextBox;
 	}
 
+	// Attribut Geburtstag
+
 	public TextBox getBdayTextBox() {
 		return bdayTextBox;
 	}
@@ -129,6 +216,43 @@ public class CreateWidget extends VerticalPanel {
 	public void setBdayTextBox(TextBox bdayTextBox) {
 		this.bdayTextBox = bdayTextBox;
 	}
+
+	// Attribut Körpergröße
+
+	public TextBox getHeightTextBox() {
+		return pheightTextBox;
+	}
+
+	public void setHeightTextBox(TextBox heightTextBox) {
+		this.pheightTextBox = heightTextBox;
+	}
+
+	// Attribut Titel
+
+	public TextBox getTitleTextBox() {
+		return titleTextBox;
+	}
+
+	public void setTitleTextBox(TextBox titleTextBox) {
+		this.titleTextBox = titleTextBox;
+	}
+
+	// Attribut Alter
+
+	public TextBox getAlterTextBox() {
+		return alterTextBox;
+	}
+
+	public void setAlterTextBox(TextBox alterTextBox) {
+		this.alterTextBox = alterTextBox;
+	}
+
+	/**
+	 * ListBoxes der Attribut
+	 * 
+	 */
+
+	// Attribut Haarfarbe
 
 	public ListBox getHcolorListBox() {
 		return hcolorListBox;
@@ -140,17 +264,11 @@ public class CreateWidget extends VerticalPanel {
 		hcolorListBox.addItem("blond", "blond");
 		hcolorListBox.addItem("grau", "grau");
 		hcolorListBox.addItem("glatze", "glatze");
-		hcolorListBox.addItem("sonstige", "sonstige");
+		hcolorListBox.addItem("bunt", "bunt");
 		return hcolorListBox;
 	}
 
-	public TextBox getHeightTextBox() {
-		return pheightTextBox;
-	}
-
-	public void setHeightTextBox(TextBox heightTextBox) {
-		this.pheightTextBox = heightTextBox;
-	}
+	// Attribut Religion
 
 	public ListBox getReligionListBox() {
 		return religionListBox;
@@ -164,9 +282,11 @@ public class CreateWidget extends VerticalPanel {
 		religionListBox.addItem("buddhist", "buddhist");
 		religionListBox.addItem("hindu", "hindu");
 		religionListBox.addItem("atheist", "atheist");
-		religionListBox.addItem("andere", "andereRel+");
+		religionListBox.addItem("andere", "andere");
 		return religionListBox;
 	}
+
+	// Attribut Raucher
 
 	public ListBox getSmokerListBox() {
 		return smokerListBox;
@@ -178,46 +298,6 @@ public class CreateWidget extends VerticalPanel {
 		smokerListBox.addItem("Ja", "Ja");
 		smokerListBox.addItem("Nein", "Nein");
 		return smokerListBox;
-	}
-
-	public Label getTitleLabel() {
-		return titleLabel;
-	}
-
-	public void setTitleLabel(Label titleLabel) {
-		this.titleLabel = titleLabel;
-	}
-
-	public TextBox getTitleTextBox() {
-		return titleTextBox;
-	}
-
-	public void setTitleTextBox(TextBox titleTextBox) {
-		this.titleTextBox = titleTextBox;
-	}
-
-	public Label getAlterLabel() {
-		return alterLabel;
-	}
-
-	public void setAlterLabel(Label alterLabel) {
-		this.alterLabel = alterLabel;
-	}
-
-	public TextBox getAlterTextBox() {
-		return alterTextBox;
-	}
-
-	public void setAlterTextBox(TextBox alterTextBox) {
-		this.alterTextBox = alterTextBox;
-	}
-
-	public Label getEmailLabel() {
-		return emailLabel;
-	}
-
-	public void setEmailLabel(Label emailLabel) {
-		this.emailLabel = emailLabel;
 	}
 
 	public ListBox getAlterListBox() {
@@ -247,30 +327,6 @@ public class CreateWidget extends VerticalPanel {
 		heightListBox.addItem("200", "200");
 
 		return heightListBox;
-	}
-
-	public Label getSpheightLabel() {
-		return spheightLabel;
-	}
-
-	public void setSpheightLabel(Label spheightLabel) {
-		this.spheightLabel = spheightLabel;
-	}
-
-	public Label getSexLabel() {
-		return sexLabel;
-	}
-
-	public void setSexLabel(Label sexLabel) {
-		this.sexLabel = sexLabel;
-	}
-
-	public Label getSearchForLabel() {
-		return searchForLabel;
-	}
-
-	public void setSearchForLabel(Label searchForLabel) {
-		this.searchForLabel = searchForLabel;
 	}
 
 	public ListBox getSexListBox() {

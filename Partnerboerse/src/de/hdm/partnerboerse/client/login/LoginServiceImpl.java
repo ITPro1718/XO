@@ -1,4 +1,4 @@
-package de.hdm.partnerboerse.client;
+package de.hdm.partnerboerse.client.login;
 
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
