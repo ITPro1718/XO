@@ -9,6 +9,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import de.hdm.partnerboerse.server.PartnerboerseAdministrationImpl;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
 import de.hdm.partnerboerse.shared.ReportGeneratorService;
+import de.hdm.partnerboerse.shared.bo.Eigenschaft;
 import de.hdm.partnerboerse.shared.bo.Info;
 import de.hdm.partnerboerse.shared.bo.Profil;
 import de.hdm.partnerboerse.shared.bo.Suchprofil;
@@ -149,6 +150,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		CompositeParagraph infos = new CompositeParagraph();
 		
 		ArrayList<Info> infosOfProfile = administration.findInfoOf(p);
+		ArrayList<Eigenschaft> eigenschaften = administration.getAllEigenschaften();
 		
 		if (infosOfProfile.size() > 0){
 			erlaeuterungen.addSubParagraph(new SimpleParagraph("<br>"));
@@ -157,11 +159,14 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 			infos.addSubParagraph(new SimpleParagraph("<br>"));
 		}
 		
-		for (Info i : infosOfProfile){
-			erlaeuterungen.addSubParagraph(new SimpleParagraph(administration.getEigenschaftByID(i.getEigenschaftId()).getErlaeuterung()));
-			infos.addSubParagraph(new SimpleParagraph(i.getText()));
-		}
-		
+		for (Eigenschaft e : eigenschaften){
+			for (Info i : infosOfProfile){
+				if (e.getId() == i.getEigenschaftId()){
+					erlaeuterungen.addSubParagraph(new SimpleParagraph(e.getErlaeuterung()));
+					infos.addSubParagraph(new SimpleParagraph(i.getText()));
+				}
+			}
+		}		
 		
 		result.setErlaeuterungen(erlaeuterungen);
 		result.setInfo(infos);
