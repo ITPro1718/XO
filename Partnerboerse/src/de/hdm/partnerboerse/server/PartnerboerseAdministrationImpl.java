@@ -570,6 +570,9 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 			float p5 = 0;
 			float p6 = 0;
 			float summe = o1 + o2 + o3 + o4 + o5 + o6;
+			/**
+			 * Multiplikationsfaktor zur Berechnung des prozentualen Anteils an der Summe.
+			 */
 			float x = (float) 100 / summe;
 
 			if (p.getHaarfarbe().equals(profil.getHaarfarbe())) {
@@ -593,36 +596,22 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 			}	
 			if(compareInfos(profil, p) == 0){
 				p5 = o5;
-	
 			}
 			if(compareStrings(profilInfoHasFreitext(profil), profilInfoHasFreitext(p)) == 0){
 				p6 = o6;  
-
 			}
 			if (compareInfos(profil, p) >= 1) {
 				o5 = o5 * compareInfos(profil, p);
 				p5 = o5;
-		
 			}
-			if (compareInfos(profil, p) < 0) {
-				
-				o5 = 0.5f * (o5 * (-1*(compareInfos(profil, p))));
-				p5 = 0.5f * (-1*(o5));	
-		
-			}
+			
 			if (compareStrings(profilInfoHasFreitext(profil), profilInfoHasFreitext(p)) >=1) {
 				o6 = o6 * compareStrings(profilInfoHasFreitext(profil), profilInfoHasFreitext(p));
 				p6 = o6;	
-	
 			}
-			if (compareStrings(profilInfoHasFreitext(profil), profilInfoHasFreitext(p)) < 0) {
-				
-				o6 = 0.5f * (o6 * (-1*(compareStrings(profilInfoHasFreitext(profil), profilInfoHasFreitext(p)))));
-				p6 = 0.5f * (-1*(o6));	
-
-			}
+			
 			/**
-			 * Berechnung der Aehnlichkeit, durch Addieren der prozentualen Anteile der abgeglichenen Attribute/Objekte.
+			 * Berechnung der Ähnlichkeit, durch Addieren der prozentualen Anteile der abgeglichenen Attribute/Objekte.
 			 * Falls die Ähnlichkeit über 100% oder unter 0% beträgt wird diese auf 100% bzw. 0% limitiert.
 			 */
 			int aehnlichkeit = (int) (((p1 * x) + (p2 * x) + (p3 * x) + (p4 * x) + (p5 * x) + (p6 * x)) + 0.5);
