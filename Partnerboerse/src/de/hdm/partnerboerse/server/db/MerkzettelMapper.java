@@ -9,6 +9,12 @@ import java.util.ArrayList;
 import de.hdm.partnerboerse.shared.bo.Merkzettel;
 import de.hdm.partnerboerse.shared.bo.Profil;
 
+/**
+ * Mapper-Klasse, die Merkzettel-Objekte in die Datenbank schreibt, bzw. Daten aus der Datenbank holt
+ * und in Objekten speichert. Diese Klasse enthält die typischen CRUD-Methoden
+ * 
+ * 
+ */
 public class MerkzettelMapper {
 
 	/**
@@ -67,7 +73,7 @@ public class MerkzettelMapper {
 	 * Löscht einen MerkzettelEintrag in der DB
 	 * 
 	 * @param merkzettel
-	 * @return
+	 * 
 	 */
 	public void deleteMerkzettelEintrag(Merkzettel merkzettel) {
 		Connection con = DBConnection.getConnection();
@@ -85,7 +91,7 @@ public class MerkzettelMapper {
 	 * Gibt eine Merkzettel zurück per ID (Primärschlüssel)
 	 * 
 	 * @param id
-	 * @return
+	 * @return Merkzettel
 	 */
 	public Merkzettel findByKey(int id) {
 		Connection con = DBConnection.getConnection();
@@ -112,7 +118,7 @@ public class MerkzettelMapper {
 	/**
 	 * Gibt alle Merkzettel-Einträge zurück
 	 * 
-	 * @return
+	 * @return ArrayList<Merkzettel>
 	 */
 	public ArrayList<Merkzettel> findAll() {
 		ArrayList<Merkzettel> result = new ArrayList<>();
@@ -140,6 +146,12 @@ public class MerkzettelMapper {
 
 	}
 
+	/**
+	 * Gibt alle Merkzettel-Einträge eines Profils zurück.
+	 * 
+	 * @param profilowner
+	 * @return ArrayList<Merkzettel>
+	 */
 	public ArrayList<Merkzettel> findMerkzettelnOf(Profil profilowner) {
 		ArrayList<Merkzettel> result = new ArrayList<>();
 

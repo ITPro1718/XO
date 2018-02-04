@@ -9,6 +9,12 @@ import java.util.ArrayList;
 import de.hdm.partnerboerse.shared.bo.Kontaktsperre;
 import de.hdm.partnerboerse.shared.bo.Profil;
 
+/**
+ * Mapper-Klasse, die Kontaktsperren-Objekte in die Datenbank schreibt, bzw. Daten aus der Datenbank holt
+ * und in Objekten speichert. Diese Klasse enthält die typischen CRUD-Methoden
+ * 
+ * 
+ */
 public class KontaktsperreMapper {
 
 	/**
@@ -68,7 +74,7 @@ public class KontaktsperreMapper {
 	 * Löscht einen KontaktsperrenEintrag in der DB
 	 * 
 	 * @param kontaktsperre
-	 * @return
+	 * 
 	 */
 	public void deleteKontaktsperreEintrag(Kontaktsperre kontaktsperre) {
 		Connection con = DBConnection.getConnection();
@@ -87,7 +93,7 @@ public class KontaktsperreMapper {
 	 * Gibt eine Kontaktsperre zurück per ID (Primärschlüssel)
 	 * 
 	 * @param id
-	 * @return
+	 * @return Kontaktsperre
 	 */
 	public Kontaktsperre findByKey(int id) {
 		Connection con = DBConnection.getConnection();
@@ -114,7 +120,7 @@ public class KontaktsperreMapper {
 	/**
 	 * Gibt alle Kontaktsperren-Einträge zurück
 	 * 
-	 * @return
+	 * @return ArrayList<Kontaktsperre>
 	 */
 	public ArrayList<Kontaktsperre> findAll() {
 		ArrayList<Kontaktsperre> result = new ArrayList<>();
@@ -143,6 +149,12 @@ public class KontaktsperreMapper {
 
 	}
 
+	/**
+	 * Gibt alle Kontaktsperren-Einträge eines Profils zurück.
+	 * 
+	 * @param profilowner
+	 * @return ArrayList<Kontaktsperre>
+	 */
 	public ArrayList<Kontaktsperre> findKontaktsperrenOf(Profil profilowner) {
 		ArrayList<Kontaktsperre> result = new ArrayList<>();
 

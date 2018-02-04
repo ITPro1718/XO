@@ -11,6 +11,13 @@ import de.hdm.partnerboerse.server.ServerSideSettings;
 import de.hdm.partnerboerse.shared.bo.Profil;
 import de.hdm.partnerboerse.shared.bo.Suchprofil;
 
+
+/**
+ * Mapper-Klasse, die Suchprofil Objekte in die Datenbank schreibt, bzw. Daten aus der Datenbank holt
+ * und in Objekten speichert. Diese Klasse enthält die typischen CRUD-Methoden
+ * 
+ * 
+ */
 public class SuchprofilMapper {
   
   Logger logger = ServerSideSettings.getLogger();
@@ -40,7 +47,14 @@ public class SuchprofilMapper {
 
 		return suchprofilMapper;
 	}
-
+	
+	/**
+	 * 
+	 * Suchprofil wird übergeben und in die Datenbank eingefügt.
+	 * 
+	 * @param suchprofil
+	 * @return Suchprofil
+	 */
 	public Suchprofil insertSuchprofil(Suchprofil suchprofil) {
 
 	    Connection con = DBConnection.getConnection();
@@ -98,7 +112,11 @@ public class SuchprofilMapper {
 		}
 
 	}
-
+	
+	/**
+	 * Suchprofil wird übergeben und in der DB gelöscht.
+	 * @param suchprofil
+	 */
 	public void deleteSuchprofil(Suchprofil suchprofil) {
 		Connection con = DBConnection.getConnection();
 
@@ -110,7 +128,13 @@ public class SuchprofilMapper {
 			e.printStackTrace();
 		}
 	}
-
+	
+	/**
+	 * Gibt ein Suchprofil anhand der ID zurück.
+	 * 
+	 * @param id
+	 * @return Suchprofil
+	 */
 	public Suchprofil findByKey(int id) {
 		Connection con = DBConnection.getConnection();
 
@@ -138,6 +162,12 @@ public class SuchprofilMapper {
 		return null;
 	}
 
+	/**
+	 * Gibt ein Suchprofil anhand des Titels zurück.
+	 * 
+	 * @param title
+	 * @return Suchprofil
+	 */
 	public Suchprofil findSuchprofilByTitle(String title) {
 		Connection con = DBConnection.getConnection();
 
@@ -165,7 +195,13 @@ public class SuchprofilMapper {
 		return null;
 
 	}
-
+	
+	/**
+	 * Gibt alle Suchprofile zurück.
+	 * 
+	 * 
+	 * @return ArrayList<Suchprofil>
+	 */
 	public ArrayList<Suchprofil> findAll() {
 		ArrayList<Suchprofil> result = new ArrayList<>();
 
@@ -197,6 +233,12 @@ public class SuchprofilMapper {
 
 	}
 
+	/**
+	 * Gibt alle Suchprofile eines Profils zurück.
+	 * 
+	 * @param profilowner
+	 * @return ArrayList<Suchprofil>
+	 */
 	public ArrayList<Suchprofil> findSuchprofileOf(Profil profilowner) {
 		ArrayList<Suchprofil> result = new ArrayList<>();
 
@@ -227,6 +269,12 @@ public class SuchprofilMapper {
 		return result;
 	}
 
+	/**
+	 * Gibt ein Suchprofil aus der DB zurück.
+	 * 
+	 * @param suchprofil
+	 * @return Suchprofil
+	 */
 	public Suchprofil getSuchprofil(Suchprofil suchprofil) {
 		Connection con = DBConnection.getConnection();
 

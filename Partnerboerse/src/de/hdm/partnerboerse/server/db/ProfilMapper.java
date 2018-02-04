@@ -12,9 +12,9 @@ import de.hdm.partnerboerse.shared.bo.Profil;
 
 /**
  * Mapper-Klasse, die Profil Objekte in die Datenbank schreibt, bzw. Daten aus der Datenbank holt
- * und in Objekten speichert. Diese Klasse enth�lt die typischen CRUD-Methoden
+ * und in Objekten speichert. Diese Klasse enthält die typischen CRUD-Methoden
  * 
- * @author Burghardt, Mikulic, Gundermann
+ * 
  */
 
 public class ProfilMapper {
@@ -50,34 +50,24 @@ public class ProfilMapper {
    * Suchen eines Profils anhand seiner ID
    * 
    * @param id Primärschlüssel
-   * @return Konto-Objekt, das in der DB gefunden wurde
+   * @return Profil-Objekt, das in der DB gefunden wurde
    */
   public Profil findProfilByKey(int id) {
-    // DB-Verbindung holen
     Connection con = DBConnection.getConnection();
 
     try {
-
-      // PreparedStatement anlegen, welches den SQL Befehl enthült
       PreparedStatement stmt = con.prepareStatement("SELECT * FROM profil WHERE id =?");
 
-      // Platzhalter (Fragezeichen) mit Werten befüllen
       stmt.setInt(1, id);
-
-      // Query ausführen und Rückgabe dem ResultSet rs zuweisen
       ResultSet rs = stmt.executeQuery();
 
-      /*
-       * Tupel aus der Datenbank abfangen
-       */
       if (rs.next()) {
-        // Ergebnis-Tupel in Objekt umwandeln und durch Setter befüllen.
+ 
         Profil p = new Profil();
         p.setId(rs.getInt("id"));
         p.setVorname(rs.getString("vorname"));
         p.setNachname(rs.getString("nachname"));
         p.setEmail(rs.getString("email"));
-        // TODO: Datum von java.sql.date in java.util date umwandeln
         p.setGeburtsdatum(rs.getDate("geburtstag"));
         p.setRaucher(rs.getBoolean("raucher"));
         p.setHaarfarbe(rs.getString("haarfarbe"));
@@ -88,7 +78,7 @@ public class ProfilMapper {
         return p;
       }
     }
-    // Exception abfangen
+
     catch (SQLException e2) {
       e2.printStackTrace();
       return null;
@@ -96,26 +86,28 @@ public class ProfilMapper {
 
     return null;
   }
-
+  
+  /**
+   * Suchen eines Profils anhand seiner email
+   * 
+   * @param email
+   * @return Profil-Objekt, das in der DB gefunden wurde
+   */
   public Profil findProfilByEmail(String email) {
-    // DB-Verbindung holen
+   
     Connection con = DBConnection.getConnection();
     Profil p = new Profil();
 
-    // PreparedStatement anlegen, welches den SQL Befehl enthült
     try (PreparedStatement stmt = con.prepareStatement("SELECT * FROM profil WHERE email = ?")) {
 
-      // Platzhalter (Fragezeichen) mit Werten befüllen
       stmt.setString(1, email);
 
-      // Für jeden Eintrag im Suchergebnis wird nun ein Profil-Objekt
-      // erstellt.
       setProfilInArray(p, stmt);
 
       return p;
 
     }
-    // Exception abfangen
+
     catch (SQLException e) {
       e.printStackTrace();
     }
@@ -123,15 +115,13 @@ public class ProfilMapper {
   }
 
   /**
-   * Auslesen aller Konten.
+   * Auslesen aller Profile.
    * 
-   * @return Ein Vektor mit Account-Objekten, die sämtliche Konten repräsentieren. Bei evtl.
-   *         Exceptions wird ein partiell gefüllter oder ggf. auch leerer Vetor zurückgeliefert.
+   * @return ArrayList<Profil> Alle Profilobjekte
    */
   public ArrayList<Profil> findAllProfiles() {
     Connection con = DBConnection.getConnection();
 
-    // Ergebnis ArrayList vorbereiten
     ArrayList<Profil> result = new ArrayList<Profil>();
 
     try {
@@ -139,8 +129,6 @@ public class ProfilMapper {
 
       ResultSet rs = stmt.executeQuery();
 
-      // Für jeden Eintrag im Suchergebnis wird nun ein Account-Objekt
-      // erstellt.
       while (rs.next()) {
         Profil p = new Profil();
         p.setId(rs.getInt("id"));
@@ -155,17 +143,21 @@ public class ProfilMapper {
         p.setGeschlecht(rs.getString("geschlecht"));
         p.setSucheNach(rs.getString("suche_nach"));
 
-        // Hinzufügen des neuen Objekts zum Ergebnisarraylist
         result.add(p);
       }
     } catch (SQLException e2) {
       e2.printStackTrace();
     }
 
-    // Ergebnisvektor zurückgeben
     return result;
   }
-
+  
+  /**
+   * Auslesen von Profilen nach Name
+   * 
+   * @param name
+   * @return ArrayList<Profil> 
+   */
   public ArrayList<Profil> findProfileByName(String name) {
     Connection con = DBConnection.getConnection();
     ArrayList<Profil> result = new ArrayList<Profil>();
@@ -176,8 +168,6 @@ public class ProfilMapper {
 
       ResultSet rs = stmt.executeQuery();
 
-      // Für jeden Eintrag im Suchergebnis wird nun ein Customer-Objekt
-      // erstellt.
       while (rs.next()) {
         while (rs.next()) {
           Profil p = new Profil();
@@ -193,7 +183,6 @@ public class ProfilMapper {
           p.setGeschlecht(rs.getString("geschlecht"));
           p.setSucheNach(rs.getString("suche_nach"));
 
-          // Hinzufügen des neuen Objekts zum Ergebnisvektor
           result.add(p);
         }
       }
@@ -201,12 +190,14 @@ public class ProfilMapper {
       e.printStackTrace();
     }
 
-    // Ergebnisvektor zurückgeben
     return result;
   }
 
   /**
    * Lädt alle Profile aus der DB, die zu einer Merkliste gehören
+   * 
+   * @param eigenProfil
+   * @return ArrayList<Profil>
    */
   public ArrayList<Profil> findProfileForMerkliste(Profil eigenProfil) {
     Connection con = DBConnection.getConnection();
@@ -230,8 +221,11 @@ public class ProfilMapper {
     return results;
   }
 
-  /*
+  /**
    * Lädt alle Profile aus der DB, die zu einer Kontaktsperre gehören
+   * 
+   * @param eigenProfil
+   * @return ArrayList<Profil>
    */
   public ArrayList<Profil> findProfileForKontaktsperre(Profil eigenProfil) {
 
@@ -255,14 +249,12 @@ public class ProfilMapper {
 
   /**
    * @param p
-   * @param stmt Methode ordnet eine Menge von Profilen in ein ArrayList zu
+   * @param stmt Methode ordnet ein Profil in eine ArrayList zu.
    */
   private void setProfilInArray(Profil p, PreparedStatement stmt) {
 
     try (ResultSet rs = stmt.executeQuery();) {
 
-      // Für jeden Eintrag im Suchergebnis wird nun ein Account-Objekt
-      // erstellt.
       while (rs.next()) {
         p.setId(rs.getInt("id"));
         p.setVorname(rs.getString("vorname"));
@@ -293,8 +285,7 @@ public class ProfilMapper {
 
     try (ResultSet rs = stmt.executeQuery();) {
 
-      // Für jeden Eintrag im Suchergebnis wird nun ein Account-Objekt
-      // erstellt.
+    
       while (rs.next()) {
         Profil p = new Profil();
         p.setId(rs.getInt("id"));
@@ -309,7 +300,6 @@ public class ProfilMapper {
         p.setGeschlecht(rs.getString("geschlecht"));
         p.setSucheNach(rs.getString("suche_nach"));
 
-        // Hinzufügen des neuen Objekts zum Ergebnisarraylist
         results.add(p);
       }
 
@@ -322,7 +312,7 @@ public class ProfilMapper {
    * Einfügen eines Profils in die Datenbank
    * 
    * @param p das zu speichernde Profil-Objekt
-   * 
+   * @return Profil
    */
   public Profil insert(Profil p) {
     
@@ -362,10 +352,11 @@ public class ProfilMapper {
 
   }
 
-  /** !!!!!!!!Update Befehl mit email als unique suchId ausbessern
+  /**
    * Updaten eines Objektes aus der Datenbank
    * 
    * @param p das Profil-Objekt, das in die DB geschrieben werden soll
+   * @return Profil
    */
   public Profil update(Profil p) {
     Connection con = DBConnection.getConnection();
@@ -409,13 +400,10 @@ public class ProfilMapper {
   public void delete(Profil p) {
     Connection con = DBConnection.getConnection();
 
-    // PreparedStatement inkl SQL Befehl erstellen
     try (PreparedStatement stmt = con.prepareStatement("DELETE FROM profil WHERE id = ?")) {
 
-      // Platzhalter mit ID aus dem Objekt befüllen
       stmt.setInt(1, p.getId());
 
-      // Statement ausführen
       stmt.executeUpdate();
 
     } catch (SQLException e) {
