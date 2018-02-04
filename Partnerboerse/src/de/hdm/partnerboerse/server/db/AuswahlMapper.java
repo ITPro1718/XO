@@ -15,8 +15,6 @@ import de.hdm.partnerboerse.shared.bo.Eigenschaft;;
  * relationale Datenbank. Das Mapping ist bidirektional, Objekte werden auf
  * DB-Strukturen abgebildet und DB-Strukturen auf Java-Objekte.
  *
- * @author Mikulic
- *
  */
 public class AuswahlMapper {
 
@@ -52,7 +50,7 @@ public class AuswahlMapper {
 	 * 
 	 * @param auswahl
 	 *            Die speichernde {@link Auswahl}
-	 * @return TODO
+	 * @return Auswahl
 	 */
 	public Auswahl insertAuswahl(Auswahl auswahl) {
 		Connection con = DBConnection.getConnection();
@@ -60,16 +58,13 @@ public class AuswahlMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			// Es wird der momentan höchste Wert des Primearschluessels
-			// ausgelesen
 			ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid " + "FROM auswahl");
 
 			if (rs.next()) {
-				// a bekommt den neuen höchsten Primaerschluesselwert
+
 				auswahl.setId(rs.getInt("maxid") + 1);
 				stmt = con.createStatement();
 
-				// Das ist die eigentliche Einfüg-Funktion
 				stmt.executeUpdate("INSERT INTO auswahl(id, titel, auswahlFor) VALUES (" + auswahl.getId() + ", '"
 						+ auswahl.getTitel() + "','" + auswahl.getEigenschaftId() + "')");
 				return auswahl;
@@ -81,10 +76,10 @@ public class AuswahlMapper {
 	}
 
 	/**
-	 * aendert/Updatet ein Auswahlobjekt
+	 * Ändert/Updatet ein Auswahlobjekt
 	 * 
-	 * @param auswahl
-	 *            Die zu aktualisierende Auswahl
+	 * @param auswahl Die zu aktualisierende Auswahl
+	 *            
 	 */
 	public void updateAuswahl(Auswahl auswahl) {
 		Connection con = DBConnection.getConnection();
@@ -102,7 +97,7 @@ public class AuswahlMapper {
 	 * Loescht eine Auswahl aus der Datenbank
 	 * 
 	 * @param auswahl
-	 *            Die zu loeschende Auswahl.
+	 *            Die zu löschende Auswahl.
 	 */
 	public void deleteAuswahl(Auswahl auswahl) {
 		Connection con = DBConnection.getConnection();
@@ -176,7 +171,7 @@ public class AuswahlMapper {
 	 * Gibt eine Auswahl aus einer Eigenschaft aus
 	 * 
 	 * @param eigenschaft
-	 * @return
+	 * @return Auswahl
 	 */
 	public Auswahl findAuswahlOf(Eigenschaft eigenschaft) {
 		Connection con = DBConnection.getConnection();
@@ -200,6 +195,12 @@ public class AuswahlMapper {
 		return null;
 	}
 
+	/**
+	 * Gibt eine Auswahl nach einem Titel zurück.
+	 * 
+	 * @param auswahl
+	 * @return Auswahl
+	 */
 	public Auswahl findAuswahlByTitle(Auswahl auswahl) {
 		Connection con = DBConnection.getConnection();
 

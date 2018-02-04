@@ -14,7 +14,6 @@ import de.hdm.partnerboerse.shared.bo.Profil;
  * relationale Datenbank. Das Mapping ist bidirektional, Objekte werden auf
  * DB-Strukturen abgebildet und DB-Strukturen auf Java-Objekte.
  *
- * @author Mikulic
  *
  */
 public class BesuchMapper {
@@ -77,7 +76,7 @@ public class BesuchMapper {
 	/**
 	 * Gibt alle Besuch Eintraege zurueck
 	 * 
-	 * @return
+	 * @return ArrayList<Besuch>
 	 */
 	public ArrayList<Besuch> findAll() {
 		Connection con = DBConnection.getConnection();
@@ -134,7 +133,7 @@ public class BesuchMapper {
 	/**
 	 * Speichert einen Profilbesuch in der Datenbank
 	 * 
-	 * @param b
+	 * @param besuch
 	 */
 	public void insertBesuch(Besuch besuch) {
 		Connection con = DBConnection.getConnection();
@@ -142,8 +141,6 @@ public class BesuchMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			// Es wird der momentatn Höchste Wert des Primärschluessels
-			// ausgelesen
 			ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid " + "FROM visit");
 
 			if (rs.next()) {
@@ -160,7 +157,12 @@ public class BesuchMapper {
 		}
 
 	}
-
+	
+	/**
+	 * Löscht ein Besuch-Objekt aus der Datenbank
+	 * 
+	 * @param besuch
+	 */
 	public void deleteBesuch(Besuch besuch) {
 		Connection con = DBConnection.getConnection();
 

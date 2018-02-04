@@ -604,17 +604,7 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 				o5 = o5 * compareInfos(profil, p);
 				p5 = o5;
 			}
-			
-			if (compareInfos(profil, p) < 0) {		
-		 				o5 = 0.5f * (o5 * (-1*(compareInfos(profil, p))));
-		 				p5 = 0.5f * (-1*(o5));	
-			}
-			
-			if (compareStrings(profilInfoHasFreitext(profil), profilInfoHasFreitext(p)) < 0) {			
-							o6 = 0.5f * (o6 * (-1*(compareStrings(profilInfoHasFreitext(profil), profilInfoHasFreitext(p)))));
-							p6 = 0.5f * (-1*(o6));	
-			}
-			
+	
 			if (compareStrings(profilInfoHasFreitext(profil), profilInfoHasFreitext(p)) >=1) {
 				o6 = o6 * compareStrings(profilInfoHasFreitext(profil), profilInfoHasFreitext(p));
 				p6 = o6;	
