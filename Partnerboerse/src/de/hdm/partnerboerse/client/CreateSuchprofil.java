@@ -1,7 +1,5 @@
 package de.hdm.partnerboerse.client;
 
-import java.util.ArrayList;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -9,23 +7,19 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
-
 import de.hdm.partnerboerse.shared.PartnerboerseAdministration;
 import de.hdm.partnerboerse.shared.PartnerboerseAdministrationAsync;
-import de.hdm.partnerboerse.shared.bo.Auswahl;
-import de.hdm.partnerboerse.shared.bo.Eigenschaft;
-import de.hdm.partnerboerse.shared.bo.Info;
 import de.hdm.partnerboerse.shared.bo.Profil;
 import de.hdm.partnerboerse.shared.bo.Suchprofil;
-import de.hdm.partnerboerse.client.CreateWidget;
 
+/**
+ * Klasse erstell die View zur Erstellung eines Suchprofiles.
+ * @author Simon, Siam, Evelin 
+ *
+ */
 public class CreateSuchprofil extends VerticalPanel {
 
 	private final PartnerboerseAdministrationAsync partnerAdmin = GWT.create(PartnerboerseAdministration.class);
@@ -83,7 +77,6 @@ public class CreateSuchprofil extends VerticalPanel {
 		 *  Es wird vorab geprüft ob die Speicherung erfolgreich war, 
 		 *  Danach wird das Sucprofil ausgegeben (Wenn die Speicherung erfolgreich war).
 		 */
-		
 		safeButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -91,12 +84,30 @@ public class CreateSuchprofil extends VerticalPanel {
 				createSuchprofilCallback();
 			}
 
+			/**
+			 * Erstellt ein Callback um ein SuchProfil in die DB abzuspeichern.
+			 * Bei erfolg des Callbacks wird eine EigenschaftView erstellt und das Suchprofil
+			 * übergeben, 
+			 */
 			private void createSuchprofilCallback() {
 
+			    /**
+			     * Profil wird aus ClientSideSettings geholt
+			     */
 				Profil source = ClientSideSettings.getProfil();
+				/**
+				 * Suchprofil aus dem Formular wird in Variable search abgespeichert.
+				 */
 				Suchprofil search = getSuchprofilWerte();
 				ClientValidation cv = new ClientValidation();
+				/**
+				 * Prüft, ob die Werte im SuchProfil valide sind.
+				 */
 				if(cv.isSuchprofilValid(search)) {
+				    /**
+				     * Suchprofil wird in der DB erstellt und referenziert auf die die ID des
+				     * Eigenprofils
+				     */
     				partnerAdmin.createSuchprofil(source, search.getTitle(), search.getHaarFarbe(),
     						(float) search.getKoerpergroesse(), search.isRaucher(), search.getReligion(), search.getAlter(),
     						new AsyncCallback<Suchprofil>() {
@@ -107,6 +118,11 @@ public class CreateSuchprofil extends VerticalPanel {
     
     							}
     
+    							/**
+    							 * Bei erfolgreicher Speicherung des Suchprofils in die DB, wird eine
+    							 * EigenschaftView erstellt und das Suchprofil wird dort dem User
+    							 * angezeigt.
+    							 */
     							@Override
     							public void onSuccess(Suchprofil result) {
     								
@@ -122,7 +138,11 @@ public class CreateSuchprofil extends VerticalPanel {
     							}
     
     						});
-				} else {
+				} 
+				/**
+				 * Wenn die Validierung Fehlschlägt, wird die  Methode abgebrochen.
+				 */
+				else {
 				  return;
 				}
 
@@ -133,10 +153,9 @@ public class CreateSuchprofil extends VerticalPanel {
 	}
 	
 	/**
-	 *  Falls das Suchprofil nicht neu ist und bereits existiert, 
-	 *  werden die vorabdefinierten Werte für den User geladen.
+	 *  Werte aus dem Suchprofilformular werden gelesen und 
+	 *  in ein Suchprofil gespeichert.
 	 */
-
 	private Suchprofil getSuchprofilWerte() {
 
 		Suchprofil s = new Suchprofil();

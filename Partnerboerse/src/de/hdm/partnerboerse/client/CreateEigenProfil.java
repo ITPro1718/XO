@@ -104,12 +104,26 @@ public class CreateEigenProfil extends VerticalPanel {
 
 			}
 
+			/**
+			 * Methode erstellt ein Userprofil in der DB, ruft die EigenschaftsView und
+			 * übergibt das Profil in die EigenprofilView, um es in ein Grid für den User 
+			 * anzuzeigen.
+			 */
 			private void createProfileOnServer() {
 
+			    /*
+			     * Werte aus dem Formular werden in ein Profil gespeichert.
+			     */
 				Profil setProfil = getProfileValuesFromFormular();
 				ClientValidation cv = new ClientValidation();
 
+				/**
+				 * Methode prüft, ob ein das Profil valide ist.
+				 */
 				if (cv.isProfilValid(setProfil)) {
+				    /**
+				     * Callback um ein neues Profil in der DB anzulegen.
+				     */
 					partnerAdmin.createProfil(setProfil, new AsyncCallback<Profil>() {
 
 						/**
@@ -120,22 +134,38 @@ public class CreateEigenProfil extends VerticalPanel {
 							Window.alert("Es ist ein Fehler aufgetreten! Ihr Profil wurde nicht gespeichert.");
 						}
 
+						/**
+						 * Erstellt die EigenschaftsView und übergibt das Profil der Klasse. 
+						 */
 						@Override
 						public void onSuccess(Profil result) {
+						    /**
+						     * Speichert das Profil global in der ClientSideSettings ab.
+						     */
 							ClientSideSettings.setProfil(result);
 							EigenschaftsView ev = new EigenschaftsView();
+							/**
+							 * Übergibt das Profil der EigenschaftView zur Nutzung.
+							 */
 							ev.egFor(result);
 
 							HTMLPanel evPanel = new HTMLPanel("<h1> Hallo " + result.getVorname() + ", hilf uns dabei, dich näher kennen zu lernen.</h1><br>"
 											+ "<h3>Diese Angaben sind freiwillig, helfen dir jedoch dabei, den richtigen Partner zu finden!</h3>");
 							evPanel.add(ev);
 
+							/**
+							 * Rootpanel wird geleert und eine EIgenschaftView wird hinzugefügt.
+							 */
 							RootPanel.get("contwrap").clear();
 							RootPanel.get("contwrap").add(evPanel);
 
 						}
 					});
-				} else {
+				}
+				/**
+				 * Wenn die Validerung fehlschlägt, dann wird die Methode abgebrochen.
+				 */
+				else {
 					return;
 				}
 			}
@@ -145,7 +175,8 @@ public class CreateEigenProfil extends VerticalPanel {
 
 	/**
 	 * Werte aus den geänderten Formularen wird ausgelesen und in ein Profil
-	 * gespeichert und zurück gegeben
+	 * gespeichert und zurück gegeben.
+	 * @return gibt das Profil mit den Formularinformationen zurück.
 	 **/
 	private Profil getProfileValuesFromFormular() {
 
@@ -182,6 +213,9 @@ public class CreateEigenProfil extends VerticalPanel {
 			return setProfil;
 		}
 
+		/**
+		 * Werte aus der Formularfeldern werden in ein Profil zugeordnet.
+		 */
 		setProfil.setVorname(cw.getVnameTextBox().getValue());
 		setProfil.setNachname(cw.getLnameTextBox().getValue());
 		setProfil.setGeburtsdatum(date);
@@ -212,10 +246,18 @@ public class CreateEigenProfil extends VerticalPanel {
 
 	}
 
+	/**
+	 * Methode gibt die LoginInformation zurück.
+	 * @return
+	 */
 	public LoginInfo getLoginInfo() {
 		return loginInfo;
 	}
 
+	/**
+	 * LoginInformation kann geändert werden.
+	 * @param loginInfo
+	 */
 	public void setLoginInfo(LoginInfo loginInfo) {
 		this.loginInfo = loginInfo;
 	}

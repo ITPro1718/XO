@@ -9,13 +9,11 @@ public class ClientValidation {
 
   /**
    * Name Pattern Definition
-   * https://stackoverflow.com/questions/2385701/regular-expression-for-first-and-last-name
+   * Quelle: https://stackoverflow.com/questions/2385701/regular-expression-for-first-and-last-name
    */
-  private final String regExFirstname = "[A-Z][a-zA-Z]*";
-  private final String regExLastName = "[a-zA-z]+([ '-][a-zA-Z]+)*";
-  private final String regExSuchprofilTitel = "[a-zA-z]+([ '-][a-zA-Z]+)*";
-  //private final String regExInfoText = "[a-zA-z0-9]+([ '-][a-zA-Z0-9]+)*";
-  // private final String regExDate = "\\d{4}-\\d{2}-\\d{2}";
+  private final String regExFirstname = "[A-Z][a-zA-Zäöüß]*";
+  private final String regExLastName = "[a-zA-zäöüß]+([ '-][a-zA-Zäöüß]+)*";
+  private final String regExSuchprofilTitel = "[a-zA-zäöüß]+([ '-][a-zA-Zäöüß]+)*";
   private final int MIN_STRING_LENGTH = 2;
   private final int MAX_NAME_LENGHT = 15;
   private final int MIN_KOERPERGROESSE = 50;
@@ -32,35 +30,46 @@ public class ClientValidation {
    */
   public boolean isProfilValid(Profil profil) {
 
+    /**
+     * Prüft die String-Länge bei Vornamen
+     */
     if (profil.getVorname().length() <= MIN_STRING_LENGTH
         || profil.getVorname().length() >= MAX_NAME_LENGHT) {
+      
       Window.alert("Der Vorname muss mehr als " + MIN_STRING_LENGTH + " und weniger als "
           + MAX_NAME_LENGHT + " Zeichen haben.");
       return false;
     }
+    /**
+     * Prüft die Regular Expression bei Vornamen
+     */
     if (!profil.getVorname().matches(regExFirstname)) {
       Window.alert(profil.getVorname()
           + " entspricht nicht unseren Konventionen eines Vornamens. Der Vorname muss mit einem Großbuchstaben anfangen"
           + " und darf keine Zahlen enthalten.");
       return false;
     }
-    // if (!profil.getGeburtsdatum().toString().matches(regExDate)) {
-    // Window.alert(profil.getGeburtsdatum().toString() + " entspricht nicht dem Format
-    // \"yyyy.mm.dd\".");
-    // return false;
-    // }
+    /**
+     * Prüft die String-Länge bei Nachnamen
+     */
     if (profil.getNachname().length() <= MIN_STRING_LENGTH
         || profil.getNachname().length() >= MAX_NAME_LENGHT) {
       Window.alert("Der Nachname muss mehr als " + MIN_STRING_LENGTH + " und weniger als "
           + MAX_NAME_LENGHT + " Zeichen haben.");
       return false;
     }
+    /**
+     * Prüft die Regular Expression bei Vornamen
+     */
     if (!profil.getNachname().matches(regExLastName)) {
       Window.alert(profil.getNachname()
           + " entspricht nicht unseren Konventionen eines Nachnamens. Der Nachname muss mit einem Großbuchstaben anfangen"
           + " und darf keine Zahlen enthalten.");
       return false;
     }
+    /**
+     * Prüft die den Int Wert bei Körpergröße
+     */
     if (profil.getKoerpergroesse() <= MIN_KOERPERGROESSE
         || profil.getKoerpergroesse() >= MAX_KOERPERGROESSE) {
       Window.alert("Die Körpergröße muss mehr als " + MIN_KOERPERGROESSE + " und weniger als "
@@ -86,6 +95,9 @@ public class ClientValidation {
           + MAX_SUCHPROFIL_TITEL_LENGHT + " Zeichen haben.");
       return false;
     }
+    /**
+     * Prüft die Regular Expression bei Suchprofiltitel
+     */
     if (!suchprofil.getTitle().matches(regExSuchprofilTitel)) {
       Window.alert(suchprofil.getTitle()
           + " entspricht nicht unseren Namenskonventionen. Der Name des Suchprofils muss mit einem Großbuchstaben anfangen"
@@ -105,34 +117,34 @@ public class ClientValidation {
    */
   public boolean isInfoValid(Info info) {
 
+    /**
+     * Prüft die Länge des Infotextes
+     */
     if (info.getText().length() <= MIN_STRING_LENGTH
         || info.getText().length() >= MAX_INFOTEXT_LENGHT) {
       Window.alert("Die Info muss mehr als " + MIN_STRING_LENGTH + " und weniger als "
           + MAX_INFOTEXT_LENGHT + " Zeichen haben.");
       return false;
     }
-//    if (!info.getText().matches(regExInfoText)) {
-//      Window.alert(info.getText()
-//          + " entspricht nicht unseren Namenskonventionen. Es muss mit einem Großbuchstaben anfangen"
-//          + " und darf keine Zahlen enthalten.");
-//      return false;
-//    }
     return true;
   }
 
+  /**
+   * Methode prüft, ob der Info-Text eine korrekte Eingabe hat 
+   * @param text
+   * @return boolean, wenn die Eingaben des Users falsch sind wird false zurückgebene und eine
+   *         Benachrichtigung für den User erscheint. Bei korrekten Einagebn wird true zurückgegeben
+   */
   public boolean isInfoValid(String text) {
 
+    /**
+     * Prüft die String-Länge bei dem Infotext den Anforderungen entspricht.
+     */
     if (text.length() <= MIN_STRING_LENGTH || text.length() >= MAX_INFOTEXT_LENGHT) {
       Window.alert("Die Info muss mehr als " + MIN_STRING_LENGTH + " und weniger als "
           + MAX_INFOTEXT_LENGHT + " Zeichen haben.");
       return false;
     }
-//    if (!text.matches(regExInfoText)) {
-//      Window.alert(
-//          text + " entspricht nicht unseren Namenskonventionen. Es muss mit einem Großbuchstaben anfangen"
-//              + " und darf keine Zahlen enthalten.");
-//      return false;
-//    }
     return true;
   }
 }
