@@ -5,34 +5,38 @@
 <link type="text/css" rel="stylesheet" href="xo.css">
 
 <title>XO &#10084;- Report</title>
+<!-- Hier wird das Favicon eingebunden, welches Im Browsertab angezeigt wird. -->
 <link rel="icon" href="../img/favicon.ico" type="image/png" />
-
+<!-- Hier wird die online Schrift Open Sans aus der Google Libary eingebunden,
+diese wird später in der CSS Date verwendet. -->
 <link href="https://fonts.googleapis.com/css?family=Open+Sans|Oswald" rel="stylesheet">
-
+<!-- Das ist der javascript-tag, welche aus dem gwt projekt heraus generiert wird (ReportGenerator). -->
 <script type="text/javascript" language="javascript" src="PartnerboerseReport/PartnerboerseReport.nocache.js"></script>
 
 </head>
 <body>
+	<!-- Hier wird die Anweisung erzeugt, welche den Nutzer davon in Kenntnis setzt, dass javascript im Browser aktiviert sein sollte. -->
 	<noscript>
 		<div
 			style="width: 22em; position: absolute; left: 50%; margin-left: -11em; color: red; background-color: white; border: 1px solid red; padding: 4px; font-family: sans-serif">
 			Your web browser must have JavaScript enabled in order for this
 			application to display correctly.</div>
 	</noscript>
-
+	<!-- Hier beginnt der Header-Tag welcher das Logo der Partnerbörse beinhaltet. -->
 	<header>
-		<h1 id="logo">
-			<img src="../img/logo.svg" alt="Logo">
+		<h1 id="logo"><!-- H1 Tag zur unterstützung online marketingspezifischer Maßnahmen -->
+			<img src="../img/logo.svg" alt="Logo"><!-- Das Logo wurde als skalierbare Vektorgrafik eingebunden -->
 		</h1>
 	</header>
 	
-	<div id="mwrap">
-
+	<div id="mwrap"><!-- Wrapper für die Hautpelemente der Partnerbörse -->
+		<!-- Wrapper für die Navigation der Partnerbörse -->
 		<div id="navwrap"></div>
+		<!-- Wrapper für den Contentbereich der Partnerbörse -->
 		<div id="contwrap"></div>
 
 	</div>
-
+	<!-- Footer für den Copyright Schriftzug und für die Partnerbörse -->
 	<footer>
 		<h3>&copy; Copyright Team 6 - OX</h3>
 	</footer>

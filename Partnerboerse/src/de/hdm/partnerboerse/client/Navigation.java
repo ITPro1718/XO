@@ -11,11 +11,15 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class Navigation extends VerticalPanel {
+	
+	/**
+	 * Prüfen ob User eingeloggt ist.
+	 */
 
 	LoginInfo loginInfo = ClientSideSettings.getLoginInfo();
 	
-	/*
-	 * Navigation zeichnen und bereitstellen
+	/**
+	 * Attribute bereistellen für die Navigaiotn im Editor.
 	 */
 	final Button meinProfil = new Button("Mein Profil");
 	final Button meineMerkliste = new Button("Merkliste");
@@ -31,12 +35,21 @@ public class Navigation extends VerticalPanel {
 	final Anchor impr = new Anchor("Impressum");
 	final Anchor dataS = new Anchor("Datenschutz");
 	
+	/**
+	 * Navigation zeichnen wenn das Modul geladen wird.
+	 */
 	@Override
 	public void onLoad() {
 
-		// Navigation Area
+		/**
+		 * Bild überhalb der Buttons wird eingefügt
+		 */
 		HTML ppic = new HTML("<img src=\"" + "../img/ppic.jpg" + "\">");
 		
+		/**
+		 * Alle Attribute erhalten einen Titel und einen StyleName,
+		 * zur besseren Gestaltung der Elemente.
+		 */		
 		ppic.setTitle("Profilbild");
 		ppic.addStyleName("ppic");
 		meinProfil.setTitle("Mein Profil");
@@ -52,6 +65,11 @@ public class Navigation extends VerticalPanel {
 		impr.addStyleName("impdat");
 		dataS.addStyleName("spr");
 		dataS.addStyleName("impdat");
+		
+		/**
+		 * Ein Vertical Panel wird instanziiert. DemVertical Panel
+		 * werden alle Attribute übergeben.
+		 */
 
 
 		VerticalPanel navi = new VerticalPanel();
@@ -69,7 +87,7 @@ public class Navigation extends VerticalPanel {
 		navi.add(spr);
 		navi.add(dataS);
 		
-		/*
+		/**NAVIGATION
 		 * Methode lädt die View des eigenen Profils
 		 */
 		meinProfil.addClickHandler(new ClickHandler() {
@@ -81,7 +99,7 @@ public class Navigation extends VerticalPanel {
             
           }
 
-          /*
+          /**NAVIGATION
            * Methode zeigt das eigene Profil an
            */
           private void loadEigenProfilView() {
@@ -97,7 +115,7 @@ public class Navigation extends VerticalPanel {
           }
         });
 		
-	      /*
+	     /**NAVIGATION
          * Methode lädt die View der Merkliste
          */
 		meineMerkliste.addClickHandler(new ClickHandler() {
@@ -116,7 +134,7 @@ public class Navigation extends VerticalPanel {
           }
         });
 		
-		/*
+		/**NAVIGATION
 		 * Methode lädt die View der Kontaktsperren
 		 */
 		meineKontaktsperren.addClickHandler(new ClickHandler() {
@@ -130,13 +148,13 @@ public class Navigation extends VerticalPanel {
             epPanel.add(ep);
             
             RootPanel.get("contwrap").clear();
-            RootPanel.get("contwrap").add(epPanel);
-            
-            
-            
-            
+            RootPanel.get("contwrap").add(epPanel);     
           }
         });
+		
+		/** NAVIGATION
+		 * Methode lädt die View der Suchprofile
+		 */
 		
 		meineSuchprofile.addClickHandler(new ClickHandler() {
           
@@ -154,20 +172,11 @@ public class Navigation extends VerticalPanel {
           }
         });
 		
-		logoutUser.addClickHandler(new ClickHandler() {
-			
-			@Override
-			public void onClick(ClickEvent event) {
-					  
-				//logoutUser.setHref(loginInfo.getLogoutUrl());
-				ClientSideSettings.getLoginInfo();
-				logoutUser.setHref(ClientSideSettings.getLoginInfo().getLogoutUrl());
-				
-			}
-		});
-		
-		// Aufruf der Report HTML - Hier wird der Report aufgerufen
-		
+
+
+		/** REPORT
+		 * Methode leitet den User zum ReportGenerator weiter
+		 */
 	
 		Report.addClickHandler(new ClickHandler() {
 			
@@ -179,6 +188,24 @@ public class Navigation extends VerticalPanel {
 			}
 		});
 		
+		/** ABMELDEN
+		 * Methode melden den User aus der Partnerbörse ab
+		 */
+		
+		logoutUser.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+					  
+				ClientSideSettings.getLoginInfo();
+				logoutUser.setHref(ClientSideSettings.getLoginInfo().getLogoutUrl());
+				
+			}
+		});
+		
+		/** IMPRESSUM
+		 * Methode lädt das Impressum
+		 */
 		impr.addClickHandler(new ClickHandler() {
 			
 			@Override
@@ -194,6 +221,10 @@ public class Navigation extends VerticalPanel {
 	            RootPanel.get("contwrap").add(ipPanel);
 			}
 		});
+		
+		/** DATENSCHUTZ
+		 * Methode lädt die Datenschutzerklärung
+		 */
 		dataS.addClickHandler(new ClickHandler() {
 			
 			@Override

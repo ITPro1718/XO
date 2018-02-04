@@ -18,10 +18,14 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class NavigationReport extends VerticalPanel {
 
+	/**
+	 * Prüfen ob User eingeloggt ist.
+	 */
+	
 	LoginInfo loginInfo = ClientSideSettings.getLoginInfo();
 
-	/*
-	 * Navigation zeichnen und bereitstellen
+	/**
+	 * Attribute bereistellen für die Navigaiotn im Reportgenerator.
 	 */
 	final Button meinProfil = new Button("Zurück zum Profil");
 	final Button Reports = new Button("Reports");
@@ -32,12 +36,21 @@ public class NavigationReport extends VerticalPanel {
 	
 	HTML reports = new HTML("<h3>" + "REPORTS" + "</h3>");
 	
+	/**
+	 * Navigation zeichnen wenn das Modul geladen wird.
+	 */
 	@Override
 	public void onLoad() {
 
-		// Navigation Area
+		/**
+		 * Bild überhalb der Buttons wird eingefügt
+		 */
 		HTML ppic = new HTML("<img src=\"" + "../img/ppic.jpg" + "\">");
 
+		/**
+		 * Alle Attribute erhalten einen Titel und einen StyleName,
+		 * zur besseren Gestaltung der Elemente
+		 */	
 		ppic.setTitle("Profilbild");
 		ppic.addStyleName("ppic");
 		meinProfil.setTitle("Zurück zum Profil");
@@ -53,6 +66,11 @@ public class NavigationReport extends VerticalPanel {
 		impr.addStyleName("impdat");
 		dataS.addStyleName("spr");
 		dataS.addStyleName("impdat");
+		
+		/**
+		 * Ein Vertical Panel wird instanziiert. Dem Vertical Panel
+		 * werden alle Attribute übergeben.
+		 */
 
 		final VerticalPanel navi = new VerticalPanel();
 		navi.addStyleName("naviRep");
@@ -65,8 +83,8 @@ public class NavigationReport extends VerticalPanel {
 		navi.add(spr);
 		navi.add(dataS);
 
-		/*
-		 * Methode lädt die View des eigenen Profils
+		/**NAVIGATION
+		 * Methode leitet den User zum Editor weiter
 		 */
 		meinProfil.addClickHandler(new ClickHandler() {
 
@@ -78,17 +96,22 @@ public class NavigationReport extends VerticalPanel {
 			}
 		});
 
+		/** REPORT
+		 * Methode leitet den User zum ReportGenerator weiter
+		 */
 		Reports.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 
-
 					Window.Location.assign("PartnerboerseReport.html");
 
 				}
 			});
-
+		
+		/** ABMELDEN
+		 * Methode melden den User aus der Partnerbörse ab
+		 */
 		logoutUser.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -100,6 +123,9 @@ public class NavigationReport extends VerticalPanel {
 			}
 		});
 		
+		/** IMPRESSUM
+		 * Methode lädt das Impressum
+		 */		
 		impr.addClickHandler(new ClickHandler() {
 			
 			@Override
@@ -115,6 +141,10 @@ public class NavigationReport extends VerticalPanel {
 	            RootPanel.get("contwrap").add(ipPanel);
 			}
 		});
+		
+		/** DATENSCHUTZ
+		 * Methode lädt die Datenschutzerklärung
+		 */
 		dataS.addClickHandler(new ClickHandler() {
 			
 			@Override
