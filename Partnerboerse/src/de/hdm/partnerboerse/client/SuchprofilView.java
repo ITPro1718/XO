@@ -48,7 +48,7 @@ public class SuchprofilView extends VerticalPanel {
 		new HTML("<h3>" + "Suchprofil" + "</h3>");
 		
 		/**
-		 * Befüllt den Suchprofilgrid für ein übergebenes Profil
+		 * Befüllt das Suchprofilgrid für ein übergebenes Profil
 		 */
 		updateSpTable(newsuchprofil);
 		

@@ -1,9 +1,9 @@
 @chrtset "UTF-8";
 
 /**
-* Author:		Adnan
+* Author:		Gruppe 6
 * Name:			Partnerbörse XO CSS
-* Version: 		1.2
+* Version: 		1.3
 */
 
 /*-----------RESET STYLES---------------*/
@@ -45,7 +45,16 @@ ul li {
 h1,h2,h3,h4,h5{
     font-family: 'Oswald', sans-serif;
 }
-
+input {
+    width: 300px;
+    height: 20px;
+    border: 1px solid #f18487 !important;
+}
+select {
+    width: 310px;
+    height: 35px;
+    border: 1px solid #f18487 !important;
+}
 /*----------- ELEMENT STYLING ---------------*/
 
 #logo img {
@@ -61,11 +70,17 @@ header h1 {
 
 footer h3 {text-align: center;}
 
-.stitle{text-align:center;}
-
 #mwrap, #mwrapREP {
     width: 70%;
     margin: 35px auto;
+}
+#contwrap {
+    float: left;
+    margin-left: 2%;
+    width: 82%;
+    background: #fff !important;
+    padding: 10px;
+    margin-bottom: 100px !important;
 }
 #navwrap {
     float: left;
@@ -89,24 +104,13 @@ footer h3 {text-align: center;}
 .pbtn {
     width: 15%;
 }
-.ppic {
-    width: 90%;
-    border: solid 5px #f18487;
-    vertical-align: middle;
-    padding: 2.5% !important;
-    transition: ease-in-out all 1s;
-}
-.ppic:hover {
-    transform: rotateY(360deg);
-}
 
-/*Navigation Area*/
+/*---------------------------------------Navigation Area*/
 
 .mainnav a, .subnav a {
     text-decoration: none;
 }
-
-/*Button Area*/
+/*---------------------------------------Button Area*/
 
 button {
     width: 100%;
@@ -143,24 +147,25 @@ button:hover {background: lightgreen !important;}
 .ebtn {
     max-width: 100% !important;
 }
-/*Profile Pic Area*/
+/*---------------------------------------Profile Pic Area*/
 
 .ppic img {
     -webkit-filter: grayscale(1);
     filter: grayscale(1);
     width: 100%;
 }
-
-
-/*Profile Info Area*/
-#contwrap {
-    float: left;
-    margin-left: 2%;
-    width: 82%;
-    background: #fff !important;
-    padding: 10px;
-    margin-bottom: 100px !important;
+.ppic {
+    width: 90%;
+    border: solid 5px #f18487;
+    vertical-align: middle;
+    padding: 2.5% !important;
+    transition: ease-in-out all 1s;
 }
+.ppic:hover {
+    transform: rotateY(360deg);
+}
+
+/*---------------------------------------Profile Info Area*/
 #contwrap table {
     width: 100%;
 }
@@ -222,18 +227,8 @@ button:hover {background: lightgreen !important;}
     background: #f18487;
     padding: 20px 10px 0px 10px;
 }
-input {
-    width: 300px;
-    height: 20px;
-    border: 1px solid #f18487 !important;
-}
-select {
-    width: 310px;
-    height: 35px;
-    border: 1px solid #f18487 !important;
-}
 
-/*REPORT AREA*/
+/*---------------------------------------REPORT AREA*/
 .rtable {
     border: solid 1px lightblue;
 }
@@ -250,7 +245,7 @@ select {
 .repwrap h2, .repwrap h3, .repwrp tr td {
     text-align: center;
 }
-/*Login Area*/
+/*---------------------------------------Login Area*/
 .logbtn {
     background: linear-gradient(to left, #f3f3f3 50%, #f18487 50%);
     background-position:right bottom;
@@ -276,7 +271,7 @@ select {
     text-align: center;
 }
 
-/*Press and Datasecurity Area*/
+/*---------------------------------------Press and Datasecurity Area*/
 .presstab tr td:first-child {
     width: 25%;
     font-weight: bold;

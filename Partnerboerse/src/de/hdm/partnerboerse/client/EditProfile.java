@@ -36,7 +36,7 @@ public class EditProfile extends VerticalPanel {
   
   CreateWidget cw = new CreateWidget();
 
-  /*
+  /**
    * Widgets, deren Inhalte variable sind, werden als Attribute angelegt.
    */
 
@@ -44,7 +44,7 @@ public class EditProfile extends VerticalPanel {
   Button safeButton = new Button("Profil speichern");
   
 
-  /*
+  /**
    * Beim Anzeigen werden die anderen Widgets erzeugt. Alle werden in einem Raster angeordnet,
    * dessen Größe sich aus dem Platzbedarf der enthaltenen Widgets bestimmt.
    */
@@ -54,8 +54,9 @@ public class EditProfile extends VerticalPanel {
 
 	 deleteButton.addStyleName("offbutton");
 
-    /*
-     * Grid für die Attribute
+    /**
+     * Grid für die Attribute wird angelegt und mit den User Profil werten
+     * befüllt und ausgegeben.
      * 
      */
     Grid profilIntGrid = new Grid(2, 3);

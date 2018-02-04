@@ -3,8 +3,7 @@ package de.hdm.partnerboerse.client;
 /**
  * Hilfsmethoden für den Umgang mit der GUI
  * 
- * @author sanjamikulic
- *
+ * 
  */
 public class GuiUtils {
 
