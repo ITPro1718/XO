@@ -123,7 +123,7 @@ public class ReportGenerator implements EntryPoint {
 	        	loginService.getEmailFromProfil(result.getEmailAddress(), new HasProfileCallback());
 	        	
 	        	suchprofilTable.setText(0, 0, "Titel");
-
+	        	suchprofilTable.addStyleName("mltable");
 				
 				// Navigation Area
 				RootPanel.get("navwrap").add(navrep);
