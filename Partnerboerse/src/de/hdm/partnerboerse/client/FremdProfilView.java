@@ -57,6 +57,10 @@ public class FremdProfilView extends VerticalPanel {
 		sperrButton.addClickHandler(new SperrButtonClickhandler());
 	}
 	
+	/**
+	 * Fügt der FlexTable die gespeicherten Werte des Fremdprofils hinzu
+	 * @param result
+	 */
 	private void updateProfilTable(Profil result) {
 		Profil fremdProfil = result;
 
@@ -104,6 +108,10 @@ public class FremdProfilView extends VerticalPanel {
 
 	}
 	
+	/**
+	 * Clickhandler, welcher einen Click auf den MerkButton handelt. Unterscheidet, ob mit dem Button gemerkt 
+	 * werden soll, oder ein Merkeintrag gelöscht wird
+	 */
 	private class MerkButtonClickhandler implements ClickHandler{
 
 		@Override
@@ -121,6 +129,11 @@ public class FremdProfilView extends VerticalPanel {
 		}
 	}
 	
+	/**
+	 * Clickhandler, welcher einen Click auf den SperrButton handelt. Unterscheidet, ob mit dem Button gesperrt
+	 * werden soll, oder eine Sperrung gelöscht werden soll.
+	 *
+	 */
 	private class SperrButtonClickhandler implements ClickHandler{
 
 		@Override
@@ -139,6 +152,9 @@ public class FremdProfilView extends VerticalPanel {
 		}
 	}
 
+	/**
+	 * Merken Callback. Setzt den Text des Buttons auf Profil entmerken.
+	 */
 	private class MerkProfilCallback implements AsyncCallback<Void>{
 
 		@Override
@@ -153,6 +169,9 @@ public class FremdProfilView extends VerticalPanel {
 		
 	}
 	
+	/**
+	 * Sperren Callback. Setzt den Text des Buttons auf Profil entsperren
+	 */
 	private class SperrProfilCallback implements AsyncCallback<Void>{
 
 		@Override
@@ -167,6 +186,9 @@ public class FremdProfilView extends VerticalPanel {
 		
 	}
 	
+	/**
+	 * Callback, welcher einen Besuch der Datenbank hinzufügt.
+	 */
 	private class CreateBesuchCallback implements AsyncCallback<Void>{
 
 		@Override
@@ -179,7 +201,9 @@ public class FremdProfilView extends VerticalPanel {
 		
 	}
 	
-	
+	/**
+	 * Callback, welcher eine Kontaktsperre löscht.
+	 */
 	private class DeleteSperrungCallback implements AsyncCallback<Void>{
 
 		@Override
@@ -193,6 +217,9 @@ public class FremdProfilView extends VerticalPanel {
 		}
 	}
 	
+	/**
+	 * Callback, welcher eine Merkung löscht.
+	 */
 	private class DeleteMerkungCallback implements AsyncCallback<Void>{
 
 		@Override
@@ -207,6 +234,11 @@ public class FremdProfilView extends VerticalPanel {
 		
 	}
 	
+	/**
+	 * Callback welcher alle Merkzettel des eingeloggten Users abruft und vergleicht, ob der das Fremdprofil
+	 * gemerkt hat. Wenn ein Merkeintrag vorhanden ist, wird der Text des Merkbuttons auf Profil entmerken
+	 * gesetzt und der sperrButton ausgegraut.
+	 */
 	private class GetMerkzettelOfCallback implements AsyncCallback<ArrayList<Merkzettel>>{
 
 		@Override

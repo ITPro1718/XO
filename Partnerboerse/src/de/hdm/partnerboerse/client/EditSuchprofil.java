@@ -72,11 +72,7 @@ public class EditSuchprofil extends VerticalPanel {
     SprofilGrid.setWidget(2, 3, cw.getTitleTextBox());
     cw.getTitleTextBox().setValue(suchprofil.getTitle());
 
-    /**
-     * Eventuell nicht nur Speichern sondern auch gleichzeitig suche? falls möglich
-     */
     this.add(safeButton);
-
 
     safeButton.addClickHandler(new ClickHandler() {
 
@@ -86,8 +82,7 @@ public class EditSuchprofil extends VerticalPanel {
       }
 
       /**
-       * Daten des Suchprofils werden aus dem Formular ausgelesen
-       * und das Suchprofil wird geupdatet in der DB
+       * Daten des Suchprofils werden aus dem Formular ausgelesen und das Suchprofil wird geupdatet in der DB
        */
       private void updateSuchprofilCallback() {
 
@@ -106,14 +101,15 @@ public class EditSuchprofil extends VerticalPanel {
 
           @Override
           public void onSuccess(Void result) {
-            ListViewSuchProfil lvsp = new ListViewSuchProfil();
-
-            HTMLPanel splistViewPanel =
-                new HTMLPanel("<h3>" + "Hier können Sie ein Suchprofil erstellen!" + "</h3>");
-            splistViewPanel.add(lvsp);
-
-            RootPanel.get("contwrap").clear();
-            RootPanel.get("contwrap").add(splistViewPanel);
+        	  /**
+        	   * Ruft den ListViewe der Suchprofile auf
+        	   */
+	            ListViewSuchProfil lvsp = new ListViewSuchProfil();
+	            HTMLPanel splistViewPanel =
+	                new HTMLPanel("<h3>" + "Hier können Sie ein Suchprofil erstellen!" + "</h3>");
+	            splistViewPanel.add(lvsp);
+	            RootPanel.get("contwrap").clear();
+	            RootPanel.get("contwrap").add(splistViewPanel);
 
           }
         });

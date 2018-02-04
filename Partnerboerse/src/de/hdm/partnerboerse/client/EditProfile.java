@@ -28,7 +28,6 @@ public class EditProfile extends VerticalPanel {
 
   private final PartnerboerseAdministrationAsync partnerAdmin =
       GWT.create(PartnerboerseAdministration.class);
-  private final LoginServiceAsync loginService = GWT.create(LoginService.class);
 
   LoginInfo loginInfo = ClientSideSettings.getLoginInfo();
 
@@ -122,7 +121,6 @@ public class EditProfile extends VerticalPanel {
      * https://stackoverflow.com/questions/3793650/convert-boolean-to-int-in -java Konvertiert bei
      * true zu 1 und bei false zu 0
      */
-    // TODO: benutzen wir diese Methode????
     int smokerToInt = (getProfilFromServer.isRaucher()) ? 1 : 0;
     switch (smokerToInt) {
       case 1:
@@ -162,6 +160,9 @@ public class EditProfile extends VerticalPanel {
     deleteButton.addClickHandler(new DeleteButtonClickhandler());
   }
   
+  /**
+   * Updated das Profil in der Datenbank mithilfe des updateProfil-Callback
+   */
   private void updateProfileOnServer() {
 
       getProfilFromServer = getProfileValuesFromFormular();
@@ -181,12 +182,8 @@ public class EditProfile extends VerticalPanel {
         public void onSuccess(Void result) {
     
           Window.alert(cw.getVnameTextBox().getValue() + " Profil wurde gespeichert.");
-
-
           ClientSideSettings.setProfil(getProfilFromServer);
-
           EigenProfilView epv = new EigenProfilView();
-
           HTMLPanel eigenProfilViewPanel =
               new HTMLPanel("<h3>" + "Hier können Sie ihr Profil ansehen." + "</h3>");
           eigenProfilViewPanel.add(epv);
@@ -201,6 +198,11 @@ public class EditProfile extends VerticalPanel {
       }
     }
   
+  /**
+   * Clickhandler, welcher den Click auf den SaveButton handelt. Ruft die Methode updateProfileOnServer auf
+   * @see updateProfileOnServer
+   *
+   */
   private class SaveButtonClickhandler implements ClickHandler{
 	  
 	  @Override
@@ -209,6 +211,11 @@ public class EditProfile extends VerticalPanel {
 	  }
   }
   
+  /**
+   * Clickhandler, welcher den Click auf den Löschen Button handelt. Es wird abgefragt, ob sich der User
+   * ist, dass er sein Profil löschen will, bei einer bestätigung wird das Profil gelöscht.
+   *
+   */
   private class DeleteButtonClickhandler implements ClickHandler{
 	  
 	  @Override
@@ -221,6 +228,10 @@ public class EditProfile extends VerticalPanel {
       }
   }
   
+  /**
+   * Callback der das Profil aus der Datenbank löscht
+   *
+   */
   private class DeleteProfilCallback implements AsyncCallback<Void>{
 
 	@Override
@@ -230,12 +241,13 @@ public class EditProfile extends VerticalPanel {
 	@Override
 	public void onSuccess(Void result) {
 		Window.alert("Ihr Profil wurde gelöscht");
+		ClientSideSettings.setProfil(null);
 	}
   }
 
-/**
-   * TODO: Datum muss noch aderster gemappt werden es ist falsch! Werte aus den geänderten
-   * Formularen wird ausgelesen und in ein Profil gespeichert und zurück gegeben
+  /**
+   * Liest die Daten des Profils aus der Eingabe aus
+   * @return profil, welches geupdated wurde
    */
   private Profil getProfileValuesFromFormular() {
 
