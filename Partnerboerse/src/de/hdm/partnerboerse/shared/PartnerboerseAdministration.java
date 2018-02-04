@@ -370,8 +370,6 @@ public interface PartnerboerseAdministration extends RemoteService {
 	
 	public Info findInfoOfEigenschaft(Eigenschaft eigenschaft) throws IllegalArgumentException;
 	
-	public Auswahl findAuswahlOf(Info info) throws IllegalArgumentException;
-	
 	public void createBesuch(Profil source, Profil target) throws IllegalArgumentException;
 	
 	public void deleteBesuch(Besuch besuch) throws IllegalArgumentException;

@@ -12,7 +12,6 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import de.hdm.partnerboerse.server.db.AuswahlMapper;
 import de.hdm.partnerboerse.server.db.BesuchMapper;
 import de.hdm.partnerboerse.server.db.EigenschaftMapper;
-// import de.hdm.partnerboerse.server.db.FreitextMapper;
 import de.hdm.partnerboerse.server.db.InfoMapper;
 import de.hdm.partnerboerse.server.db.KontaktsperreMapper;
 import de.hdm.partnerboerse.server.db.MerkzettelMapper;
@@ -31,11 +30,15 @@ import de.hdm.partnerboerse.shared.bo.Profil;
 import de.hdm.partnerboerse.shared.bo.Suchprofil;
 
 /**
- * The server-side implementation of the RPC service.
+ * Implementierung des synchronen Interfaces PartnerboerseAdministration. In dieser Klasse befindet 
+ * sich die komplette Logik des Editors. Hier werden sämtliche Funktionen des Editors durchgeführt.  
  */
+
 @SuppressWarnings("serial")
 public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implements PartnerboerseAdministration {
-
+	/**
+	 * Referenz auf die Datenbankmapper, die Objekte mit der Datenbank abgleichen.
+	 */
 	private AuswahlMapper aMapper = null;
 
 	private EigenschaftMapper eiMapper = null;
@@ -55,13 +58,18 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	public PartnerboerseAdministrationImpl() throws IllegalArgumentException {
 
 	}
-
+	
+	/**
+	 *  Initialisierung der Mapper.Aufrufen der Singleton-Methode des Mappers, um sicherzustellen, 
+	 *  das nur diese einzige Instanz existiert
+	 * @see javax.servlet.GenericServlet#init()
+	 */
+	
 	@Override
 	public void init() throws IllegalArgumentException {
 
 		this.aMapper = AuswahlMapper.auswahlMapper();
 		this.eiMapper = EigenschaftMapper.eigenschaftMapper();
-		// this.fMapper = FreitextMapper.freitextMapper();
 		this.iMapper = InfoMapper.infoMapper();
 		this.kMapper = KontaktsperreMapper.kontaktsperreMapper();
 		this.mMapper = MerkzettelMapper.merkzettelMapper();
@@ -70,6 +78,14 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		this.bMapper = BesuchMapper.besuchMapper();
 
 	}
+	
+	/**
+	 * Die Methode getAge errechnet aus dem übergebenen Datumsformat das Alter.
+	 * Hierbei wird ein neuer gregorianischer Kalender erstellt, welcher das aktuelle Jahr bereits enthält.
+	 * Es wird ein zweiter Kalender erstellt, welchem das Datum zugewiesen wird. Es folgt ein Abgleich beider Kalender.
+	 * @param date
+	 * @return int
+	 */
 
 	public int getAge(Date date) {
 
@@ -77,9 +93,14 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		birthday.setTime(date);
 
 		GregorianCalendar today = new GregorianCalendar();
-
+		/**
+		 *  Differenz aus aktuellem Jahr und Geburtsjahr
+		 */
 		int age = today.get(Calendar.YEAR) - birthday.get(Calendar.YEAR);
-
+		/**
+		 * Abfrage falls das aktuelle Datum sich im selben Jahr des Geburtsjahrs befindet, 
+		 * aber noch vor dem Geburtstag, dann reduziere das Alter um den Faktor 1.
+		 */
 		if (today.get(Calendar.MONTH) <= birthday.get(Calendar.MONTH)) {
 			if (today.get(Calendar.DATE) < birthday.get(Calendar.DATE)) {
 				age -= 1;
@@ -91,27 +112,40 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 		return age;
 	}
-
+	
+	/**
+	 * Erstellt ein Profil, in dem das Objekt an die Datenbank-Methode insert übergeben wird.
+	 * @param p
+	 * @return Profil
+	 */
 	@Override
 	public Profil createProfil(Profil p) throws IllegalArgumentException {
 
 		return this.pMapper.insert(p);
 	}
 
+	/**
+	 * Aktualisiert ein Profil, in dem das Objekt an die Datenbank-Methode update übergeben wird.
+	 * @param p
+	 */
 	@Override
 	public void updateProfil(Profil p) throws IllegalArgumentException {
 		pMapper.update(p);
 	}
 
+	/**
+	 * Löscht ein Profil, in dem das Objekt an die Datenbank-Methode delete übergeben wird.
+	 * @param p
+	 */
 	@Override
 	public void deleteProfil(Profil p) throws IllegalArgumentException {
 
 		/**
-		 * Hier muss man die ganzen Abhngigkeiten abchecken, bevor man ein
-		 * Profil l�scht. z.B. muss man erst alle Merkzettel Eintr�ge l�schen,
-		 * in denen das Profil vorkommt. Erst dann kann man ein Profil l�schen
+		 * Hier werden alle Abhängigkeiten geprüft, bevor das
+		 * Profil gelöscht wird. z.B. müssen erst alle Merkzettel Einträge gelöscht werden,
+		 * in denen das Profil vorkommt. Erst dann kann das Profil gelöscht werden
 		 * 
-		 * Abh�ngigkeiten von Profil:
+		 * Abhängigkeiten von Profil:
 		 * 
 		 * Merkzettel Kontaktsperre Visit Suchprofil Info
 		 * 
@@ -183,13 +217,23 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		this.pMapper.delete(p);
 	}
 
+	/**
+	 * Gibt alle Profile zurück, die dem Parameter name entsprechen. Aufruf der Profilmapper-Methode findProfileByName.
+	 * @param name
+	 * @return ArrayList<Profil>
+	 */
 	@Override
 	public ArrayList<Profil> getProfilByName(String name) throws IllegalArgumentException {
 
 		return this.pMapper.findProfileByName(name);
 
 	}
-
+	
+	/**
+	 * Gibt ein Profil nach ID zurück. Aufruf der Profilmapper-Methode findProfilByKey.
+	 * @param id
+	 * @return Profil
+	 */
 	@Override
 	public Profil getProfilByID(int id) throws IllegalArgumentException {
 
@@ -197,6 +241,11 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	}
 
+	/**
+	 * Gibt ein Profil nach email zurück. Aufruf der Profilmapper-Methode findProfilByEmail.
+	 * @param email
+	 * @return Profil
+	 */
 	@Override
 	public Profil getProfilByEmail(String email) throws IllegalArgumentException {
 		return this.pMapper.findProfilByEmail(email);
@@ -478,10 +527,23 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 		return this.iMapper.findInfoOf(profil);
 	}
-
 	
+	/**
+	 * Berechnet das Ähnlichkeitsmaß im Vergleich zum eigenen Profil, in dem Profilattribute als auch Infoobjekte verglichen werden.
+	 * Diese Attribute und Infoobjekte haben eine anfangs gesetzte Gewichtung.
+	 * Bei Übereinstimmung zweier Werte, wird die GEwichtung gesetzt und prozentual zur Summe ausgerechnet.
+	 * Nach Abgleich aller Werte wird die Ähnlichkeit in Prozent ausgerechnet und dem Profil zugewiesen.
+	 * Alle verglichenen Profile werden absteigend nach der Ähnlichkeit sortiert. Die geordnete Liste wird zurückgegeben.
+	 * 
+	 * @param profil, 
+	 * @param ergebnisse
+	 * @return ArrayList<Profil>
+	 */
 	public ArrayList<Profil> berechneAehnlichkeitsmass(Profil profil, ArrayList<Profil> ergebnisse) {
-
+		/**
+		 * Erstellung einer Aehnlichkeitsmass-Instanz und Setzung der einzelnen Gewichtungen. 
+		 * Die Summe der Gewichtungen muss nicht 100 ergeben, da die Werte zum späteren Zeitpunkt dieder Methode prozentual umgerechnet werden.
+		 */
 		Aehnlichkeitsmass aehnlichkeitsmass = new Aehnlichkeitsmass();
 		aehnlichkeitsmass.setGewichtung1Infoobjekt(10);
 		aehnlichkeitsmass.setGewichtungAlter(70);
@@ -496,7 +558,10 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		float o4 = aehnlichkeitsmass.getGewichtungRaucher();
 		float o5 = aehnlichkeitsmass.getGewichtung1Infoobjekt();
 		float o6 = aehnlichkeitsmass.getGewichtung1Infoobjekt();
-
+		/**
+		 * Abgleich sämtlicher Attribute und Infoobjekte jedes Profils einer ArrayList<Profil>
+		 * Je nach Eintritt der If-Bedingung wird die Gewichtung gesetzt oder nicht.
+		 */
 		for (Profil p : ergebnisse) {
 			float p1 = 0;
 			float p2 = 0;
@@ -556,7 +621,10 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 				p6 = 0.5f * (-1*(o6));	
 
 			}
-		
+			/**
+			 * Berechnung der Aehnlichkeit, durch Addieren der prozentualen Anteile der abgeglichenen Attribute/Objekte.
+			 * Falls die Ähnlichkeit über 100% oder unter 0% beträgt wird diese auf 100% bzw. 0% limitiert.
+			 */
 			int aehnlichkeit = (int) (((p1 * x) + (p2 * x) + (p3 * x) + (p4 * x) + (p5 * x) + (p6 * x)) + 0.5);
 			if (aehnlichkeit > 100) {
 				aehnlichkeit = 100;
@@ -564,19 +632,34 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 			if(aehnlichkeit < 0) {
 				aehnlichkeit = 0;
 			}
+			/**
+			 * Zuweisung der Ähnlichkeit in Prozent eines Profils.
+			 * Hinzufügen des Profilobjekts der ArrayList<Profil> comparedProfiles (abgeglichene Profile)
+			 */
 
 			p.setÄhnlichkeit(aehnlichkeit);
 			comparedProfiles.add(p);
 		}
+			/**
+			 * Sortierung der abgeglichenen Profile anhand der Ähnlichkeitswerte. Die Sortierung erfolgt hier absteigend nach Ähnlichkeit.
+			 */
 		Collections.sort(comparedProfiles, new Comparator<Profil>() {
 			public int compare(Profil a, Profil b) {
 				return Integer.valueOf(b.getÄhnlichkeit()).compareTo(a.getÄhnlichkeit());
 			}
 		});
-
+		/**
+		 * Rückgabe der abgeglichenen,sortierten Profile in einer ArrayList<Profil>.
+		 */
 		return comparedProfiles;
 	}
-
+	
+	/**
+	 * Abgleich aller Profile anhand eines Suchprofils
+	 * 
+	 * @param suchprofil
+	 * @return ArrayList<Profil>
+	 */
 	@Override
 	public ArrayList<Profil> getSuchProfilErgebnisse(Suchprofil suchprofil) throws IllegalArgumentException {
 
@@ -584,64 +667,74 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		Profil suchprofilowner = this.getProfilByID(suchprofil.getEigenprofilID());
 		ArrayList<Kontaktsperre> blockedSuchprofilowner = new ArrayList<>();
 		ArrayList<Profil> profilsToRemove = new ArrayList<Profil>();
-
-		// Wenn die Fremdprofil-ID einer Kontaktsperre (gesperrte Profil ID) mit
-		// der eigenen Profil-ID des "Suchprofilbesitzers"
-		// übereinstimmt, wird diese Kontaktsperre zu blockedSuchprofilowner
-		// hinzugefügt.( Alle Kontaktsperren die das eigene Profil geblockt
-		// haben)
+		/**
+		 * Abgleich aller Kontaktsperren. Falls Fremdprofil-ID der Kontaktsperre, der eigenen Profil-ID entspricht, wird diese Kontaktsperre in einer ArrayList gespeichert.
+		 * Diese sind Kontaktsperren, die das eigene Profil als gesperrtes Profil enthalten.
+		 */	
 		for (Kontaktsperre s : this.getAllKontaktsperreEintraege()) {
 			if (s.getFremdprofilID() == suchprofilowner.getId()) {
 				blockedSuchprofilowner.add(s);
 			}
-			// Besitzer dieser Kontaktsperren finden und einer Arraylist
-			// (profilBlockedSuchprofilowner) hinzufügen
+			/**
+			 * Besitzer der Kontaktsperren finden udn einer ArrayList hinzufügen. Diese Besitzer sollen nicht in den Suchprofilergebnissen angezeigt werden, 
+			 * da diese das eigene Profil gesperrt haben.
+			 */
 			for (Kontaktsperre t : blockedSuchprofilowner) {
 				int epidofkkk = t.getEigenprofilID();
 				Profil pp = getProfilByID(epidofkkk);
 				profilsToRemove.add(pp);
 			}
 		}
-
+		/**
+		 * Abgleich aller Profile aus der Datenbank
+		 */
 		for (Profil p : profile) {
-
+			/**
+			 * Falls sich ein Profil auf der eigenen Kontaktsperrenliste befindet, wird es der Ergebnisliste dieser Methode entfernt.
+			 */
 			for (Kontaktsperre k : this.findKontaktsperrenOf(suchprofilowner)) {
 
 				if (k.getFremdprofilID() == p.getId()) {
 					profilsToRemove.add(p);
 				}
 			}
-
-			// Wenn die Arraylist mit Profilen,( Profilbesitzer die einen selbst
-			// geblockt haben), ein Profil der Liste mit allen Profilen
-			// enthält(Abgleich)
-			// so wird dieses Profil aus der Liste aller Profile gelöscht. Somit
-			// sind Profile aus der Liste, die das eigene Profil auf der
-			// Kontaaktsperrliste hatten.
-
+			/**
+			 * Entfernen des eigenen Profils aus der Ergebnisliste.
+			 */
 			if (p.getId() == suchprofilowner.getId()) {
 				profilsToRemove.add(p);
 			}
-
+			/**
+			 * Aufrufen der Methode compare, die Suchprofilattribute mit Profilattributen vergleicht. 
+			 * Falls nicht genügend Attribute übereinstimmen, wird dieses Fremdprofil nicht angezeigt in den Suchprofilergebnisse.
+			 */
 			if (compare(suchprofil, p) == false) {
 				profilsToRemove.add(p);
 			}
-
+			/**
+			 * Abgleich des Geschlechts und der sexuellen Orientierung. Bei keiner Übereinstimmung, wird das Fremdprofil nicht in den Suchprofilergebnissen angezeigt.
+			 */
 			if (compareSexuelleOrientierung(suchprofilowner, p) == false) {
 				profilsToRemove.add(p);
 			}
 		}
+		/**
+		 * Entfernen aller Profile, die in der Ergebnisliste nicht angezeigt werden sollen.
+		 */
 		profile.removeAll(profilsToRemove);
+		/**
+		 * Berechnung der Ähnlichkeiten dieser Suchprofilergebnisse im Vergleich zum eigenen Profil.
+		 */
 		ArrayList<Profil> comparedProfiles = this.berechneAehnlichkeitsmass(suchprofilowner, profile);
 		return comparedProfiles;
 	}
 
 	/**
-	 * Gibt TRUE zurück, wenn ein Profil mit einem Suchprofil übereinstimmt
+	 * Gibt true zurück, falls mindestens drei der abgeglichenen Eigenschaften des Profils mit dem Suchprofil übereinstimmen.
 	 * 
 	 * @param suchprofill
 	 * @param profil
-	 * @return
+	 * @return boolean
 	 */
 	public boolean compare(Suchprofil suchprofill, Profil profil) {
 		int countersp = 0;
@@ -674,7 +767,14 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 		return false;
 	}
-
+	
+	/**
+	 *  Gibt ture zurück, wenn Suchprofil und Profil mindestens ein gleiches Auswahlobjekt haben.
+	 *  
+	 * @param suchprofil
+	 * @param profil
+	 * @return boolean
+	 */
 	public boolean compareProfilAuswahlInfosWith(Suchprofil suchprofil, Profil profil) {
 
 		ArrayList<Info> infos = suchprofilInfoHasAuswahl(suchprofil);
@@ -692,6 +792,14 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		
 		return false;
 	}
+	
+	/**
+	 *  Gibt true zurück, wenn mindestens ein Freitext gleich ist von Suchprofil und Profil.
+	 *  
+	 * @param suchprofil
+	 * @param profil
+	 * @return boolean
+	 */
 	public boolean compareProfilFreitextInfosWith(Suchprofil suchprofil, Profil profil){
 		ArrayList<Info> freitextInfosSuchprofil = suchprofilInfoHasFreitext(suchprofil);
 		ArrayList<Info> freitextInfosProfil = profilInfoHasFreitext(profil);
@@ -703,6 +811,14 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		}
 		return false;
 	}
+	
+	/**
+	 *  Gibt true zurück, wenn mindestens ein Freitext gleich ist von Profil und Profil.
+	 *  
+	 * @param suchprofil
+	 * @param profil
+	 * @return boolean
+	 */
 	public boolean compareProfilFreitextInfosWith(Profil profil1, Profil profil2){
 		ArrayList<Info> freitextInfosProfil1 = profilInfoHasFreitext(profil1);
 		ArrayList<Info> freitextInfosProfil2 = profilInfoHasFreitext(profil2);
@@ -712,6 +828,17 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		}
 		return false;
 	}
+	
+	/**
+	 * Gleicht zwei ArrayListen mit Freitexten ab. Für jeden Freitext werden alle Leerzeichen und Satzzeichen entfernt. 
+	 * Die Strings werden zusätzlich klein geschrieben um diese vergleichbarer zu machen.
+	 * Falls zwei Strings übereinstimmen wird ein Zähler hochgezählt. Bei nicht Übereinstimmung wird der Zähler runtergezählt.
+	 * Zurückgegeben wird die Anzahl der übereinstimmenden Freitexte.
+	 * 
+	 * @param freitexte1
+	 * @param freitexte2
+	 * @return int
+	 */
 	
 	public int compareStrings(ArrayList<Info> freitexte1, ArrayList<Info> freitexte2){
 		int counterEqualStrings = 0;
@@ -738,7 +865,13 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		
 		return counterEqualStrings;
 	}
-
+	
+	/**
+	 * Gibt alle Infoobjekte eines Suchprofils zurück, die eine Auswahl enthalten.
+	 * 
+	 * @param suchprofil
+	 * @return ArrayList<Info>
+	 */
 	public ArrayList<Info> suchprofilInfoHasAuswahl(Suchprofil suchprofil) {
 
 		ArrayList<Info> auswahlInfos = new ArrayList<Info>();
@@ -753,6 +886,13 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 		return auswahlInfos;
 	}
+	
+	/**
+	 * Gibt alle Infoobjekte eines Suchprofils zurück, die einen Freitext enthalten.
+	 * 
+	 * @param suchprofil
+	 * @return ArrayList<Info>
+	 */
 	public ArrayList<Info> suchprofilInfoHasFreitext(Suchprofil suchprofil) {
 
 		ArrayList<Info> freitextInfos = new ArrayList<Info>();
@@ -767,6 +907,12 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		return freitextInfos;
 	}
 
+	/**
+	 * Gibt alle Infoobjekte eines Profils zurück, die eine Auswahl enthalten.
+	 * 
+	 * @param profil
+	 * @return ArrayList<Info>
+	 */
 	public ArrayList<Info> profilInfoHasAuswahl(Profil profil) {
 
 		ArrayList<Info> auswahlInfos = new ArrayList<Info>();
@@ -780,6 +926,13 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		}
 		return auswahlInfos;
 	}
+	
+	/**
+	 * Gibt alle Infoobjekte eines Profils zurück, die einen Freitext enthalten.
+	 * 
+	 * @param profil
+	 * @return ArrayList<Info>
+	 */
 	public ArrayList<Info> profilInfoHasFreitext(Profil profil) {
 
 		ArrayList<Info> freitextInfos = new ArrayList<Info>();
@@ -793,7 +946,14 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		}
 		return freitextInfos;
 	}
-
+	
+	/**
+	 * Vergleicht alle möglichen Variationen die eine Übereinstimmung des Geschlechts und der sexuellen Orientierung zwischen zwei Profilen garantieren.
+	 * 
+	 * @param profil
+	 * @param fremdprofil
+	 * @return boolean
+	 */
 	public boolean compareSexuelleOrientierung(Profil profil, Profil fremdprofil) {
 
 		if ((((profil.getGeschlecht().equals("Mann")) && (profil.getSucheNach().equals("Frauen")))
@@ -811,7 +971,14 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		} else
 			return false;
 	}
-
+	
+	/**
+	 * Gibt nicht gesehene Partnervorschläge zurück. Dabei werden bereits gesehene Profile herausgefiltert, Profile die sich auf der eigenen Kontaktsperrliste befinden,
+	 * Profile, die das eigene Profil gesperrt haben und Profile, die der sexuellen Orientierung nicht übereinstimmen.
+	 * 
+	 * @param profil
+	 * @return ArrayList<Profil>
+	 */
 	@Override
 	public ArrayList<Profil> getNotSeenPartnervorschläge(Profil profil) throws IllegalArgumentException {
 
@@ -824,17 +991,14 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 			if (s.getFremdprofilID() == profil.getId()) {
 				blockedProfilowner.add(s);
 			}
-			// Besitzer dieser Kontaktsperren finden und einer Arraylist
-			// (profilBlockedSuchprofilowner) hinzufügen
 			for (Kontaktsperre t : blockedProfilowner) {
 				int epidofkkk = t.getEigenprofilID();
 				Profil pp = getProfilByID(epidofkkk);
 				profilBlockedProfilowner.add(pp);
 			}
-
 		}
-
 		ArrayList<Profil> profilesToRemove = new ArrayList<Profil>();
+		
 		for (Profil p : profile) {
 
 			for (Besuch b : this.findBesucheOf(profil)) {
@@ -865,15 +1029,13 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		return comparedProfiles;
 	}
 
-	public ArrayList<String> findAllTexts(Profil profil) {
-		ArrayList<String> textsOfInfos = new ArrayList<String>();
-		for (Info i : findAllInfosOfProfil(profil)) {
-
-			textsOfInfos.add(i.getText());
-		}
-		return textsOfInfos;
-	}
-	
+	/**
+	 * Gibt True zurück, wenn zwei Profile keine Infoobjekte aufweisen.
+	 * 
+	 * @param profil
+	 * @param fremdprofil
+	 * @return boolean
+	 */
 	public boolean compareInfosIsEmpty(Profil profil, Profil fremdprofil){
 	
 	if ((findAllInfosOfProfil(profil).isEmpty()) && (findAllInfosOfProfil(fremdprofil).isEmpty())) {
@@ -882,6 +1044,13 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	return false;
 	}
 
+	/**
+	 * Gibt die Anzahl der gleichen Auswahlobjekte zweier Profile zurück.
+	 * 
+	 * @param profil
+	 * @param fremdprofil
+	 * @return int
+	 */
 	public int compareInfos(Profil profil, Profil fremdprofil) {
 
 		int counter = 0;
@@ -919,7 +1088,9 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		ArrayList<Info> infos = this.findInfoOf(profil);
 		ArrayList<Info> del = new ArrayList<Info>();
 
-		// Erstellt ein Info Objekt, welches in die Datenbank geschrieben wird
+		/**
+		 * Erstellt ein Info Objekt, welches in die Datenbank geschrieben wird
+		 */
 		Info info = new Info();
 		info.setepId(profil.getId());
 		info.setText(text);
@@ -929,8 +1100,9 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		 * Prüft, ob für diese Eigenschaft bereits ein Info-Objekt für diesen User angelegt wurde
 		 */
 		for (Info i : infos) {
-			// Wenn bereits eine Info für diese Eigenschaft besteht, wird sie
-			// geupdated.
+			/**
+			 *  Wenn bereits eine Info für diese Eigenschaft besteht, wird sie aktualisiert.
+			 */
 			if (i.getEigenschaftId() == info.getEigenschaftId()) {
 				info.setId(i.getId());
 				this.updateInfo(info);
@@ -939,9 +1111,11 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 				del.add(i);
 			}
 		}
-		// Removed alle bereits vorhandenen objekte, wenn die Liste leer ist,
-		// sprich noch kein Eintrag vorhanden,
-		// wird eine neue Info angelegt
+		/**
+		 *  Entfernt alle bereits vorhandenen Objekte, wenn die Liste leer ist.
+		 *  Wenn noch kein neuer Eintrag vorhanden ist, wird die Info angelegt.
+		 */
+		
 		infos.removeAll(del);
 		if (infos.isEmpty()) {
 			this.iMapper.insertInfo(info);
@@ -965,17 +1139,21 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		ArrayList<Info> infos = getInfoOfSuchprofil(suchprofil.getId());
 		ArrayList<Info> del = new ArrayList<Info>();
 
-		// Erstellt ein Info Objekt, welches in die Datenbank geschrieben wird
+		/**
+		 * Erstellt ein Info Objekt, welches in die Datenbank geschrieben wird
+		 */
 		Info info = new Info();
 		info.setSuchprofilId(suchprofil.getId());
 		info.setText(text);
 		info.setEigenschaftId(eigenschaft.getId());
 
-		// Prüft, ob für diese Eigenschaft bereits ein Info-Objekt für diesen
-		// User angelegt wurde
+		/**
+		 * Prüft, ob für diese Eigenschaft bereits ein Info-Objekt für diesen User angelegt wurde
+		 */
 		for (Info i : infos) {
-			// Wenn bereits eine Info für diese Eigenschaft besteht, wird sie
-			// geupdated.
+			/**
+			 *  Wenn bereits eine Info für diese Eigenschaft besteht, wird sie aktualisiert.
+			 */
 			if (i.getEigenschaftId() == info.getEigenschaftId()) {
 				info.setId(i.getId());
 				this.updateInfo(info);
@@ -983,9 +1161,10 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 				del.add(i);
 			}
 		}
-		// Removed alle bereits vorhandenen objekte, wenn die Liste leer ist,
-		// sprich noch kein Eintrag vorhanden,
-		// wird eine neue Info angelegt
+		/**
+		 *  Entfernt alle bereits vorhandenen Objekte, wenn die Liste leer ist.
+		 *  Wenn noch kein neuer Eintrag vorhanden ist, wird die Info angelegt.
+		 */
 		infos.removeAll(del);
 		if (infos.isEmpty()) {
 			this.iMapper.insertInfo(info);
@@ -1192,17 +1371,6 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	}
 
-	@Override
-	public Auswahl findAuswahlOf(Info info) throws IllegalArgumentException {
-		return null;
-
-		/**
-		 * Gibt eine Auswahl aus einer Info zurück
-		 */
-
-		// return this.aMapper.findAuswahlOf(info);
-	}
-
 	/**
 	 * Erstellt ein Besuch von Profil source zu Profil target. Prüft vorher ab, ob das Profil bereits
 	 * besucht wurde und legt ggf. keinen neuen Eintrag an
@@ -1281,6 +1449,11 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		return this.aMapper.findAuswahlByTitle(auswahl);
 	}
 
+	/**
+	 * Gibt alle Eigenschaften eines Profils zurück.
+	 * @param profil
+	 * @return ArrayList<Eigenschaft>
+	 */
 	@Override
 	public ArrayList<Eigenschaft> getAllEigenschaftenOf(Profil profil) throws IllegalArgumentException {
 

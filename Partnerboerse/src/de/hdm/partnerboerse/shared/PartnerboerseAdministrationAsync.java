@@ -50,8 +50,6 @@ public interface PartnerboerseAdministrationAsync {
 
 	void findAuswahlByTitle(Auswahl auswahl, AsyncCallback<Auswahl> callback);
 
-	void findAuswahlOf(Info info, AsyncCallback<Auswahl> callback);
-
 	void findBesuchByKey(int id, AsyncCallback<Besuch> callback);
 
 	void findBesucheOf(Profil profilowner, AsyncCallback<ArrayList<Besuch>> callback);
