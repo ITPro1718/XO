@@ -222,6 +222,11 @@ button:hover {background: lightgreen !important;}
 .mltable tr:first-child {
     border: 4px solid lightblue;
 }
+table.sptable tr:nth-child(2) td {
+    font-size: 1.2em;
+    font-weight: bold;
+    padding-top: 50px;
+}
 .fprof {
     text-align: center;
     background: #f18487;
@@ -297,7 +302,7 @@ button:hover {background: lightgreen !important;}
     color: #f18487;
 }
 /*************************************************
-MEDIA QUERRIES
+MEDIA QUERRIES - Responsive Design
 *************************************************/
 /* Phones */
 @media only screen and (min-width: 375px) and (max-width: 767px) {
