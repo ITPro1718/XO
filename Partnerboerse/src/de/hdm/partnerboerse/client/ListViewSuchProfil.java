@@ -74,7 +74,10 @@ public class ListViewSuchProfil extends VerticalPanel {
 
 	}
 
-	
+	/**
+	 * Suchprofile vom Server werden geladen,
+	 * bei Fehlern wird eine Nachricht ausgegeben
+	 */
 	private void loadSuchprofileFromServer() {
 
 		partnerAdmin.findSuchprofileOf(profil, new AsyncCallback<ArrayList<Suchprofil>>() {
@@ -94,8 +97,15 @@ public class ListViewSuchProfil extends VerticalPanel {
 		});
 	}
 
+	/**
+	 * Die Suchprofil Listview des Users wird ausgegeben
+	 */
 	private void loadListViewSuchProfile(ArrayList<Suchprofil> result) {
 
+		/**
+		 * Für jedes vorhanden Suchprofil wir ein Anzeigen und ein Suchenbutton erstellt
+		 * und im Grid abgelegt
+		 */
 		for (final Suchprofil sp : result) {
 
 			Button showButton = new Button("anzeigen");
@@ -108,8 +118,12 @@ public class ListViewSuchProfil extends VerticalPanel {
 
 			final Suchprofil search = sp;
 
+
 			showButton.addClickHandler(new ClickHandler() {
 
+				/**
+				 * Clickhandler zu erzeugung der Suchprofilview
+				 */
 				@Override
 				public void onClick(ClickEvent event) {
 
@@ -125,6 +139,9 @@ public class ListViewSuchProfil extends VerticalPanel {
 				}
 			});
 			
+			/**
+			 * Clickhandler zum Suchen nach bereits erstellten Suchprofilen
+			 */
 			searchButton.addClickHandler(new ClickHandler(){
 
 				@Override
@@ -141,6 +158,9 @@ public class ListViewSuchProfil extends VerticalPanel {
 		}
 	}
 	
+	/**
+	 * Die Profile der Suchergebnisse werden falls möglich geladen und ausgegeben.
+	 */
 	private class GetSuchProfilErgebnisseCallback implements AsyncCallback<ArrayList<Profil>>{
 
 		@Override
@@ -156,6 +176,10 @@ public class ListViewSuchProfil extends VerticalPanel {
 		
 	}
 	
+	/**
+	 * Ergebnisstabelle wird erstellt.
+	 */
+	
 	private FlexTable generateErgebnisTable(){
 		
 		profilFlexTable.setText(0, 0, "Vorname");
@@ -167,7 +191,9 @@ public class ListViewSuchProfil extends VerticalPanel {
 	}
 	
 	
-	
+	/**
+	 * Die Ergebnisprofile werden der Ergebnistabelle übergeben.
+	 */
 	private void addProfileToErgebniseTable(Profil p){
 
 		Button showProfileButton = new Button("Profil ansehen");
@@ -184,6 +210,9 @@ public class ListViewSuchProfil extends VerticalPanel {
 		
 	}
 	
+	/**
+	 * Ein Clickhanlder um sich die Ergebnisprofile anzeigen zu lassen.
+	 */
 	private class ShowProfileClickhandler implements ClickHandler{
 		
 		Profil p;
@@ -192,6 +221,9 @@ public class ListViewSuchProfil extends VerticalPanel {
 			this.p = p;
 		}
 
+		/**
+		 * Die Fremdprofil View wird mit dem jeweiligen Ergebnisprofil geladen.
+		 */
 		@Override
 		public void onClick(ClickEvent event) {
 			FremdProfilView fpv = new FremdProfilView(p);

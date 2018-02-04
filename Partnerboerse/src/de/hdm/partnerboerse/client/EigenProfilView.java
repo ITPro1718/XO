@@ -19,24 +19,32 @@ import de.hdm.partnerboerse.shared.bo.Profil;
 
 public class EigenProfilView extends VerticalPanel {
 
+	/**
+	 * Überprüfen ob der User eingeloggt ist.
+	 * Eigenschaften werden bereitgestellt.
+	 */
+
 	LoginInfo loginInfo = ClientSideSettings.getLoginInfo();
 	LoadEigenschaften loadEigenschaften = new LoadEigenschaften();
 	
-	/*
-	 * Widgets, deren Inhalte variable sind, werden als Attribute angelegt.
+	/**
+	 * Weittere Elemente der Parofile werden bereitgestellt
 	 */
 
-	Button editButton = new Button("Profil bearbeiten");
-
-	
+	Button editButton = new Button("Profil bearbeiten");	
 	CreateWidget cw = new CreateWidget();
 	LoadEigenschaften l = new LoadEigenschaften();
 
   
-
+	/**
+	 * Eigenes Profil laden
+	 */
 	@Override
 	public void onLoad() {
 
+		/**
+		 * Das Eigenschaften des Users werden geladen und bereitgestellt
+		 */
 		updateProfilTable(ClientSideSettings.getProfil());
 
 		Grid info = loadEigenschaften.loadEigenRead(ClientSideSettings.getProfil());
@@ -44,6 +52,10 @@ public class EigenProfilView extends VerticalPanel {
 		this.add(info);
 		
 
+		/**
+		 * Editbutton wird erstellt und lädt die EditProfil View,
+		 * zum anpassen der Profilinformationen
+		 */
 		editButton.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -55,9 +67,14 @@ public class EigenProfilView extends VerticalPanel {
 		});
 	}
 
+	/**
+	 * Das Profil des User wird in einem Grid ausgegeben, dabei 
+	 * werden alle Attirbute und Eigenschaften dem Grid übergeben.
+	 * Der Editbutton wird gesondert in einer Flextable ausgegeben.
+	 */
 	private void updateProfilTable(Profil result) {
 		Profil meinProfil = result;
-			
+		
 		
 		FlexTable profilIntGrid = new FlexTable();
 		profilIntGrid.setStyleName("itable");
@@ -111,21 +128,23 @@ public class EigenProfilView extends VerticalPanel {
 
 	}
 
+	/**
+	 * Das Infogrid welches die Eigenschaften beherbergt wird ausgegeben.
+	 */
 	Grid infoGrid = new Grid(10,4);
 	int row = 1;
 	int column = 2;
-		
-
-	// ToDo: Überlegen wie man den Parameter für die neue View übertragen kann
+	
+	
+	/**
+	 * Die Eigenprofil View wird mit dem jeweiligen Userprofil geladen.
+	 */
 	private void loadEditProfilView(Profil result) {
 
 		EditProfile ep = new EditProfile();
 		Profil meinProfil = result;
 
-		// ToDo: Sollte man umÃ¤ndern, wirkt ziemlich unsicher
 		ep.getProfilFromServer = result;
-
-		// Profile Edit - Panel wird erzeugt und eingefügt.
 		HTMLPanel editProfilePanel = new HTMLPanel(
 				"<h3>" + " Hier können Sie Ihre Profilinformationen bearbeiten." + "</h3>");
 
