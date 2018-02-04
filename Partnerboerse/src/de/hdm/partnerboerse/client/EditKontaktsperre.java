@@ -18,10 +18,17 @@ import de.hdm.partnerboerse.shared.bo.Kontaktsperre;
 import de.hdm.partnerboerse.shared.bo.Profil;
 import de.hdm.partnerboerse.client.CreateWidget;
 
-
+/**
+ * 
+ * @author
+ *
+ */
 public class EditKontaktsperre extends VerticalPanel {
 
 	private final PartnerboerseAdministrationAsync partnerAdmin = GWT.create(PartnerboerseAdministration.class);
+	/**
+	 * Profil wird aus der globalen ClientSidesettings geholt.
+	 */
 	Profil profil = ClientSideSettings.getProfil();
 	FlexTable kontaktsperreGrid = new FlexTable();
 
@@ -48,10 +55,17 @@ public class EditKontaktsperre extends VerticalPanel {
 
 	}
 
+	/**
+	 * Kontaktsperren des Users werden aus der DB geladen und dem User in 
+	 * einer View angezeigt.
+	 */
 	private void loadKontaktsperreFromServer() {
 
 		partnerAdmin.getProfileForKontaktsperre(profil, new AsyncCallback<ArrayList<Profil>>() {
 
+		    /**
+		     * Es wird eine View erstellt um ein Array von Profilen anzeigen zu lassen.
+		     */
 			@Override
 			public void onSuccess(ArrayList<Profil> result) {
 				loadEditKontaktsperreView(result);
@@ -67,8 +81,15 @@ public class EditKontaktsperre extends VerticalPanel {
 
 	}
 
+	/**
+	 * Erstellt die View für Kontaktsperren, dei aus ein Array von Suchprofilen besteht.
+	 * @param result
+	 */
 	private void loadEditKontaktsperreView(ArrayList<Profil> result) {
 
+	    /**
+	     * Foreach Schleife geht durch das Profil-Array und setzt es in das Grid.
+	     */
 		for (Profil p : result) {
 
 			Button deleteButton = new Button("entsperren");
@@ -81,19 +102,40 @@ public class EditKontaktsperre extends VerticalPanel {
 			
 			final Profil fin = p;
 			
+			/**
+			 * Es wird jedes mal ein Button Erstellt zum löschen des
+			 * zugehörigen Profils aus der Kontaktsperre.
+			 */
 			deleteButton.addClickHandler(new ClickHandler(){
 
 				@Override
 				public void onClick(ClickEvent event) {
+				    /**
+				     * neie Instanz einer Kontaktsperre wird erstellt zur Übergabe in den Callback.
+				     */
 					Kontaktsperre k = new Kontaktsperre();
+					
+					/**
+					 * Die eigene ID des Users wird in die Kontaktsperre übergeben damit man
+					 * die Referenzierung kennt auf die Kontaktsperre.
+					 */
 					k.setEigenprofilID(ClientSideSettings.getProfil().getId());
 					k.setFremdprofilID(fin.getId());
+					
+					/**
+					 * Es wird die Kontaktsperre übergeben damit ein User aus der Kontaktsperre
+					 * entfernt wird.
+					 */
 					partnerAdmin.deleteKontaktsperreEintraege(k, new AsyncCallback<Void>(){
 
 						@Override
 						public void onFailure(Throwable caught) {
 						}
 
+						/**
+						 * Bei Erfolg wird die Methode reload() aufgerufen, die dem User die aktuelle
+						 * Kontaktsperre anzeigt.
+						 */
 						@Override
 						public void onSuccess(Void result) {
 							reload();
@@ -108,8 +150,11 @@ public class EditKontaktsperre extends VerticalPanel {
 		}
 
 	}
-	
-public void reload(){
+
+	/**
+	 * Dem User wird die aktuelle Kontaktsperre angezeigt.
+	 */
+	public void reload(){
 		
 		EditKontaktsperre ek = new EditKontaktsperre();
         
