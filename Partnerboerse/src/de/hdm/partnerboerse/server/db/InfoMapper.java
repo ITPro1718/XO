@@ -11,6 +11,12 @@ import de.hdm.partnerboerse.shared.bo.Eigenschaft;
 import de.hdm.partnerboerse.shared.bo.Info;
 import de.hdm.partnerboerse.shared.bo.Profil;
 
+/**
+ * Mapper-Klasse, die Info-Objekte in die Datenbank schreibt, bzw. Daten aus der Datenbank holt
+ * und in Objekten speichert. Diese Klasse enthält die typischen CRUD-Methoden
+ * 
+ * 
+ */
 public class InfoMapper {
 
 	/**
@@ -44,7 +50,7 @@ public class InfoMapper {
 	 * (Primäerschluessel)
 	 * 
 	 * @param id
-	 * @return
+	 * @return Info
 	 */
 	public Info findByKey(int id) {
 		Connection con = DBConnection.getConnection();
@@ -72,7 +78,7 @@ public class InfoMapper {
 	/**
 	 * Gibt alle Info-Einträge zurück
 	 * 
-	 * @return
+	 * @return ArrayList<Info>
 	 */
 	public ArrayList<Info> findAll() {
 		ArrayList<Info> result = new ArrayList<>();
@@ -102,7 +108,12 @@ public class InfoMapper {
 		return result;
 
 	}
-
+	
+	/**
+	 * Entfernt ein Info-Objekt aus der DB.
+	 * 
+	 * @param info
+	 */
 	public void deleteInfo(Info info) {
 		Connection con = DBConnection.getConnection();
 
@@ -116,6 +127,12 @@ public class InfoMapper {
 
 	}
 
+	/**
+	 * Gibt alle Info-Objekte eines Nutzers zurück.
+	 * 
+	 * @param profilowner
+	 * @return ArrayList<Info>
+	 */
 	public ArrayList<Info> findInfoOf(Profil profilowner) {
 		ArrayList<Info> result = new ArrayList<>();
 
@@ -142,6 +159,13 @@ public class InfoMapper {
 
 		return result;
 	}
+	
+	/**
+	 * Gibt alle Info-Objekte eines Suchprofils zurück.
+	 * 
+	 * @param suchprofilid
+	 * @return ArrayList<Info>
+	 */
 	public ArrayList<Info> findInfoOfSuchprofil(int suchprofilid) {
 		ArrayList<Info> result = new ArrayList<>();
 
@@ -169,6 +193,12 @@ public class InfoMapper {
 		return result;
 	}
 
+	/**
+	 * Gibt das Info-Objekt einer Eigenschaft zurück.
+	 * 
+	 * @param eigenschaft
+	 * @return Info
+	 */
 	public Info findEigenschaftsInfosOf(Eigenschaft eigenschaft) {
 
 		Connection con = DBConnection.getConnection();
@@ -194,19 +224,22 @@ public class InfoMapper {
 		return null;
 	}
 
+	/**
+	 * Fügt ein Info-Objekt in die DB ein.
+	 * 
+	 * @param i
+	 * @return Info
+	 */
 	public Info insertInfo(Info i) {
 
 		Connection con = DBConnection.getConnection();
 
 		try {
 			Statement stmt = con.createStatement();
-
-			// Es wird der momentan höchste Wert des Primearschluessels
-			// ausgelesen
 			ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid FROM info");
 
 			if (rs.next()) {
-				// a bekommt den neuen höchsten Primaerschluesselwert
+
 				i.setId(rs.getInt("maxid") + 1);
 				stmt = con.createStatement();
 
@@ -220,7 +253,6 @@ public class InfoMapper {
 							+ i.getText() + "'," + i.getEigenschaftId() + "," + i.getepId() + ")");
 				}
 
-
 				return i;
 
 			}
@@ -231,6 +263,11 @@ public class InfoMapper {
 
 	}
 
+	/**
+	 * Aktualisiert ein Info-Objekt in der DB.
+	 * 
+	 * @param info
+	 */
 	public void update(Info info) {
 		Connection con = DBConnection.getConnection();
 
