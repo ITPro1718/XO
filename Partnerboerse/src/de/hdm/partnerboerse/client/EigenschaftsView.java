@@ -29,8 +29,11 @@ public class EigenschaftsView extends VerticalPanel{
 	Suchprofil suchprofil;
 	
 	@Override
-	  public void onLoad() {
+	public void onLoad() {
 		
+		/**
+		 * Unterscheidet, ob die Eigenschaften für ein Profil oder Suchprofil angezeigt werden sollen
+		 */
 		if (profil != null){
 			Grid infoGrid = lb.loadEigen(profil);
 			this.add(infoGrid);
@@ -48,6 +51,9 @@ public class EigenschaftsView extends VerticalPanel{
 			});
 		}
 		
+		/**
+		 * Unterscheidet, ob die Eigenschaften für ein Profil oder Suchprofil angezeigt werden sollen
+		 */
 		if (suchprofil != null){
 			Grid infoGrid = lb.loadEigen(suchprofil);
 			this.add(infoGrid);
@@ -59,6 +65,9 @@ public class EigenschaftsView extends VerticalPanel{
 				@Override
 				public void onClick(ClickEvent event) {
 					
+					/**
+					 * Zeigt die Ergebnisse des eben erstellten Suchprofils an.
+					 */
 					RootPanel.get("contwrap").clear();
 					HTMLPanel fpvPanel = new HTMLPanel("<h2>" + "Ergebnisse: " + "</h2>");
 					RootPanel.get("contwrap").add(fpvPanel);
@@ -80,6 +89,11 @@ public class EigenschaftsView extends VerticalPanel{
 		this.suchprofil = sp;
 	}
 	
+	/**
+	 * Callback, welcher alle Ergebnisprofile eines Suchprofils zurückliefert und in der onSuccess-
+	 * Methode der ErgebnisTable hinzufügt
+	 * @see addProfileToErgebniseTable
+	 */
 	private class GetSuchProfilErgebnisseCallback implements AsyncCallback<ArrayList<Profil>>{
 
 		@Override
@@ -95,6 +109,10 @@ public class EigenschaftsView extends VerticalPanel{
 		
 	}
 	
+	/**
+	 * Generiert eine Ergebnistable mit 3 Spalten
+	 * @return FlexTable
+	 */
 	private FlexTable generateErgebnisTable(){
 		
 		profilFlexTable.setText(0, 0, "Vorname");
@@ -104,8 +122,11 @@ public class EigenschaftsView extends VerticalPanel{
 	    return profilFlexTable;
 	}
 	
-	
-	
+	/**
+	 * Fügt ein Profil der Ergebnistable hinzu. Ebenso wird ein showProfileButton hinzugefügt,
+	 * durch welchen man auf dem Profil der angezeigten Users kommt.
+	 * @param p
+	 */
 	private void addProfileToErgebniseTable(Profil p){
 
 		Button showProfileButton = new Button("Profil ansehen");
@@ -122,6 +143,9 @@ public class EigenschaftsView extends VerticalPanel{
 		
 	}
 	
+	/**
+	 * Clickhandler, welcher den Klick auf den ShowProfilButton handelt.
+	 */
 	private class ShowProfileClickhandler implements ClickHandler{
 		
 		Profil p;

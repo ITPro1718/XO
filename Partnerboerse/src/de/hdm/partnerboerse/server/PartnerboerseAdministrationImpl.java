@@ -202,6 +202,12 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		return this.pMapper.findProfilByEmail(email);
 	}
 
+	/**
+	 * Gibt alle Profile aus, die sich ein User gemerkt. Profile die der User gesperrt hat oder die
+	 * den User gesperrt haben, werden aussortiert.
+	 * @param eigenProfil
+	 * @return ArrayList mit Profilen
+	 */
 	@Override
 	public ArrayList<Profil> getProfileForMerkzettel(Profil eigenProfil) throws IllegalArgumentException {
 		
@@ -236,6 +242,11 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	}
 
+	/**
+	 * Gibt alle Profile zurück, die ein User gesperrt hat.
+	 * @param eigenProfil
+	 * @return ArrayList mit Profilen
+	 */
 	@Override
 	public ArrayList<Profil> getProfileForKontaktsperre(Profil eigenProfil) throws IllegalArgumentException {
 
@@ -243,6 +254,10 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	}
 
+	/**
+	 * Gibt alle Profile der Datenbank zurück
+	 * @return ArrayList mit Profilen
+	 */
 	@Override
 	public ArrayList<Profil> getAllProfils() throws IllegalArgumentException {
 
@@ -250,6 +265,10 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	}
 
+	/**
+	 * Speichert einen Merkzetteleintrag von Profil source zu Profil target
+	 * @param source, target
+	 */
 	@Override
 	public void createMerkzettelEintrag(Profil source, Profil target) throws IllegalArgumentException {
 
@@ -260,12 +279,21 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		this.mMapper.insertMerkzettelEintrag(m);
 	}
 
+	/**
+	 * Liefert alle Merkzetteleinträge der Datenbank zurück
+	 * @return ArrayList mit Merkzetteln
+	 */
 	@Override
 	public ArrayList<Merkzettel> getAllMerkzettelEintraege() throws IllegalArgumentException {
 
 		return this.mMapper.findAll();
 	}
 
+	/**
+	 * Gibt einen Merkzettel anhand der ID (Primärschlüssel) zurück
+	 * @param ID
+	 * @return Merkzettel
+	 */
 	@Override
 	public Merkzettel getMerkzettelEintraegeByID(int ID) throws IllegalArgumentException {
 
@@ -273,6 +301,10 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	}
 
+	/**
+	 * Löscht einen Merkzetteleintrag aus der Datenbank
+	 * @param merkzettel
+	 */
 	@Override
 	public void deleteMerkzettelEintrag(Merkzettel merkzettel) throws IllegalArgumentException {
 
@@ -289,6 +321,10 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	}
 
+	/**
+	 * Fügt eine Kontaktsperre von Profil source zu Profil target hinzu
+	 * @param source, target
+	 */
 	@Override
 	public void createKontaksperreEintrag(Profil source, Profil target) throws IllegalArgumentException {
 
@@ -299,12 +335,21 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		this.kMapper.insertKontaktsperreEintrag(k);
 	}
 
+	/**
+	 * Liefert alle vorhandenen Kontaktsperren zurück
+	 * @return ArrayList mit Kontaktsperren
+	 */
 	@Override
 	public ArrayList<Kontaktsperre> getAllKontaktsperreEintraege() throws IllegalArgumentException {
 
 		return this.kMapper.findAll();
 	}
 
+	/**
+	 * Liefert eine Kontaktsperre anhand der ID (Primärschlüssel) zurück
+	 * @param id
+	 * @return Kontaktsperre
+	 */
 	@Override
 	public Kontaktsperre getKontaktsperreEintragByID(int id) throws IllegalArgumentException {
 
@@ -312,6 +357,10 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	}
 
+	/**
+	 * Löscht eine Kontaktsperre eines Profils
+	 * @param kontaktsperre
+	 */
 	@Override
 	public void deleteKontaktsperreEintraege(Kontaktsperre kontaktsperre) throws IllegalArgumentException {
 
@@ -327,6 +376,11 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	}
 
+	/**
+	 * Erstellt ein Suchprofil, welches einem User zugeordnet ist
+	 * @param source, titel, haarfarbe, kgr, raucher, religion, alter
+	 * @return suchprofil
+	 */
 	@Override
 	public Suchprofil createSuchprofil(Profil source, String titel, String haarfarbe, float kgr, boolean raucher,
 			String religion, int alter) throws IllegalArgumentException {
@@ -345,18 +399,30 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	}
 
+	/**
+	 * Liefert alle vorhandenen Suchprofile zurück
+	 * @return ArrayList mit Suchprofilen
+	 */
 	@Override
 	public ArrayList<Suchprofil> getAllSuchprofile() throws IllegalArgumentException {
 
 		return this.sMapper.findAll();
 	}
 
+	/**
+	 * Liefert ein Suchprofil anhand der ID (Primärschlüssel) zurück
+	 * @return Suchprofil
+	 */
 	@Override
 	public Suchprofil getSuchprofilByID(int id) throws IllegalArgumentException {
 
 		return this.sMapper.findByKey(id);
 	}
 
+	/**
+	 * Liefert ein Suchprofil anhand des Titels zurück
+	 * @return Suchprofil
+	 */
 	@Override
 	public Suchprofil getSuchprofilByTitle(String title) throws IllegalArgumentException {
 
@@ -364,12 +430,21 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	}
 
+	/**
+	 * Aktualisiert ein bearbeitetes Suchprofil
+	 * @param suchprofil
+	 */
 	@Override
 	public void updateSuchprofil(Suchprofil suchprofil) throws IllegalArgumentException {
 		this.sMapper.updateSuchprofil(suchprofil);
 
 	}
 
+	/**
+	 * Löscht ein Suchprofil eines Users. Vorher müssen jedoch die Abhängigkeiten des Suchprofils
+	 * gelöscht werden. Hierzu müssen alle Infos des Suchprofils gelöscht werden.
+	 * @param suchprofil
+	 */
 	@Override
 	public void deleteSuchprofil(Suchprofil suchprofil) throws IllegalArgumentException {
 
@@ -384,16 +459,27 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		this.sMapper.deleteSuchprofil(suchprofil);
 	}
 
+	/**
+	 * Gibt alle Infos eines Suchprofils zurück
+	 * @param suchprofilid
+	 * @return ArrayList mit Suchprofilen
+	 */
 	public ArrayList<Info> getInfoOfSuchprofil(int suchprofilid) {
 
 		return this.iMapper.findInfoOfSuchprofil(suchprofilid);
 	}
 
+	/**
+	 * Gibt alle Infos eines Profils zurück
+	 * @param profil
+	 * @return ArrayList mit Suchprofilen
+	 */
 	public ArrayList<Info> findAllInfosOfProfil(Profil profil) {
 
 		return this.iMapper.findInfoOf(profil);
 	}
 
+	
 	public ArrayList<Profil> berechneAehnlichkeitsmass(Profil profil, ArrayList<Profil> ergebnisse) {
 
 		Aehnlichkeitsmass aehnlichkeitsmass = new Aehnlichkeitsmass();
@@ -819,6 +905,14 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		return counter;
 	}
 
+	/**
+	 * Erstellt ein Info Objekt, welches einem Profil und einer Eigenschaft zugewiesen wird.
+	 * Diese Methode wird auch zum Updaten einer Info benutzt. In dieser Methode wird erst überprüft,
+	 * ob zu der übergebenen Eigenschaft bereits eine Info besteht. Wenn ja, wird diese Info
+	 * geupdated, wenn nicht, wir eine neue Info erstellt
+	 * @param profil, text, eigenschaft
+	 * @return info (erstellt oder geupdatet)
+	 */
 	@Override
 	public Info createInfo(Profil profil, String text, Eigenschaft eigenschaft) throws IllegalArgumentException {
 
@@ -831,15 +925,17 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		info.setText(text);
 		info.setEigenschaftId(eigenschaft.getId());
 
-		// Prüft, ob für diese Eigenschaft bereits ein Info-Objekt für diesen
-		// User angelegt wurde
+		/**
+		 * Prüft, ob für diese Eigenschaft bereits ein Info-Objekt für diesen User angelegt wurde
+		 */
 		for (Info i : infos) {
 			// Wenn bereits eine Info für diese Eigenschaft besteht, wird sie
 			// geupdated.
 			if (i.getEigenschaftId() == info.getEigenschaftId()) {
 				info.setId(i.getId());
 				this.updateInfo(info);
-			} else {
+			} 
+			else {
 				del.add(i);
 			}
 		}
@@ -855,6 +951,14 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	}
 
+	/**
+	 * Erstellt ein Info Objekt, welches einem Suchprofil und einer Eigenschaft zugewiesen wird.
+	 * Diese Methode wird auch zum Updaten einer Info benutzt. In dieser Methode wird erst überprüft,
+	 * ob zu der übergebenen Eigenschaft bereits eine Info besteht. Wenn ja, wird diese Info
+	 * geupdated, wenn nicht, wir eine neue Info erstellt
+	 * @param suchprofil, text, eigenschaft
+	 * @return info (erstellt oder geupdatet)
+	 */
 	public Info createInfo(Suchprofil suchprofil, String text, Eigenschaft eigenschaft)
 			throws IllegalArgumentException {
 
@@ -890,17 +994,30 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		return info;
 	}
 
+	/**
+	 * Gibt alle vorhandenen Infos zurück
+	 * @return ArrayList mit Infos
+	 */
 	@Override
 	public ArrayList<Info> getAllInfos() throws IllegalArgumentException {
 		return this.iMapper.findAll();
 
 	}
 
+	/**
+	 * Liefert eine Info anhand ihrer ID (Primärschlüssel) zurück
+	 * @param id
+	 * @return info
+	 */
 	@Override
 	public Info getInfoByID(int id) throws IllegalArgumentException {
 		return this.iMapper.findByKey(id);
 	}
 
+	/**
+	 * Updated eine übergebene Info. Wird in der createInfo Methode aufgerufen
+	 * @param info
+	 */
 	@Override
 	public void updateInfo(Info info) throws IllegalArgumentException {
 
@@ -908,6 +1025,10 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	}
 
+	/**
+	 * Löscht eine Info aus der Datenbank
+	 * @param info
+	 */
 	@Override
 	public void deleteInfo(Info info) throws IllegalArgumentException {
 
@@ -915,6 +1036,10 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	}
 
+	/**
+	 * Liefert alle vorhandenen Eigenschaften zurück
+	 * @return ArrayList mit Eigenschaften
+	 */
 	@Override
 	public ArrayList<Eigenschaft> getAllEigenschaften() throws IllegalArgumentException {
 
@@ -922,12 +1047,21 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	}
 
+	/**
+	 * Liefert eine Eigenschaft anhand ihrer ID (Primärschlüssel) zurück
+	 * @param id
+	 * @return Eigenschaft
+	 */
 	@Override
 	public Eigenschaft getEigenschaftByID(int id) throws IllegalArgumentException {
 
 		return this.eiMapper.findByKey(id);
 	}
 
+	/**
+	 * Aktualisiert eine übergebene Eigenschaft
+	 * @param eigenschaft
+	 */
 	@Override
 	public void updateEigenschaft(Eigenschaft eigenschaft) throws IllegalArgumentException {
 
@@ -935,6 +1069,10 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	}
 
+	/**
+	 * Löscht eine Info, welche einer bestimmten Eigenschaft und einem bestimmten Profil zugeordnet ist
+	 * @param eigenschaft, p (Profil)
+	 */
 	@Override
 	public void deleteInfoOfEigenschaft(Eigenschaft eigenschaft, Profil p) throws IllegalArgumentException {
 
@@ -949,7 +1087,8 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 	}
 
 	/**
-	 * Die Info zu einer Eigenschaft wird gelöscht zu dem passendem Suchprofil
+	 * Löscht eine Info, welche einer bestimmten Eigenschaft und einem bestimmten Suchprofil zugeordnet ist
+	 * @param eigenschaft, sp (Suchprofil)
 	 */
 	@Override
 	public void deleteInfoOfEigenschaft(Eigenschaft eigenschaft, Suchprofil sp) throws IllegalArgumentException {
@@ -972,18 +1111,32 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	}
 
+	/**
+	 * Liefert alle vorhandenen Auswahlen zurück
+	 * @return ArrayList mit Auswahlen
+	 */
 	@Override
 	public ArrayList<Auswahl> getAuswahl() throws IllegalArgumentException {
 
 		return this.aMapper.findAll();
 	}
 
+	/**
+	 * Liefert alle Kontaktsperren eines übergebenen Profils zurück
+	 * @param profilowner
+	 * @return ArrayList mit Kontaktsperren
+	 */
 	@Override
 	public ArrayList<Kontaktsperre> findKontaktsperrenOf(Profil profilowner) throws IllegalArgumentException {
 
 		return this.kMapper.findKontaktsperrenOf(profilowner);
 	}
 
+	/**
+	 * Liefert alle Merkzettel eines übergebenen Profils zurück
+	 * @param profilowner
+	 * @return ArrayList mit Merkzetteln
+	 */
 	@Override
 	public ArrayList<Merkzettel> findMerkzettelnOf(Profil profilowner) throws IllegalArgumentException {
 
@@ -991,6 +1144,11 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	}
 
+	/**
+	 * Liefert alle Suchprofile eines übergebenen Profils zurück
+	 * @param profilowner
+	 * @return ArrayList mit Suchprofilen
+	 */
 	@Override
 	public ArrayList<Suchprofil> findSuchprofileOf(Profil profilowner) throws IllegalArgumentException {
 
@@ -998,6 +1156,11 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	}
 
+	/**
+	 * Liefert alle Infos eines übergebenen Profils zurück
+	 * @param profilowner
+	 * @return ArrayList mit Infos
+	 */
 	@Override
 	public ArrayList<Info> findInfoOf(Profil profilowner) throws IllegalArgumentException {
 
@@ -1005,6 +1168,11 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	}
 
+	/**
+	 * Liefert alle Infos eines übergebenen Suchprofils zurück
+	 * @param suchprofil
+	 * @return ArrayList mit Infos
+	 */
 	@Override
 	public ArrayList<Info> findInfoOf(Suchprofil suchprofil) throws IllegalArgumentException {
 
@@ -1012,6 +1180,11 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	}
 
+	/**
+	 * Liefter alle Infos einer übergebenen Eigenschaft zurück
+	 * @param eigenschaft
+	 * @return ArrayList mit Infos
+	 */
 	@Override
 	public Info findInfoOfEigenschaft(Eigenschaft eigenschaft) throws IllegalArgumentException {
 
@@ -1030,6 +1203,11 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 		// return this.aMapper.findAuswahlOf(info);
 	}
 
+	/**
+	 * Erstellt ein Besuch von Profil source zu Profil target. Prüft vorher ab, ob das Profil bereits
+	 * besucht wurde und legt ggf. keinen neuen Eintrag an
+	 * @param source, target
+	 */
 	@Override
 	public void createBesuch(Profil source, Profil target) throws IllegalArgumentException {
 
@@ -1049,6 +1227,10 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	}
 
+	/**
+	 * Löscht einen übergebenen Besuch aus der Datenbank
+	 * @param besuch
+	 */
 	@Override
 	public void deleteBesuch(Besuch besuch) throws IllegalArgumentException {
 
@@ -1056,24 +1238,43 @@ public class PartnerboerseAdministrationImpl extends RemoteServiceServlet implem
 
 	}
 
+	/**
+	 * Lieftert alle vorhandenen Besuche zurück
+	 * @return ArrayList mit Besuchen
+	 */
 	@Override
 	public ArrayList<Besuch> findAllBesuche() throws IllegalArgumentException {
 
 		return this.bMapper.findAll();
 	}
 
+	/**
+	 * Liefert einen Besuch anhand der ID (Primärschlüssel) zurück
+	 * @param id
+	 * @return Besuch
+	 */
 	@Override
 	public Besuch findBesuchByKey(int id) throws IllegalArgumentException {
 
 		return this.bMapper.findByKey(id);
 	}
 
+	/**
+	 * Liefert alle Besuche eines bestimmten Profils zurück
+	 * @param profilowner
+	 * @return ArrayList mit Besuchen
+	 */
 	@Override
 	public ArrayList<Besuch> findBesucheOf(Profil profilowner) throws IllegalArgumentException {
 
 		return this.bMapper.findByEigenprofil(profilowner);
 	}
 
+	/**
+	 * Liefert eine Auswahl anhand ihres Titels zurück
+	 * @param auswahl
+	 * @return Auswahl
+	 */
 	@Override
 	public Auswahl findAuswahlByTitle(Auswahl auswahl) throws IllegalArgumentException {
 

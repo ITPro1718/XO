@@ -77,6 +77,7 @@ public class EditSuchprofil extends VerticalPanel {
      */
     this.add(safeButton);
 
+
     safeButton.addClickHandler(new ClickHandler() {
 
       @Override
@@ -158,6 +159,13 @@ public class EditSuchprofil extends VerticalPanel {
     return suchprofil;
   }
 
+  /**
+   * Liest eine ListBox und einen String ein. Die Inhalte der ListBox werden in eine HashMap
+   * gespeichert und diese Einträge dann mit dem übergebenen String verglichen, um den richtigen
+   * Index in der ListBox zu setzen, um die Auswahl des Users dazustellen.
+   * @param lb
+   * @param string
+   */
   private void setRightWert(ListBox lb, String string) {
 
     HashMap<Integer, String> hm = new HashMap<Integer, String>();
@@ -173,6 +181,13 @@ public class EditSuchprofil extends VerticalPanel {
     }
   }
 
+  /**
+   * Liest eine ListBox und einen Integer ein. Die Inhalte der ListBox werden in eine HashMap
+   * gespeichert und diese Einträge dann mit dem übergebenen Integer verglichen, um den richtigen
+   * Index in der ListBox zu setzen, um die Auswahl des Users dazustellen.
+   * @param lb
+   * @param string
+   */
   private void setRightWert(ListBox lb, int string) {
 
     HashMap<Integer, String> hm = new HashMap<Integer, String>();
