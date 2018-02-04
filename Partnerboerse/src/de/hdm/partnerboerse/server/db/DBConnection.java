@@ -20,7 +20,7 @@ public class DBConnection {
 	private static String url;
 
 	public static Connection getConnection() {
-		// Wenn es bisher keine Conncetion zur DB gab, ...
+		
 		if (con == null) {
 			try {
 
@@ -29,7 +29,7 @@ public class DBConnection {
 					Class.forName("com.mysql.jdbc.GoogleDriver");
 					url = googleurl;
 				} else {
-					// Local MySQL instance to use during development.
+				
 
 					url = localurl;
 				}
@@ -43,7 +43,6 @@ public class DBConnection {
 			}
 		}
 
-		// Zurückgegeben der Verbindung
 		return con;
 	}
 

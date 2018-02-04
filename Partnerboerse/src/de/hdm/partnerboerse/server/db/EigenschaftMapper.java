@@ -14,7 +14,7 @@ import de.hdm.partnerboerse.shared.bo.Profil;
  * eine relationale Datenbank. Das Mapping ist bidirektional, Objekte werden auf
  * DB-Strukturen abgebildet und DB-Strukturen auf Java-Objekte.
  * 
- * @author Mikulic
+ * 
  *
  */
 public class EigenschaftMapper {
@@ -168,6 +168,13 @@ public class EigenschaftMapper {
 		return result;
 
 	}
+	
+	/**
+	 * Gibt alle Eigenschafts-Eintraege eines Profils zurück.
+	 * 
+	 * @param profil
+	 * @return ArraList<Eigenschaft>
+	 */
 
 	public ArrayList<Eigenschaft> getAllEigenschaftenOf(Profil profil) {
 		Connection con = DBConnection.getConnection();
